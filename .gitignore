@@ -59,3 +59,15 @@ typings/
 
 # next.js build output
 .next
+
+# Expo gitignore
+
+.expo/*
+npm-debug.*
+*.jks
+*.p12
+*.key
+*.mobileprovision
+*.orig.*
+web-build/
+web-report/
