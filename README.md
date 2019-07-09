@@ -1,16 +1,16 @@
-# payutc-mobile
-Application mobile PayUTC
+# Payutc-mobile
+PayUTC mobile Application 
 
-# Cahier des charges
+## Specifications
 
-Le cahier des charges est défini dans le fichier `SPECIFICATIONS.md`
+Specifications are defined in `SPECIFICATIONS.md`
 
-# Installation
+## Installation
 
-- Installer expo-cli avec la commande: `npm install -g expo-cli`
-- Installer le projet: `npm i`
+- Install expo-cli with the following command: `npm install -g expo-cli`
+- Installer JS dependecies: `npm i`
 
-# Lancement de l'application
+## Application run
 
-- Lancement d'expo pour Android: `npm run android`
-- Lancement d'expo pour iOS: `npm run ios`
+- Run expo for Android: `npm run android`
+- Run expo for iOS: `npm run ios`
