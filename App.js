@@ -1,12 +1,28 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import Navigation from './Navigation/Navigation'
+import {Provider} from 'react-redux'
+import Store from './Store/configureStore'
+import { StyleSheet, Text, View, StatusBar } from 'react-native';
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-    </View>
-  );
+export default class App extends React.Component  {
+
+  constructor(props)
+  {
+    super(props)
+    this.state = {
+      signedIn: false
+    }
+  }
+
+  render(){
+    return (
+      <Provider store={Store}>
+        <View style={{flex: 1}}>
+          <Navigation/>
+        </View>
+      </Provider>
+    )
+  }
 }
 
 const styles = StyleSheet.create({
