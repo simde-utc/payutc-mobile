@@ -1,7 +1,10 @@
-language: nodejs
+language: node_js
+node_js: 12.6.0
 
 before_script:
   - npm install
 
-script:
-  - npm run test
+jobs:
+  include:
+    - stage: "Lint"
+      script: npm run lint
