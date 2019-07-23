@@ -74,3 +74,6 @@ web-report/
 
 # idea projects
 .idea
+
+# macOs things
+.DS_Store

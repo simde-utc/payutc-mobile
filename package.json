@@ -9,6 +9,7 @@
     "lint": "eslint *.js"
   },
   "dependencies": {
+    "@expo/vector-icons": "^10.0.3",
     "expo": "^33.0.0",
     "react": "16.8.3",
     "react-dom": "^16.8.6",
