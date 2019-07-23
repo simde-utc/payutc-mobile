@@ -1,19 +1,31 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+/*
+ * @author Arthur Martello <arthur.martello@etu.utc.fr>
+ *
+ * @copyright Copyright (c) 2019, SiMDE-UTC
+ * @license GPL-3.0
+ */
 
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		backgroundColor: '#fff',
-		alignItems: 'center',
-		justifyContent: 'center',
+import React from 'react';
+import { createAppContainer, createSwitchNavigator, SafeAreaView } from 'react-navigation';
+import MainNavigator from './src/navigation/MainNavigator';
+import AuthNavigator from './src/navigation/Auth/AuthNavigator';
+
+const AppNavigator = createSwitchNavigator(
+	{
+		Auth: AuthNavigator,
+		Main: MainNavigator,
 	},
-});
+	{
+		initialRouteName: 'Auth',
+	}
+);
+
+const AppContainer = createAppContainer(AppNavigator);
 
 export default function App() {
 	return (
-		<View style={styles.container}>
-			<Text>Open up App.js to start working on your app!</Text>
-		</View>
+		<SafeAreaView style={{ flex: 1 }} forceInset={{ bottom: 'never' }}>
+			<AppContainer />
+		</SafeAreaView>
 	);
 }
