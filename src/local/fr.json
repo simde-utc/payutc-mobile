@@ -1,0 +1,24 @@
+{
+	"screens": {
+		"Home": {
+			"hi": "Salut, ",
+			"your_balance": "Ton solde :",
+			"refill": "Recharger",
+			"transfer": "Transférer",
+			"all_stats": "Toutes les statistiques...",
+			"recent_activity": "Activité récente :",
+			"all_history": "Voir tout l'historique..."
+		},
+		"Refill": {
+			"amount": "Montant du rechargement :",
+			"pay": "Accéder au paiement..."
+		},
+		"Transfer": {
+			"recipient": "Destinataire :",
+			"recipient_placeholder": "Rechercher un destinataire...",
+			"message": "Message :",
+			"message_placeholder": "Un (gentil) message",
+			"transfer_button": "Transférer..."
+		}
+	}
+}
