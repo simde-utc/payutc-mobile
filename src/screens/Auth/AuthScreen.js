@@ -48,7 +48,6 @@ export default class AuthScreen extends React.PureComponent {
 
 	connectWithCas() {
 		const { login, password } = this.state;
-		console.log(login, password);
 
 		return CASAuth.setData(login, password).then(() => {
 			return PayUTC.connectWithCas();
@@ -78,6 +77,7 @@ export default class AuthScreen extends React.PureComponent {
 			})
 			.catch(e => {
 				console.log(e);
+
 				Alert.alert(t('title'), t('bad_login_password'), [{ text: _('continue') }], {
 					cancelable: true,
 				});
