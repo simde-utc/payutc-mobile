@@ -77,3 +77,5 @@ web-report/
 
 # macOs things
 .DS_Store
+
+config.js

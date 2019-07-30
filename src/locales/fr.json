@@ -35,11 +35,13 @@
 			"login_placeholder": "CAS-UTC ou email",
 			"password_label": "Mot de passe :",
 			"password_placeholder": "Mot de passe de connexion",
+			"bad_login_password": "Mauvais identifiants",
 			"button": "C'est parti !"
 		}
 	},
 
 	"words": {
-		"optional": "facultatif"
+		"optional": "facultatif",
+		"continue": "Continuer",
 	}
 }

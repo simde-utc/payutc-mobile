@@ -7,12 +7,14 @@
  */
 
 import React from 'react';
-import { Image, Text, TextInput, View } from 'react-native';
+import { Alert, Image, Text, TextInput, View } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import colors from '../../styles/colors';
 import BlockTemplate from '../../components/BlockTemplate';
 import Logo from '../../images/payutc-logo.png';
-import { Auth as t } from '../../utils/i18n';
+import CASAuth from '../../services/CASAuth';
+import PayUTC from '../../services/PayUTC';
+import { Auth as t, _ } from '../../utils/i18n';
 
 export default class AuthScreen extends React.PureComponent {
 	static navigationOptions = {
@@ -44,10 +46,42 @@ export default class AuthScreen extends React.PureComponent {
 		return login == null || password == null;
 	}
 
+	connectWithCas() {
+		const { login, password } = this.state;
+		console.log(login, password);
+
+		return CASAuth.setData(login, password).then(() => {
+			return PayUTC.connectWithCas();
+		});
+	}
+
+	connectWithEmail() {
+		const { login, password } = this.state;
+
+		return PayUTC.connectWithEmail(login, password);
+	}
+
 	submit() {
 		const { navigation } = this.props;
+		const { login } = this.state;
+		let promise;
 
-		navigation.navigate('Home');
+		if (login.includes('@')) {
+			promise = this.connectWithEmail();
+		} else {
+			promise = this.connectWithCas();
+		}
+
+		promise
+			.then(() => {
+				navigation.navigate('Home');
+			})
+			.catch(e => {
+				console.log(e);
+				Alert.alert(t('title'), t('bad_login_password'), [{ text: _('continue') }], {
+					cancelable: true,
+				});
+			});
 	}
 
 	render() {

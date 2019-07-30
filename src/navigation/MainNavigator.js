@@ -20,7 +20,11 @@ const ICON_SIZE = 25;
 
 const focusableIconFactory = (On, Off) => {
 	const focusedIcon = ({ focused }) => (
-		<Image source={focused ? On : Off} style={{ height: ICON_SIZE, width: ICON_SIZE }} resizeMode="contain" />
+		<Image
+			source={focused ? On : Off}
+			style={{ height: ICON_SIZE, width: ICON_SIZE }}
+			resizeMode="contain"
+		/>
 	);
 
 	return focusedIcon;
