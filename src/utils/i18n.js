@@ -7,7 +7,7 @@
  */
 import i18nJs from 'i18n-js';
 
-import fr from '../local/fr.json';
+import fr from '../locales/fr.json';
 
 i18nJs.defaultLocale = 'fr';
 i18nJs.fallbacks = true;

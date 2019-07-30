@@ -11,10 +11,10 @@ import { Image, Text } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { createBottomTabNavigator } from 'react-navigation';
 
-import HomeOn from '../image/navbar/home-on.png';
-import HomeOff from '../image/navbar/home-off.png';
+import HomeOn from '../images/navbar/home-on.png';
+import HomeOff from '../images/navbar/home-off.png';
 import HomeNavigator from './Home/HomeNavigator';
-import colors from '../style/colors';
+import colors from '../styles/colors';
 
 const ICON_SIZE = 25;
 

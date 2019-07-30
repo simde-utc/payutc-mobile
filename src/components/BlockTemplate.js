@@ -10,7 +10,7 @@
 
 import React from 'react';
 import { TouchableOpacity, View } from 'react-native';
-import colors from '../style/colors';
+import colors from '../styles/colors';
 
 export default class BlockTemplate extends React.PureComponent {
 	render() {

@@ -6,8 +6,8 @@
  */
 
 import React from 'react';
-import { ScrollView, Text, View } from 'react-native';
-import colors from '../../style/colors';
+import { ScrollView, Text } from 'react-native';
+import colors from '../../styles/colors';
 
 export default class HomeScreen extends React.PureComponent {
 	static navigationOptions = {

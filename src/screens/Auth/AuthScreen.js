@@ -8,17 +8,16 @@
 import React from 'react';
 import { Image, Text, TextInput, View } from 'react-native';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import colors from '../../style/colors';
-import BlockTemplate from '../../component/BlockTemplate';
-import Logo from '../../image/payutc-logo.png';
-import { Auth as t } from '../../util/i18n';
+import colors from '../../styles/colors';
+import BlockTemplate from '../../components/BlockTemplate';
+import Logo from '../../images/payutc-logo.png';
+import { Auth as t } from '../../utils/i18n';
 
 export default class AuthScreen extends React.PureComponent {
 	static navigationOptions = {
 		title: t('title'),
-		headerStyle: { borderBottomWidth: 0 },
-		headerTintColor: colors.primary,
-		headerForceInset: { top: 'never' },
+		header: null,
+		headerVisible: false,
 	};
 
 	constructor(props) {
@@ -39,11 +38,13 @@ export default class AuthScreen extends React.PureComponent {
 
 	isButtonDisabled() {
 		const { login, password } = this.state;
+
 		return login == null || password == null;
 	}
 
 	submit() {
 		const { navigation } = this.props;
+
 		navigation.navigate('Home');
 	}
 

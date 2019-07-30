@@ -32,9 +32,9 @@
 		"Auth": {
 			"title": "Connexion",
 			"login_label": "Identifiant :",
-			"login_placeholder": "Entre ton identifiant CAS",
+			"login_placeholder": "CAS-UTC ou email",
 			"password_label": "Mot de passe :",
-			"password_placeholder": "Entre ton mot de passe CAS",
+			"password_placeholder": "Mot de passe de connexion",
 			"button": "C'est parti !"
 		}
 	},
