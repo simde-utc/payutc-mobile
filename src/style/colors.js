@@ -12,6 +12,9 @@ const colors = {
 	less: '#BC0000',
 	backgroundLight: '#F1F1F1',
 	backgroundSuccess: '#BBE0AB',
+	backgroundBlock: '#FFFFFF',
+	error: '#BC0000',
+	disabled: '#F1F1F1',
 };
 
 export default colors;

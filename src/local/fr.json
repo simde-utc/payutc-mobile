@@ -1,6 +1,7 @@
 {
 	"screens": {
 		"Home": {
+			"title": "Accueil",
 			"hi": "Salut, ",
 			"your_balance": "Ton solde :",
 			"refill": "Recharger",
@@ -10,15 +11,35 @@
 			"all_history": "Voir tout l'historique..."
 		},
 		"Refill": {
+			"title": "Rechargement",
 			"amount": "Montant du rechargement :",
 			"pay": "Accéder au paiement..."
 		},
 		"Transfer": {
+			"title": "Transfert",
 			"recipient": "Destinataire :",
 			"recipient_placeholder": "Rechercher un destinataire...",
-			"message": "Message :",
+			"amount": "Montant du transfert :",
+			"message": "Message : ",
 			"message_placeholder": "Un (gentil) message",
-			"transfer_button": "Transférer..."
+			"transfer_button": "Transférer...",
+			"message_suggestions": {
+				"thanks": "Merci !",
+				"happy": ":)",
+				"i_have_no_idea": "Je n'ai pas d'inspiration"
+			}
+		},
+		"Auth": {
+			"title": "Connexion",
+			"login_label": "Identifiant :",
+			"login_placeholder": "Entre ton identifiant CAS",
+			"password_label": "Mot de passe :",
+			"password_placeholder": "Entre ton mot de passe CAS",
+			"button": "C'est parti !"
 		}
+	},
+
+	"words": {
+		"optional": "facultatif"
 	}
 }

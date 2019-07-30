@@ -40,6 +40,7 @@ export const e = (path, params) => {
 export const Home = getTranslationsFor('screens.Home');
 export const Refill = getTranslationsFor('screens.Refill');
 export const Transfer = getTranslationsFor('screens.Transfer');
+export const Auth = getTranslationsFor('screens.Auth');
 
 const i18n = {
 	...i18nJs,
