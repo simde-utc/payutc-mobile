@@ -14,7 +14,7 @@ const colors = {
 	backgroundSuccess: '#BBE0AB',
 	backgroundBlock: '#FFFFFF',
 	error: '#BC0000',
-	disabled: '#F1F1F1',
+	disabled: '#D1D1D1',
 };
 
 export default colors;

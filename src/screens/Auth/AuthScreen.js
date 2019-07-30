@@ -1,5 +1,6 @@
-/*
+/**
  * @author Arthur Martello <arthur.martello@etu.utc.fr>
+ * @author Samy Nastuzzi <samy@nastuzzi.fr>
  *
  * @copyright Copyright (c) 2019, SiMDE-UTC
  * @license GPL-3.0
@@ -22,6 +23,7 @@ export default class AuthScreen extends React.PureComponent {
 
 	constructor(props) {
 		super(props);
+
 		this.state = {
 			login: null,
 			password: null,
@@ -55,7 +57,7 @@ export default class AuthScreen extends React.PureComponent {
 			<KeyboardAwareScrollView
 				style={{ flex: 1, backgroundColor: colors.backgroundLight, padding: 40 }}
 			>
-				<View style={{ alignItems: 'center', marginBottom: 40 }}>
+				<View style={{ alignItems: 'center', marginVertical: 40 }}>
 					<Image source={Logo} resizeMode="contain" style={{ height: 180, width: 180 }} />
 				</View>
 				<BlockTemplate roundedTop roundedBottom shadow>
@@ -69,7 +71,8 @@ export default class AuthScreen extends React.PureComponent {
 							fontSize: 18,
 							color: colors.primary,
 						}}
-						keyboardType="default"
+						keyboardType="email-address"
+						autoCapitalize="none"
 						placeholder={t('login_placeholder')}
 						selectionColor={colors.primary}
 						textContentType="none"
@@ -91,6 +94,7 @@ export default class AuthScreen extends React.PureComponent {
 							color: colors.primary,
 						}}
 						keyboardType="default"
+						autoCapitalize="none"
 						secureTextEntry
 						placeholder={t('password_placeholder')}
 						selectionColor={colors.primary}
