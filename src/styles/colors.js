@@ -13,6 +13,7 @@ const colors = {
 	backgroundLight: '#F1F1F1',
 	backgroundSuccess: '#BBE0AB',
 	backgroundBlock: '#FFFFFF',
+	backgroundBlockAlt: '#fbfbfb',
 	error: '#BC0000',
 	disabled: '#D1D1D1',
 };

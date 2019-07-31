@@ -7,10 +7,14 @@
 
 import { createStackNavigator } from 'react-navigation';
 import HomeScreen from '../../screens/Home/HomeScreen';
+import RefillScreen from '../../screens/Home/RefillScreen';
+import TransferScreen from '../../screens/Home/TransferScreen';
 
 const HomeNavigator = createStackNavigator(
 	{
 		Home: HomeScreen,
+		Refill: RefillScreen,
+		Transfer: TransferScreen,
 	},
 	{}
 );

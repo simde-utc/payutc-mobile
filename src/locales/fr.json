@@ -2,18 +2,21 @@
 	"screens": {
 		"Home": {
 			"title": "Accueil",
-			"hi": "Salut, ",
+			"hi": "Salut",
 			"your_balance": "Ton solde :",
+			"no_balance": "Impossible d'afficher le solde :(",
 			"refill": "Recharger",
 			"transfer": "Transférer",
 			"all_stats": "Toutes les statistiques...",
 			"recent_activity": "Activité récente :",
-			"all_history": "Voir tout l'historique..."
+			"all_history": "Voir tout l'historique...",
+			"cannot_fetch_wallet": "Une erreur est survenue lors de la récupération des informations de votre compte."
 		},
 		"Refill": {
 			"title": "Rechargement",
 			"amount": "Montant du rechargement :",
-			"pay": "Accéder au paiement..."
+			"pay": "Accéder au paiement...",
+			"bad_amount": "Le montant doit être compris entre"
 		},
 		"Transfer": {
 			"title": "Transfert",
@@ -23,6 +26,7 @@
 			"message": "Message : ",
 			"message_placeholder": "Un (gentil) message",
 			"transfer_button": "Transférer...",
+			"bad_amount": "Le montant doit être compris entre",
 			"message_suggestions": {
 				"thanks": "Merci !",
 				"happy": ":)",
@@ -37,11 +41,31 @@
 			"password_placeholder": "Mot de passe de connexion",
 			"bad_login_password": "Mauvais identifiants",
 			"button": "C'est parti !"
+		},
+		"History": {
+			"title": "Historique",
+			"virout": "Virement à",
+			"virin": "Virement de",
+			"refill": "Rechargement",
+			"refund": "Remboursement de",
+			"unsupported_transaction": "Impossible d'afficher la transaction",
+			"good_job": "Bravo, tu es arrivé au bout !"
 		}
 	},
 
 	"words": {
 		"optional": "facultatif",
 		"continue": "Continuer",
+		"error": "Une erreur est survenue",
+		"ok": "OK",
+		"loading_text_replacement": "•••",
+		"and": "et"
+	},
+
+	"navigation": {
+		"home": "Accueil",
+		"history": "Historique",
+		"stats": "Statistiques",
+		"settings": "Réglages"
 	}
 }

@@ -41,6 +41,8 @@ export const Home = getTranslationsFor('screens.Home');
 export const Refill = getTranslationsFor('screens.Refill');
 export const Transfer = getTranslationsFor('screens.Transfer');
 export const Auth = getTranslationsFor('screens.Auth');
+export const History = getTranslationsFor('screens.History');
+export const Navigation = getTranslationsFor('navigation');
 
 const i18n = {
 	...i18nJs,
