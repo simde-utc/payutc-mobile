@@ -10,7 +10,8 @@
 			"all_stats": "Toutes les statistiques...",
 			"recent_activity": "Activité récente :",
 			"all_history": "Voir tout l'historique...",
-			"cannot_fetch_wallet": "Une erreur est survenue lors de la récupération des informations de votre compte."
+			"cannot_fetch_wallet": "Une erreur est survenue lors de la récupération des informations de votre compte.",
+			"locked": "Ton badge est verrouillé."
 		},
 		"Refill": {
 			"title": "Rechargement",
@@ -50,6 +51,14 @@
 			"refund": "Remboursement de",
 			"unsupported_transaction": "Impossible d'afficher la transaction",
 			"good_job": "Bravo, tu es arrivé au bout !"
+		},
+		"Settings": {
+			"title": "Paramètres",
+			"lock": "Verrouiller le badge",
+			"lock_info": "Lorsque le badge est verrouillé, il ne peut plus être utilisé pour payer.",
+			"sign_out": "Se déconnecter",
+			"about": "À propos",
+			"legal": "Mentions légales"
 		}
 	},
 
@@ -66,6 +75,6 @@
 		"home": "Accueil",
 		"history": "Historique",
 		"stats": "Statistiques",
-		"settings": "Réglages"
+		"settings": "Paramètres"
 	}
 }
