@@ -1,5 +1,6 @@
-/*
+/**
  * @author Arthur Martello <arthur.martello@etu.utc.fr>
+ * @author Samy Nastuzzi <samy@nastuzzi.fr>
  *
  * @copyright Copyright (c) 2019, SiMDE-UTC
  * @license GPL-3.0
@@ -17,7 +18,7 @@ export default class Hi extends React.PureComponent {
 		const { name, onRefresh } = this.props;
 		return (
 			<BlockTemplate roundedTop roundedBottom shadow>
-				<View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
+				<View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
 					<Text style={{ fontSize: 22, fontWeight: 'bold', color: colors.secondary }}>
 						{name ? `${t('hi')}, ${name} !` : `${t('hi')} !`}
 					</Text>

@@ -65,7 +65,8 @@
 		"error": "Une erreur est survenue",
 		"ok": "OK",
 		"loading_text_replacement": "•••",
-		"and": "et"
+		"and": "et",
+		"at": "à"
 	},
 
 	"navigation": {
