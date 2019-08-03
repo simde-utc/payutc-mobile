@@ -10,7 +10,7 @@ import { Text } from 'react-native';
 import BlockTemplate from '../BlockTemplate';
 import { Home as t } from '../../utils/i18n';
 import colors from '../../styles/colors';
-import { floatToEuro } from '../../utils/currencyFormatter';
+import { floatToEuro } from '../../utils';
 
 export default class Balance extends React.PureComponent {
 	render() {

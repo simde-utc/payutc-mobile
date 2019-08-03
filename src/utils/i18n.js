@@ -1,4 +1,4 @@
-/*
+/**
  * @author Samy Nastuzzi <samy@nastuzzi.fr>
  * @author Arthur Martello <arthur.martello@etu.utc.fr>
  *
@@ -37,6 +37,7 @@ export const e = (path, params) => {
 };
 
 // Liste des screens avec des traductions.
+export const Words = getTranslationsFor('words');
 export const AppLoader = getTranslationsFor('screens.AppLoader');
 export const Home = getTranslationsFor('screens.Home');
 export const Refill = getTranslationsFor('screens.Refill');
