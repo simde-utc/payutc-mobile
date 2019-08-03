@@ -6,29 +6,23 @@
  */
 
 import React from 'react';
-import { Image, Text } from 'react-native';
-
+import { Text } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { createBottomTabNavigator } from 'react-navigation';
-
-import HomeOn from '../image/navbar/home-on.png';
-import HomeOff from '../image/navbar/home-off.png';
 import HomeNavigator from './Home/HomeNavigator';
-import colors from '../style/colors';
+import colors from '../styles/colors';
+import { Navigation as t } from '../utils/i18n';
+import HistoryNavigator from './History/HistoryNavigator';
 
 const ICON_SIZE = 25;
 
-const focusableIconFactory = (On, Off) => {
-	const focusedIcon = ({ focused }) => (
-		<Image source={focused ? On : Off} style={{ height: ICON_SIZE, width: ICON_SIZE }} resizeMode="contain" />
-	);
-
-	return focusedIcon;
-};
-
 const focusableIoniconFactory = iconName => {
 	const focusedIcon = ({ focused }) => (
-		<Ionicons name={iconName} size={25} color={focused ? colors.primary : colors.secondary} />
+		<Ionicons
+			name={iconName}
+			size={ICON_SIZE}
+			color={focused ? colors.primary : colors.secondary}
+		/>
 	);
 
 	return focusedIcon;
@@ -39,31 +33,31 @@ const MainNavigator = createBottomTabNavigator(
 		Home: {
 			screen: HomeNavigator,
 			navigationOptions: () => ({
-				title: 'Home',
-				tabBarIcon: focusableIconFactory(HomeOn, HomeOff),
+				title: t('home'),
+				tabBarIcon: focusableIoniconFactory('ios-home'),
+			}),
+		},
+
+		History: {
+			screen: HistoryNavigator,
+			navigationOptions: () => ({
+				title: t('history'),
+				tabBarIcon: focusableIoniconFactory('ios-list'),
 			}),
 		},
 
 		Stats: {
 			screen: () => <Text>Stats</Text>,
 			navigationOptions: () => ({
-				title: 'Stats',
+				title: t('stats'),
 				tabBarIcon: focusableIoniconFactory('ios-stats'),
-			}),
-		},
-
-		Transfer: {
-			screen: () => <Text>Transfer</Text>,
-			navigationOptions: () => ({
-				title: 'Transfer',
-				tabBarIcon: focusableIoniconFactory('ios-share-alt'),
 			}),
 		},
 
 		Settings: {
 			screen: () => <Text>Settings</Text>,
 			navigationOptions: () => ({
-				title: 'Settings',
+				title: t('settings'),
 				tabBarIcon: focusableIoniconFactory('ios-settings'),
 			}),
 		},
@@ -74,7 +68,7 @@ const MainNavigator = createBottomTabNavigator(
 			activeTintColor: colors.primary,
 			inactiveTintColor: colors.secondary,
 			style: {
-				borderTopWidth: 0,
+				borderTopColor: colors.backgroundLight,
 			},
 		},
 	}

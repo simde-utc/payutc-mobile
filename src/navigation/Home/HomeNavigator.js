@@ -5,13 +5,16 @@
  * @license GPL-3.0
  */
 
-import React from 'react';
 import { createStackNavigator } from 'react-navigation';
-import HomeScreen from '../../screen/Home/HomeScreen';
+import HomeScreen from '../../screens/Home/HomeScreen';
+import RefillScreen from '../../screens/Home/RefillScreen';
+import TransferScreen from '../../screens/Home/TransferScreen';
 
 const HomeNavigator = createStackNavigator(
 	{
 		Home: HomeScreen,
+		Refill: RefillScreen,
+		Transfer: TransferScreen,
 	},
 	{}
 );

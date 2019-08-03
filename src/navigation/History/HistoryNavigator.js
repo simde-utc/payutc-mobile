@@ -6,13 +6,13 @@
  */
 
 import { createStackNavigator } from 'react-navigation';
-import AuthScreen from '../../screens/Auth/AuthScreen';
+import HistoryScreen from '../../screens/History/HistoryScreen';
 
-const AuthNavigator = createStackNavigator(
+const HistoryNavigator = createStackNavigator(
 	{
-		Auth: AuthScreen,
+		History: HistoryScreen,
 	},
 	{}
 );
 
-export default AuthNavigator;
+export default HistoryNavigator;
