@@ -1,5 +1,11 @@
 {
 	"screens": {
+		"AppLoader": {
+			"loading": "Chargement de l'application...",
+			"connect_cas": "Reconnexion au CAS-UTC...",
+			"reconnection": "Reconnexion...",
+			"reset_data": "Réinitialisation des données...",
+		},
 		"Home": {
 			"title": "Accueil",
 			"hi": "Salut",

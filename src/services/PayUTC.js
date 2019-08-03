@@ -9,6 +9,7 @@
 
 import Api from './Api';
 import CASAuth from './CASAuth';
+import Storage from './Storage';
 import { PAYUTC_API, PAYUTC_KEY, PAYUTC_SYSTEM_ID } from '../../config';
 
 const LOGIN_APP_URI = 'loginApp';
@@ -20,7 +21,9 @@ const AUTH_QUERIES = {
 };
 
 export class PayUTCApi extends Api {
-	connected = false;
+	CAS_AUTH_TYPE = 'cas';
+
+	EMAIL_AUTH_TYPE = 'email';
 
 	constructor() {
 		super(PAYUTC_API);
@@ -30,7 +33,7 @@ export class PayUTCApi extends Api {
 		return this.call(LOGIN_APP_URI, Api.POST, AUTH_QUERIES, { key: PAYUTC_KEY });
 	}
 
-	connectWithCas() {
+	connectWithCas(login, password) {
 		return this.connectApp().then(() => {
 			return CASAuth.getServiceTicket(PAYUTC_API).then(([ticket]) => {
 				if (!ticket) {
@@ -44,7 +47,12 @@ export class PayUTCApi extends Api {
 					.then(() => {
 						this.connected = true;
 
-						return true;
+						return this.setData({
+							login,
+							password,
+							ticket: CASAuth.getTicket(),
+							type: this.CAS_AUTH_TYPE,
+						});
 					})
 					.catch(() => {
 						this.connected = false;
@@ -64,7 +72,11 @@ export class PayUTCApi extends Api {
 				.then(() => {
 					this.connected = true;
 
-					return true;
+					return this.setData({
+						login,
+						password,
+						type: this.EMAIL_AUTH_TYPE,
+					});
 				})
 				.catch(() => {
 					this.connected = false;
@@ -72,6 +84,21 @@ export class PayUTCApi extends Api {
 					throw false;
 				});
 		});
+	}
+
+	// eslint-disable-next-line class-methods-use-this
+	setData(data) {
+		return Storage.setData('auth', data);
+	}
+
+	// eslint-disable-next-line class-methods-use-this
+	getData() {
+		return Storage.getData('auth');
+	}
+
+	// eslint-disable-next-line class-methods-use-this
+	forget() {
+		return Storage.removeData('auth');
 	}
 
 	isConnected() {
