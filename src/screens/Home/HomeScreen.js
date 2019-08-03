@@ -7,8 +7,7 @@
  */
 
 import React from 'react';
-import { Alert, FlatList, RefreshControl, Text, View } from 'react-native';
-import Ionicons from '@expo/vector-icons/Ionicons';
+import { Alert, FlatList, RefreshControl, Text, ScrollView, View } from 'react-native';
 import colors from '../../styles/colors';
 import Hi from '../../components/Home/Hi';
 import Balance from '../../components/Home/Balance';
@@ -26,11 +25,14 @@ export default class HomeScreen extends React.PureComponent {
 
 	constructor(props) {
 		super(props);
+
 		this.state = {
-			refreshing: false,
 			wallet: null,
+			walletFetching: false,
 			history: null,
+			historyFetching: false,
 		};
+
 		this.onRefresh = this.onRefresh.bind(this);
 	}
 
@@ -45,7 +47,7 @@ export default class HomeScreen extends React.PureComponent {
 	}
 
 	getWalletDetails() {
-		this.setState({ refreshing: true });
+		this.setState({ walletFetching: true });
 
 		PayUTC.getWalletDetails().then(([wallet]) => {
 			if (wallet && wallet.error != null) {
@@ -53,22 +55,32 @@ export default class HomeScreen extends React.PureComponent {
 					cancelable: true,
 				});
 			} else {
-				this.setState({ wallet, refreshing: false });
+				this.setState({ wallet, walletFetching: false });
 			}
 		});
 	}
 
 	getHistory() {
+		this.setState({ historyFetching: true });
+
 		PayUTC.getHistory().then(([{ historique }]) => {
-			this.setState({ history: historique });
+			this.setState({ history: historique, historyFetching: false });
 		});
 	}
 
 	render() {
-		const { refreshing, wallet, history } = this.state;
+		const { walletFetching, historyFetching, wallet, history } = this.state;
 		const { navigation } = this.props;
+
 		return (
-			<View style={{ flex: 1, flexDirection: 'column', padding: 15, backgroundColor: colors.backgroundLight }}>
+			<View
+				style={{
+					flex: 1,
+					flexDirection: 'column',
+					padding: 15,
+					backgroundColor: colors.backgroundLight,
+				}}
+			>
 				<View>
 					<View style={{ paddingBottom: 15 }}>
 						<Hi
@@ -76,55 +88,25 @@ export default class HomeScreen extends React.PureComponent {
 							onRefresh={this.onRefresh}
 						/>
 					</View>
-					<View style={{ paddingBottom: 15 }}>
-						<Balance amount={wallet && wallet.credit ? wallet.credit / 100 : null} />
-					</View>
-					<View style={{ flexDirection: 'row', paddingBottom: 15 }}>
-						<View style={{ flexGrow: 1 }}>
-							<BlockTemplate
-								roundedTop
-								roundedBottom
-								shadow
-								onPress={() => navigation.push('Refill', { credit: wallet.credit / 100 })}
-							>
-								<View style={{ alignItems: 'center' }}>
-									<Text style={{ fontSize: 16, fontWeight: 'bold', color: colors.primary }}>
-										{t('refill')}
-									</Text>
-									<Ionicons
-										name="ios-add-circle-outline"
-										size={25}
-										color={colors.primary}
-										style={{ marginTop: 5 }}
-									/>
-								</View>
-							</BlockTemplate>
-						</View>
-						<View style={{ width: 15 }} />
-						<View style={{ flexGrow: 1 }}>
-							<BlockTemplate
-								roundedTop
-								roundedBottom
-								shadow
-								onPress={() => navigation.push('Transfer', { credit: wallet.credit / 100 })}
-							>
-								<View style={{ alignItems: 'center' }}>
-									<Text style={{ fontSize: 16, fontWeight: 'bold', color: colors.primary }}>
-										{t('transfer')}
-									</Text>
-									<Ionicons
-										name="ios-share-alt"
-										size={25}
-										color={colors.primary}
-										style={{ marginTop: 5 }}
-									/>
-								</View>
-							</BlockTemplate>
-						</View>
-					</View>
+					<ScrollView
+						style={{ paddingBottom: 15 }}
+						refreshControl={
+							<RefreshControl
+								refreshing={walletFetching}
+								onRefresh={() => this.onRefresh()}
+								colors={[colors.secondary]}
+								tintColor={colors.secondary}
+							/>
+						}
+					>
+						<Balance
+							amount={wallet && wallet.credit ? wallet.credit / 100 : null}
+							navigation={navigation}
+						/>
+					</ScrollView>
 					<View>
 						<BlockTemplate roundedTop shadow>
-							<Text style={{ fontSize: 18, fontWeight: 'bold', color: colors.primary }}>
+							<Text style={{ fontSize: 16, fontWeight: 'bold', color: colors.primary }}>
 								{t('recent_activity')}
 							</Text>
 						</BlockTemplate>
@@ -152,7 +134,7 @@ export default class HomeScreen extends React.PureComponent {
 					)}
 					refreshControl={
 						<RefreshControl
-							refreshing={refreshing}
+							refreshing={historyFetching}
 							onRefresh={() => this.onRefresh()}
 							colors={[colors.secondary]}
 							tintColor={colors.secondary}
