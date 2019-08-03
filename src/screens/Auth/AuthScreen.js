@@ -49,8 +49,8 @@ export default class AuthScreen extends React.PureComponent {
 	connectWithCas() {
 		const { login, password } = this.state;
 
-		return CASAuth.setData(login, password).then(() => {
-			return PayUTC.connectWithCas();
+		return CASAuth.login(login, password).then(() => {
+			return PayUTC.connectWithCas(login, password);
 		});
 	}
 
@@ -72,9 +72,7 @@ export default class AuthScreen extends React.PureComponent {
 		}
 
 		promise
-			.then(() => {
-				navigation.navigate('Home');
-			})
+			.then(() => navigation.navigate('Home'))
 			.catch(e => {
 				console.log(e);
 

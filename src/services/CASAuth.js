@@ -12,7 +12,6 @@ import { Alert } from 'react-native';
 import { CAS_URL } from '../../config';
 
 import Api from './Api';
-import Storage from './Storage';
 
 class CASAuth extends Api {
 	constructor(url = CAS_URL) {
@@ -45,34 +44,6 @@ class CASAuth extends Api {
 
 	isConnected() {
 		return this.ticket && this.ticket.length > 0;
-	}
-
-	setData(login, password) {
-		return this.login(login, password).then(() => {
-			return Storage.setData('cas', {
-				login,
-				password,
-				ticket: this.ticket,
-			});
-		});
-	}
-
-	forget() {
-		this.ticket = '';
-
-		return Storage.removeData('cas');
-	}
-
-	// eslint-disable-next-line class-methods-use-this
-	getData() {
-		return Storage.getData('cas');
-	}
-
-	// eslint-disable-next-line class-methods-use-this
-	getLogin() {
-		return Storage.getData('cas').then(data => {
-			return data.login;
-		});
 	}
 
 	setTicket(ticket) {

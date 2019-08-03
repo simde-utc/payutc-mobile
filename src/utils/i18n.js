@@ -37,6 +37,7 @@ export const e = (path, params) => {
 };
 
 // Liste des screens avec des traductions.
+export const AppLoader = getTranslationsFor('screens.AppLoader');
 export const Home = getTranslationsFor('screens.Home');
 export const Refill = getTranslationsFor('screens.Refill');
 export const Transfer = getTranslationsFor('screens.Transfer');
