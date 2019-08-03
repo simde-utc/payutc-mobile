@@ -1,15 +1,19 @@
-// General styles
+/**
+ * @author Samy Nastuzzi <samy@nastuzzi.fr>
+ *
+ * @copyright Copyright (c) 2019, SiMDE-UTC
+ * @license GPL-3.0
+ */
+
 import layout from './layout';
 import text from './text';
 import img from './image';
 
 export default {
-	// General styles
 	...layout,
 	text,
 	img,
 
-	// Getter function
 	get(...paths) {
 		return paths.map(path =>
 			path.split('.').reduce((acc, step) => {

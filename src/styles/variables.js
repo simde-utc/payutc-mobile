@@ -1,3 +1,11 @@
+/**
+ * @author Alexandre Brasseur <alexandre.brasseur@etu.utc.fr>
+ * @author Samy Nastuzzi <samy@nastuzzi.fr>
+ *
+ * @copyright Copyright (c) 2019, SiMDE-UTC
+ * @license GPL-3.0
+ */
+
 import { StyleSheet } from 'react-native';
 
 /**
@@ -15,23 +23,6 @@ export const createStyleFromList = (list, property) =>
 			return acc;
 		}, {})
 	);
-
-export const colors = {
-	background: '#f1f1f1',
-	white: '#fff',
-	yellow: '#ffd515',
-	lightBlue: '#007d94',
-	gray: '#6d6f71',
-	lightGray: '#8f9293',
-	red: '#95193b',
-	veryLightGray: '#f9f9f9',
-	bdeBack: '#f6d31f',
-	paeBack: '#ea762d',
-	pteBack: '#239bd2',
-	pvdcBack: '#fed41a',
-	psecBack: '#95bd0c',
-	poleFore: '#f6f8f4',
-};
 
 export const spaces = {
 	none: 0,

@@ -1,5 +1,13 @@
+/**
+ * @author Samy Nastuzzi <samy@nastuzzi.fr>
+ *
+ * @copyright Copyright (c) 2019, SiMDE-UTC
+ * @license GPL-3.0
+ */
+
 import { StyleSheet } from 'react-native';
-import { createStyleFromList, colors } from './variables';
+import colors from './colors';
+import { createStyleFromList } from './variables';
 
 // Font colors
 export const textColors = createStyleFromList(colors, 'color');
