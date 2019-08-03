@@ -6,10 +6,12 @@
  */
 
 import React from 'react';
+import { StatusBar, Platform } from 'react-native';
 import { createAppContainer, createSwitchNavigator, SafeAreaView } from 'react-navigation';
 import AppLoader from './src/screens/AppLoader';
 import MainNavigator from './src/navigations/MainNavigator';
 import AuthNavigator from './src/navigations/Auth/AuthNavigator';
+import colors from './src/styles/colors';
 
 const AppNavigator = createSwitchNavigator(
 	{
@@ -24,9 +26,12 @@ const AppNavigator = createSwitchNavigator(
 
 const AppContainer = createAppContainer(AppNavigator);
 
+const marginTop = StatusBar.currentHeight || 20;
+
 export default function App() {
 	return (
-		<SafeAreaView style={{ flex: 1 }} forceInset={{ bottom: 'never' }}>
+		<SafeAreaView style={{ flex: 1, marginTop }} forceInset={{ bottom: 'never' }}>
+			<StatusBar backgroundColor={colors.yellow} translucent />
 			<AppContainer />
 		</SafeAreaView>
 	);
