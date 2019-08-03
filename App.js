@@ -7,16 +7,18 @@
 
 import React from 'react';
 import { createAppContainer, createSwitchNavigator, SafeAreaView } from 'react-navigation';
-import MainNavigator from './src/navigation/MainNavigator';
-import AuthNavigator from './src/navigation/Auth/AuthNavigator';
+import AppLoader from './src/screens/AppLoader';
+import MainNavigator from './src/navigations/MainNavigator';
+import AuthNavigator from './src/navigations/Auth/AuthNavigator';
 
 const AppNavigator = createSwitchNavigator(
 	{
+		Loading: AppLoader,
 		Auth: AuthNavigator,
 		Main: MainNavigator,
 	},
 	{
-		initialRouteName: 'Auth',
+		initialRouteName: 'Loading',
 	}
 );
 
