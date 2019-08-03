@@ -7,11 +7,11 @@
  */
 
 import React from 'react';
-import { Text, View } from 'react-native';
+import { Text } from 'react-native';
 import colors from '../../styles/colors';
 import BlockTemplate from '../BlockTemplate';
 import { History as t } from '../../utils/i18n';
-import { floatToEuro, beautifyDate } from '../../utils';
+import { beautifyDate } from '../../utils';
 import Payed from './Payed';
 import Received from './Received';
 

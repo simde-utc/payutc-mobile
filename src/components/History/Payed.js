@@ -9,8 +9,6 @@
 import React from 'react';
 import { Text, View } from 'react-native';
 import colors from '../../styles/colors';
-import BlockTemplate from '../BlockTemplate';
-import { History as t } from '../../utils/i18n';
 import { floatToEuro } from '../../utils';
 
 export default class Payed extends React.PureComponent {

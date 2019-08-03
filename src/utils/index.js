@@ -15,8 +15,8 @@ export const floatToEuro = float => {
 		.replace('.', ',')} €`;
 };
 
-export const forceTextLength = (text, length=2, remplacement='0') => {
-	text = '' + text;
+export const forceTextLength = (text, length = 2, remplacement = '0') => {
+	text = `${text}`;
 
 	while (text.length < length) {
 		text = remplacement + text;
@@ -28,9 +28,15 @@ export const forceTextLength = (text, length=2, remplacement='0') => {
 export const beautifyDate = dateText => {
 	const date = new Date(dateText);
 
-	return `${forceTextLength(date.getDate())}/${forceTextLength(date.getMonth() + 1)}/${forceTextLength(date.getFullYear())}`
-	 	+ ` ${t('at')} `
-		+ `${forceTextLength(date.getHours())}h${forceTextLength(date.getMinutes())}m${forceTextLength(date.getSeconds())}`;
+	return (
+		`${forceTextLength(date.getDate())}/${forceTextLength(date.getMonth() + 1)}/${forceTextLength(
+			date.getFullYear()
+		)}` +
+		` ${t('at')} ` +
+		`${forceTextLength(date.getHours())}h${forceTextLength(date.getMinutes())}m${forceTextLength(
+			date.getSeconds()
+		)}`
+	);
 };
 
 export default {
