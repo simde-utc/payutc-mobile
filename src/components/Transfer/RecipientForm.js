@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { Text, TextInput, View } from 'react-native';
+import { FlatList, RefreshControl, Text, TextInput, View } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import colors from '../../styles/colors';
 import BlockTemplate from '../BlockTemplate';
@@ -66,17 +66,30 @@ export default class RecipientForm extends React.PureComponent {
 	}
 
 	renderRecipientSuggestions() {
-		const { suggestions } = this.props;
+		const { suggestions, suggestionsFetching } = this.props;
 
-		return suggestions.map(({ id, name }, index) => (
-			<BlockTemplate
-				key={id}
-				customBackground={index % 2 === 0 ? colors.backgroundBlockAlt : null}
-				onPress={() => this.handleRecipientSelected({ id, name })}
-			>
-				<Text style={{ fontSize: 13, color: colors.secondary, marginBottom: 3 }}>{name}</Text>
-			</BlockTemplate>
-		));
+		return (
+			<FlatList
+				data={suggestions}
+				keyExtractor={item => item.id.toString()}
+				renderItem={({ item, index }) => (
+					<BlockTemplate
+						customBackground={index % 2 === 0 ? colors.backgroundBlockAlt : null}
+						onPress={() => this.handleRecipientSelected(item)}
+					>
+						<Text style={{ fontSize: 13, color: colors.secondary, marginBottom: 3 }}>{item.name}</Text>
+					</BlockTemplate>
+				)}
+				refreshControl={
+					<RefreshControl
+						refreshing={suggestionsFetching}
+						onRefresh={() => {}}
+						colors={[colors.secondary]}
+						tintColor={colors.secondary}
+					/>
+				}
+			/>
+		);
 	}
 
 	render() {
