@@ -6,13 +6,14 @@
  */
 
 import { combineReducers } from 'redux';
+import CASAuthService from '../services/CASAuth';
 import PayUTCService from '../services/PayUTC';
 
 const reducers = {};
 
 // Promise action types.
 const PENDING = '_PENDING';
-const SUCCED = '_FULFILLED';
+const SUCCEEDED = '_FULFILLED';
 const FAILED = '_REJECTED';
 
 // Generate a new store for a specific service resource.
@@ -61,8 +62,8 @@ const generateServiceReducer = service => {
 			methodState.fetched = false;
 			methodState.failed = false;
 			methodState.code = null;
-		} else if (action.type.endsWith(SUCCED)) {
-			serviceMethod = action.type.substring(0, action.type.length - SUCCED.length);
+		} else if (action.type.endsWith(SUCCEEDED)) {
+			serviceMethod = action.type.substring(0, action.type.length - SUCCEEDED.length);
 			const [data, code] = action.payload;
 
 			methodState = generateNewStore(state[serviceMethod]());
@@ -89,6 +90,7 @@ const generateServiceReducer = service => {
 	};
 };
 
+generateServiceReducer(CASAuthService);
 generateServiceReducer(PayUTCService);
 
 export default combineReducers(reducers);

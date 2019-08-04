@@ -5,6 +5,7 @@
  * @license GPL-3.0
  */
 
+import CASAuthService from '../services/CASAuth';
 import PayUTCService from '../services/PayUTC';
 
 // Generate actions for services. Each call, is a service method call.
@@ -22,8 +23,10 @@ export const generateActions = service => {
 	);
 };
 
+export const CASAuth = generateActions(CASAuthService);
 export const PayUTC = generateActions(PayUTCService);
 
 export default {
+	CASAuth,
 	PayUTC,
 };
