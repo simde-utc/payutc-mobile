@@ -56,7 +56,7 @@ const generateServiceReducer = service => {
 		if (action.type.endsWith(PENDING)) {
 			serviceMethod = action.type.substring(0, action.type.length - PENDING.length);
 
-			methodState = generateNewStore(state[serviceMethod]);
+			methodState = generateNewStore(state[serviceMethod]());
 			methodState.fetching = true;
 			methodState.fetched = false;
 			methodState.failed = false;
@@ -65,7 +65,7 @@ const generateServiceReducer = service => {
 			serviceMethod = action.type.substring(0, action.type.length - SUCCED.length);
 			const [data, code] = action.payload;
 
-			methodState = generateNewStore(state[serviceMethod]);
+			methodState = generateNewStore(state[serviceMethod]());
 			methodState.data = data;
 			methodState.fetching = false;
 			methodState.fetched = true;
@@ -75,7 +75,7 @@ const generateServiceReducer = service => {
 			serviceMethod = action.type.substring(0, action.type.length - FAILED.length);
 			const [data, code] = action.payload;
 
-			methodState = generateNewStore(state[serviceMethod]);
+			methodState = generateNewStore(state[serviceMethod]());
 			methodState.data = data;
 			methodState.fetching = false;
 			methodState.fetched = false;
