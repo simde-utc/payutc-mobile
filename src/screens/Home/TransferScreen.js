@@ -110,7 +110,6 @@ class TransferScreen extends React.PureComponent {
 		const minAmount = 0.01;
 		const { navigation, suggestionsFetching } = this.props;
 		const { message, amount, recipientError, amountError, recipient, suggestions } = this.state;
-		const credit = navigation.getParam('credit');
 
 		return (
 			<KeyboardAwareScrollView style={{ backgroundColor: colors.backgroundLight }}>
@@ -138,7 +137,7 @@ class TransferScreen extends React.PureComponent {
 						minAmount={minAmount}
 						onAmountErrorChange={this.handleAmountErrorChange}
 						disabled={this.isButtonDisabled()}
-						credit={credit}
+						navigation={navigation}
 					/>
 				</View>
 			</KeyboardAwareScrollView>

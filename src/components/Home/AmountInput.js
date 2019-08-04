@@ -20,6 +20,7 @@ export default class AmountInput extends React.PureComponent {
 						fontWeight: 'bold',
 						color: error == null ? tintColor : colors.error,
 						alignSelf: 'center',
+						textAlign: 'right',
 					}}
 					keyboardType="decimal-pad"
 					placeholder="00,00"
