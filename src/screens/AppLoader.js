@@ -76,7 +76,7 @@ export default class AppLoaderScreen extends React.Component {
 	reinitData() {
 		this.setState({
 			text: t('reset_data'),
-			screen: 'Welcome',
+			screen: 'Auth',
 		});
 
 		return PayUTC.forget();
