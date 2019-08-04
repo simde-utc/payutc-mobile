@@ -14,6 +14,7 @@ import { PAYUTC_API, PAYUTC_KEY, PAYUTC_SYSTEM_ID } from '../../config';
 
 const ACCOUNT_SERVICE = 'MYACCOUNT';
 const RENTAL_SERVICE = 'RENTAL';
+const TRANSFER_SERVICE = 'TRANSFER';
 
 const LOGIN_APP_URI = 'loginApp';
 const LOGIN_URI = 'login2';
@@ -154,6 +155,17 @@ export class PayUTCApi extends Api {
 			Api.POST,
 			AUTH_QUERIES,
 			{ queryString },
+			Api.HEADERS_JSON
+		);
+	}
+
+	transfer(amount, user_id) {
+		return this.connectedCall(
+			TRANSFER_SERVICE,
+			'transfer',
+			Api.POST,
+			AUTH_QUERIES,
+			{ amount, userID: user_id },
 			Api.HEADERS_JSON
 		);
 	}
