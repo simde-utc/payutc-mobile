@@ -52,16 +52,20 @@ class AuthScreen extends React.PureComponent {
 		const { dispatch } = this.props;
 		const { login, password } = this.state;
 
-		dispatch(Config.spinner({
-			visible: true,
-			textContent: t('cas_connection'),
-		}));
+		dispatch(
+			Config.spinner({
+				visible: true,
+				textContent: t('cas_connection'),
+			})
+		);
 
 		return CASAuth.login(login, password).then(() => {
-			dispatch(Config.spinner({
-				visible: true,
-				textContent: t('payutc_connection'),
-			}));
+			dispatch(
+				Config.spinner({
+					visible: true,
+					textContent: t('payutc_connection'),
+				})
+			);
 
 			return PayUTC.connectWithCas(login, password);
 		});
@@ -71,10 +75,12 @@ class AuthScreen extends React.PureComponent {
 		const { dispatch } = this.props;
 		const { login, password } = this.state;
 
-		dispatch(Config.spinner({
-			visible: true,
-			textContent: t('payutc_connection'),
-		}));
+		dispatch(
+			Config.spinner({
+				visible: true,
+				textContent: t('payutc_connection'),
+			})
+		);
 
 		return PayUTC.connectWithEmail(login, password);
 	}
@@ -92,18 +98,22 @@ class AuthScreen extends React.PureComponent {
 
 		promise
 			.then(() => {
-				dispatch(Config.spinner({
-					visible: false,
-				}));
+				dispatch(
+					Config.spinner({
+						visible: false,
+					})
+				);
 
 				navigation.navigate('Home');
 			})
 			.catch(e => {
 				console.log(e);
 
-				dispatch(Config.spinner({
-					visible: false,
-				}));
+				dispatch(
+					Config.spinner({
+						visible: false,
+					})
+				);
 
 				Alert.alert(t('title'), t('bad_login_password'), [{ text: _('continue') }], {
 					cancelable: true,

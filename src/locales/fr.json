@@ -34,13 +34,36 @@
 			"transfer_button": "Transférer...",
 			"bad_amount": "Le montant doit être compris entre",
 			"recipient_not_found": "Destinataire non trouvé...",
-			"transfer_checks": "Vérification avant transfert...",
-			"transfering": "Transfert en cours...",
-			"message_suggestions": {
-				"thanks": "Merci !",
-				"happy": ":)",
-				"i_have_no_idea": "Je n'ai pas d'inspiration"
-			}
+			"thanks": "Merci !",
+			"happy": ":)",
+			"i_have_no_idea": "Je n'ai pas d'inspiration",
+			"message_suggestions": [
+				"T'es une belle personne !",
+				"Merci encore",
+				"Envoyé depuis mon appli PayUTC",
+				"C'est cadeau",
+				"Vive le SiMDE",
+				"Vive le BDE-UTC",
+				"Vive PayUTC",
+				"Désolé du retard",
+				"Je te redois ça",
+				"Je n'ai aucune inspiration",
+				"LOL",
+				"C'est de l'argent mérité !",
+				"Viens me parler",
+				"N'hésite surtout pas à me rembourser hein",
+				"J'avais presque oublié",
+				"Ce n'est qu'un transfert après tout",
+				"L'éclate",
+				"Il est peut-être tard ?",
+				"Je te devais vraiment autant ?",
+				"Je fais comment maintenant pour consommer au Pic ?",
+				"Que c'est cool d'être cotisant.e",
+				"Pas du tout un message aléatoire",
+				"Ici c'est l'UTC de Compiègne",
+				"Les GIs sont bae",
+				"Ca fait beaucoup quand même..."
+			]
 		},
 		"Auth": {
 			"title": "Connexion",

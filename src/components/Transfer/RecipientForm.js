@@ -77,7 +77,9 @@ export default class RecipientForm extends React.PureComponent {
 						customBackground={index % 2 === 0 ? colors.backgroundBlockAlt : null}
 						onPress={() => this.handleRecipientSelected(item)}
 					>
-						<Text style={{ fontSize: 13, color: colors.secondary, marginBottom: 3 }}>{item.name}</Text>
+						<Text style={{ fontSize: 13, color: colors.secondary, marginBottom: 3 }}>
+							{item.name}
+						</Text>
 					</BlockTemplate>
 				)}
 				refreshControl={
