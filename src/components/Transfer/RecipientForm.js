@@ -111,12 +111,12 @@ export default class RecipientForm extends React.PureComponent {
 							style={{
 								flexGrow: 1,
 								fontSize: 18,
-								color: colors.primary,
+								color: colors.lightBlue,
 							}}
 							keyboardType="default"
 							placeholder={t('recipient_placeholder')}
 							maxLength={this.maxLength}
-							selectionColor={error == null ? colors.primary : colors.error}
+							selectionColor={error == null ? colors.lightBlue : colors.error}
 							textContentType="none"
 							autoCorrect={false}
 							onChangeText={text => this.onChange(text)}

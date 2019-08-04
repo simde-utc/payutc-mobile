@@ -102,7 +102,7 @@ class Submit extends React.PureComponent {
 				shadow
 				onPress={() => this.submit()}
 				disabled={disabled}
-				customBackground={disabled ? colors.disabled : colors.primary}
+				customBackground={disabled ? colors.disabled : colors.lightBlue}
 			>
 				<View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
 					<Text

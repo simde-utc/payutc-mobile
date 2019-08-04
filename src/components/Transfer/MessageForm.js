@@ -90,13 +90,13 @@ export default class MessageForm extends React.PureComponent {
 				<TextInput
 					style={{
 						fontSize: 18,
-						color: colors.primary,
+						color: colors.lightBlue,
 					}}
 					keyboardType="default"
 					placeholder={t('message_placeholder')}
 					maxLength={this.maxLength}
 					multiline
-					selectionColor={error == null ? colors.primary : colors.error}
+					selectionColor={error == null ? colors.lightBlue : colors.error}
 					textContentType="none"
 					autoCorrect={false}
 					onChangeText={text => this.onChange(text)}

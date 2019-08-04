@@ -50,7 +50,7 @@ export default class AmountForm extends React.PureComponent {
 					value={value}
 					error={error}
 					maxLength={this.maxLength}
-					tintColor={colors.primary}
+					tintColor={colors.lightBlue}
 					autofocus={false}
 					onChange={this.onChange.bind(this)}
 				/>
