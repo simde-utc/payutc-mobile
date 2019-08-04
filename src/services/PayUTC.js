@@ -12,6 +12,9 @@ import CASAuth from './CASAuth';
 import Storage from './Storage';
 import { PAYUTC_API, PAYUTC_KEY, PAYUTC_SYSTEM_ID } from '../../config';
 
+const ACCOUNT_SERVICE = 'MYACCOUNT';
+const RENTAL_SERVICE = 'RENTAL';
+
 const LOGIN_APP_URI = 'loginApp';
 const LOGIN_URI = 'login2';
 const LOGIN_CAS_URI = 'loginCas2';
@@ -29,8 +32,12 @@ export class PayUTCApi extends Api {
 		super(PAYUTC_API);
 	}
 
+	call(service, request, method, queries, body, headers, validStatus, json = true) {
+		return super.call(`${service}/${request}`, method, queries, body, headers, validStatus, json);
+	}
+
 	connectApp() {
-		return this.call(LOGIN_APP_URI, Api.POST, AUTH_QUERIES, { key: PAYUTC_KEY });
+		return this.call(ACCOUNT_SERVICE, LOGIN_APP_URI, Api.POST, AUTH_QUERIES, { key: PAYUTC_KEY });
 	}
 
 	connectWithCas(login, password) {
@@ -40,7 +47,7 @@ export class PayUTCApi extends Api {
 					throw 'No tickets !';
 				}
 
-				return this.call(LOGIN_CAS_URI, Api.POST, AUTH_QUERIES, {
+				return this.call(ACCOUNT_SERVICE, LOGIN_CAS_URI, Api.POST, AUTH_QUERIES, {
 					service: PAYUTC_API,
 					ticket,
 				})
@@ -65,7 +72,7 @@ export class PayUTCApi extends Api {
 
 	connectWithEmail(login, password) {
 		return this.connectApp().then(() => {
-			return this.call(LOGIN_URI, Api.POST, AUTH_QUERIES, {
+			return this.call(ACCOUNT_SERVICE, LOGIN_URI, Api.POST, AUTH_QUERIES, {
 				login,
 				password,
 			})
@@ -106,15 +113,47 @@ export class PayUTCApi extends Api {
 	}
 
 	getUserDetails() {
-		return this.connectedCall('getUserDetails', Api.GET, AUTH_QUERIES, Api.HEADERS_JSON);
+		return this.connectedCall(
+			ACCOUNT_SERVICE,
+			'getUserDetails',
+			Api.GET,
+			AUTH_QUERIES,
+			{},
+			Api.HEADERS_JSON
+		);
 	}
 
 	getWalletDetails() {
-		return this.connectedCall('getWalletDetails', Api.POST, AUTH_QUERIES, Api.HEADERS_JSON);
+		return this.connectedCall(
+			ACCOUNT_SERVICE,
+			'getWalletDetails',
+			Api.POST,
+			AUTH_QUERIES,
+			{},
+			Api.HEADERS_JSON
+		);
 	}
 
 	getHistory() {
-		return this.connectedCall('historique', Api.POST, AUTH_QUERIES, Api.HEADERS_JSON);
+		return this.connectedCall(
+			ACCOUNT_SERVICE,
+			'historique',
+			Api.POST,
+			AUTH_QUERIES,
+			{},
+			Api.HEADERS_JSON
+		);
+	}
+
+	getUserAutoComplete(queryString) {
+		return this.connectedCall(
+			RENTAL_SERVICE,
+			'userAutocomplete',
+			Api.POST,
+			AUTH_QUERIES,
+			{ queryString },
+			Api.HEADERS_JSON
+		);
 	}
 }
 
