@@ -8,15 +8,16 @@
 
 import React from 'react';
 import { Alert, FlatList, RefreshControl, Text, ScrollView, View } from 'react-native';
+import { connect } from 'react-redux';
 import colors from '../../styles/colors';
 import Hi from '../../components/Home/Hi';
 import Balance from '../../components/Home/Balance';
 import BlockTemplate from '../../components/BlockTemplate';
-import { _, Home as t } from '../../utils/i18n';
 import Item from '../../components/History/Item';
-import PayUTC from '../../services/PayUTC';
+import { PayUTC } from '../../redux/actions';
+import { _, Home as t } from '../../utils/i18n';
 
-export default class HomeScreen extends React.PureComponent {
+class HomeScreen extends React.PureComponent {
 	static navigationOptions = {
 		title: t('title'),
 		header: null,
@@ -26,51 +27,22 @@ export default class HomeScreen extends React.PureComponent {
 	constructor(props) {
 		super(props);
 
-		this.state = {
-			wallet: null,
-			walletFetching: false,
-			history: null,
-			historyFetching: false,
-		};
-
 		this.onRefresh = this.onRefresh.bind(this);
 	}
 
 	componentDidMount() {
-		this.getWalletDetails();
-		this.getHistory();
+		this.onRefresh();
 	}
 
 	onRefresh() {
-		this.getWalletDetails();
-		this.getHistory();
-	}
+		const { dispatch } = this.props;
 
-	getWalletDetails() {
-		this.setState({ walletFetching: true });
-
-		PayUTC.getWalletDetails().then(([wallet]) => {
-			if (wallet && wallet.error != null) {
-				Alert.alert(_('error'), t('cannot_fetch_wallet'), [{ text: _('ok') }], {
-					cancelable: true,
-				});
-			} else {
-				this.setState({ wallet, walletFetching: false });
-			}
-		});
-	}
-
-	getHistory() {
-		this.setState({ historyFetching: true });
-
-		PayUTC.getHistory().then(([{ historique }]) => {
-			this.setState({ history: historique, historyFetching: false });
-		});
+		dispatch(PayUTC.getWalletDetails());
+		dispatch(PayUTC.getHistory());
 	}
 
 	render() {
-		const { walletFetching, historyFetching, wallet, history } = this.state;
-		const { navigation } = this.props;
+		const { details, detailsFetching, history, historyFetching, navigation } = this.props;
 
 		return (
 			<View
@@ -83,16 +55,13 @@ export default class HomeScreen extends React.PureComponent {
 			>
 				<View>
 					<View style={{ paddingBottom: 15 }}>
-						<Hi
-							name={wallet && wallet.first_name ? wallet.first_name : null}
-							onRefresh={this.onRefresh}
-						/>
+						<Hi name={details.first_name} onRefresh={this.onRefresh} />
 					</View>
 					<ScrollView
 						style={{ paddingBottom: 15 }}
 						refreshControl={
 							<RefreshControl
-								refreshing={walletFetching}
+								refreshing={detailsFetching}
 								onRefresh={() => this.onRefresh()}
 								colors={[colors.secondary]}
 								tintColor={colors.secondary}
@@ -100,7 +69,7 @@ export default class HomeScreen extends React.PureComponent {
 						}
 					>
 						<Balance
-							amount={wallet && wallet.credit ? wallet.credit / 100 : null}
+							amount={details.credit ? details.credit / 100 : null}
 							navigation={navigation}
 						/>
 					</ScrollView>
@@ -114,7 +83,7 @@ export default class HomeScreen extends React.PureComponent {
 					</View>
 				</View>
 				<FlatList
-					data={history ? history.slice(0, 10) : null}
+					data={history.slice(0, 10)}
 					keyExtractor={item => item.id.toString()}
 					renderItem={({ item, index }) => (
 						<Item
@@ -141,15 +110,31 @@ export default class HomeScreen extends React.PureComponent {
 						/>
 					}
 				/>
-				<View>
-					<View style={{ borderColor: colors.backgroundLight, height: 1 }} />
-					<BlockTemplate roundedBottom onPress={() => navigation.navigate('History')}>
-						<Text style={{ fontSize: 10, fontWeight: 'bold', color: colors.primary }}>
-							{t('all_history')}
-						</Text>
-					</BlockTemplate>
-				</View>
+				{history.length ? (
+					<View>
+						<View style={{ borderColor: colors.backgroundLight, height: 1 }} />
+						<BlockTemplate roundedBottom onPress={() => navigation.navigate('History')}>
+							<Text style={{ fontSize: 10, fontWeight: 'bold', color: colors.primary }}>
+								{t('all_history')}
+							</Text>
+						</BlockTemplate>
+					</View>
+				) : null}
 			</View>
 		);
 	}
 }
+
+const mapStateToProps = ({ payutc }) => {
+	const details = payutc.getWalletDetails();
+	const history = payutc.getHistory();
+
+	return {
+		details: details.getData({}),
+		detailsFetching: details.isFetching(),
+		history: history.getData({ historique: [] }).historique,
+		historyFetching: history.isFetching(),
+	};
+};
+
+export default connect(mapStateToProps)(HomeScreen);
