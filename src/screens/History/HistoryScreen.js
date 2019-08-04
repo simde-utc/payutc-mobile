@@ -7,30 +7,23 @@
 
 import React from 'react';
 import { FlatList, RefreshControl, Text, TouchableOpacity, View } from 'react-native';
+import { connect } from 'react-redux';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { _, History as t } from '../../utils/i18n';
 import colors from '../../styles/colors';
 import Item from '../../components/History/Item';
-import PayUTC from '../../services/PayUTC';
+import { PayUTC } from '../../redux/actions';
 import BlockTemplate from '../../components/BlockTemplate';
 
-export default class HistoryScreen extends React.PureComponent {
+class HistoryScreen extends React.PureComponent {
 	static navigationOptions = {
 		title: t('title'),
 		header: null,
 		headerForceInset: { top: 'never' },
 	};
 
-	constructor(props) {
-		super(props);
-		this.state = {
-			refreshing: false,
-			history: null,
-		};
-	}
-
 	componentDidMount() {
-		this.getHistory();
+		this.onRefresh();
 	}
 
 	onRefresh() {
@@ -38,14 +31,15 @@ export default class HistoryScreen extends React.PureComponent {
 	}
 
 	getHistory() {
-		this.setState({ refreshing: true });
-		PayUTC.getHistory().then(([{ historique }]) => {
-			this.setState({ history: historique, refreshing: false });
-		});
+		const { historyFetching, historyFetched, dispatch } = this.props;
+
+		if (!historyFetching && !historyFetched) {
+			dispatch(PayUTC.getHistory());
+		}
 	}
 
 	render() {
-		const { refreshing, history } = this.state;
+		const { historyFetching, history } = this.props;
 
 		return (
 			<FlatList
@@ -95,7 +89,7 @@ export default class HistoryScreen extends React.PureComponent {
 				}
 				refreshControl={
 					<RefreshControl
-						refreshing={refreshing}
+						refreshing={historyFetching}
 						onRefresh={() => this.onRefresh()}
 						colors={[colors.secondary]}
 						tintColor={colors.secondary}
@@ -105,3 +99,15 @@ export default class HistoryScreen extends React.PureComponent {
 		);
 	}
 }
+
+const mapStateToProps = ({ payutc }) => {
+	const history = payutc.getHistory();
+
+	return {
+		history: history.getData({ historique: [] }).historique,
+		historyFetching: history.isFetching(),
+		historyFetched: history.isFetched(),
+	};
+};
+
+export default connect(mapStateToProps)(HistoryScreen);
