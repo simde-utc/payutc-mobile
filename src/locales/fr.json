@@ -33,6 +33,7 @@
 			"message_placeholder": "Un (gentil) message",
 			"transfer_button": "Transférer...",
 			"bad_amount": "Le montant doit être compris entre",
+			"recipient_not_found": "Destinataire non trouvé...",
 			"message_suggestions": {
 				"thanks": "Merci !",
 				"happy": ":)",

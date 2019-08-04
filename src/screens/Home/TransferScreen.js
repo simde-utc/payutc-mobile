@@ -34,12 +34,14 @@ export default class TransferScreen extends React.PureComponent {
 			message: null,
 			amount: null,
 			recipient: null,
+			suggestions: [],
 		};
 
 		this.handleMessageChange = this.handleMessageChange.bind(this);
 		this.handleAmountChange = this.handleAmountChange.bind(this);
 		this.handleAmountErrorChange = this.handleAmountErrorChange.bind(this);
 		this.handleRecipientChange = this.handleRecipientChange.bind(this);
+		this.handleRecipientSelected = this.handleRecipientSelected.bind(this);
 	}
 
 	handleMessageChange(text) {
@@ -71,21 +73,46 @@ export default class TransferScreen extends React.PureComponent {
 	}
 
 	handleRecipientChange(recipient) {
-		PayUTC.getUserAutoComplete(recipient).then(data => console.log(data));
+		if (recipient) {
+			PayUTC.getUserAutoComplete(recipient).then(([suggestions]) => {
+				switch (suggestions.length) {
+					case 0:
+						this.setState({ recipientError: t('recipient_not_found'), suggestions: [] });
+						break;
 
-		this.setState({ recipient });
+					case 1:
+						this.handleRecipientSelected(suggestions[0]);
+
+					default:
+						this.setState({ recipientError: null, suggestions });
+						break;
+				}
+			});
+		} else {
+			this.setState({ recipientError: null, suggestions: [] });
+		}
+	}
+
+	handleRecipientSelected(recipient) {
+		this.setState({ recipientError: null, recipient });
 	}
 
 	render() {
 		const minAmount = 0.01;
-		const { message, amount, amountError, recipient } = this.state;
+		const { message, amount, recipientError, amountError, recipient, suggestions } = this.state;
 		const { navigation } = this.props;
 		const credit = navigation.getParam('credit');
-
+		console.log(recipient);
 		return (
 			<KeyboardAwareScrollView style={{ backgroundColor: colors.backgroundLight }}>
 				<View style={{ padding: 15 }}>
-					<RecipientForm onChange={this.handleRecipientChange} />
+					<RecipientForm
+						error={recipientError}
+						recipient={recipient}
+						suggestions={suggestions}
+						onChange={this.handleRecipientChange}
+						onSelect={this.handleRecipientSelected}
+					/>
 				</View>
 				<View style={{ padding: 15, paddingTop: 0 }}>
 					<AmountForm error={amountError} onChange={this.handleAmountChange} />
