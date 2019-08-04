@@ -18,11 +18,19 @@ export default class MessageForm extends React.PureComponent {
 
 		this.state = { text: null };
 		this.maxLength = 255;
+		this.messages = t('message_suggestions');
 
 		this.shortcuts = [
-			t('message_suggestions.thanks'),
-			t('message_suggestions.happy'),
-			t('message_suggestions.i_have_no_idea'),
+			{
+				text: t('thanks'),
+			},
+			{
+				text: t('happy'),
+			},
+			{
+				text: t('i_have_no_idea'),
+				getValue: () => this.getRandomMessage(),
+			},
 		];
 	}
 
@@ -34,19 +42,23 @@ export default class MessageForm extends React.PureComponent {
 		this.setState({ text });
 	}
 
+	getRandomMessage() {
+		const index = Math.floor(Math.random() * this.messages.length);
+
+		return this.messages[index];
+	}
+
 	renderShortcuts() {
-		const shortcutsBlocks = this.shortcuts.map(shortcut => {
+		const shortcutsBlocks = this.shortcuts.map(({ text, getValue }) => {
 			return (
 				<BlockTemplate
 					roundedTop
 					roundedBottom
 					shadow
-					key={shortcut}
-					onPress={() => this.onChange(shortcut.toString())}
+					key={text}
+					onPress={() => this.onChange(getValue ? getValue() : text)}
 				>
-					<Text style={{ fontSize: 14, fontWeight: 'bold', color: colors.secondary }}>
-						{shortcut}
-					</Text>
+					<Text style={{ fontSize: 14, fontWeight: 'bold', color: colors.secondary }}>{text}</Text>
 				</BlockTemplate>
 			);
 		});
