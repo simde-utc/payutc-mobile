@@ -26,11 +26,11 @@ const AppNavigator = createSwitchNavigator(
 
 const AppContainer = createAppContainer(AppNavigator);
 
-const marginTop = StatusBar.currentHeight || 20;
+const paddingTop = StatusBar.currentHeight || 20;
 
 export default function App() {
 	return (
-		<SafeAreaView style={{ flex: 1, marginTop }} forceInset={{ bottom: 'never' }}>
+		<SafeAreaView style={{ flex: 1, paddingTop }} forceInset={{ bottom: 'never' }}>
 			<StatusBar backgroundColor={colors.yellow} translucent />
 			<AppContainer />
 		</SafeAreaView>

@@ -1,5 +1,6 @@
-/*
+/**
  * @author Arthur Martello <arthur.martello@etu.utc.fr>
+ * @author Samy Nastuzzi <samy@nastuzzi.fr>
  *
  * @copyright Copyright (c) 2019, SiMDE-UTC
  * @license GPL-3.0
@@ -13,7 +14,7 @@ import colors from '../../styles/colors';
 import BlockTemplate from '../../components/BlockTemplate';
 import { _, Transfer as t } from '../../utils/i18n';
 import AmountInput from '../../components/Home/AmountInput';
-import { floatToEuro } from '../../utils/currencyFormatter';
+import { floatToEuro } from '../../utils';
 
 class RecipientForm extends React.PureComponent {
 	constructor(props) {
