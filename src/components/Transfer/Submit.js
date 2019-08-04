@@ -27,10 +27,12 @@ class Submit extends React.PureComponent {
 	submit() {
 		const { dispatch, navigation } = this.props;
 
-		dispatch(Config.spinner({
-			visible: true,
-			textContent: t('transfer_checks'),
-		}));
+		dispatch(
+			Config.spinner({
+				visible: true,
+				textContent: t('transfer_checks'),
+			})
+		);
 
 		const action = PayUTC.getWalletDetails();
 		dispatch(action);
@@ -41,9 +43,11 @@ class Submit extends React.PureComponent {
 			if (!this.isAmountValid(credit)) {
 				const { minAmount, onAmountErrorChange } = this.props;
 
-				dispatch(Config.spinner({
-					visible: false,
-				}));
+				dispatch(
+					Config.spinner({
+						visible: false,
+					})
+				);
 
 				return onAmountErrorChange(
 					`${t('bad_amount')} ${floatToEuro(minAmount)} ${_('and').toLowerCase()} ${floatToEuro(
@@ -55,28 +59,35 @@ class Submit extends React.PureComponent {
 			const { amount, recipient, message } = this.props;
 			const amountAsFloat = parseFloat(amount.replace(',', '.'));
 
-			dispatch(Config.spinner({
-				visible: true,
-				textContent: t('transfering'),
-			}));
+			dispatch(
+				Config.spinner({
+					visible: true,
+					textContent: t('transfering'),
+				})
+			);
 
 			const action = PayUTC.transfer(amountAsFloat * 100, recipient.id, message);
 			dispatch(action);
 
-			action.payload.then(() => {
-				dispatch(Config.spinner({
-					visible: false,
-				}));
+			action.payload
+				.then(() => {
+					dispatch(
+						Config.spinner({
+							visible: false,
+						})
+					);
 
-				dispatch(PayUTC.getWalletDetails());
-				dispatch(PayUTC.getHistory());
+					dispatch(PayUTC.getWalletDetails());
+					dispatch(PayUTC.getHistory());
 
-				navigation.goBack();
-			})
+					navigation.goBack();
+				})
 				.catch(() => {
-					dispatch(Config.spinner({
-						visible: false,
-					}));
+					dispatch(
+						Config.spinner({
+							visible: false,
+						})
+					);
 				});
 		});
 	}
