@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { Alert, FlatList, RefreshControl, Text, ScrollView, View } from 'react-native';
+import { FlatList, RefreshControl, Text, ScrollView, View } from 'react-native';
 import { connect } from 'react-redux';
 import colors from '../../styles/colors';
 import Hi from '../../components/Home/Hi';
@@ -35,10 +35,21 @@ class HomeScreen extends React.PureComponent {
 	}
 
 	onRefresh() {
-		const { dispatch } = this.props;
+		const {
+			detailsFetching,
+			detailsFetched,
+			historyFetching,
+			historyFetched,
+			dispatch,
+		} = this.props;
 
-		dispatch(PayUTC.getWalletDetails());
-		dispatch(PayUTC.getHistory());
+		if (!detailsFetching && !detailsFetched) {
+			dispatch(PayUTC.getWalletDetails());
+		}
+
+		if (!historyFetching && !historyFetched) {
+			dispatch(PayUTC.getHistory());
+		}
 	}
 
 	render() {
@@ -132,8 +143,10 @@ const mapStateToProps = ({ payutc }) => {
 	return {
 		details: details.getData({}),
 		detailsFetching: details.isFetching(),
+		detailsFetched: details.isFetched(),
 		history: history.getData({ historique: [] }).historique,
 		historyFetching: history.isFetching(),
+		historyFetched: history.isFetched(),
 	};
 };
 
