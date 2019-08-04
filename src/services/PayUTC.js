@@ -24,6 +24,8 @@ const AUTH_QUERIES = {
 };
 
 export class PayUTCApi extends Api {
+	TYPE = 'payutc';
+
 	CAS_AUTH_TYPE = 'cas';
 
 	EMAIL_AUTH_TYPE = 'email';
