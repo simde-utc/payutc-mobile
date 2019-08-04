@@ -8,18 +8,19 @@
 
 import React from 'react';
 import { View } from 'react-native';
+import { connect } from 'react-redux';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import AmountForm from '../../components/Transfer/AmountForm';
 import MessageForm from '../../components/Transfer/MessageForm';
 import RecipientForm from '../../components/Transfer/RecipientForm';
 import Submit from '../../components/Transfer/Submit';
 import colors from '../../styles/colors';
+import { PayUTC } from '../../redux/actions';
 import { Transfer as t } from '../../utils/i18n';
-import PayUTC from '../../services/PayUTC';
 
 const FORMAT = /^\d+(,\d{1,2})?$/;
 
-export default class TransferScreen extends React.PureComponent {
+class TransferScreen extends React.PureComponent {
 	static navigationOptions = {
 		title: t('title'),
 		headerStyle: { borderBottomWidth: 0 },
@@ -42,6 +43,25 @@ export default class TransferScreen extends React.PureComponent {
 		this.handleAmountErrorChange = this.handleAmountErrorChange.bind(this);
 		this.handleRecipientChange = this.handleRecipientChange.bind(this);
 		this.handleRecipientSelected = this.handleRecipientSelected.bind(this);
+	}
+
+	componentDidUpdate(prevProps) {
+		const { suggestions, suggestionsFetching } = this.props;
+
+		if (prevProps.suggestionsFetching && !suggestionsFetching) {
+			switch (suggestions.length) {
+				case 0:
+					this.setState({ recipientError: t('recipient_not_found'), suggestions: [] });
+					break;
+
+				case 1:
+					this.handleRecipientSelected(suggestions[0]);
+
+				default:
+					this.setState({ recipientError: null, suggestions });
+					break;
+			}
+		}
 	}
 
 	handleMessageChange(text) {
@@ -73,21 +93,10 @@ export default class TransferScreen extends React.PureComponent {
 	}
 
 	handleRecipientChange(recipient) {
+		const { dispatch } = this.props;
+
 		if (recipient) {
-			PayUTC.getUserAutoComplete(recipient).then(([suggestions]) => {
-				switch (suggestions.length) {
-					case 0:
-						this.setState({ recipientError: t('recipient_not_found'), suggestions: [] });
-						break;
-
-					case 1:
-						this.handleRecipientSelected(suggestions[0]);
-
-					default:
-						this.setState({ recipientError: null, suggestions });
-						break;
-				}
-			});
+			dispatch(PayUTC.getUserAutoComplete(recipient));
 		} else {
 			this.setState({ recipientError: null, suggestions: [] });
 		}
@@ -99,10 +108,10 @@ export default class TransferScreen extends React.PureComponent {
 
 	render() {
 		const minAmount = 0.01;
+		const { navigation, suggestionsFetching } = this.props;
 		const { message, amount, recipientError, amountError, recipient, suggestions } = this.state;
-		const { navigation } = this.props;
 		const credit = navigation.getParam('credit');
-		console.log(recipient);
+
 		return (
 			<KeyboardAwareScrollView style={{ backgroundColor: colors.backgroundLight }}>
 				<View style={{ padding: 15 }}>
@@ -110,6 +119,7 @@ export default class TransferScreen extends React.PureComponent {
 						error={recipientError}
 						recipient={recipient}
 						suggestions={suggestions}
+						suggestionsFetching={suggestionsFetching}
 						onChange={this.handleRecipientChange}
 						onSelect={this.handleRecipientSelected}
 					/>
@@ -135,3 +145,14 @@ export default class TransferScreen extends React.PureComponent {
 		);
 	}
 }
+
+const mapStateToProps = ({ payutc }) => {
+	const suggestions = payutc.getUserAutoComplete();
+
+	return {
+		suggestions: suggestions.getData([]),
+		suggestionsFetching: suggestions.isFetching(),
+	};
+};
+
+export default connect(mapStateToProps)(TransferScreen);
