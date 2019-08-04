@@ -159,13 +159,13 @@ export class PayUTCApi extends Api {
 		);
 	}
 
-	transfer(amount, user_id) {
+	transfer(amount, user_id, message) {
 		return this.connectedCall(
 			TRANSFER_SERVICE,
 			'transfer',
 			Api.POST,
 			AUTH_QUERIES,
-			{ amount, userID: user_id },
+			{ amount, userID: user_id, message },
 			Api.HEADERS_JSON
 		);
 	}

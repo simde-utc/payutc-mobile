@@ -52,7 +52,7 @@ class Submit extends React.PureComponent {
 				);
 			}
 
-			const { amount, recipient } = this.props;
+			const { amount, recipient, message } = this.props;
 			const amountAsFloat = parseFloat(amount.replace(',', '.'));
 
 			dispatch(Config.spinner({
@@ -60,7 +60,7 @@ class Submit extends React.PureComponent {
 				textContent: t('transfering'),
 			}));
 
-			const action = PayUTC.transfer(amountAsFloat * 100, recipient.id);
+			const action = PayUTC.transfer(amountAsFloat * 100, recipient.id, message);
 			dispatch(action);
 
 			action.payload.then(() => {
