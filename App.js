@@ -10,6 +10,7 @@ import React from 'react';
 import { StatusBar } from 'react-native';
 import { createAppContainer, createSwitchNavigator, SafeAreaView } from 'react-navigation';
 import { Provider } from 'react-redux';
+import Spinner from './src/components/Spinner';
 import AppLoader from './src/screens/AppLoader';
 import MainNavigator from './src/navigations/MainNavigator';
 import AuthNavigator from './src/navigations/Auth/AuthNavigator';
@@ -36,6 +37,7 @@ export default function App() {
 		<Provider store={store}>
 			<SafeAreaView style={{ flex: 1, paddingTop }} forceInset={{ bottom: 'never' }}>
 				<StatusBar backgroundColor={colors.yellow} translucent />
+				<Spinner />
 				<AppContainer />
 			</SafeAreaView>
 		</Provider>

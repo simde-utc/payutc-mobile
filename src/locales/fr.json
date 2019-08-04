@@ -47,7 +47,9 @@
 			"password_label": "Mot de passe :",
 			"password_placeholder": "Mot de passe de connexion",
 			"bad_login_password": "Mauvais identifiants",
-			"button": "C'est parti !"
+			"button": "C'est parti !",
+			"cas_connection": "Connexion au CAS-UTC",
+			"payutc_connection": "Connexion au service PayUTC",
 		},
 		"History": {
 			"title": "Historique",

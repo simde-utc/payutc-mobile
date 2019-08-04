@@ -25,8 +25,18 @@ export const generateActions = service => {
 
 export const CASAuth = generateActions(CASAuthService);
 export const PayUTC = generateActions(PayUTCService);
+export const Config = new Proxy({}, {
+	get: (_, method) => data => {
+		return {
+			type: 'CONFIG',
+			config: method,
+			data,
+		};
+	},
+});
 
 export default {
 	CASAuth,
 	PayUTC,
+	Config,
 };
