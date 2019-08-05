@@ -6,12 +6,13 @@
  */
 
 import React from 'react';
-import { ScrollView, Text, View } from 'react-native';
+import { Alert, ScrollView, Text, View } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import colors from '../../styles/colors';
 import BlockTemplate from '../../components/BlockTemplate';
-import { Settings as t } from '../../utils/i18n';
+import { _, Settings as t } from '../../utils/i18n';
 import SwitchBlockTemplate from '../../components/SwitchBlockTemplate';
+import PayUTC from '../../services/PayUTC';
 
 export default class SettingsScreen extends React.PureComponent {
 	static navigationOptions = {
@@ -22,21 +23,43 @@ export default class SettingsScreen extends React.PureComponent {
 
 	constructor(props) {
 		super(props);
-		this.state = { lock: false };
+		this.state = { lock: null };
 		this.onLockChange = this.onLockChange.bind(this);
 	}
 
-	onLockChange(value) {
-		this.setState({ lock: value });
+	componentDidMount() {
+		PayUTC.getLockStatus().then(([status]) => {
+			if (status === true || status === false) {
+				this.setState({ lock: status });
+			}
+		});
+	}
 
-		if (value)
-			alert("todo: Blocage du badge");
-		else
-			alert("todo: Déblocage du badge");
+	onLockChange(value) {
+		const { lock } = this.state;
+
+		if (lock == null) {
+			return;
+		}
+
+		PayUTC.setLockStatus(value).then(([status]) => {
+			if (status !== true && status !== false) {
+				Alert.alert(
+					_('error'),
+					value ? t('lock_error') : t('unlock_error'),
+					[{ text: _('ok') }],
+					{}
+				);
+				return;
+			}
+			this.setState({ lock: status });
+		});
 	}
 
 	signOut() {
-		alert("Déconnexion");
+		PayUTC.forget();
+		const { navigation } = this.props;
+		navigation.navigate('Auth');
 	}
 
 	render() {
@@ -51,30 +74,55 @@ export default class SettingsScreen extends React.PureComponent {
 					</Text>
 				</BlockTemplate>
 				<View style={{ height: 15 }} />
-				<SwitchBlockTemplate roundedTop roundedBottom value={lock} onValueChange={this.onLockChange} tintColor={colors.less}>
+				<SwitchBlockTemplate
+					roundedTop
+					roundedBottom
+					value={lock == null ? false : lock}
+					onValueChange={this.onLockChange}
+					tintColor={colors.less}
+					disabled={lock == null}
+				>
 					<View style={{ flex: 1, flexDirection: 'column' }}>
-						<Text style={{ fontSize: 16, fontWeight: 'bold', color: colors.secondary }}>{t('lock')}</Text>
-						<Text style={{ fontSize: 13, color: colors.secondary }}>{t('lock_info')}</Text>
+						<Text
+							style={{
+								fontSize: 16,
+								fontWeight: 'bold',
+								color: lock == null ? colors.disabled : colors.secondary,
+							}}
+						>
+							{t('lock')}
+						</Text>
+						<Text
+							style={{ fontSize: 13, color: lock == null ? colors.disabled : colors.secondary }}
+						>
+							{t('lock_info')}
+						</Text>
 					</View>
 				</SwitchBlockTemplate>
 				<View style={{ height: 15 }} />
 				<BlockTemplate roundedTop roundedBottom onPress={() => navigation.navigate('About')}>
 					<View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
-						<Text style={{ fontSize: 16, fontWeight: 'bold', color: colors.secondary }}>{t('about')}</Text>
+						<Text style={{ fontSize: 16, fontWeight: 'bold', color: colors.secondary }}>
+							{t('about')}
+						</Text>
 						<Ionicons name="md-arrow-forward" size={18} color={colors.secondary} />
 					</View>
 				</BlockTemplate>
 				<View style={{ height: 15 }} />
 				<BlockTemplate roundedTop roundedBottom onPress={() => navigation.navigate('Legal')}>
 					<View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
-						<Text style={{ fontSize: 16, fontWeight: 'bold', color: colors.secondary }}>{t('legal')}</Text>
+						<Text style={{ fontSize: 16, fontWeight: 'bold', color: colors.secondary }}>
+							{t('legal')}
+						</Text>
 						<Ionicons name="md-arrow-forward" size={18} color={colors.secondary} />
 					</View>
 				</BlockTemplate>
 				<View style={{ height: 15 }} />
 				<BlockTemplate roundedTop roundedBottom onPress={() => this.signOut()}>
 					<View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
-						<Text style={{ fontSize: 16, fontWeight: 'bold', color: colors.less }}>{t('sign_out')}</Text>
+						<Text style={{ fontSize: 16, fontWeight: 'bold', color: colors.less }}>
+							{t('sign_out')}
+						</Text>
 						<Ionicons name="md-arrow-forward" size={18} color={colors.less} />
 					</View>
 				</BlockTemplate>

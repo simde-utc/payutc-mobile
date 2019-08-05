@@ -148,6 +148,28 @@ export class PayUTCApi extends Api {
 		);
 	}
 
+	getLockStatus() {
+		return this.connectedCall(
+			ACCOUNT_SERVICE,
+			'isBlockedMe',
+			Api.POST,
+			AUTH_QUERIES,
+			{},
+			Api.HEADERS_JSON
+		);
+	}
+
+	setLockStatus(lock) {
+		return this.connectedCall(
+			ACCOUNT_SERVICE,
+			'setSelfBlock',
+			Api.POST,
+			AUTH_QUERIES,
+			{ blocage: lock },
+			Api.HEADERS_JSON
+		);
+	}
+
 	getUserAutoComplete(queryString) {
 		return this.connectedCall(
 			RENTAL_SERVICE,

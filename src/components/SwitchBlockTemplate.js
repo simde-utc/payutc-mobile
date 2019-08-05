@@ -25,12 +25,32 @@ export default class SwitchBlockTemplate extends React.PureComponent {
 		} = this.props;
 
 		return (
-			<BlockTemplate roundedTop={roundedTop} roundedBottom={roundedBottom} shadow={shadow} onPress={onPress} disabled={disabled} customBackground={customBackground}>
-				<View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
+			<BlockTemplate
+				roundedTop={roundedTop}
+				roundedBottom={roundedBottom}
+				shadow={shadow}
+				onPress={onPress}
+				disabled={disabled}
+				customBackground={customBackground}
+			>
+				<View
+					style={{
+						flex: 1,
+						flexDirection: 'row',
+						justifyContent: 'space-between',
+						alignItems: 'center',
+					}}
+				>
 					{children}
-					<Switch style={{ marginLeft: 10 }} value={value} onValueChange={(value) => onValueChange(value)} trackColor={{true: tintColor}}/>
+					<Switch
+						style={{ marginLeft: 10 }}
+						value={value}
+						onValueChange={value => onValueChange(value)}
+						trackColor={{ true: tintColor }}
+						disabled={disabled}
+					/>
 				</View>
 			</BlockTemplate>
-		)
+		);
 	}
 }
