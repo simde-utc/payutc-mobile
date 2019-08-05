@@ -28,7 +28,13 @@ export default class MessageForm extends React.PureComponent {
 				text: t('happy'),
 			},
 			{
-				text: t('i_have_no_idea'),
+				text: t('kiss'),
+			},
+			{
+				text: t('bg'),
+			},
+			{
+				text: t('random'),
 				getValue: () => this.getRandomMessage(),
 			},
 		];

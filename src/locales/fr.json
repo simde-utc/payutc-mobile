@@ -35,8 +35,10 @@
 			"bad_amount": "Le montant doit être compris entre",
 			"recipient_not_found": "Destinataire non trouvé...",
 			"thanks": "Merci !",
-			"happy": ":)",
-			"i_have_no_idea": "Je n'ai pas d'inspiration",
+			"happy": "😊",
+			"kiss": "😘",
+			"bg": "😎",
+			"random": "Aléatoire",
 			"message_suggestions": [
 				"T'es une belle personne !",
 				"Merci encore",
@@ -62,7 +64,9 @@
 				"Pas du tout un message aléatoire",
 				"Ici c'est l'UTC de Compiègne",
 				"Les GIs sont bae",
-				"Ca fait beaucoup quand même..."
+				"Ca fait beaucoup quand même...",
+				"😍😍😍😍😍😍😍😍😍",
+				"😌😌😌"
 			]
 		},
 		"Auth": {
