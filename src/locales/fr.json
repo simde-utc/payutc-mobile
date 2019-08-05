@@ -34,6 +34,7 @@
 			"transfer_button": "Transférer...",
 			"bad_amount": "Le montant doit être compris entre",
 			"recipient_not_found": "Destinataire non trouvé...",
+			"amount_error": "Le montant doit être un nombre écrit correctement au centime près",
 			"thanks": "Merci !",
 			"happy": "😊",
 			"kiss": "😘",
