@@ -9,22 +9,22 @@
 import React from 'react';
 import { Text } from 'react-native';
 import BlockTemplate from '../BlockTemplate';
-import { Home as t } from '../../utils/i18n';
+import { _, Home as t } from '../../utils/i18n';
 import colors from '../../styles/colors';
 import { floatToEuro } from '../../utils';
 
 export default class Balance extends React.PureComponent {
 	render() {
-		const { amount } = this.props;
+		const { amount, loading } = this.props;
 
 		return (
 			<BlockTemplate roundedTop roundedBottom shadow>
 				<Text style={{ fontSize: 14, fontWeight: 'bold', color: colors.secondary }}>
 					{t('your_balance')}
 				</Text>
-				{amount ? (
+				{amount || loading ? (
 					<Text style={{ fontSize: 70, fontWeight: 'bold', color: colors.primary, lineHeight: 75 }}>
-						{floatToEuro(amount)}
+						{loading ? _('loading_text_replacement') : floatToEuro(amount)}
 					</Text>
 				) : (
 					<Text style={{ fontSize: 12, fontWeight: 'bold', color: colors.primary }}>
