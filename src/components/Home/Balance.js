@@ -7,71 +7,30 @@
  */
 
 import React from 'react';
-import { Text, View } from 'react-native';
-import Ionicons from '@expo/vector-icons/Ionicons';
+import { Text } from 'react-native';
 import BlockTemplate from '../BlockTemplate';
-import { Home as t } from '../../utils/i18n';
+import { _, Home as t } from '../../utils/i18n';
 import colors from '../../styles/colors';
 import { floatToEuro } from '../../utils';
 
-const shortcuts = [
-	{
-		screen: 'Refill',
-		lazyTitle: 'refill',
-		icon: 'ios-add-circle-outline',
-		color: colors.more,
-	},
-	{
-		screen: 'Transfer',
-		lazyTitle: 'transfer',
-		icon: 'ios-share-alt',
-		color: colors.lightBlue,
-	},
-];
-
 export default class Balance extends React.PureComponent {
 	render() {
-		const { amount, navigation } = this.props;
+		const { amount, name, loading } = this.props;
 
 		return (
 			<BlockTemplate roundedTop roundedBottom shadow>
 				<Text style={{ fontSize: 14, fontWeight: 'bold', color: colors.secondary }}>
-					{t('your_balance')}
+					{loading ? _('loading_text_replacement') : t('your_balance', { name })}
 				</Text>
-				{amount ? (
+				{amount || loading ? (
 					<Text style={{ fontSize: 70, fontWeight: 'bold', color: colors.primary, lineHeight: 75 }}>
-						{floatToEuro(amount)}
+						{loading ? _('loading_text_replacement') : floatToEuro(amount)}
 					</Text>
 				) : (
 					<Text style={{ fontSize: 12, fontWeight: 'bold', color: colors.primary }}>
 						{t('no_balance')}
 					</Text>
 				)}
-				<View style={{ flexDirection: 'row', justifyContent: 'space-around', paddingTop: 5 }}>
-					{shortcuts.map(({ screen, lazyTitle, icon, color }) => (
-						<BlockTemplate
-							roundedTop
-							roundedBottom
-							shadow
-							key={lazyTitle}
-							onPress={() => navigation.navigate(screen, { credit: amount })}
-						>
-							<View style={{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: 10 }}>
-								<Ionicons name={icon} size={17} style={{ color }} />
-								<Text
-									style={{
-										paddingLeft: 5,
-										fontSize: 15,
-										fontWeight: 'bold',
-										color,
-									}}
-								>
-									{t(lazyTitle)}
-								</Text>
-							</View>
-						</BlockTemplate>
-					))}
-				</View>
 			</BlockTemplate>
 		);
 	}

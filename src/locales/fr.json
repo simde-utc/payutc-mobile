@@ -9,7 +9,7 @@
 		"Home": {
 			"title": "Accueil",
 			"hi": "Salut",
-			"your_balance": "Ton solde :",
+			"your_balance": "Salut %{name}, voici ton solde :",
 			"no_balance": "Impossible d'afficher le solde :(",
 			"refill": "Recharger",
 			"transfer": "Transférer",
