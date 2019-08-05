@@ -7,9 +7,8 @@
  */
 
 import React from 'react';
-import { View } from 'react-native';
+import { View, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import AmountForm from '../../components/Transfer/AmountForm';
 import MessageForm from '../../components/Transfer/MessageForm';
 import RecipientForm from '../../components/Transfer/RecipientForm';
@@ -112,7 +111,7 @@ class TransferScreen extends React.PureComponent {
 		const { message, amount, recipientError, amountError, recipient, suggestions } = this.state;
 
 		return (
-			<KeyboardAwareScrollView style={{ backgroundColor: colors.backgroundLight }}>
+			<ScrollView style={{ backgroundColor: colors.backgroundLight }}>
 				<View style={{ padding: 15 }}>
 					<RecipientForm
 						error={recipientError}
@@ -140,7 +139,7 @@ class TransferScreen extends React.PureComponent {
 						navigation={navigation}
 					/>
 				</View>
-			</KeyboardAwareScrollView>
+			</ScrollView>
 		);
 	}
 }
