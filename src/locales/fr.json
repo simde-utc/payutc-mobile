@@ -22,7 +22,8 @@
 			"title": "Rechargement",
 			"amount": "Montant du rechargement :",
 			"pay": "Accéder au paiement...",
-			"bad_amount": "Le montant doit être compris entre"
+			"bad_amount": "Le montant doit être compris entre",
+			"amount_error": "Le montant doit être un nombre écrit correctement au centime près"
 		},
 		"Transfer": {
 			"title": "Transfert",
