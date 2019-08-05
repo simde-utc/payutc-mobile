@@ -22,22 +22,26 @@ export default class BlockTemplate extends React.PureComponent {
 			onPress,
 			disabled,
 			customBackground,
+			style,
 		} = this.props;
 		return (
 			<View
-				style={{
-					backgroundColor: customBackground || colors.backgroundBlock,
-					padding: 10,
-					borderTopLeftRadius: roundedTop ? 10 : 0,
-					borderTopRightRadius: roundedTop ? 10 : 0,
-					borderBottomLeftRadius: roundedBottom ? 10 : 0,
-					borderBottomRightRadius: roundedBottom ? 10 : 0,
-					shadowColor: '#000',
-					shadowOffset: { width: 0, height: 1 },
-					shadowOpacity: shadow ? 0.1 : 0,
-					shadowRadius: 10,
-					elevation: 1,
-				}}
+				style={[
+					{
+						backgroundColor: customBackground || colors.backgroundBlock,
+						padding: 10,
+						borderTopLeftRadius: roundedTop ? 10 : 0,
+						borderTopRightRadius: roundedTop ? 10 : 0,
+						borderBottomLeftRadius: roundedBottom ? 10 : 0,
+						borderBottomRightRadius: roundedBottom ? 10 : 0,
+						shadowColor: '#000',
+						shadowOffset: { width: 0, height: 1 },
+						shadowOpacity: shadow ? 0.1 : 0,
+						shadowRadius: 10,
+						elevation: 1,
+					},
+					style,
+				]}
 			>
 				{onPress ? (
 					<TouchableOpacity onPress={onPress} disabled={disabled}>

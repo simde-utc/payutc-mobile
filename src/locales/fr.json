@@ -34,11 +34,41 @@
 			"message_placeholder": "Un (gentil) message",
 			"transfer_button": "Transférer...",
 			"bad_amount": "Le montant doit être compris entre",
-			"message_suggestions": {
-				"thanks": "Merci !",
-				"happy": ":)",
-				"i_have_no_idea": "Je n'ai pas d'inspiration"
-			}
+			"recipient_not_found": "Destinataire non trouvé...",
+			"thanks": "Merci !",
+			"happy": "😊",
+			"kiss": "😘",
+			"bg": "😎",
+			"random": "Aléatoire",
+			"message_suggestions": [
+				"T'es une belle personne !",
+				"Merci encore",
+				"Envoyé depuis mon appli PayUTC",
+				"C'est cadeau",
+				"Vive le SiMDE",
+				"Vive le BDE-UTC",
+				"Vive PayUTC",
+				"Désolé du retard",
+				"Je te redois ça",
+				"Je n'ai aucune inspiration",
+				"LOL",
+				"C'est de l'argent mérité !",
+				"Viens me parler",
+				"N'hésite surtout pas à me rembourser hein",
+				"J'avais presque oublié",
+				"Ce n'est qu'un transfert après tout",
+				"L'éclate",
+				"Il est peut-être tard ?",
+				"Je te devais vraiment autant ?",
+				"Je fais comment maintenant pour consommer au Pic ?",
+				"Que c'est cool d'être cotisant.e",
+				"Pas du tout un message aléatoire",
+				"Ici c'est l'UTC de Compiègne",
+				"Les GIs sont bae",
+				"Ca fait beaucoup quand même...",
+				"😍😍😍😍😍😍😍😍😍",
+				"😌😌😌"
+			]
 		},
 		"Auth": {
 			"title": "Connexion",
@@ -47,7 +77,9 @@
 			"password_label": "Mot de passe :",
 			"password_placeholder": "Mot de passe de connexion",
 			"bad_login_password": "Mauvais identifiants",
-			"button": "C'est parti !"
+			"button": "C'est parti !",
+			"cas_connection": "Connexion au CAS-UTC",
+			"payutc_connection": "Connexion au service PayUTC",
 		},
 		"History": {
 			"title": "Historique",
@@ -74,7 +106,8 @@
 		"error": "Une erreur est survenue",
 		"ok": "OK",
 		"loading_text_replacement": "•••",
-		"and": "et"
+		"and": "et",
+		"at": "à"
 	},
 
 	"navigation": {

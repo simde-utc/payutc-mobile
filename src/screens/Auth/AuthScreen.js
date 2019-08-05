@@ -8,15 +8,17 @@
 
 import React from 'react';
 import { Alert, Image, Text, TextInput, View } from 'react-native';
+import { connect } from 'react-redux';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import colors from '../../styles/colors';
 import BlockTemplate from '../../components/BlockTemplate';
 import Logo from '../../images/payutc-logo.png';
 import CASAuth from '../../services/CASAuth';
 import PayUTC from '../../services/PayUTC';
+import { Config } from '../../redux/actions';
 import { Auth as t, _ } from '../../utils/i18n';
 
-export default class AuthScreen extends React.PureComponent {
+class AuthScreen extends React.PureComponent {
 	static navigationOptions = {
 		title: t('title'),
 		header: null,
@@ -47,21 +49,44 @@ export default class AuthScreen extends React.PureComponent {
 	}
 
 	connectWithCas() {
+		const { dispatch } = this.props;
 		const { login, password } = this.state;
 
+		dispatch(
+			Config.spinner({
+				visible: true,
+				textContent: t('cas_connection'),
+			})
+		);
+
 		return CASAuth.login(login, password).then(() => {
+			dispatch(
+				Config.spinner({
+					visible: true,
+					textContent: t('payutc_connection'),
+				})
+			);
+
 			return PayUTC.connectWithCas(login, password);
 		});
 	}
 
 	connectWithEmail() {
+		const { dispatch } = this.props;
 		const { login, password } = this.state;
+
+		dispatch(
+			Config.spinner({
+				visible: true,
+				textContent: t('payutc_connection'),
+			})
+		);
 
 		return PayUTC.connectWithEmail(login, password);
 	}
 
 	submit() {
-		const { navigation } = this.props;
+		const { navigation, dispatch } = this.props;
 		const { login } = this.state;
 		let promise;
 
@@ -72,9 +97,23 @@ export default class AuthScreen extends React.PureComponent {
 		}
 
 		promise
-			.then(() => navigation.navigate('Home'))
+			.then(() => {
+				dispatch(
+					Config.spinner({
+						visible: false,
+					})
+				);
+
+				navigation.navigate('Home');
+			})
 			.catch(e => {
 				console.log(e);
+
+				dispatch(
+					Config.spinner({
+						visible: false,
+					})
+				);
 
 				Alert.alert(t('title'), t('bad_login_password'), [{ text: _('continue') }], {
 					cancelable: true,
@@ -160,3 +199,5 @@ export default class AuthScreen extends React.PureComponent {
 		);
 	}
 }
+
+export default connect()(AuthScreen);

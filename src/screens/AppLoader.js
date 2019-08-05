@@ -56,7 +56,9 @@ export default class AppLoaderScreen extends React.Component {
 					.then(() => {
 						return PayUTC.connectWithCas(login, password);
 					})
-					.catch(() => this.reinitData());
+					.catch(() => {
+						return this.reinitData();
+					});
 			});
 	}
 
@@ -74,10 +76,10 @@ export default class AppLoaderScreen extends React.Component {
 	reinitData() {
 		this.setState({
 			text: t('reset_data'),
-			screen: 'Welcome',
+			screen: 'Auth',
 		});
 
-		return new Promise.all(PayUTC.forget(), CASAuth.forget());
+		return PayUTC.forget();
 	}
 
 	bootstrap() {
@@ -100,7 +102,9 @@ export default class AppLoaderScreen extends React.Component {
 
 				return false;
 			})
-			.catch(() => this.reinitData());
+			.catch(() => {
+				return this.reinitData();
+			});
 	}
 
 	appLoaded() {

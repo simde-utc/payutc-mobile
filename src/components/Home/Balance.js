@@ -1,20 +1,38 @@
-/*
+/**
  * @author Arthur Martello <arthur.martello@etu.utc.fr>
+ * @author Samy Nastuzzi <samy@nastuzzi.fr>
  *
  * @copyright Copyright (c) 2019, SiMDE-UTC
  * @license GPL-3.0
  */
 
 import React from 'react';
-import { Text } from 'react-native';
+import { Text, View } from 'react-native';
+import Ionicons from '@expo/vector-icons/Ionicons';
 import BlockTemplate from '../BlockTemplate';
 import { Home as t } from '../../utils/i18n';
 import colors from '../../styles/colors';
-import { floatToEuro } from '../../utils/currencyFormatter';
+import { floatToEuro } from '../../utils';
+
+const shortcuts = [
+	{
+		screen: 'Refill',
+		lazyTitle: 'refill',
+		icon: 'ios-add-circle-outline',
+		color: colors.more,
+	},
+	{
+		screen: 'Transfer',
+		lazyTitle: 'transfer',
+		icon: 'ios-share-alt',
+		color: colors.lightBlue,
+	},
+];
 
 export default class Balance extends React.PureComponent {
 	render() {
-		const { amount } = this.props;
+		const { amount, navigation } = this.props;
+
 		return (
 			<BlockTemplate roundedTop roundedBottom shadow>
 				<Text style={{ fontSize: 14, fontWeight: 'bold', color: colors.secondary }}>
@@ -29,6 +47,31 @@ export default class Balance extends React.PureComponent {
 						{t('no_balance')}
 					</Text>
 				)}
+				<View style={{ flexDirection: 'row', justifyContent: 'space-around', paddingTop: 5 }}>
+					{shortcuts.map(({ screen, lazyTitle, icon, color }) => (
+						<BlockTemplate
+							roundedTop
+							roundedBottom
+							shadow
+							key={lazyTitle}
+							onPress={() => navigation.navigate(screen, { credit: amount })}
+						>
+							<View style={{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: 10 }}>
+								<Ionicons name={icon} size={17} style={{ color }} />
+								<Text
+									style={{
+										paddingLeft: 5,
+										fontSize: 15,
+										fontWeight: 'bold',
+										color,
+									}}
+								>
+									{t(lazyTitle)}
+								</Text>
+							</View>
+						</BlockTemplate>
+					))}
+				</View>
 			</BlockTemplate>
 		);
 	}
