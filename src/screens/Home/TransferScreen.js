@@ -24,7 +24,7 @@ class TransferScreen extends React.PureComponent {
 	static navigationOptions = {
 		title: t('title'),
 		headerStyle: { borderBottomWidth: 0 },
-		headerTintColor: colors.primary,
+		headerTintColor: colors.lightBlue,
 		headerForceInset: { top: 'never' },
 	};
 

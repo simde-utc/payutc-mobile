@@ -19,11 +19,13 @@ const shortcuts = [
 		screen: 'Refill',
 		lazyTitle: 'refill',
 		icon: 'ios-add-circle-outline',
+		color: colors.more,
 	},
 	{
 		screen: 'Transfer',
 		lazyTitle: 'transfer',
 		icon: 'ios-share-alt',
+		color: colors.lightBlue,
 	},
 ];
 
@@ -46,7 +48,7 @@ export default class Balance extends React.PureComponent {
 					</Text>
 				)}
 				<View style={{ flexDirection: 'row', justifyContent: 'space-around', paddingTop: 5 }}>
-					{shortcuts.map(({ screen, lazyTitle, icon }) => (
+					{shortcuts.map(({ screen, lazyTitle, icon, color }) => (
 						<BlockTemplate
 							roundedTop
 							roundedBottom
@@ -55,13 +57,13 @@ export default class Balance extends React.PureComponent {
 							onPress={() => navigation.navigate(screen, { credit: amount })}
 						>
 							<View style={{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: 10 }}>
-								<Ionicons name={icon} size={20} style={{ color: colors.secondary }} />
+								<Ionicons name={icon} size={17} style={{ color }} />
 								<Text
 									style={{
 										paddingLeft: 5,
-										fontSize: 16,
+										fontSize: 15,
 										fontWeight: 'bold',
-										color: colors.secondary,
+										color,
 									}}
 								>
 									{t(lazyTitle)}
