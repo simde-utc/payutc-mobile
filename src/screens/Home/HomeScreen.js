@@ -77,9 +77,9 @@ class HomeScreen extends React.PureComponent {
 							/>
 						}
 					>
-						<Balance amount={amount} loading={detailsFetching} />
+						<Balance amount={amount} loading={detailsFetching} name={details.first_name} />
 					</ScrollView>
-				<Shortcuts amount={amount} navigation={navigation} />
+					<Shortcuts amount={amount} navigation={navigation} />
 					<View style={{ paddingTop: 15 }}>
 						<BlockTemplate roundedTop shadow>
 							<Text style={{ fontSize: 16, fontWeight: 'bold', color: colors.primary }}>

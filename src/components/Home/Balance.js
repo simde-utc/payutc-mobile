@@ -15,12 +15,12 @@ import { floatToEuro } from '../../utils';
 
 export default class Balance extends React.PureComponent {
 	render() {
-		const { amount, loading } = this.props;
+		const { amount, name, loading } = this.props;
 
 		return (
 			<BlockTemplate roundedTop roundedBottom shadow>
 				<Text style={{ fontSize: 14, fontWeight: 'bold', color: colors.secondary }}>
-					{t('your_balance')}
+					{loading ? _('loading_text_replacement') : t('your_balance', { name })}
 				</Text>
 				{amount || loading ? (
 					<Text style={{ fontSize: 70, fontWeight: 'bold', color: colors.primary, lineHeight: 75 }}>
