@@ -10,8 +10,8 @@ import React from 'react';
 import { FlatList, RefreshControl, Text, ScrollView, View } from 'react-native';
 import { connect } from 'react-redux';
 import colors from '../../styles/colors';
-import Hi from '../../components/Home/Hi';
 import Balance from '../../components/Home/Balance';
+import Shortcuts from '../../components/Home/Shortcuts';
 import BlockTemplate from '../../components/BlockTemplate';
 import Item from '../../components/History/Item';
 import { PayUTC } from '../../redux/actions';
@@ -54,6 +54,7 @@ class HomeScreen extends React.PureComponent {
 
 	render() {
 		const { details, detailsFetching, history, historyFetching, navigation } = this.props;
+		const amount = details.credit ? details.credit / 100 : null;
 
 		return (
 			<View
@@ -65,9 +66,6 @@ class HomeScreen extends React.PureComponent {
 				}}
 			>
 				<View>
-					<View style={{ paddingBottom: 15 }}>
-						<Hi name={details.first_name} onRefresh={this.onRefresh} />
-					</View>
 					<ScrollView
 						style={{ paddingBottom: 15 }}
 						refreshControl={
@@ -79,12 +77,10 @@ class HomeScreen extends React.PureComponent {
 							/>
 						}
 					>
-						<Balance
-							amount={details.credit ? details.credit / 100 : null}
-							navigation={navigation}
-						/>
+						<Balance amount={amount} />
 					</ScrollView>
-					<View>
+					<Shortcuts amount={amount} navigation={navigation} />
+					<View style={{ paddingTop: 15 }}>
 						<BlockTemplate roundedTop shadow>
 							<Text style={{ fontSize: 16, fontWeight: 'bold', color: colors.primary }}>
 								{t('recent_activity')}
