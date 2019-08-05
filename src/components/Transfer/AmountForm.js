@@ -17,29 +17,25 @@ export default class AmountForm extends React.PureComponent {
 	constructor(props) {
 		super(props);
 
-		this.state = { value: null };
 		this.maxLength = 5;
 	}
 
-	onChange(value) {
+	onChange(amount) {
 		const { onChange } = this.props;
 
-		onChange(value, null);
-
-		this.setState({ value });
+		onChange(amount);
 	}
 
 	renderErrorMessage() {
 		const { error } = this.props;
 
-		return error != null ? (
+		return error ? (
 			<Text style={{ fontSize: 14, fontWeight: 'bold', color: colors.error }}>{error}</Text>
 		) : null;
 	}
 
 	render() {
-		const { value } = this.state;
-		const { error } = this.props;
+		const { amount, error } = this.props;
 
 		return (
 			<BlockTemplate roundedTop roundedBottom shadow>
@@ -47,7 +43,7 @@ export default class AmountForm extends React.PureComponent {
 					{t('amount')}
 				</Text>
 				<AmountInput
-					value={value}
+					value={amount}
 					error={error}
 					maxLength={this.maxLength}
 					tintColor={colors.lightBlue}

@@ -23,7 +23,8 @@
 			"title": "Rechargement",
 			"amount": "Montant du rechargement :",
 			"pay": "Accéder au paiement...",
-			"bad_amount": "Le montant doit être compris entre"
+			"bad_amount": "Le montant doit être compris entre",
+			"amount_error": "Le montant doit être un nombre écrit correctement au centime près"
 		},
 		"Transfer": {
 			"title": "Transfert",
@@ -35,6 +36,9 @@
 			"transfer_button": "Transférer...",
 			"bad_amount": "Le montant doit être compris entre",
 			"recipient_not_found": "Destinataire non trouvé...",
+			"amount_error": "Le montant doit être un nombre écrit correctement au centime près",
+			"transfer_checks": "Vérfication avant transfert...",
+			"transfering": "Transfert en cours...",
 			"thanks": "Merci !",
 			"happy": "😊",
 			"kiss": "😘",

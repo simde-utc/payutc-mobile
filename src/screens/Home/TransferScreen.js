@@ -7,9 +7,8 @@
  */
 
 import React from 'react';
-import { View } from 'react-native';
+import { View, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import AmountForm from '../../components/Transfer/AmountForm';
 import MessageForm from '../../components/Transfer/MessageForm';
 import RecipientForm from '../../components/Transfer/RecipientForm';
@@ -17,8 +16,7 @@ import Submit from '../../components/Transfer/Submit';
 import colors from '../../styles/colors';
 import { PayUTC } from '../../redux/actions';
 import { Transfer as t } from '../../utils/i18n';
-
-const FORMAT = /^\d+(,\d{1,2})?$/;
+import { isAmountValid } from '../../utils';
 
 class TransferScreen extends React.PureComponent {
 	static navigationOptions = {
@@ -33,7 +31,7 @@ class TransferScreen extends React.PureComponent {
 
 		this.state = {
 			message: null,
-			amount: null,
+			amount: '',
 			recipient: null,
 			suggestions: [],
 		};
@@ -68,28 +66,28 @@ class TransferScreen extends React.PureComponent {
 		this.setState({ message: text });
 	}
 
-	isStringValid() {
-		const { amount } = this.state;
+	isButtonDisabled() {
+		const { amount, amountError } = this.state;
 
-		if (amount == null) {
-			return false;
-		}
-
-		return amount.match(FORMAT) != null;
+		return amountError != null || !parseFloat(amount.replace(',', '.')) || !isAmountValid(amount);
 	}
 
-	handleAmountChange(value) {
-		this.setState({ amount: value, amountError: null });
+	handleAmountChange(amount) {
+		const { amountError: prevError } = this.state;
+
+		if (!isAmountValid(amount)) {
+			if (prevError || amount === ',' || amount === '.') {
+				this.setState({ amountError: t('amount_error') });
+			} else {
+				this.setState({ amount, amountError: t('amount_error') });
+			}
+		} else {
+			this.setState({ amount, amountError: null });
+		}
 	}
 
 	handleAmountErrorChange(error) {
 		this.setState({ amountError: error });
-	}
-
-	isButtonDisabled() {
-		const { recipient, amountError } = this.state;
-
-		return recipient == null || !this.isStringValid() || amountError != null;
 	}
 
 	handleRecipientChange(recipient) {
@@ -112,7 +110,7 @@ class TransferScreen extends React.PureComponent {
 		const { message, amount, recipientError, amountError, recipient, suggestions } = this.state;
 
 		return (
-			<KeyboardAwareScrollView style={{ backgroundColor: colors.backgroundLight }}>
+			<ScrollView style={{ backgroundColor: colors.backgroundLight }}>
 				<View style={{ padding: 15 }}>
 					<RecipientForm
 						error={recipientError}
@@ -124,7 +122,7 @@ class TransferScreen extends React.PureComponent {
 					/>
 				</View>
 				<View style={{ padding: 15, paddingTop: 0 }}>
-					<AmountForm error={amountError} onChange={this.handleAmountChange} />
+					<AmountForm amount={amount} error={amountError} onChange={this.handleAmountChange} />
 				</View>
 				<View style={{ padding: 15, paddingTop: 0 }}>
 					<MessageForm onChange={this.handleMessageChange} />
@@ -140,7 +138,7 @@ class TransferScreen extends React.PureComponent {
 						navigation={navigation}
 					/>
 				</View>
-			</KeyboardAwareScrollView>
+			</ScrollView>
 		);
 	}
 }
