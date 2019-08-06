@@ -39,7 +39,13 @@ export const beautifyDate = dateText => {
 	);
 };
 
+export const AMOUNT_FORMAT = /^(?!0\d)\d{1,2}([.,]\d{1,2})?$/;
+
+export const isAmountValid = amount => !amount || amount.toString().match(AMOUNT_FORMAT);
+
 export default {
 	floatToEuro,
 	beautifyDate,
+	AMOUNT_FORMAT,
+	isAmountValid,
 };
