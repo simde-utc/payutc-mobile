@@ -30,6 +30,7 @@
 		"Payment": {
 			"title": "Paiement",
 			"paiement_canceled": "La tentative de paiement a été annulée",
+			"paiemnt_confirmed": "Rechargement de %{amount} validé !",
 		},
 		"Transfer": {
 			"title": "Transfert",

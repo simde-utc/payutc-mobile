@@ -76,7 +76,7 @@ class Submit extends React.PureComponent {
 						})
 					);
 
-					navigation.navigate('Payment', { url });
+					navigation.navigate('Payment', { url, amount: floatToEuro(amount) });
 				})
 				.catch(() => {
 					dispatch(
