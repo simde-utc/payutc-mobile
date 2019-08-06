@@ -44,6 +44,7 @@
 			"amount_error": "Le montant doit être un nombre écrit correctement au centime près",
 			"transfer_checks": "Vérfication avant transfert...",
 			"transfering": "Transfert en cours...",
+			"transfer_confirmed": "Transfert de %{amount} confirmé vers %{name}",
 			"thanks": "Merci !",
 			"happy": "😊",
 			"kiss": "😘",

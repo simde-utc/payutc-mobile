@@ -78,7 +78,12 @@ class Submit extends React.PureComponent {
 					dispatch(PayUTC.getWalletDetails());
 					dispatch(PayUTC.getHistory());
 
-					navigation.navigate('Home');
+					navigation.navigate('Home', {
+						message: t('transfer_confirmed', {
+							amount: floatToEuro(amountAsFloat),
+							name: recipient.name,
+						}),
+					});
 				})
 				.catch(() => {
 					dispatch(
