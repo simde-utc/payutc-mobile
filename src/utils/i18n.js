@@ -41,6 +41,7 @@ export const Words = getTranslationsFor('words');
 export const AppLoader = getTranslationsFor('screens.AppLoader');
 export const Home = getTranslationsFor('screens.Home');
 export const Refill = getTranslationsFor('screens.Refill');
+export const Payment = getTranslationsFor('screens.Payment');
 export const Transfer = getTranslationsFor('screens.Transfer');
 export const Auth = getTranslationsFor('screens.Auth');
 export const History = getTranslationsFor('screens.History');

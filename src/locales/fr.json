@@ -22,8 +22,14 @@
 			"title": "Rechargement",
 			"amount": "Montant du rechargement :",
 			"pay": "Accéder au paiement...",
-			"bad_amount": "Le montant doit être compris entre",
-			"amount_error": "Le montant doit être un nombre écrit correctement au centime près"
+			"bad_amount": "Le montant doit être compris %{min} entre %{max}",
+			"amount_error": "Le montant doit être un nombre écrit correctement au centime près",
+			"refill_checks": "Vérfication avant rechargement...",
+			"redirect_to_refill": "Redirection vers la page de paiement..."
+		},
+		"Payment": {
+			"title": "Paiement",
+			"paiement_canceled": "La tentative de paiement a été annulée",
 		},
 		"Transfer": {
 			"title": "Transfert",
@@ -33,7 +39,7 @@
 			"message": "Message : ",
 			"message_placeholder": "Un (gentil) message",
 			"transfer_button": "Transférer...",
-			"bad_amount": "Le montant doit être compris entre",
+			"bad_amount": "Le montant doit être compris %{min} entre %{max}",
 			"recipient_not_found": "Destinataire non trouvé...",
 			"amount_error": "Le montant doit être un nombre écrit correctement au centime près",
 			"transfer_checks": "Vérfication avant transfert...",
