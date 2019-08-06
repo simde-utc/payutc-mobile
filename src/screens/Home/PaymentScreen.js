@@ -33,7 +33,7 @@ class PaymentScreen extends React.PureComponent {
 			dispatch(PayUTC.getHistory());
 
 			navigation.navigate('Home', {
-				message: t('paiement_confirmed', { amount: navigation.getParam('url') }),
+				message: t('paiement_confirmed', { amount: navigation.getParam('amount') }),
 			});
 		}
 	}
