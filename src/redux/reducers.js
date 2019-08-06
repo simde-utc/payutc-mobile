@@ -23,6 +23,8 @@ const configState = {
 		color: colors.white,
 		textStyle: {
 			color: colors.white,
+			textAlign: 'center',
+			paddingHorizontal: 15,
 		},
 	},
 };
