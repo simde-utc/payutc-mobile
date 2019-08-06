@@ -27,11 +27,50 @@ class HomeScreen extends React.PureComponent {
 	constructor(props) {
 		super(props);
 
+		this.state = { messageKey: null, message: null, messageBackgroundColor: null, messageColor: null };
+
 		this.onRefresh = this.onRefresh.bind(this);
+		this.handleNavigationOnFocus = this.handleNavigationOnFocus.bind(this);
+		this.handleNavigationOnBlur = this.handleNavigationOnBlur.bind(this);
 	}
 
 	componentDidMount() {
+		const { navigation } = this.props;
+
+		this.subscriptions = [
+			navigation.addListener('didFocus', this.handleNavigationOnFocus),
+			navigation.addListener('didBlur', this.handleNavigationOnBlur),
+		];
+
 		this.onRefresh();
+	}
+
+	componentWillUmount() {
+		this.subscriptions.forEach(subscription => subscription.remove());
+	}
+
+	handleNavigationOnFocus({ state: { key }}) {
+		const { navigation } = this.props;
+		const { messageKey: prevKey } = this.state;
+
+		if (prevKey === key) {
+			this.handleNavigationOnBlur();
+		} else {
+			this.setState({
+				message: navigation.getParam('message'),
+				messageKey: key,
+				messageBackgroundColor: navigation.getParam('messageBackgroundColor'),
+				messageColor: navigation.getParam('messageColor'),
+			});
+		}
+	}
+
+	handleNavigationOnBlur() {
+		this.setState({
+			message: null,
+			messageBackgroundColor: null,
+			messageColor: null,
+		});
 	}
 
 	onRefresh() {
@@ -54,6 +93,7 @@ class HomeScreen extends React.PureComponent {
 
 	render() {
 		const { details, detailsFetching, history, historyFetching, navigation } = this.props;
+		const { message, messageBackgroundColor, messageColor } = this.state;
 		const amount = details.credit ? details.credit / 100 : null;
 
 		return (
@@ -65,6 +105,19 @@ class HomeScreen extends React.PureComponent {
 					backgroundColor: colors.backgroundLight,
 				}}
 			>
+				{message ? (
+					<BlockTemplate
+						roundedTop
+						roundedBottom
+						shadow
+						style={{ marginBottom: 15, backgroundColor: messageBackgroundColor || colors.more }}
+						onPress={() => this.setState({ message: null })}
+					>
+						<Text style={{ fontSize: 16, fontWeight: 'bold', color: messageColor || colors.white }}>
+							{message}
+						</Text>
+					</BlockTemplate>
+				) : null}
 				<View>
 					<ScrollView
 						style={{ paddingBottom: 15 }}
