@@ -59,6 +59,7 @@ export default class RefillScreen extends React.PureComponent {
 	}
 
 	render() {
+		const { navigation } = this.props;
 		const { amount, amountError } = this.state;
 
 		return (
@@ -69,8 +70,9 @@ export default class RefillScreen extends React.PureComponent {
 				<View style={{ paddingBottom: 15 }}>
 					<Submit
 						amount={amount}
-						onAmountErrorChange={this.handleAmountErrorChange}
 						disabled={this.isButtonDisabled()}
+						navigation={navigation}
+						onAmountErrorChange={this.handleAmountErrorChange}
 					/>
 				</View>
 			</ScrollView>

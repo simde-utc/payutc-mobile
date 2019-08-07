@@ -45,7 +45,7 @@ export default class AmountForm extends React.PureComponent {
 					roundedBottom
 					shadow
 					key={shortcut}
-					onPress={() => this.onChange(shortcut)}
+					onPress={() => this.onChange(shortcut.toString())}
 				>
 					<Text style={{ fontSize: 16, fontWeight: 'bold', color: colors.secondary }}>
 						{shortcut} €
