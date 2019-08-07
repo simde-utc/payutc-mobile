@@ -15,6 +15,7 @@ import { PAYUTC_API, PAYUTC_KEY, PAYUTC_SYSTEM_ID } from '../../config';
 const ACCOUNT_SERVICE = 'MYACCOUNT';
 const RENTAL_SERVICE = 'RENTAL';
 const TRANSFER_SERVICE = 'TRANSFER';
+const REFILL_SERVICE = 'RELOAD';
 
 const LOGIN_APP_URI = 'loginApp';
 const LOGIN_URI = 'login2';
@@ -148,6 +149,28 @@ export class PayUTCApi extends Api {
 		);
 	}
 
+	getLockStatus() {
+		return this.connectedCall(
+			ACCOUNT_SERVICE,
+			'isBlockedMe',
+			Api.POST,
+			AUTH_QUERIES,
+			{},
+			Api.HEADERS_JSON
+		);
+	}
+
+	setLockStatus(lock) {
+		return this.connectedCall(
+			ACCOUNT_SERVICE,
+			'setSelfBlock',
+			Api.POST,
+			AUTH_QUERIES,
+			{ blocage: lock },
+			Api.HEADERS_JSON
+		);
+	}
+
 	getUserAutoComplete(queryString) {
 		return this.connectedCall(
 			RENTAL_SERVICE,
@@ -166,6 +189,25 @@ export class PayUTCApi extends Api {
 			Api.POST,
 			AUTH_QUERIES,
 			{ amount, userID: user_id, message },
+			Api.HEADERS_JSON
+		);
+	}
+
+	getRefillLimits() {
+		return this.connectedCall(REFILL_SERVICE, 'info', Api.POST, AUTH_QUERIES, {}, Api.HEADERS_JSON);
+	}
+
+	getRefillUrl(amount, callbackUrl) {
+		return this.connectedCall(
+			REFILL_SERVICE,
+			'reload',
+			Api.POST,
+			AUTH_QUERIES,
+			{
+				amount,
+				callbackUrl,
+				mobile: 1,
+			},
 			Api.HEADERS_JSON
 		);
 	}

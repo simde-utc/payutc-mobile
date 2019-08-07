@@ -13,7 +13,7 @@ import Ionicons from '@expo/vector-icons/Ionicons';
 import colors from '../../styles/colors';
 import BlockTemplate from '../BlockTemplate';
 import { Config, PayUTC } from '../../redux/actions';
-import { _, Transfer as t } from '../../utils/i18n';
+import { Transfer as t } from '../../utils/i18n';
 import { floatToEuro } from '../../utils';
 
 class Submit extends React.PureComponent {
@@ -50,9 +50,7 @@ class Submit extends React.PureComponent {
 				);
 
 				return onAmountErrorChange(
-					`${t('bad_amount')} ${floatToEuro(minAmount)} ${_('and').toLowerCase()} ${floatToEuro(
-						credit
-					)}.`
+					t('bad_amount', { min: floatToEuro(minAmount), max: floatToEuro(credit) })
 				);
 			}
 
@@ -80,7 +78,12 @@ class Submit extends React.PureComponent {
 					dispatch(PayUTC.getWalletDetails());
 					dispatch(PayUTC.getHistory());
 
-					navigation.goBack();
+					navigation.navigate('Home', {
+						message: t('transfer_confirmed', {
+							amount: floatToEuro(amountAsFloat),
+							name: recipient.name,
+						}),
+					});
 				})
 				.catch(() => {
 					dispatch(

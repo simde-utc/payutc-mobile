@@ -8,39 +8,84 @@
 
 import React from 'react';
 import { Text, View } from 'react-native';
+import { connect } from 'react-redux';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import colors from '../../styles/colors';
 import BlockTemplate from '../BlockTemplate';
-import { _, Refill as t } from '../../utils/i18n';
+import { Config, PayUTC } from '../../redux/actions';
+import { Refill as t } from '../../utils/i18n';
 import { floatToEuro } from '../../utils';
+import { PAYUTC_LINK } from '../../../config';
 
-export default class Submit extends React.PureComponent {
-	isAmountValid() {
-		// String must be valid in order to parse the amount
-		if (!this.isStringValid()) {
-			return false;
-		}
-		const { value } = this.state;
-		const { minAmount, maxAmount } = this.props;
-		const valueAsFloat = parseFloat(value.replace(',', '.'));
-		return valueAsFloat >= minAmount && valueAsFloat <= maxAmount;
+class Submit extends React.PureComponent {
+	isAmountValid(minAmount, maxAmount) {
+		const { amount } = this.props;
+		const amountAsFloat = parseFloat(amount.replace(',', '.'));
+
+		return amountAsFloat >= minAmount && amountAsFloat <= maxAmount;
 	}
 
 	submit() {
-		if (!this.isAmountValid()) {
-			const { onAmountErrorChange } = this.props;
+		const { dispatch, navigation } = this.props;
 
-			return onAmountErrorChange(
-				`${t('bad_amount')} ${floatToEuro(minAmount)} ${_('and').toLowerCase()} ${floatToEuro(
-					maxAmount
-				)}.`
+		dispatch(
+			Config.spinner({
+				visible: true,
+				textContent: t('refill_checks'),
+			})
+		);
+
+		const action = PayUTC.getRefillLimits();
+		dispatch(action);
+
+		action.payload.then(([{ min, max_reload }]) => {
+			const minAmount = min / 100;
+			const maxAmount = max_reload / 100;
+
+			if (!this.isAmountValid(minAmount, maxAmount)) {
+				const { onAmountErrorChange } = this.props;
+
+				dispatch(
+					Config.spinner({
+						visible: false,
+					})
+				);
+
+				return onAmountErrorChange(
+					t('bad_amount', { min: floatToEuro(minAmount), max: floatToEuro(maxAmount) })
+				);
+			}
+
+			const { amount } = this.props;
+
+			dispatch(
+				Config.spinner({
+					visible: true,
+					textContent: t('redirect_to_refill'),
+				})
 			);
-		}
 
-		const { value } = this.state;
-		const valueAsFloat = parseFloat(value.replace(',', '.'));
+			const action = PayUTC.getRefillUrl(amount * 100, PAYUTC_LINK);
+			dispatch(action);
 
-		alert(`Rechargement de ${valueAsFloat}`);
+			action.payload
+				.then(([url]) => {
+					dispatch(
+						Config.spinner({
+							visible: false,
+						})
+					);
+
+					navigation.navigate('Payment', { url, amount: floatToEuro(amount) });
+				})
+				.catch(() => {
+					dispatch(
+						Config.spinner({
+							visible: false,
+						})
+					);
+				});
+		});
 	}
 
 	render() {
@@ -71,3 +116,5 @@ export default class Submit extends React.PureComponent {
 		);
 	}
 }
+
+export default connect()(Submit);

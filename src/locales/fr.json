@@ -22,8 +22,15 @@
 			"title": "Rechargement",
 			"amount": "Montant du rechargement :",
 			"pay": "Accéder au paiement...",
-			"bad_amount": "Le montant doit être compris entre",
-			"amount_error": "Le montant doit être un nombre écrit correctement au centime près"
+			"bad_amount": "Le montant doit être compris %{min} entre %{max}",
+			"amount_error": "Le montant doit être un nombre écrit correctement au centime près",
+			"refill_checks": "Vérfication avant rechargement...",
+			"redirect_to_refill": "Redirection vers la page de paiement..."
+		},
+		"Payment": {
+			"title": "Paiement",
+			"paiement_canceled": "La tentative de paiement a été annulée",
+			"paiement_confirmed": "Rechargement de %{amount} validé !",
 		},
 		"Transfer": {
 			"title": "Transfert",
@@ -33,11 +40,12 @@
 			"message": "Message : ",
 			"message_placeholder": "Un (gentil) message",
 			"transfer_button": "Transférer...",
-			"bad_amount": "Le montant doit être compris entre",
+			"bad_amount": "Le montant doit être compris %{min} entre %{max}",
 			"recipient_not_found": "Destinataire non trouvé...",
 			"amount_error": "Le montant doit être un nombre écrit correctement au centime près",
 			"transfer_checks": "Vérfication avant transfert...",
 			"transfering": "Transfert en cours...",
+			"transfer_confirmed": "Transfert de %{amount} confirmé vers %{name}",
 			"thanks": "Merci !",
 			"happy": "😊",
 			"kiss": "😘",
@@ -95,6 +103,18 @@
 		},
 		"Stats": {
 			"title": "Statistiques"
+		},
+		"Settings": {
+			"title": "Paramètres",
+			"lock": "Verrouiller le badge",
+			"locking": "Verrouillage en cours...",
+			"unlocking": "Déverrouillage en cours...",
+			"lock_info": "Lorsque le badge est verrouillé, il ne peut plus être utilisé pour payer.",
+			"lock_error": "Impossible de verrouiller le badge.",
+			"unlock_error": "Impossible de déverrouiller le badge.",
+			"sign_out": "Se déconnecter",
+			"about": "À propos",
+			"legal": "Mentions légales"
 		}
 	},
 
@@ -112,6 +132,6 @@
 		"home": "Accueil",
 		"history": "Historique",
 		"stats": "Statistiques",
-		"settings": "Réglages"
+		"settings": "Paramètres"
 	}
 }
