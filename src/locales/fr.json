@@ -92,6 +92,9 @@
 			"refund": "Remboursement de",
 			"unsupported_transaction": "Impossible d'afficher la transaction",
 			"good_job": "Bravo, tu es arrivé au bout !"
+		},
+		"Stats": {
+			"title": "Statistiques"
 		}
 	},
 
