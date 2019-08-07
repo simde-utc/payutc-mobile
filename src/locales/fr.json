@@ -97,6 +97,8 @@
 		"Settings": {
 			"title": "Paramètres",
 			"lock": "Verrouiller le badge",
+			"locking": "Verrouillage en cours...",
+			"unlocking": "Déverrouillage en cours...",
 			"lock_info": "Lorsque le badge est verrouillé, il ne peut plus être utilisé pour payer.",
 			"lock_error": "Impossible de verrouiller le badge.",
 			"unlock_error": "Impossible de déverrouiller le badge.",
