@@ -27,10 +27,17 @@ class HomeScreen extends React.PureComponent {
 	constructor(props) {
 		super(props);
 
+		this.state = { message: {} };
+
 		this.onRefresh = this.onRefresh.bind(this);
+		this.handleNavigationOnFocus = this.handleNavigationOnFocus.bind(this);
 	}
 
 	componentDidMount() {
+		const { navigation } = this.props;
+
+		this.subscriptions = [navigation.addListener('willFocus', this.handleNavigationOnFocus)];
+
 		this.onRefresh();
 	}
 
@@ -52,8 +59,19 @@ class HomeScreen extends React.PureComponent {
 		}
 	}
 
+	componentWillUmount() {
+		this.subscriptions.forEach(subscription => subscription.remove());
+	}
+
+	handleNavigationOnFocus({ action: { params } }) {
+		this.setState({
+			message: params || {},
+		});
+	}
+
 	render() {
 		const { details, detailsFetching, history, historyFetching, navigation } = this.props;
+		const { message } = this.state;
 		const amount = details.credit ? details.credit / 100 : null;
 
 		return (
@@ -65,6 +83,21 @@ class HomeScreen extends React.PureComponent {
 					backgroundColor: colors.backgroundLight,
 				}}
 			>
+				{message.message ? (
+					<BlockTemplate
+						roundedTop
+						roundedBottom
+						shadow
+						style={{ marginBottom: 15, backgroundColor: message.backgroundColor || colors.more }}
+						onPress={() => this.setState({ message: {} })}
+					>
+						<Text
+							style={{ fontSize: 16, fontWeight: 'bold', color: message.color || colors.white }}
+						>
+							{message.message}
+						</Text>
+					</BlockTemplate>
+				) : null}
 				<View>
 					<ScrollView
 						style={{ paddingBottom: 15 }}

@@ -3,6 +3,7 @@ export const APP_DEBUG = true;
 export const CAS_URL = '';
 export const PAYUTC_API = '';
 export const PAYUTC_LINK = '';
+export const PAYUTC_ABORTED_LINK = '';
 export const PAYUTC_KEY = '';
 export const PAYUTC_SYSTEM_ID = '';
 
@@ -13,5 +14,6 @@ export default {
 	PAYUTC_API,
 	PAYUTC_KEY,
 	PAYUTC_LINK,
+	PAYUTC_ABORTED_LINK,
 	PAYUTC_SYSTEM_ID,
 };
