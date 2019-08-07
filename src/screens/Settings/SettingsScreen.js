@@ -83,79 +83,81 @@ class SettingsScreen extends React.PureComponent {
 		const { lockStatus, lockStatusFetching, navigation } = this.props;
 
 		return (
-			<ScrollView
-				style={{ backgroundColor: colors.backgroundLight, padding: 15 }}
-				refreshControl={
-					<RefreshControl
-						refreshing={lockStatusFetching}
-						onRefresh={() => this.onRefresh()}
-						colors={[colors.secondary]}
-						tintColor={colors.secondary}
-					/>
-				}
-			>
-				<BlockTemplate roundedTop roundedBottom shadow>
-					<Text style={{ fontSize: 22, fontWeight: 'bold', color: colors.primary }}>
-						{t('title')}
-					</Text>
-				</BlockTemplate>
-				<View style={{ height: 15 }} />
-				<SwitchBlockTemplate
-					roundedTop
-					roundedBottom
-					value={lockStatusFetching ? false : lockStatus}
-					onValueChange={this.onLockChange}
-					tintColor={colors.less}
-					disabled={lockStatusFetching}
+			<View style={{ flex: 1, backgroundColor: colors.backgroundLight, paddingHorizontal: 15 }}>
+				<ScrollView
+					refreshControl={
+						<RefreshControl
+							refreshing={lockStatusFetching}
+							onRefresh={() => this.onRefresh()}
+							colors={[colors.secondary]}
+							tintColor={colors.secondary}
+						/>
+					}
 				>
-					<View style={{ flex: 1, flexDirection: 'column' }}>
-						<Text
-							style={{
-								fontSize: 16,
-								fontWeight: 'bold',
-								color: lockStatusFetching ? colors.disabled : colors.secondary,
-							}}
-						>
-							{t('lock')}
+					<View style={{ height: 15 }} />
+					<BlockTemplate roundedTop roundedBottom shadow>
+						<Text style={{ fontSize: 22, fontWeight: 'bold', color: colors.primary }}>
+							{t('title')}
 						</Text>
-						<Text
-							style={{
-								fontSize: 13,
-								color: lockStatusFetching ? colors.disabled : colors.secondary,
-							}}
-						>
-							{t('lock_info')}
-						</Text>
-					</View>
-				</SwitchBlockTemplate>
-				<View style={{ height: 15 }} />
-				<BlockTemplate roundedTop roundedBottom onPress={() => navigation.navigate('About')}>
-					<View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
-						<Text style={{ fontSize: 16, fontWeight: 'bold', color: colors.secondary }}>
-							{t('about')}
-						</Text>
-						<Ionicons name="md-arrow-forward" size={18} color={colors.secondary} />
-					</View>
-				</BlockTemplate>
-				<View style={{ height: 15 }} />
-				<BlockTemplate roundedTop roundedBottom onPress={() => navigation.navigate('Legal')}>
-					<View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
-						<Text style={{ fontSize: 16, fontWeight: 'bold', color: colors.secondary }}>
-							{t('legal')}
-						</Text>
-						<Ionicons name="md-arrow-forward" size={18} color={colors.secondary} />
-					</View>
-				</BlockTemplate>
-				<View style={{ height: 15 }} />
-				<BlockTemplate roundedTop roundedBottom onPress={() => this.signOut()}>
-					<View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
-						<Text style={{ fontSize: 16, fontWeight: 'bold', color: colors.less }}>
-							{t('sign_out')}
-						</Text>
-						<Ionicons name="md-arrow-forward" size={18} color={colors.less} />
-					</View>
-				</BlockTemplate>
-			</ScrollView>
+					</BlockTemplate>
+					<View style={{ height: 15 }} />
+					<SwitchBlockTemplate
+						roundedTop
+						roundedBottom
+						value={lockStatusFetching ? false : lockStatus}
+						onValueChange={this.onLockChange}
+						tintColor={colors.less}
+						disabled={lockStatusFetching}
+					>
+						<View style={{ flex: 1, flexDirection: 'column' }}>
+							<Text
+								style={{
+									fontSize: 16,
+									fontWeight: 'bold',
+									color: lockStatusFetching ? colors.disabled : colors.secondary,
+								}}
+							>
+								{t('lock')}
+							</Text>
+							<Text
+								style={{
+									fontSize: 13,
+									color: lockStatusFetching ? colors.disabled : colors.secondary,
+								}}
+							>
+								{t('lock_info')}
+							</Text>
+						</View>
+					</SwitchBlockTemplate>
+					<View style={{ height: 15 }} />
+					<BlockTemplate roundedTop roundedBottom onPress={() => navigation.navigate('About')}>
+						<View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
+							<Text style={{ fontSize: 16, fontWeight: 'bold', color: colors.secondary }}>
+								{t('about')}
+							</Text>
+							<Ionicons name="md-arrow-forward" size={18} color={colors.secondary} />
+						</View>
+					</BlockTemplate>
+					<View style={{ height: 15 }} />
+					<BlockTemplate roundedTop roundedBottom onPress={() => navigation.navigate('Legal')}>
+						<View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
+							<Text style={{ fontSize: 16, fontWeight: 'bold', color: colors.secondary }}>
+								{t('legal')}
+							</Text>
+							<Ionicons name="md-arrow-forward" size={18} color={colors.secondary} />
+						</View>
+					</BlockTemplate>
+					<View style={{ height: 15 }} />
+					<BlockTemplate roundedTop roundedBottom onPress={() => this.signOut()}>
+						<View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
+							<Text style={{ fontSize: 16, fontWeight: 'bold', color: colors.less }}>
+								{t('sign_out')}
+							</Text>
+							<Ionicons name="md-arrow-forward" size={18} color={colors.less} />
+						</View>
+					</BlockTemplate>
+				</ScrollView>
+			</View>
 		);
 	}
 }
@@ -164,7 +166,7 @@ const mapStateToProps = ({ payutc }) => {
 	const lockStatus = payutc.getLockStatus();
 
 	return {
-		lockStatus: lockStatus.getData(),
+		lockStatus: lockStatus.getData(false),
 		lockStatusFetching: lockStatus.isFetching(),
 		lockStatusFetched: lockStatus.isFetched(),
 	};
