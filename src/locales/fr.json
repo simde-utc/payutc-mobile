@@ -16,8 +16,7 @@
 			"all_stats": "Toutes les statistiques...",
 			"recent_activity": "Activité récente :",
 			"all_history": "Voir tout l'historique...",
-			"cannot_fetch_wallet": "Une erreur est survenue lors de la récupération des informations de votre compte.",
-			"locked": "Ton badge est verrouillé."
+			"cannot_fetch_wallet": "Une erreur est survenue lors de la récupération des informations de votre compte."
 		},
 		"Refill": {
 			"title": "Rechargement",

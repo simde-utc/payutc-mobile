@@ -25,9 +25,6 @@ class SettingsScreen extends React.PureComponent {
 
 	constructor(props) {
 		super(props);
-
-		this.state = { expectedStatus: false };
-
 		this.onLockChange = this.onLockChange.bind(this);
 	}
 
@@ -40,7 +37,6 @@ class SettingsScreen extends React.PureComponent {
 
 		if (!lockStatusFetching) {
 			dispatch(PayUTC.getLockStatus());
-			this.setState({ expectedStatus: !lockStatus });
 		}
 	}
 
@@ -79,14 +75,12 @@ class SettingsScreen extends React.PureComponent {
 	}
 
 	signOut() {
-		PayUTC.forget();
 		const { navigation } = this.props;
-		navigation.navigate('Auth');
+		PayUTCApi.forget().then(() => navigation.navigate('Auth'));
 	}
 
 	render() {
 		const { lockStatus, lockStatusFetching, navigation } = this.props;
-		const { expectedStatus } = this.state;
 
 		return (
 			<ScrollView
@@ -109,7 +103,7 @@ class SettingsScreen extends React.PureComponent {
 				<SwitchBlockTemplate
 					roundedTop
 					roundedBottom
-					value={lockStatusFetching ? expectedStatus : lockStatus}
+					value={lockStatusFetching ? false : lockStatus}
 					onValueChange={this.onLockChange}
 					tintColor={colors.less}
 					disabled={lockStatusFetching}
