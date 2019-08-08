@@ -44,6 +44,7 @@ export default class RecipientForm extends React.PureComponent {
 					fontWeight: 'bold',
 					color: colors.error,
 					backgroundColor: colors.backgroundBlock,
+					marginTop: 5,
 				}}
 			>
 				{error}
@@ -128,7 +129,7 @@ export default class RecipientForm extends React.PureComponent {
 					{error ? this.renderErrorMessage() : null}
 				</BlockTemplate>
 				{recipient ? null : this.renderRecipientSuggestions()}
-				<BlockTemplate style={{ padding: 5 }} roundedBottom shadow />
+				<BlockTemplate style={{ padding: 5 }} roundedBottom />
 			</View>
 		);
 	}
