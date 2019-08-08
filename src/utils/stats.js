@@ -30,6 +30,13 @@ export const purchasesTotal = history => {
 	return total(history, 'PURCHASE', firstTransaction(history));
 };
 
+export const purchasesCount = history => {
+	return history
+		.filter(transaction => transaction.type === 'PURCHASE')
+		.map(transaction => transaction.quantity)
+		.reduce((acc, cur) => acc + cur, 0);
+};
+
 export const lastMonthPurchasesTotal = history => {
 	const date = new Date();
 	date.setMonth(date.getMonth() - 1);
@@ -50,20 +57,25 @@ export const lastMonthReceivedTotal = history => {
 
 export const mostPurchasedItems = history => {
 	const counts = {};
+	const sortableCounts = [];
 
 	history
 		.filter(transaction => transaction.type === 'PURCHASE')
 		.map(transaction => {
-			return { name: `${transaction.name} • ${transaction.fun}`, count: transaction.quantity };
+			return { name: transaction.name, count: transaction.quantity };
 		})
 		.forEach(key => {
 			if (!counts[key.name]) counts[key.name] = 0;
 			counts[key.name] += key.count;
 		});
 
-	const sortableCounts = [];
 	let item;
 	for (item in counts) sortableCounts.push([item, counts[item]]);
 
-	return sortableCounts.sort((a, b) => a[1] - b[1]).reverse();
+	return sortableCounts
+		.sort((a, b) => a[1] - b[1])
+		.reverse()
+		.map(item => {
+			return { name: item[0], count: item[1] };
+		});
 };

@@ -9,16 +9,32 @@ import React from 'react';
 import { Text, View } from 'react-native';
 import BlockTemplate from '../BlockTemplate';
 import colors from '../../styles/colors';
-import { _ } from '../../utils/i18n';
 
 export default class DataBlockTemplate extends React.PureComponent {
+	renderDescription() {
+		const { description } = this.props;
+
+		return (
+			<Text
+				style={{
+					fontSize: 14,
+					fontWeight: 'bold',
+					color: colors.secondary,
+					textAlign: 'center',
+					width: 125,
+				}}
+			>
+				{description}
+			</Text>
+		);
+	}
+
 	render() {
-		const { head, description, headTintColor, reversed } = this.props;
+		const { head, headTintColor, reversed, shadow } = this.props;
 
 		return (
 			<BlockTemplate
-				roundedTop
-				roundedBottoms
+				shadow={shadow}
 				style={{
 					borderTopLeftRadius: '50%',
 					borderTopRightRadius: '50%',
@@ -27,19 +43,7 @@ export default class DataBlockTemplate extends React.PureComponent {
 				}}
 			>
 				<View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center' }}>
-					{reversed ? (
-						<Text
-							style={{
-								fontSize: 14,
-								fontWeight: 'bold',
-								color: colors.secondary,
-								textAlign: 'center',
-								width: 125,
-							}}
-						>
-							{description}{' '}
-						</Text>
-					) : null}
+					{reversed ? this.renderDescription() : null}
 					<Text
 						style={{
 							fontSize: 20,
@@ -50,19 +54,7 @@ export default class DataBlockTemplate extends React.PureComponent {
 					>
 						{head}
 					</Text>
-					{!reversed ? (
-						<Text
-							style={{
-								fontSize: 14,
-								fontWeight: 'bold',
-								color: colors.secondary,
-								textAlign: 'center',
-								width: 125,
-							}}
-						>
-							{description}{' '}
-						</Text>
-					) : null}
+					{!reversed ? this.renderDescription() : null}
 				</View>
 			</BlockTemplate>
 		);

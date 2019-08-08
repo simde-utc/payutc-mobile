@@ -103,12 +103,13 @@
 		},
 		"Stats": {
 			"title": "Statistiques",
-			"transactions": "transaction",
+			"purchasesCount": "achats effectués",
 			"lastMonthPurchases": "dépensés le dernier mois",
-			"lastMonthTransfers": "transférer le dernier mois",
+			"lastMonthTransfers": "transférés le dernier mois",
 			"purchasesTotal": "dépensés",
 			"lastMonthReceived": "reçus le dernier mois",
-			"firstTransaction": "Première transaction :"
+			"firstTransaction": "Première transaction :",
+			"ranking": "Produits les plus consommés :"
 		},
 		"Settings": {
 			"title": "Paramètres",

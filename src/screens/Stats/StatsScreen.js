@@ -8,21 +8,12 @@
 import React from 'react';
 import { RefreshControl, ScrollView, Text, View } from 'react-native';
 import { connect } from 'react-redux';
-import { _, Stats as t } from '../../utils/i18n';
-import {
-	lastMonthPurchasesTotal,
-	numberOfTransactions,
-	purchasesTotal,
-	lastMonthTransferTotal,
-	lastMonthReceivedTotal,
-	firstTransaction,
-} from '../../utils/stats';
+import { Stats as t } from '../../utils/i18n';
 import colors from '../../styles/colors';
 import BlockTemplate from '../../components/BlockTemplate';
-import DataBlockTemplate from '../../components/Stats/DataBlockTemplate';
 import { PayUTC } from '../../redux/actions';
-import { beautifyDate } from '../../utils';
 import StatsHorizontalScrollView from '../../components/Stats/StatsHorizontalScrollView';
+import PurchasesTop from '../../components/Stats/PurchasesTop';
 
 class StatsScreen extends React.PureComponent {
 	static navigationOptions = {
@@ -58,7 +49,7 @@ class StatsScreen extends React.PureComponent {
 					/>
 				}
 			>
-				<View style={{ margin: 15 }}>
+				<View style={{ padding: 15 }}>
 					<BlockTemplate roundedTop roundedBottom shadow>
 						<Text style={{ fontSize: 22, fontWeight: 'bold', color: colors.primary }}>
 							{t('title')}
@@ -66,6 +57,7 @@ class StatsScreen extends React.PureComponent {
 					</BlockTemplate>
 				</View>
 				<StatsHorizontalScrollView history={history} historyFetching={historyFetching} />
+				<PurchasesTop history={history} countMin={1} />
 			</ScrollView>
 		);
 	}

@@ -6,13 +6,14 @@
  */
 
 import React from 'react';
-import { ScrollView, Text, View } from 'react-native';
+import { ScrollView, View } from 'react-native';
 import DataBlockTemplate from './DataBlockTemplate';
 import {
 	firstTransaction,
-	lastMonthPurchasesTotal, lastMonthReceivedTotal,
+	lastMonthPurchasesTotal,
+	lastMonthReceivedTotal,
 	lastMonthTransferTotal,
-	numberOfTransactions,
+	purchasesCount,
 	purchasesTotal,
 } from '../../utils/stats';
 import { _, Stats as t } from '../../utils/i18n';
@@ -28,8 +29,8 @@ export default class StatsHorizontalScrollView extends React.PureComponent {
 			<ScrollView horizontal showsHorizontalScrollIndicator={false}>
 				<View style={{ width: 15 }} />
 				<DataBlockTemplate
-					head={historyFetching ? loadingText : numberOfTransactions(history)}
-					description={t('transactions')}
+					head={historyFetching ? loadingText : purchasesCount(history)}
+					description={t('purchasesCount')}
 				/>
 				<View style={{ width: 15 }} />
 				<DataBlockTemplate
@@ -41,7 +42,7 @@ export default class StatsHorizontalScrollView extends React.PureComponent {
 				<DataBlockTemplate
 					head={historyFetching ? loadingText : lastMonthTransferTotal(history)}
 					description={t('lastMonthTransfers')}
-					headTintColor={colors.less}
+					headTintColor={colors.lightBlue}
 				/>
 				<View style={{ width: 15 }} />
 				<DataBlockTemplate
