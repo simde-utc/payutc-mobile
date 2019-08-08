@@ -6,12 +6,23 @@
  */
 
 import React from 'react';
-import { ScrollView, Text, View } from 'react-native';
+import { RefreshControl, ScrollView, Text, View } from 'react-native';
 import { connect } from 'react-redux';
-import { Stats as t } from '../../utils/i18n';
+import { _, Stats as t } from '../../utils/i18n';
+import {
+	lastMonthPurchasesTotal,
+	numberOfTransactions,
+	purchasesTotal,
+	lastMonthTransferTotal,
+	lastMonthReceivedTotal,
+	firstTransaction,
+} from '../../utils/stats';
 import colors from '../../styles/colors';
 import BlockTemplate from '../../components/BlockTemplate';
 import DataBlockTemplate from '../../components/Stats/DataBlockTemplate';
+import { PayUTC } from '../../redux/actions';
+import { beautifyDate } from '../../utils';
+import StatsHorizontalScrollView from '../../components/Stats/StatsHorizontalScrollView';
 
 class StatsScreen extends React.PureComponent {
 	static navigationOptions = {
@@ -20,18 +31,43 @@ class StatsScreen extends React.PureComponent {
 		headerForceInset: { top: 'never' },
 	};
 
+	componentDidMount() {
+		this.onRefresh();
+	}
+
+	onRefresh() {
+		const { historyFetching, dispatch } = this.props;
+
+		if (!historyFetching) {
+			dispatch(PayUTC.getHistory());
+		}
+	}
+
 	render() {
+		const { historyFetching, history } = this.props;
+
 		return (
 			<ScrollView
-				style={{ backgroundColor: colors.backgroundLight, padding: 15 }}
+				style={{ backgroundColor: colors.backgroundLight }}
+				refreshControl={
+					<RefreshControl
+						refreshing={historyFetching}
+						onRefresh={() => this.onRefresh()}
+						colors={[colors.secondary]}
+						tintColor={colors.secondary}
+					/>
+				}
 			>
-				<BlockTemplate roundedTop roundedBottom shadow>
-					<Text style={{ fontSize: 22, fontWeight: 'bold', color: colors.primary }}>
-						{t('title')}
-					</Text>
-				</BlockTemplate>
+				<View style={{ margin: 15 }}>
+					<BlockTemplate roundedTop roundedBottom shadow>
+						<Text style={{ fontSize: 22, fontWeight: 'bold', color: colors.primary }}>
+							{t('title')}
+						</Text>
+					</BlockTemplate>
+				</View>
+				<StatsHorizontalScrollView history={history} historyFetching={historyFetching} />
 			</ScrollView>
-		)
+		);
 	}
 }
 

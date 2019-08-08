@@ -11,7 +11,7 @@ import { Text } from 'react-native';
 import colors from '../../styles/colors';
 import BlockTemplate from '../BlockTemplate';
 import { History as t } from '../../utils/i18n';
-import { beautifyDate } from '../../utils';
+import { beautifyDateTime } from '../../utils';
 import Payed from './Payed';
 import Received from './Received';
 
@@ -68,7 +68,7 @@ export default class Item extends React.PureComponent {
 		return (
 			<BlockTemplate customBackground={customBackground}>
 				<Text style={{ fontSize: 10, color: colors.secondary, marginBottom: 3 }}>
-					{beautifyDate(transaction.date)} {transaction.fun ? `• ${transaction.fun}` : null}
+					{beautifyDateTime(transaction.date)} {transaction.fun ? `• ${transaction.fun}` : null}
 				</Text>
 				{Item.renderTransaction(transaction)}
 			</BlockTemplate>

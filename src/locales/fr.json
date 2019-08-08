@@ -102,7 +102,13 @@
 			"good_job": "Bravo, tu es arrivé au bout !"
 		},
 		"Stats": {
-			"title": "Statistiques"
+			"title": "Statistiques",
+			"transactions": "transaction",
+			"lastMonthPurchases": "dépensés le dernier mois",
+			"lastMonthTransfers": "transférer le dernier mois",
+			"purchasesTotal": "dépensés",
+			"lastMonthReceived": "reçus le dernier mois",
+			"firstTransaction": "Première transaction :"
 		},
 		"Settings": {
 			"title": "Paramètres",
