@@ -64,7 +64,16 @@ export default class MessageForm extends React.PureComponent {
 					key={text}
 					onPress={() => this.onChange(getValue ? getValue() : text)}
 				>
-					<Text style={{ fontSize: 14, fontWeight: 'bold', color: colors.secondary }}>{text}</Text>
+					<Text
+						style={{
+							fontSize: 14,
+							fontWeight: 'bold',
+							color: getValue ? colors.lightBlue : colors.secondary,
+							fontStyle: getValue ? 'italic' : null,
+						}}
+					>
+						{text}
+					</Text>
 				</BlockTemplate>
 			);
 		});
