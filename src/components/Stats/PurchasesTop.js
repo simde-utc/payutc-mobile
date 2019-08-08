@@ -13,7 +13,7 @@ import colors from '../../styles/colors';
 import { _, Stats as t } from '../../utils/i18n';
 
 export default class PurchasesTop extends React.PureComponent {
-	static renderItem(item, rank) {
+	renderItem(item, rank) {
 		return (
 			<BlockTemplate
 				key={item.name}
