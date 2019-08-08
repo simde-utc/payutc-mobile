@@ -13,7 +13,6 @@ import Storage from './Storage';
 import { PAYUTC_API, PAYUTC_KEY, PAYUTC_SYSTEM_ID } from '../../config';
 
 const ACCOUNT_SERVICE = 'MYACCOUNT';
-const RENTAL_SERVICE = 'RENTAL';
 const TRANSFER_SERVICE = 'TRANSFER';
 const REFILL_SERVICE = 'RELOAD';
 
@@ -173,7 +172,7 @@ export class PayUTCApi extends Api {
 
 	getUserAutoComplete(queryString) {
 		return this.connectedCall(
-			RENTAL_SERVICE,
+			TRANSFER_SERVICE,
 			'userAutocomplete',
 			Api.POST,
 			AUTH_QUERIES,
