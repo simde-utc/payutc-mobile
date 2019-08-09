@@ -1,5 +1,6 @@
-/*
+/**
  * @author Arthur Martello <arthur.martello@etu.utc.fr>
+ * @author Samy Nastuzzi <samy@nastuzzi.fr>
  *
  * @copyright Copyright (c) 2019, SiMDE-UTC
  * @license GPL-3.0
@@ -14,7 +15,6 @@ import BlockTemplate from '../../components/BlockTemplate';
 import { _, Settings as t } from '../../utils/i18n';
 import SwitchBlockTemplate from '../../components/SwitchBlockTemplate';
 import { Config, PayUTC } from '../../redux/actions';
-import PayUTCApi from '../../services/PayUTC';
 
 class SettingsScreen extends React.PureComponent {
 	static navigationOptions = {
@@ -33,7 +33,7 @@ class SettingsScreen extends React.PureComponent {
 	}
 
 	onRefresh() {
-		const { lockStatusFetching, lockStatus, dispatch } = this.props;
+		const { lockStatusFetching, dispatch } = this.props;
 
 		if (!lockStatusFetching) {
 			dispatch(PayUTC.getLockStatus());
@@ -54,7 +54,7 @@ class SettingsScreen extends React.PureComponent {
 			})
 		);
 
-		PayUTCApi.setLockStatus(value).then(([status]) => {
+		PayUTC.setLockStatus(value).payload.then(([status]) => {
 			dispatch(
 				Config.spinner({
 					visible: false,
@@ -76,7 +76,8 @@ class SettingsScreen extends React.PureComponent {
 
 	signOut() {
 		const { navigation } = this.props;
-		PayUTCApi.forget().then(() => navigation.navigate('Auth'));
+
+		PayUTC.forget().payload.then(() => navigation.navigate('Auth'));
 	}
 
 	render() {

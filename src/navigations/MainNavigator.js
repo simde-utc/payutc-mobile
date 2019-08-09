@@ -6,13 +6,13 @@
  */
 
 import React from 'react';
-import { Text } from 'react-native';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { createBottomTabNavigator } from 'react-navigation';
 import HomeNavigator from './Home/HomeNavigator';
 import colors from '../styles/colors';
 import { Navigation as t } from '../utils/i18n';
 import HistoryNavigator from './History/HistoryNavigator';
+import StatsNavigator from './Stats/StatsNavigator';
 import SettingsNavigator from './Settings/SettingsNavigator';
 
 const ICON_SIZE = 25;
@@ -48,7 +48,7 @@ const MainNavigator = createBottomTabNavigator(
 		},
 
 		Stats: {
-			screen: () => <Text>Stats</Text>,
+			screen: StatsNavigator,
 			navigationOptions: () => ({
 				title: t('stats'),
 				tabBarIcon: focusableIoniconFactory('ios-stats'),

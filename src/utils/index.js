@@ -25,7 +25,7 @@ export const forceTextLength = (text, length = 2, remplacement = '0') => {
 	return text;
 };
 
-export const beautifyDate = dateText => {
+export const beautifyDateTime = dateText => {
 	const date = new Date(dateText);
 
 	return (
@@ -39,13 +39,21 @@ export const beautifyDate = dateText => {
 	);
 };
 
+export const beautifyDate = dateText => {
+	const date = new Date(dateText);
+
+	return `${forceTextLength(date.getDate())}/${forceTextLength(
+		date.getMonth() + 1
+	)}/${forceTextLength(date.getFullYear())}`;
+};
+
 export const AMOUNT_FORMAT = /^(?!0\d)\d{1,2}([.,]\d{1,2})?$/;
 
 export const isAmountValid = amount => !amount || amount.toString().match(AMOUNT_FORMAT);
 
 export default {
 	floatToEuro,
-	beautifyDate,
+	beautifyDate: beautifyDateTime,
 	AMOUNT_FORMAT,
 	isAmountValid,
 };

@@ -101,6 +101,22 @@
 			"unsupported_transaction": "Impossible d'afficher la transaction",
 			"good_job": "Bravo, tu es arrivé au bout !"
 		},
+		"Stats": {
+			"title": "Statistiques",
+			"purchasesCount": "achats effectués",
+			"lastMonthPurchases": "dépensés le dernier mois",
+			"lastMonthTransfers": "transférés le dernier mois",
+			"purchasesTotal": "dépensés",
+			"lastMonthReceived": "reçus le dernier mois",
+			"firstTransaction": "Première transaction :",
+			"buyRanking": "Produits les plus achetés :",
+			"buyRankingTitle": "Par quantité",
+			"spendRanking": "Produits les plus coûteux :",
+			"spendRankingTitle": "Par prix",
+			"receiveRanking": "Personnes qui vous transfèrent le plus :",
+			"giveRanking": "Personnes à qui vous transférez le plus :",
+			"transferRankingTitle": "Transferts"
+		},
 		"Settings": {
 			"title": "Paramètres",
 			"lock": "Verrouiller le badge",
