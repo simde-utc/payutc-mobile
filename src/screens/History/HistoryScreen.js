@@ -86,7 +86,9 @@ class HistoryScreen extends React.PureComponent {
 						},
 						{
 							title: t('refills'),
-							children: () => <List items={this.getHistory('RELOAD')} title={t('refills_desc')} />,
+							children: () => (
+								<List items={this.getHistory('RECHARGE')} title={t('refills_desc')} />
+							),
 						},
 						{
 							title: t('transfers'),
