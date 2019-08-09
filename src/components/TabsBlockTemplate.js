@@ -1,12 +1,13 @@
-/*
+/**
  * @author Arthur Martello <arthur.martello@etu.utc.fr>
+ * @author Samy Nastuzzi <samy@nastuzzi.fr>
  *
  * @copyright Copyright (c) 2019, SiMDE-UTC
  * @license GPL-3.0
  */
 
 import React from 'react';
-import { Text, View } from 'react-native';
+import { Text, ScrollView } from 'react-native';
 import BlockTemplate from './BlockTemplate';
 import colors from '../styles/colors';
 
@@ -31,12 +32,15 @@ export default class TabsBlockTemplate extends React.PureComponent {
 				shadow={shadow}
 				style={[{ paddingHorizontal: 0, paddingBottom: 0 }, style]}
 			>
-				<View
-					style={{
-						flex: 1,
+				<ScrollView
+					horizontal
+					showsHorizontalScrollIndicator={false}
+					contentContainerStyle={{
+						flexGrow: 1,
 						flexDirection: 'row',
 						justifyContent: 'space-between',
 						flexWrap: 'nowrap',
+						backgroundColor: colors.backgroundBlock,
 						borderBottomWidth: 1,
 						borderBottomColor: colors.backgroundLight,
 						paddingHorizontal: 10,
@@ -51,6 +55,7 @@ export default class TabsBlockTemplate extends React.PureComponent {
 							key={tab.title}
 							disabled={disabled}
 							customBackground={selected === index && !disabled ? tintColor : null}
+							style={index + 1 === tabs.length ? {} : { marginRight: 10 }}
 							onPress={() => this.onTabChange(index)}
 						>
 							<Text
@@ -68,7 +73,7 @@ export default class TabsBlockTemplate extends React.PureComponent {
 							</Text>
 						</BlockTemplate>
 					))}
-				</View>
+				</ScrollView>
 				{tabs[selected].children()}
 			</BlockTemplate>
 		);
