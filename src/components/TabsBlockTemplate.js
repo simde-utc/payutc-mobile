@@ -69,7 +69,7 @@ export default class TabsBlockTemplate extends React.PureComponent {
 						</BlockTemplate>
 					))}
 				</View>
-				{tabs[selected].children}
+				{tabs[selected].children()}
 			</BlockTemplate>
 		);
 	}
