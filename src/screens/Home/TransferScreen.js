@@ -78,10 +78,10 @@ class TransferScreen extends React.PureComponent {
 	}
 
 	handleAmountChange(amount) {
-		const { amountError: prevError } = this.state;
+		const { amount: prevAmount } = this.state;
 
 		if (!isAmountValid(amount)) {
-			if (prevError || amount === ',' || amount === '.') {
+			if (!isAmountValid(prevAmount) || amount === ',' || amount === '.') {
 				this.setState({ amountError: t('amount_error') });
 			} else {
 				this.setState({ amount, amountError: t('amount_error') });
