@@ -13,7 +13,7 @@ import colors from '../styles/colors';
 export default class TabsBlockTemplate extends React.PureComponent {
 	constructor(props) {
 		super(props);
-		this.state = { selected: 0 };
+		this.state = { selected: props.default || 0 };
 	}
 
 	onTabChange(index) {
@@ -21,7 +21,16 @@ export default class TabsBlockTemplate extends React.PureComponent {
 	}
 
 	render() {
-		const { tabs, style, roundedTop, roundedBottom, shadow, disabled, tintColor } = this.props;
+		const {
+			tabs,
+			style,
+			roundedTop,
+			roundedBottom,
+			shadow,
+			disabled,
+			tintColor,
+			onChange,
+		} = this.props;
 		const { selected } = this.state;
 
 		return (
@@ -37,7 +46,7 @@ export default class TabsBlockTemplate extends React.PureComponent {
 						flexDirection: 'row',
 						justifyContent: 'space-between',
 						flexWrap: 'nowrap',
-						borderBottomWidth: 1,
+						borderBottomWidth: tabs.filter(tab => tab.children).length ? 1 : 0,
 						borderBottomColor: colors.backgroundLight,
 						paddingHorizontal: 10,
 						paddingBottom: 10,
@@ -51,7 +60,10 @@ export default class TabsBlockTemplate extends React.PureComponent {
 							key={tab.title}
 							disabled={disabled}
 							customBackground={selected === index && !disabled ? tintColor : null}
-							onPress={() => this.onTabChange(index)}
+							onPress={() => {
+								this.onTabChange(index);
+								if (onChange) onChange(index);
+							}}
 						>
 							<Text
 								style={{

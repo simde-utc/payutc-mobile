@@ -9,7 +9,7 @@ import React from 'react';
 import { FlatList, Text, View } from 'react-native';
 import BlockTemplate from '../BlockTemplate';
 import colors from '../../styles/colors';
-import { _ } from '../../utils/i18n';
+import { _, Stats as t } from '../../utils/i18n';
 import { floatToEuro } from '../../utils';
 
 export default class RankedList extends React.PureComponent {
@@ -48,7 +48,7 @@ export default class RankedList extends React.PureComponent {
 	}
 
 	render() {
-		const { items, title } = this.props;
+		const { items, title, loading } = this.props;
 
 		return (
 			<FlatList
@@ -58,9 +58,9 @@ export default class RankedList extends React.PureComponent {
 					this.renderItem(item, index + 1, index === items.length - 1)
 				}
 				ListEmptyComponent={() => (
-					<BlockTemplate>
+					<BlockTemplate roundedBottom customBackground={colors.backgroundBlockAlt}>
 						<Text style={{ fontSize: 14, fontWeight: 'bold', color: colors.disabled }}>
-							{_('loading_text_replacement')}
+							{loading ? _('loading_text_replacement') : t('empty_list')}
 						</Text>
 					</BlockTemplate>
 				)}
