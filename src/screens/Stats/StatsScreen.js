@@ -201,7 +201,7 @@ class StatsScreen extends React.PureComponent {
 										title={t('giveRanking')}
 										euro
 										items={mostGivenToPeople(filteredHistory).splice(0, 5)}
-										countTintColor={colors.less}
+										countTintColor={colors.lightBlue}
 										loading={!historyFetched}
 									/>
 								</View>

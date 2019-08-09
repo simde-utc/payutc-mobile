@@ -15,6 +15,9 @@ export const firstTransaction = history => {
 	return history[history.length - 1].date;
 };
 
+const getQuantityForTransaction = ({ quantity, amount }) =>
+	quantity === amount ? 1 : quantity;
+
 const total = (history, type, countAttribute, since) => {
 	return history
 		.filter(
@@ -33,11 +36,11 @@ export const purchasesCount = (history, since) => {
 };
 
 export const receivedAmount = (history, since) => {
-	return floatToEuro(total(history, 'VIROUT', 'amount', since) / 100);
+	return floatToEuro(total(history, 'VIRIN', 'amount', since) / 100);
 };
 
 export const givenAmount = (history, since) => {
-	return floatToEuro(total(history, 'VIRIN', 'amount', since) / 100);
+	return floatToEuro(total(history, 'VIROUT', 'amount', since) / 100);
 };
 
 const sortedItems = (history, type, displayedAttributes, countAttribute) => {
@@ -49,7 +52,10 @@ const sortedItems = (history, type, displayedAttributes, countAttribute) => {
 		.map(transaction => {
 			return {
 				name: displayedAttributes.map(attr => transaction[attr]).join(' '),
-				count: transaction[countAttribute],
+				count:
+					countAttribute === 'quantity'
+						? getQuantityForTransaction(transaction)
+						: transaction[countAttribute],
 			};
 		})
 		.forEach(key => {

@@ -36,10 +36,10 @@ export default class DataBlockTemplate extends React.PureComponent {
 			<BlockTemplate
 				shadow={shadow}
 				style={{
-					borderTopLeftRadius: '50%',
-					borderTopRightRadius: '50%',
-					borderBottomLeftRadius: '50%',
-					borderBottomRightRadius: '50%',
+					borderTopLeftRadius: 50,
+					borderTopRightRadius: 50,
+					borderBottomLeftRadius: 50,
+					borderBottomRightRadius: 50,
 				}}
 			>
 				<View style={{ flex: 1, flexDirection: 'column', justifyContent: 'center' }}>
