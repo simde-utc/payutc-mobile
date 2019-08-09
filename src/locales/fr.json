@@ -99,7 +99,15 @@
 			"refill": "Rechargement",
 			"refund": "Remboursement de",
 			"unsupported_transaction": "Impossible d'afficher la transaction",
-			"good_job": "Bravo, tu es arrivé au bout !"
+			"good_job": "Bravo, tu es arrivé au bout !",
+			"all": "Tous",
+			"all_desc": "Dernières actions sur le compte",
+			"purchased": "Achats",
+			"purchased_desc": "Derniers achats",
+			"refills": "Rechargements",
+			"refills_desc": "Derniers rechargements",
+			"transfers": "Transferts",
+			"transfers_desc": "Derniers transferts",
 		},
 		"Stats": {
 			"title": "Statistiques",

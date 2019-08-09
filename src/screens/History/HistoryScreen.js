@@ -1,19 +1,20 @@
-/*
+/**
  * @author Arthur Martello <arthur.martello@etu.utc.fr>
+ * @author Samy Nastuzzi <samy@nastuzzi.fr>
  *
  * @copyright Copyright (c) 2019, SiMDE-UTC
  * @license GPL-3.0
  */
 
 import React from 'react';
-import { FlatList, RefreshControl, Text, TouchableOpacity, View } from 'react-native';
+import { RefreshControl, Text, ScrollView, View } from 'react-native';
 import { connect } from 'react-redux';
-import Ionicons from '@expo/vector-icons/Ionicons';
-import { _, History as t } from '../../utils/i18n';
+import { History as t } from '../../utils/i18n';
 import colors from '../../styles/colors';
-import Item from '../../components/History/Item';
+import List from '../../components/History/List';
 import { PayUTC } from '../../redux/actions';
 import BlockTemplate from '../../components/BlockTemplate';
+import TabsBlockTemplate from '../../components/TabsBlockTemplate';
 
 class HistoryScreen extends React.PureComponent {
 	static navigationOptions = {
@@ -27,10 +28,6 @@ class HistoryScreen extends React.PureComponent {
 	}
 
 	onRefresh() {
-		this.getHistory();
-	}
-
-	getHistory() {
 		const { historyFetching, historyFetched, dispatch } = this.props;
 
 		if (!historyFetching && !historyFetched) {
@@ -38,55 +35,22 @@ class HistoryScreen extends React.PureComponent {
 		}
 	}
 
+	getHistory(type) {
+		const { history } = this.props;
+
+		if (type) {
+			return history.filter(transaction => transaction.type.startsWith(type));
+		}
+
+		return history;
+	}
+
 	render() {
-		const { historyFetching, history } = this.props;
+		const { historyFetching } = this.props;
 
 		return (
-			<FlatList
-				style={{ backgroundColor: colors.backgroundLight, padding: 15 }}
-				ListHeaderComponent={() => (
-					<View>
-						<BlockTemplate roundedTop shadow>
-							<View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
-								<Text style={{ fontSize: 18, fontWeight: 'bold', color: colors.primary }}>
-									{t('title')}
-								</Text>
-								<TouchableOpacity onPress={() => this.onRefresh()}>
-									<Ionicons name="ios-refresh" size={20} color={colors.secondary} />
-								</TouchableOpacity>
-							</View>
-						</BlockTemplate>
-						<View style={{ borderColor: colors.backgroundLight, height: 1 }} />
-					</View>
-				)}
-				data={history}
-				keyExtractor={item => item.id.toString()}
-				renderItem={({ item, index }) => (
-					<Item
-						transaction={item}
-						customBackground={index % 2 === 0 ? colors.backgroundBlockAlt : null}
-					/>
-				)}
-				ListEmptyComponent={() => (
-					<BlockTemplate>
-						<Text style={{ fontSize: 14, fontWeight: 'bold', color: colors.disabled }}>
-							{_('loading_text_replacement')}
-						</Text>
-					</BlockTemplate>
-				)}
-				ItemSeparatorComponent={() => (
-					<View style={{ borderColor: colors.backgroundLight, height: 1 }} />
-				)}
-				ListFooterComponent={
-					<View style={{ marginBottom: 30 }}>
-						<View style={{ borderColor: colors.backgroundLight, height: 1 }} />
-						<BlockTemplate roundedBottom>
-							<Text style={{ fontSize: 14, fontWeight: 'bold', color: colors.primary }}>
-								{history && history.length !== 0 ? t('good_job') : null}
-							</Text>
-						</BlockTemplate>
-					</View>
-				}
+			<ScrollView
+				style={{ backgroundColor: colors.backgroundLight }}
 				refreshControl={
 					<RefreshControl
 						refreshing={historyFetching}
@@ -95,7 +59,42 @@ class HistoryScreen extends React.PureComponent {
 						tintColor={colors.secondary}
 					/>
 				}
-			/>
+			>
+				<View style={{ paddingHorizontal: 15, paddingTop: 15 }}>
+					<BlockTemplate roundedTop roundedBottom shadow>
+						<Text style={{ fontSize: 22, fontWeight: 'bold', color: colors.primary }}>
+							{t('title')}
+						</Text>
+					</BlockTemplate>
+				</View>
+
+				<TabsBlockTemplate
+					style={{ margin: 15 }}
+					roundedTop
+					roundedBottom
+					tintColor={colors.primary}
+					tabs={[
+						{
+							title: t('all'),
+							children: () => <List items={this.getHistory()} title={t('all_desc')} />,
+						},
+						{
+							title: t('purchased'),
+							children: () => (
+								<List items={this.getHistory('PURCHASE')} title={t('purchased_desc')} />
+							),
+						},
+						{
+							title: t('refills'),
+							children: () => <List items={this.getHistory('RELOAD')} title={t('refills_desc')} />,
+						},
+						{
+							title: t('transfers'),
+							children: () => <List items={this.getHistory('VIR')} title={t('transfers_desc')} />,
+						},
+					]}
+				/>
+			</ScrollView>
 		);
 	}
 }
