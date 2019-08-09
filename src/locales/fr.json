@@ -109,7 +109,13 @@
 			"purchasesTotal": "dépensés",
 			"lastMonthReceived": "reçus le dernier mois",
 			"firstTransaction": "Première transaction :",
-			"ranking": "Produits les plus consommés :"
+			"buyRanking": "Produits les plus achetés :",
+			"buyRankingTitle": "Par quantité",
+			"spendRanking": "Produits les plus coûteux :",
+			"spendRankingTitle": "Par prix",
+			"receiveRanking": "Personnes qui vous transfèrent le plus :",
+			"giveRanking": "Personnes à qui vous transférez le plus :",
+			"transferRankingTitle": "Transferts"
 		},
 		"Settings": {
 			"title": "Paramètres",

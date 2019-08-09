@@ -55,14 +55,17 @@ export const lastMonthReceivedTotal = history => {
 	return total(history, 'VIRIN', date);
 };
 
-export const mostPurchasedItems = history => {
+const sortedItems = (history, type, displayedAttributes, countAttribute) => {
 	const counts = {};
 	const sortableCounts = [];
 
 	history
-		.filter(transaction => transaction.type === 'PURCHASE')
+		.filter(transaction => transaction.type === type)
 		.map(transaction => {
-			return { name: transaction.name, count: transaction.quantity };
+			return {
+				name: displayedAttributes.map(attr => transaction[attr]).join(' '),
+				count: transaction[countAttribute],
+			};
 		})
 		.forEach(key => {
 			if (!counts[key.name]) counts[key.name] = 0;
@@ -78,4 +81,20 @@ export const mostPurchasedItems = history => {
 		.map(item => {
 			return { name: item[0], count: item[1] };
 		});
+};
+
+export const mostPurchasedItems = history => {
+	return sortedItems(history, 'PURCHASE', ['name'], 'quantity');
+};
+
+export const mostSpentItems = history => {
+	return sortedItems(history, 'PURCHASE', ['name'], 'amount');
+};
+
+export const mostReceivedFromPersons = history => {
+	return sortedItems(history, 'VIRIN', ['firstname', 'lastname'], 'amount');
+};
+
+export const mostGivenToPeople = history => {
+	return sortedItems(history, 'VIROUT', ['firstname', 'lastname'], 'amount');
 };
