@@ -115,10 +115,10 @@ class StatsScreen extends React.PureComponent {
 					tintColor={colors.primary}
 					tabs={[
 						{
-							title: t('buyRankingTitle'),
+							title: t('buy_ranking_title'),
 							children: () => (
 								<RankedList
-									title={t('buyRanking')}
+									title={t('buy_ranking')}
 									items={mostPurchasedItems(filteredHistory).splice(0, 10)}
 									countTintColor={colors.less}
 									loading={!historyFetched}
@@ -126,10 +126,10 @@ class StatsScreen extends React.PureComponent {
 							),
 						},
 						{
-							title: t('spendRankingTitle'),
+							title: t('spend_ranking_title'),
 							children: () => (
 								<RankedList
-									title={t('spendRanking')}
+									title={t('spend_ranking')}
 									euro
 									items={mostSpentItems(filteredHistory).splice(0, 10)}
 									countTintColor={colors.less}
@@ -138,11 +138,11 @@ class StatsScreen extends React.PureComponent {
 							),
 						},
 						{
-							title: t('transferRankingTitle'),
+							title: t('transfer_ranking_title'),
 							children: () => (
 								<View>
 									<RankedList
-										title={t('receiveRanking')}
+										title={t('receive_ranking')}
 										euro
 										noBottomBorder
 										items={mostReceivedFromPersons(filteredHistory).splice(0, 5)}
@@ -151,7 +151,7 @@ class StatsScreen extends React.PureComponent {
 									/>
 									<View style={{ borderTopWidth: 1, borderTopColor: colors.backgroundLight }} />
 									<RankedList
-										title={t('giveRanking')}
+										title={t('give_ranking')}
 										euro
 										items={mostGivenToPeople(filteredHistory).splice(0, 5)}
 										countTintColor={colors.lightBlue}

@@ -29,30 +29,30 @@ export default class StatsHorizontalScrollView extends React.PureComponent {
 				<View style={{ width: 15 }} />
 				<DataBlockTemplate
 					head={historyFetching ? loadingText : purchasesCount(history, since.date)}
-					description={`${t('purchasesCount')} ${since.text}`}
+					description={`${t('purchases_count')} ${since.text}`}
 				/>
 				<View style={{ width: 15 }} />
 				<DataBlockTemplate
 					head={historyFetching ? loadingText : purchasesAmount(history, since.date)}
-					description={`${t('purchasesAmount')} ${since.text}`}
+					description={`${t('purchases_amount')} ${since.text}`}
 					headTintColor={colors.less}
 				/>
 				<View style={{ width: 15 }} />
 				<DataBlockTemplate
 					head={historyFetching ? loadingText : receivedAmount(history, since.date)}
-					description={`${t('receivedAmount')} ${since.text}`}
+					description={`${t('received_amount')} ${since.text}`}
 					headTintColor={colors.more}
 				/>
 				<View style={{ width: 15 }} />
 				<DataBlockTemplate
 					head={historyFetching ? loadingText : givenAmount(history, since.date)}
-					description={`${t('givenAmount')} ${since.text}`}
+					description={`${t('give_amount')} ${since.text}`}
 					headTintColor={colors.lightBlue}
 				/>
 				<View style={{ width: 15 }} />
 				<DataBlockTemplate
 					head={historyFetching ? loadingText : beautifyDate(firstTransaction(history))}
-					description={t('firstTransaction')}
+					description={t('first_transaction')}
 					reversed
 				/>
 				<View style={{ width: 15 }} />
