@@ -7,14 +7,15 @@
  */
 
 import React from 'react';
-import { RefreshControl, Text, ScrollView, View } from 'react-native';
+import { RefreshControl, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
-import { History as t } from '../../utils/i18n';
 import colors from '../../styles/colors';
+import TitleParams from '../../components/TitleParams';
 import List from '../../components/History/List';
 import { PayUTC } from '../../redux/actions';
-import BlockTemplate from '../../components/BlockTemplate';
 import TabsBlockTemplate from '../../components/TabsBlockTemplate';
+import { firstTransaction } from '../../utils/stats';
+import { _, History as t } from '../../utils/i18n';
 
 class HistoryScreen extends React.PureComponent {
 	static navigationOptions = {
@@ -22,6 +23,31 @@ class HistoryScreen extends React.PureComponent {
 		header: null,
 		headerForceInset: { top: 'never' },
 	};
+
+	constructor(props) {
+		super(props);
+
+		const ever = firstTransaction(props.history);
+
+		const oneMonthAgo = new Date();
+		oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
+
+		const oneWeekAgo = new Date();
+		oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+
+		const yesterday = new Date();
+		yesterday.setDate(yesterday.getDate() - 1);
+
+		this.state = {
+			dates: [
+				{ title: _('ever'), date: ever },
+				{ title: _('month'), date: oneMonthAgo },
+				{ title: _('week'), date: oneWeekAgo },
+				{ title: _('yesterday'), date: yesterday },
+			],
+			selectedDate: 0,
+		};
+	}
 
 	componentDidMount() {
 		this.onRefresh();
@@ -36,17 +62,20 @@ class HistoryScreen extends React.PureComponent {
 	}
 
 	getHistory(type) {
-		const { history } = this.props;
+		let { history } = this.props;
+		const { dates, selectedDate } = this.state;
 
 		if (type) {
-			return history.filter(transaction => transaction.type.startsWith(type));
+			history = history.filter(transaction => transaction.type.startsWith(type));
 		}
 
-		return history;
+		return history.filter(item => new Date(item.date) > new Date(dates[selectedDate].date));
 	}
 
 	render() {
 		const { historyFetching } = this.props;
+		const { dates, selectedDate } = this.state;
+		const since = _('since_*', { since: dates[selectedDate].title.toLowerCase() });
 
 		return (
 			<ScrollView
@@ -60,13 +89,17 @@ class HistoryScreen extends React.PureComponent {
 					/>
 				}
 			>
-				<View style={{ paddingHorizontal: 15, paddingTop: 15 }}>
-					<BlockTemplate roundedTop roundedBottom shadow>
-						<Text style={{ fontSize: 22, fontWeight: 'bold', color: colors.primary }}>
-							{t('title')}
-						</Text>
-					</BlockTemplate>
-				</View>
+				<TitleParams title={t('title')} settingText={since}>
+					<TabsBlockTemplate
+						roundedBottom
+						text={_('show_since')}
+						tintColor={colors.secondary}
+						default={selectedDate}
+						onChange={index => this.setState({ selectedDate: index })}
+						style={{ marginHorizontal: 15, borderTopWidth: 0 }}
+						tabs={dates}
+					/>
+				</TitleParams>
 
 				<TabsBlockTemplate
 					style={{ margin: 15 }}
@@ -77,7 +110,11 @@ class HistoryScreen extends React.PureComponent {
 						{
 							title: t('all'),
 							children: () => (
-								<List loading={historyFetching} items={this.getHistory()} title={t('all_desc')} />
+								<List
+									loading={historyFetching}
+									items={this.getHistory()}
+									title={t('all_desc', { since: since.toLowerCase() })}
+								/>
 							),
 						},
 						{
@@ -86,7 +123,7 @@ class HistoryScreen extends React.PureComponent {
 								<List
 									loading={historyFetching}
 									items={this.getHistory('PURCHASE')}
-									title={t('purchased_desc')}
+									title={t('purchased_desc', { since: since.toLowerCase() })}
 								/>
 							),
 						},
@@ -96,7 +133,7 @@ class HistoryScreen extends React.PureComponent {
 								<List
 									loading={historyFetching}
 									items={this.getHistory('RECHARGE')}
-									title={t('refills_desc')}
+									title={t('refills_desc', { since: since.toLowerCase() })}
 								/>
 							),
 						},
@@ -106,7 +143,7 @@ class HistoryScreen extends React.PureComponent {
 								<List
 									loading={historyFetching}
 									items={this.getHistory('VIR')}
-									title={t('transfers_desc')}
+									title={t('transfers_desc', { since: since.toLowerCase() })}
 								/>
 							),
 						},
