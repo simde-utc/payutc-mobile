@@ -67,16 +67,21 @@ class TransferScreen extends React.PureComponent {
 	}
 
 	isButtonDisabled() {
-		const { amount, amountError } = this.state;
+		const { recipient, amount, amountError } = this.state;
 
-		return amountError != null || !parseFloat(amount.replace(',', '.')) || !isAmountValid(amount);
+		return (
+			!recipient ||
+			amountError != null ||
+			!parseFloat(amount.replace(',', '.')) ||
+			!isAmountValid(amount)
+		);
 	}
 
 	handleAmountChange(amount) {
-		const { amountError: prevError } = this.state;
+		const { amount: prevAmount } = this.state;
 
 		if (!isAmountValid(amount)) {
-			if (prevError || amount === ',' || amount === '.') {
+			if (!isAmountValid(prevAmount) || amount === ',' || amount === '.') {
 				this.setState({ amountError: t('amount_error') });
 			} else {
 				this.setState({ amount, amountError: t('amount_error') });
