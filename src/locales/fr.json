@@ -30,8 +30,10 @@
 		},
 		"Payment": {
 			"title": "Paiement",
-			"paiement_canceled": "La tentative de paiement a été annulée",
+			"paiement_canceled": "Aucun paiement effectué, rechargement annulé",
 			"paiement_confirmed": "Rechargement de %{amount} validé !",
+			"checking": "Vérification de la transaction",
+			"getting_refill": "Récupération de l'information de rechargement"
 		},
 		"Transfer": {
 			"title": "Transfert",
