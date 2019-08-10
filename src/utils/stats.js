@@ -15,15 +15,18 @@ export const firstTransaction = history => {
 	return history[history.length - 1].date;
 };
 
-const getQuantityForTransaction = ({ quantity, amount }) =>
-	quantity === amount ? 1 : quantity;
+const getQuantityForTransaction = ({ quantity, amount }) => (quantity === amount ? 1 : quantity);
 
 const total = (history, type, countAttribute, since) => {
 	return history
 		.filter(
 			transaction => transaction.type === type && new Date(transaction.date) > new Date(since)
 		)
-		.map(transaction => transaction[countAttribute])
+		.map(transaction =>
+			countAttribute === 'quantity'
+				? getQuantityForTransaction(transaction)
+				: transaction[countAttribute]
+		)
 		.reduce((acc, cur) => acc + cur, 0);
 };
 
