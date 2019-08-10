@@ -8,7 +8,7 @@
 
 import React from 'react';
 import { Alert, RefreshControl, ScrollView, Text, View } from 'react-native';
-import Ionicons from '@expo/vector-icons/Ionicons';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { connect } from 'react-redux';
 import colors from '../../styles/colors';
 import BlockTemplate from '../../components/BlockTemplate';
@@ -136,7 +136,7 @@ class SettingsScreen extends React.PureComponent {
 							<Text style={{ fontSize: 16, fontWeight: 'bold', color: colors.secondary }}>
 								{t('about')}
 							</Text>
-							<Ionicons name="md-arrow-forward" size={18} color={colors.secondary} />
+							<FontAwesomeIcon icon={['fas', 'angle-right']} size={16} color={colors.secondary} />
 						</View>
 					</BlockTemplate>
 					<View style={{ height: 15 }} />
@@ -145,7 +145,7 @@ class SettingsScreen extends React.PureComponent {
 							<Text style={{ fontSize: 16, fontWeight: 'bold', color: colors.secondary }}>
 								{t('legal')}
 							</Text>
-							<Ionicons name="md-arrow-forward" size={18} color={colors.secondary} />
+							<FontAwesomeIcon icon={['fas', 'angle-right']} size={16} color={colors.secondary} />
 						</View>
 					</BlockTemplate>
 					<View style={{ height: 15 }} />
@@ -154,7 +154,7 @@ class SettingsScreen extends React.PureComponent {
 							<Text style={{ fontSize: 16, fontWeight: 'bold', color: colors.less }}>
 								{t('sign_out')}
 							</Text>
-							<Ionicons name="md-arrow-forward" size={18} color={colors.less} />
+							<FontAwesomeIcon icon={['fas', 'angle-right']} size={16} color={colors.less} />
 						</View>
 					</BlockTemplate>
 				</ScrollView>

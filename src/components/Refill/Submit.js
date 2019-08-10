@@ -9,7 +9,7 @@
 import React from 'react';
 import { Text, View } from 'react-native';
 import { connect } from 'react-redux';
-import Ionicons from '@expo/vector-icons/Ionicons';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import colors from '../../styles/colors';
 import BlockTemplate from '../BlockTemplate';
 import { Config, PayUTC } from '../../redux/actions';
@@ -110,7 +110,7 @@ class Submit extends React.PureComponent {
 					>
 						{t('pay')}
 					</Text>
-					<Ionicons name="md-arrow-forward" size={20} color={colors.backgroundLight} />
+					<FontAwesomeIcon icon={['fas', 'angle-right']} size={20} color={colors.backgroundLight} />
 				</View>
 			</BlockTemplate>
 		);
