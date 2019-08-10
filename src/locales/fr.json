@@ -100,7 +100,16 @@
 			"refill": "Rechargement",
 			"refund": "Remboursement de",
 			"unsupported_transaction": "Impossible d'afficher la transaction",
-			"good_job": "Bravo, tu es arrivé au bout !"
+			"good_job": "Bravo, tu es arrivé au bout !",
+			"all": "Tous",
+			"all_desc": "Dernières actions sur le compte",
+			"purchased": "Achats",
+			"purchased_desc": "Derniers achats",
+			"refills": "Rechargements",
+			"refills_desc": "Derniers rechargements",
+			"transfers": "Transferts",
+			"transfers_desc": "Derniers transferts",
+			"empty_list": "Aucune donnée à afficher :("
 		},
 		"Stats": {
 			"title": "Statistiques",
@@ -116,12 +125,12 @@
 			"show_since": "Afficher les statistiques depuis :",
 			"empty_list": "Aucune donnée à afficher :(",
 			"firstTransaction": "Première transaction :",
-			"buyRanking": "Produits les plus achetés :",
+			"buyRanking": "Produits les plus achetés",
 			"buyRankingTitle": "Par quantité",
-			"spendRanking": "Produits les plus coûteux :",
+			"spendRanking": "Produits les plus coûteux",
 			"spendRankingTitle": "Par prix",
-			"receiveRanking": "Personnes qui vous transfèrent le plus :",
-			"giveRanking": "Personnes à qui vous transférez le plus :",
+			"receiveRanking": "Personnes qui vous transfèrent le plus",
+			"giveRanking": "Personnes à qui vous transférez le plus",
 			"transferRankingTitle": "Transferts"
 		},
 		"Settings": {

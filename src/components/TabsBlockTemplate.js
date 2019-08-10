@@ -1,12 +1,13 @@
-/*
+/**
  * @author Arthur Martello <arthur.martello@etu.utc.fr>
+ * @author Samy Nastuzzi <samy@nastuzzi.fr>
  *
  * @copyright Copyright (c) 2019, SiMDE-UTC
  * @license GPL-3.0
  */
 
 import React from 'react';
-import { Text, View } from 'react-native';
+import { ScrollView, Text, View } from 'react-native';
 import BlockTemplate from './BlockTemplate';
 import colors from '../styles/colors';
 
@@ -38,18 +39,22 @@ export default class TabsBlockTemplate extends React.PureComponent {
 				roundedTop={roundedTop}
 				roundedBottom={roundedBottom}
 				shadow={shadow}
-				style={[{ paddingHorizontal: 0, paddingBottom: 0 }, style]}
+				style={[{ padding: 0 }, style]}
 			>
-				<View
-					style={{
-						flex: 1,
+				<ScrollView
+					horizontal
+					showsHorizontalScrollIndicator={false}
+					contentContainerStyle={{
+						flexGrow: 1,
 						flexDirection: 'row',
 						justifyContent: 'space-between',
 						flexWrap: 'nowrap',
-						borderBottomWidth: tabs.filter(tab => tab.children).length ? 1 : 0,
-						borderBottomColor: colors.backgroundLight,
-						paddingHorizontal: 10,
-						paddingBottom: 10,
+						backgroundColor: colors.backgroundBlock,
+						padding: 10,
+						borderTopLeftRadius: roundedTop ? 10 : 0,
+						borderTopRightRadius: roundedTop ? 10 : 0,
+						borderBottomLeftRadius: roundedBottom ? 10 : 0,
+						borderBottomRightRadius: roundedBottom ? 10 : 0,
 					}}
 				>
 					{tabs.map((tab, index) => (
@@ -60,6 +65,7 @@ export default class TabsBlockTemplate extends React.PureComponent {
 							key={tab.title}
 							disabled={disabled}
 							customBackground={selected === index && !disabled ? tintColor : null}
+							style={index + 1 === tabs.length ? {} : { marginRight: 10 }}
 							onPress={() => {
 								this.onTabChange(index);
 								if (onChange) onChange(index);
@@ -80,8 +86,14 @@ export default class TabsBlockTemplate extends React.PureComponent {
 							</Text>
 						</BlockTemplate>
 					))}
-				</View>
-				{tabs[selected].children}
+				</ScrollView>
+				<View
+					style={{
+						borderBottomWidth: tabs.filter(tab => tab.children).length ? 1 : 0,
+						borderBottomColor: colors.backgroundLight,
+					}}
+				/>
+				{tabs[selected].children ? tabs[selected].children() : null}
 			</BlockTemplate>
 		);
 	}
