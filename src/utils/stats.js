@@ -12,7 +12,7 @@ export const numberOfTransactions = history => {
 };
 
 export const firstTransaction = history => {
-	return history[history.length - 1].date;
+	return history.length > 0 ? history[history.length - 1].date : null;
 };
 
 const getQuantityForTransaction = ({ quantity, amount }) => (quantity === amount ? 1 : quantity);

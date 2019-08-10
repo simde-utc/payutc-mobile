@@ -35,10 +35,13 @@ class StatsScreen extends React.PureComponent {
 		super(props);
 
 		const ever = firstTransaction(props.history);
+
 		const oneMonthAgo = new Date();
 		oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
+
 		const oneWeekAgo = new Date();
 		oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+
 		const yesterday = new Date();
 		yesterday.setDate(yesterday.getDate() - 1);
 
@@ -59,9 +62,9 @@ class StatsScreen extends React.PureComponent {
 	}
 
 	onRefresh() {
-		const { historyFetching, dispatch } = this.props;
+		const { historyFetching, historyFetched, dispatch } = this.props;
 
-		if (!historyFetching) {
+		if (!historyFetching && !historyFetched) {
 			dispatch(PayUTC.getHistory());
 		}
 	}
