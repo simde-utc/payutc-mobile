@@ -73,7 +73,7 @@ class StatsScreen extends React.PureComponent {
 					tabs={[
 						{
 							title: t('buyRankingTitle'),
-							children: (
+							children: () => (
 								<RankedList
 									title={t('buyRanking')}
 									items={mostPurchasedItems(history).splice(0, 10)}
@@ -83,7 +83,7 @@ class StatsScreen extends React.PureComponent {
 						},
 						{
 							title: t('spendRankingTitle'),
-							children: (
+							children: () => (
 								<RankedList
 									title={t('spendRanking')}
 									euro
@@ -94,7 +94,7 @@ class StatsScreen extends React.PureComponent {
 						},
 						{
 							title: t('transferRankingTitle'),
-							children: (
+							children: () => (
 								<View>
 									<RankedList
 										title={t('receiveRanking')}
