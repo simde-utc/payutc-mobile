@@ -12,50 +12,38 @@ export const numberOfTransactions = history => {
 };
 
 export const firstTransaction = history => {
-	return history[history.length - 1].date;
+	return history.length > 0 ? history[history.length - 1].date : null;
 };
 
-const total = (history, type, since) => {
-	return floatToEuro(
-		history
-			.filter(
-				transaction => transaction.type === type && new Date(transaction.date) > new Date(since)
-			)
-			.map(transaction => transaction.amount)
-			.reduce((acc, cur) => acc + cur, 0) / 100
-	);
-};
+const getQuantityForTransaction = ({ quantity, amount }) => (quantity === amount ? 1 : quantity);
 
-export const purchasesTotal = history => {
-	return total(history, 'PURCHASE', firstTransaction(history));
-};
-
-export const getQuantityForTransaction = ({ quantity, amount }) =>
-	quantity === amount ? 1 : quantity;
-
-export const purchasesCount = history => {
+const total = (history, type, countAttribute, since) => {
 	return history
-		.filter(transaction => transaction.type === 'PURCHASE')
-		.map(getQuantityForTransaction)
+		.filter(
+			transaction => transaction.type === type && new Date(transaction.date) > new Date(since)
+		)
+		.map(transaction =>
+			countAttribute === 'quantity'
+				? getQuantityForTransaction(transaction)
+				: transaction[countAttribute]
+		)
 		.reduce((acc, cur) => acc + cur, 0);
 };
 
-export const lastMonthPurchasesTotal = history => {
-	const date = new Date();
-	date.setMonth(date.getMonth() - 1);
-	return total(history, 'PURCHASE', date);
+export const purchasesAmount = (history, since) => {
+	return floatToEuro(total(history, 'PURCHASE', 'amount', since) / 100);
 };
 
-export const lastMonthTransferTotal = history => {
-	const date = new Date();
-	date.setMonth(date.getMonth() - 1);
-	return total(history, 'VIROUT', date);
+export const purchasesCount = (history, since) => {
+	return total(history, 'PURCHASE', 'quantity', since);
 };
 
-export const lastMonthReceivedTotal = history => {
-	const date = new Date();
-	date.setMonth(date.getMonth() - 1);
-	return total(history, 'VIRIN', date);
+export const receivedAmount = (history, since) => {
+	return floatToEuro(total(history, 'VIRIN', 'amount', since) / 100);
+};
+
+export const givenAmount = (history, since) => {
+	return floatToEuro(total(history, 'VIROUT', 'amount', since) / 100);
 };
 
 const sortedItems = (history, type, displayedAttributes, countAttribute) => {

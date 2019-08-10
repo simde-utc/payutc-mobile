@@ -76,23 +76,39 @@ class HistoryScreen extends React.PureComponent {
 					tabs={[
 						{
 							title: t('all'),
-							children: () => <List items={this.getHistory()} title={t('all_desc')} />,
+							children: () => (
+								<List loading={historyFetching} items={this.getHistory()} title={t('all_desc')} />
+							),
 						},
 						{
 							title: t('purchased'),
 							children: () => (
-								<List items={this.getHistory('PURCHASE')} title={t('purchased_desc')} />
+								<List
+									loading={historyFetching}
+									items={this.getHistory('PURCHASE')}
+									title={t('purchased_desc')}
+								/>
 							),
 						},
 						{
 							title: t('refills'),
 							children: () => (
-								<List items={this.getHistory('RECHARGE')} title={t('refills_desc')} />
+								<List
+									loading={historyFetching}
+									items={this.getHistory('RECHARGE')}
+									title={t('refills_desc')}
+								/>
 							),
 						},
 						{
 							title: t('transfers'),
-							children: () => <List items={this.getHistory('VIR')} title={t('transfers_desc')} />,
+							children: () => (
+								<List
+									loading={historyFetching}
+									items={this.getHistory('VIR')}
+									title={t('transfers_desc')}
+								/>
+							),
 						},
 					]}
 				/>

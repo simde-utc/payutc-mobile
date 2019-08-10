@@ -10,7 +10,7 @@ import { FlatList, Text } from 'react-native';
 import Item from './Item';
 import BlockTemplate from '../BlockTemplate';
 import colors from '../../styles/colors';
-import { _ } from '../../utils/i18n';
+import { _, History as t } from '../../utils/i18n';
 
 export default class List extends React.PureComponent {
 	static renderItem(item, rank, last = false) {
@@ -25,25 +25,24 @@ export default class List extends React.PureComponent {
 	}
 
 	render() {
-		const { items, title } = this.props;
+		const { items, title, loading } = this.props;
 
 		return (
 			<FlatList
 				data={items}
-				// style={{ backgroundColor: colors.backgroundLight }}
 				keyExtractor={item => item.id.toString()}
 				renderItem={({ item, index }) =>
 					List.renderItem(item, index + 1, index === items.length - 1)
 				}
 				ListEmptyComponent={() => (
-					<BlockTemplate>
+					<BlockTemplate roundedBottom>
 						<Text style={{ fontSize: 14, fontWeight: 'bold', color: colors.disabled }}>
-							{_('loading_text_replacement')}
+							{loading ? _('loading_text_replacement') : t('empty_list')}
 						</Text>
 					</BlockTemplate>
 				)}
 				ListHeaderComponent={() => (
-					<BlockTemplate roundedTop>
+					<BlockTemplate>
 						<Text style={{ fontSize: 16, fontWeight: 'bold', color: colors.primary }}>{title}</Text>
 					</BlockTemplate>
 				)}

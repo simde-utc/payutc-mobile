@@ -9,11 +9,11 @@ import React from 'react';
 import { FlatList, Text, View } from 'react-native';
 import BlockTemplate from '../BlockTemplate';
 import colors from '../../styles/colors';
-import { _ } from '../../utils/i18n';
+import { _, Stats as t } from '../../utils/i18n';
 import { floatToEuro } from '../../utils';
 
 export default class RankedList extends React.PureComponent {
-	renderItem(item, rank, last = false) {
+	renderItem(item, rank, roundedBottom = false) {
 		const { euro, countTintColor } = this.props;
 
 		return (
@@ -26,7 +26,7 @@ export default class RankedList extends React.PureComponent {
 					alignItems: 'center',
 					justifyContent: 'space-between',
 				}}
-				roundedBottom={last}
+				roundedBottom={roundedBottom}
 			>
 				<Text style={{ fontSize: 20, fontWeight: 'bold', color: colors.primary }}>#{rank}</Text>
 				<View style={{ flex: 1, flexWrap: 'wrap', alignItems: 'center', marginHorizontal: 5 }}>
@@ -48,19 +48,19 @@ export default class RankedList extends React.PureComponent {
 	}
 
 	render() {
-		const { items, title } = this.props;
+		const { items, title, noBottomBorder, loading } = this.props;
 
 		return (
 			<FlatList
 				data={items}
 				keyExtractor={item => item.name.toString()}
 				renderItem={({ item, index }) =>
-					this.renderItem(item, index + 1, index === items.length - 1)
+					this.renderItem(item, index + 1, !noBottomBorder && index === items.length - 1)
 				}
 				ListEmptyComponent={() => (
-					<BlockTemplate>
+					<BlockTemplate roundedBottom customBackground={colors.backgroundBlockAlt}>
 						<Text style={{ fontSize: 14, fontWeight: 'bold', color: colors.disabled }}>
-							{_('loading_text_replacement')}
+							{loading ? _('loading_text_replacement') : t('empty_list')}
 						</Text>
 					</BlockTemplate>
 				)}
