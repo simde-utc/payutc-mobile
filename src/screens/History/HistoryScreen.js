@@ -7,10 +7,12 @@
  */
 
 import React from 'react';
-import { RefreshControl, ScrollView } from 'react-native';
+import { RefreshControl, TextInput, ScrollView, View } from 'react-native';
 import { connect } from 'react-redux';
+import Ionicons from '@expo/vector-icons/Ionicons';
 import colors from '../../styles/colors';
 import TitleParams from '../../components/TitleParams';
+import BlockTemplate from '../../components/BlockTemplate';
 import List from '../../components/History/List';
 import { PayUTC } from '../../redux/actions';
 import TabsBlockTemplate from '../../components/TabsBlockTemplate';
@@ -46,7 +48,10 @@ class HistoryScreen extends React.PureComponent {
 				{ title: _('yesterday'), date: yesterday },
 			],
 			selectedDate: 0,
+			search: '',
 		};
+
+		this.onSearchChange = this.onSearchChange.bind(this);
 	}
 
 	componentDidMount() {
@@ -61,20 +66,33 @@ class HistoryScreen extends React.PureComponent {
 		}
 	}
 
+	onSearchChange(search) {
+		this.setState({ search });
+	}
+
 	getHistory(type) {
 		let { history } = this.props;
-		const { dates, selectedDate } = this.state;
+		const { dates, selectedDate, search } = this.state;
 
 		if (type) {
 			history = history.filter(transaction => transaction.type.startsWith(type));
 		}
 
-		return history.filter(item => new Date(item.date) > new Date(dates[selectedDate].date));
+		history = history.filter(({ date }) => new Date(date) > new Date(dates[selectedDate].date));
+
+		if (search !== '') {
+			history = history.filter(
+				({ name, message }) =>
+					(name && name.includes(search)) || (message && message.includes(search))
+			);
+		}
+
+		return history;
 	}
 
 	render() {
 		const { historyFetching } = this.props;
-		const { dates, selectedDate } = this.state;
+		const { dates, selectedDate, search } = this.state;
 		const since = _('since_*', { since: dates[selectedDate].title.toLowerCase() });
 
 		return (
@@ -90,6 +108,25 @@ class HistoryScreen extends React.PureComponent {
 				}
 			>
 				<TitleParams title={t('title')} settingText={since}>
+					<BlockTemplate shadow style={{ marginHorizontal: 15 }}>
+						<View style={{ flex: 1, flexDirection: 'row', paddingLeft: 5, alignItems: 'center' }}>
+							<Ionicons name="ios-search" size={22} color={colors.secondary} />
+							<TextInput
+								style={{
+									flexGrow: 1,
+									paddingLeft: 10,
+									fontSize: 18,
+									color: colors.primary,
+								}}
+								autoCapitalize="none"
+								placeholder={t('search')}
+								selectionColor={colors.primary}
+								textContentType="none"
+								onChangeText={this.onSearchChange}
+								value={search}
+							/>
+						</View>
+					</BlockTemplate>
 					<TabsBlockTemplate
 						roundedBottom
 						text={_('show_since')}
@@ -100,7 +137,6 @@ class HistoryScreen extends React.PureComponent {
 						tabs={dates}
 					/>
 				</TitleParams>
-
 				<TabsBlockTemplate
 					style={{ margin: 15 }}
 					roundedTop
