@@ -42,7 +42,7 @@ export default class List extends React.PureComponent {
 					</BlockTemplate>
 				)}
 				ListHeaderComponent={() => (
-					<BlockTemplate roundedTop>
+					<BlockTemplate>
 						<Text style={{ fontSize: 16, fontWeight: 'bold', color: colors.primary }}>{title}</Text>
 					</BlockTemplate>
 				)}

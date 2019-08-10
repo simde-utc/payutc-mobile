@@ -195,6 +195,7 @@ class StatsScreen extends React.PureComponent {
 									<RankedList
 										title={t('receiveRanking')}
 										euro
+										noBottomBorder
 										items={mostReceivedFromPersons(filteredHistory).splice(0, 5)}
 										countTintColor={colors.more}
 										loading={!historyFetched}
