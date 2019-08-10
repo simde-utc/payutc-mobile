@@ -77,10 +77,15 @@ export default class Item extends React.PureComponent {
 	}
 
 	render() {
-		const { transaction, customBackground } = this.props;
+		const { transaction, customBackground, roundedTop, roundedBottom, shadow } = this.props;
 
 		return (
-			<BlockTemplate customBackground={customBackground}>
+			<BlockTemplate
+				customBackground={customBackground}
+				roundedTop={roundedTop}
+				roundedBottom={roundedBottom}
+				shadow={shadow}
+			>
 				<Text style={{ fontSize: 10, color: colors.secondary, marginBottom: 3 }}>
 					{beautifyDateTime(transaction.date)} {transaction.fun ? `• ${transaction.fun}` : null}
 				</Text>

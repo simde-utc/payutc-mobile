@@ -15,7 +15,7 @@ import { floatToEuro } from '../../utils';
 
 export default class Balance extends React.PureComponent {
 	render() {
-		const { amount, name, loading } = this.props;
+		const { amount, name, loading, thisWeek } = this.props;
 
 		return (
 			<BlockTemplate roundedTop roundedBottom shadow>
@@ -31,6 +31,14 @@ export default class Balance extends React.PureComponent {
 						{t('no_balance')}
 					</Text>
 				)}
+				<Text style={{ fontSize: 13, color: colors.secondary }}>
+					{thisWeek ? (
+						<Text style={{ fontWeight: 'bold', color: colors.less }}>{thisWeek}</Text>
+					) : (
+						_('loading_text_replacement')
+					)}{' '}
+					{t('this_week')}
+				</Text>
 			</BlockTemplate>
 		);
 	}

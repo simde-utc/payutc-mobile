@@ -10,11 +10,10 @@ import { ScrollView, View } from 'react-native';
 import DataBlockTemplate from './DataBlockTemplate';
 import {
 	firstTransaction,
-	lastMonthPurchasesTotal,
-	lastMonthReceivedTotal,
-	lastMonthTransferTotal,
+	givenAmount,
+	purchasesAmount,
 	purchasesCount,
-	purchasesTotal,
+	receivedAmount,
 } from '../../utils/stats';
 import { _, Stats as t } from '../../utils/i18n';
 import colors from '../../styles/colors';
@@ -22,44 +21,38 @@ import { beautifyDate } from '../../utils';
 
 export default class StatsHorizontalScrollView extends React.PureComponent {
 	render() {
-		const { historyFetching, history } = this.props;
+		const { historyFetching, history, since } = this.props;
 		const loadingText = _('loading_text_replacement');
 
 		return (
 			<ScrollView horizontal showsHorizontalScrollIndicator={false}>
 				<View style={{ width: 15 }} />
 				<DataBlockTemplate
-					head={historyFetching ? loadingText : purchasesCount(history)}
-					description={t('purchasesCount')}
+					head={historyFetching ? loadingText : purchasesCount(history, since.date)}
+					description={`${t('purchases_count')} ${since.text}`}
 				/>
 				<View style={{ width: 15 }} />
 				<DataBlockTemplate
-					head={historyFetching ? loadingText : lastMonthPurchasesTotal(history)}
-					description={t('lastMonthPurchases')}
+					head={historyFetching ? loadingText : purchasesAmount(history, since.date)}
+					description={`${t('purchases_amount')} ${since.text}`}
 					headTintColor={colors.less}
 				/>
 				<View style={{ width: 15 }} />
 				<DataBlockTemplate
-					head={historyFetching ? loadingText : lastMonthTransferTotal(history)}
-					description={t('lastMonthTransfers')}
-					headTintColor={colors.lightBlue}
-				/>
-				<View style={{ width: 15 }} />
-				<DataBlockTemplate
-					head={historyFetching ? loadingText : purchasesTotal(history)}
-					description={t('purchasesTotal')}
-					headTintColor={colors.less}
-				/>
-				<View style={{ width: 15 }} />
-				<DataBlockTemplate
-					head={historyFetching ? loadingText : lastMonthReceivedTotal(history)}
-					description={t('lastMonthReceived')}
+					head={historyFetching ? loadingText : receivedAmount(history, since.date)}
+					description={`${t('received_amount')} ${since.text}`}
 					headTintColor={colors.more}
 				/>
 				<View style={{ width: 15 }} />
 				<DataBlockTemplate
+					head={historyFetching ? loadingText : givenAmount(history, since.date)}
+					description={`${t('give_amount')} ${since.text}`}
+					headTintColor={colors.lightBlue}
+				/>
+				<View style={{ width: 15 }} />
+				<DataBlockTemplate
 					head={historyFetching ? loadingText : beautifyDate(firstTransaction(history))}
-					description={t('firstTransaction')}
+					description={t('first_transaction')}
 					reversed
 				/>
 				<View style={{ width: 15 }} />

@@ -16,6 +16,7 @@ import BlockTemplate from '../../components/BlockTemplate';
 import Item from '../../components/History/Item';
 import { PayUTC } from '../../redux/actions';
 import { _, Home as t } from '../../utils/i18n';
+import { purchasesAmount } from '../../utils/stats';
 
 class HomeScreen extends React.PureComponent {
 	static navigationOptions = {
@@ -74,6 +75,9 @@ class HomeScreen extends React.PureComponent {
 		const { message } = this.state;
 		const amount = details.credit ? details.credit / 100 : null;
 
+		const oneWeekAgo = new Date();
+		oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+
 		return (
 			<View
 				style={{
@@ -110,17 +114,23 @@ class HomeScreen extends React.PureComponent {
 							/>
 						}
 					>
-						<Balance amount={amount} loading={detailsFetching} name={details.first_name} />
+						<Balance
+							amount={amount}
+							loading={detailsFetching}
+							name={details.first_name}
+							thisWeek={purchasesAmount(history, oneWeekAgo)}
+						/>
 					</ScrollView>
+
 					<Shortcuts amount={amount} navigation={navigation} />
-					<View style={{ paddingTop: 15 }}>
-						<BlockTemplate roundedTop shadow>
-							<Text style={{ fontSize: 16, fontWeight: 'bold', color: colors.primary }}>
-								{t('recent_activity')}
-							</Text>
-						</BlockTemplate>
-						<View style={{ borderColor: colors.backgroundLight, height: 1 }} />
-					</View>
+
+					<BlockTemplate roundedTop shadow style={{ marginTop: 15 }}>
+						<Text style={{ fontSize: 16, fontWeight: 'bold', color: colors.primary }}>
+							{t('recent_activity')}
+						</Text>
+					</BlockTemplate>
+
+					<View style={{ borderColor: colors.backgroundLight, height: 1 }} />
 				</View>
 				<FlatList
 					data={history.slice(0, 10)}

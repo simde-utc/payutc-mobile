@@ -17,7 +17,7 @@ export default class DataBlockTemplate extends React.PureComponent {
 		return (
 			<Text
 				style={{
-					fontSize: 14,
+					fontSize: 13,
 					fontWeight: 'bold',
 					color: colors.secondary,
 					textAlign: 'center',
@@ -46,7 +46,7 @@ export default class DataBlockTemplate extends React.PureComponent {
 					{reversed ? this.renderDescription() : null}
 					<Text
 						style={{
-							fontSize: 20,
+							fontSize: 23,
 							fontWeight: 'bold',
 							color: headTintColor || colors.primary,
 							textAlign: 'center',
