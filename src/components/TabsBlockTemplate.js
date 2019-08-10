@@ -24,6 +24,7 @@ export default class TabsBlockTemplate extends React.PureComponent {
 	render() {
 		const {
 			tabs,
+			text,
 			style,
 			roundedTop,
 			roundedBottom,
@@ -39,18 +40,30 @@ export default class TabsBlockTemplate extends React.PureComponent {
 				roundedTop={roundedTop}
 				roundedBottom={roundedBottom}
 				shadow={shadow}
-				style={[{ padding: 0 }, style]}
+				style={[{ padding: 0, backgroundColor: colors.backgroundBlock }, style]}
 			>
+				{text ? (
+					<Text
+						style={{
+							fontSize: 14,
+							fontWeight: 'bold',
+							color: colors.secondary,
+							margin: 10,
+							marginBottom: 0,
+						}}
+					>{text}</Text>
+				) : null}
 				<ScrollView
 					horizontal
 					showsHorizontalScrollIndicator={false}
 					contentContainerStyle={{
+						margin: 5,
+						padding: 5,
 						flexGrow: 1,
 						flexDirection: 'row',
 						justifyContent: 'space-between',
 						flexWrap: 'nowrap',
 						backgroundColor: colors.backgroundBlock,
-						padding: 10,
 						borderTopLeftRadius: roundedTop ? 10 : 0,
 						borderTopRightRadius: roundedTop ? 10 : 0,
 						borderBottomLeftRadius: roundedBottom ? 10 : 0,
@@ -65,7 +78,7 @@ export default class TabsBlockTemplate extends React.PureComponent {
 							key={tab.title}
 							disabled={disabled}
 							customBackground={selected === index && !disabled ? tintColor : null}
-							style={index + 1 === tabs.length ? {} : { marginRight: 10 }}
+							style={{ marginRight: 10 }}
 							onPress={() => {
 								this.onTabChange(index);
 								if (onChange) onChange(index);

@@ -1,5 +1,6 @@
-/*
+/**
  * @author Arthur Martello <arthur.martello@etu.utc.fr>
+ * @author Samy Nastuzzi <samy@nastuzzi.fr>
  *
  * @copyright Copyright (c) 2019, SiMDE-UTC
  * @license GPL-3.0
@@ -91,7 +92,7 @@ class StatsScreen extends React.PureComponent {
 			>
 				<BlockTemplate
 					roundedTop
-					roundedBottom
+					roundedBottom={!showDates}
 					shadow
 					style={{
 						flex: 1,
@@ -127,31 +128,15 @@ class StatsScreen extends React.PureComponent {
 					</BlockTemplate>
 				</BlockTemplate>
 				{showDates ? (
-					<BlockTemplate
-						roundedTop
+					<TabsBlockTemplate
 						roundedBottom
-						shadow
-						style={{ marginHorizontal: 15, marginTop: 5, padding: 0 }}
-					>
-						<Text
-							style={{
-								fontSize: 14,
-								fontWeight: 'bold',
-								color: colors.secondary,
-								margin: 10,
-								marginBottom: 0,
-							}}
-						>
-							{t('show_since')}
-						</Text>
-						<TabsBlockTemplate
-							roundedBottom
-							tintColor={colors.secondary}
-							default={selectedDate}
-							onChange={index => this.setState({ selectedDate: index })}
-							tabs={dates}
-						/>
-					</BlockTemplate>
+						text={t('show_since')}
+						tintColor={colors.secondary}
+						default={selectedDate}
+						onChange={index => this.setState({ selectedDate: index })}
+						style={{ marginHorizontal: 15, borderTopWidth: 0 }}
+						tabs={dates}
+					/>
 				) : null}
 				<View style={{ height: 15 }} />
 				<StatsHorizontalScrollView
