@@ -12,8 +12,7 @@ import colors from '../../styles/colors';
 import BlockTemplate from '../BlockTemplate';
 import { History as t } from '../../utils/i18n';
 import { beautifyDateTime } from '../../utils';
-import Payed from './Payed';
-import Received from './Received';
+import Transaction from './Transaction';
 
 export default class Item extends React.PureComponent {
 	static renderTransaction(transaction) {
@@ -21,41 +20,56 @@ export default class Item extends React.PureComponent {
 			case 'PURCHASE': {
 				if (transaction.quantity > 0)
 					return (
-						<Payed
+						<Transaction
 							name={transaction.name}
 							amount={transaction.amount}
 							quantity={transaction.quantity}
+							sign="-"
+							signTintColor={colors.less}
 						/>
 					);
 				if (transaction.quantity < 0)
 					return (
-						<Received
+						<Transaction
 							name={`${t('refund')} ${transaction.name}`}
 							amount={Math.abs(transaction.amount)}
 							quantity={transaction.quantity}
+							sign="+"
+							signTintColor={colors.more}
 						/>
 					);
 			}
 			case 'VIROUT': {
 				return (
-					<Payed
+					<Transaction
 						name={`${t('virout')} ${transaction.firstname} ${transaction.lastname}`}
 						amount={transaction.amount}
 						message={transaction.name}
+						sign="-"
+						signTintColor={colors.less}
 					/>
 				);
 			}
 			case 'VIRIN': {
 				return (
-					<Received
+					<Transaction
 						name={`${t('virin')} ${transaction.firstname} ${transaction.lastname}`}
 						amount={transaction.amount}
 						message={transaction.name}
+						sign="+"
+						signTintColor={colors.more}
 					/>
 				);
 			}
 			case 'RECHARGE': {
-				return <Received name={t('refill')} amount={transaction.amount} />;
+				return (
+					<Transaction
+						name={t('refill')}
+						amount={transaction.amount}
+						sign="+"
+						signTintColor={colors.more}
+					/>
+				);
 			}
 			default:
 				return <Text>{t('unsupported_transaction')}</Text>;
