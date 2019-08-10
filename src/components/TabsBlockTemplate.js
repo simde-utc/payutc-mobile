@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { Text, ScrollView } from 'react-native';
+import { ScrollView, Text, View } from 'react-native';
 import BlockTemplate from './BlockTemplate';
 import colors from '../styles/colors';
 
@@ -30,7 +30,7 @@ export default class TabsBlockTemplate extends React.PureComponent {
 				roundedTop={roundedTop}
 				roundedBottom={roundedBottom}
 				shadow={shadow}
-				style={[{ paddingHorizontal: 0, paddingBottom: 0 }, style]}
+				style={[{ padding: 0 }, style]}
 			>
 				<ScrollView
 					horizontal
@@ -41,10 +41,13 @@ export default class TabsBlockTemplate extends React.PureComponent {
 						justifyContent: 'space-between',
 						flexWrap: 'nowrap',
 						backgroundColor: colors.backgroundBlock,
-						borderBottomWidth: 1,
-						borderBottomColor: colors.backgroundLight,
 						paddingHorizontal: 10,
 						paddingBottom: 10,
+						paddingTop: 10,
+						borderTopLeftRadius: roundedTop ? 10 : 0,
+						borderTopRightRadius: roundedTop ? 10 : 0,
+						borderBottomLeftRadius: roundedBottom ? 10 : 0,
+						borderBottomRightRadius: roundedBottom ? 10 : 0,
 					}}
 				>
 					{tabs.map((tab, index) => (
@@ -74,6 +77,7 @@ export default class TabsBlockTemplate extends React.PureComponent {
 						</BlockTemplate>
 					))}
 				</ScrollView>
+				<View style={{ borderBottomWidth: 1, borderBottomColor: colors.backgroundLight }} />
 				{tabs[selected].children()}
 			</BlockTemplate>
 		);
