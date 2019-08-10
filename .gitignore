@@ -62,7 +62,7 @@ typings/
 
 # Expo gitignore
 
-.expo/*
+.expo
 npm-debug.*
 *.jks
 *.p12
@@ -79,3 +79,8 @@ web-report/
 .DS_Store
 
 config.js
+
+
+android/.gradle
+android/app/build
+android/build

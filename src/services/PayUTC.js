@@ -210,6 +210,19 @@ export class PayUTCApi extends Api {
 			Api.HEADERS_JSON
 		);
 	}
+
+	checkRefill(query) {
+		return this.connectedCall(
+			REFILL_SERVICE,
+			'returnQuery',
+			Api.POST,
+			AUTH_QUERIES,
+			{
+				query,
+			},
+			Api.HEADERS_JSON
+		);
+	}
 }
 
 export default new PayUTCApi();

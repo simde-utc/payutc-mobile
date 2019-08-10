@@ -7,7 +7,7 @@
 
 import React from 'react';
 import { Text, View } from 'react-native';
-import Ionicons from '@expo/vector-icons/Ionicons';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import BlockTemplate from '../BlockTemplate';
 import { Home as t } from '../../utils/i18n';
 import colors from '../../styles/colors';
@@ -16,13 +16,13 @@ const shortcuts = [
 	{
 		screen: 'Refill',
 		lazyTitle: 'refill',
-		icon: 'ios-add-circle-outline',
+		icon: ['fas', 'plus-circle'],
 		color: colors.more,
 	},
 	{
 		screen: 'Transfer',
 		lazyTitle: 'transfer',
-		icon: 'ios-share-alt',
+		icon: ['fas', 'share'],
 		color: colors.lightBlue,
 	},
 ];
@@ -43,7 +43,7 @@ export default class Shortcuts extends React.PureComponent {
 						onPress={() => navigation.navigate(screen, { credit: amount })}
 					>
 						<View style={{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: 10 }}>
-							<Ionicons name={icon} size={17} style={{ color }} />
+							<FontAwesomeIcon icon={icon} size={15} style={{ color }} />
 							<Text
 								style={{
 									paddingLeft: 5,

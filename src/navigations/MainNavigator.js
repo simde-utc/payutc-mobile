@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import Ionicons from '@expo/vector-icons/Ionicons';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { createBottomTabNavigator } from 'react-navigation';
 import HomeNavigator from './Home/HomeNavigator';
 import colors from '../styles/colors';
@@ -15,12 +15,12 @@ import HistoryNavigator from './History/HistoryNavigator';
 import StatsNavigator from './Stats/StatsNavigator';
 import SettingsNavigator from './Settings/SettingsNavigator';
 
-const ICON_SIZE = 25;
+const ICON_SIZE = 22;
 
-const focusableIoniconFactory = iconName => {
+const focusableIoniconFactory = icon => {
 	const focusedIcon = ({ focused }) => (
-		<Ionicons
-			name={iconName}
+		<FontAwesomeIcon
+			icon={icon}
 			size={ICON_SIZE}
 			color={focused ? colors.primary : colors.secondary}
 		/>
@@ -35,7 +35,7 @@ const MainNavigator = createBottomTabNavigator(
 			screen: HomeNavigator,
 			navigationOptions: () => ({
 				title: t('home'),
-				tabBarIcon: focusableIoniconFactory('ios-home'),
+				tabBarIcon: focusableIoniconFactory(['fas', 'home']),
 			}),
 		},
 
@@ -43,7 +43,7 @@ const MainNavigator = createBottomTabNavigator(
 			screen: HistoryNavigator,
 			navigationOptions: () => ({
 				title: t('history'),
-				tabBarIcon: focusableIoniconFactory('ios-list'),
+				tabBarIcon: focusableIoniconFactory(['fas', 'list']),
 			}),
 		},
 
@@ -51,7 +51,7 @@ const MainNavigator = createBottomTabNavigator(
 			screen: StatsNavigator,
 			navigationOptions: () => ({
 				title: t('stats'),
-				tabBarIcon: focusableIoniconFactory('ios-stats'),
+				tabBarIcon: focusableIoniconFactory(['fas', 'chart-pie']),
 			}),
 		},
 
@@ -59,7 +59,7 @@ const MainNavigator = createBottomTabNavigator(
 			screen: SettingsNavigator,
 			navigationOptions: () => ({
 				title: t('settings'),
-				tabBarIcon: focusableIoniconFactory('ios-settings'),
+				tabBarIcon: focusableIoniconFactory(['fas', 'cogs']),
 			}),
 		},
 	},

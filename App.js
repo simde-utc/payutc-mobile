@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { StatusBar } from 'react-native';
+import { StatusBar, YellowBox } from 'react-native';
 import { createAppContainer, createSwitchNavigator, SafeAreaView } from 'react-navigation';
 import { Provider } from 'react-redux';
 import Spinner from './src/components/Spinner';
@@ -27,6 +27,8 @@ const AppNavigator = createSwitchNavigator(
 		initialRouteName: 'Loading',
 	}
 );
+
+YellowBox.ignoreWarnings(['Async Storage', 'WebView']);
 
 const AppContainer = createAppContainer(AppNavigator);
 
