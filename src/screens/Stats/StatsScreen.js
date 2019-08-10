@@ -7,12 +7,11 @@
  */
 
 import React from 'react';
-import { RefreshControl, ScrollView, Text, View } from 'react-native';
-import Ionicons from '@expo/vector-icons/Ionicons';
+import { RefreshControl, ScrollView, View } from 'react-native';
 import { connect } from 'react-redux';
 import { Stats as t } from '../../utils/i18n';
 import colors from '../../styles/colors';
-import BlockTemplate from '../../components/BlockTemplate';
+import TitleParams from '../../components/TitleParams';
 import { PayUTC } from '../../redux/actions';
 import StatsHorizontalScrollView from '../../components/Stats/StatsHorizontalScrollView';
 import RankedList from '../../components/Stats/RankedList';
@@ -54,7 +53,6 @@ class StatsScreen extends React.PureComponent {
 				{ title: t('yesterday'), date: yesterday },
 			],
 			selectedDate: 0,
-			showDates: false,
 		};
 	}
 
@@ -72,7 +70,7 @@ class StatsScreen extends React.PureComponent {
 
 	render() {
 		const { historyFetched, history } = this.props;
-		const { dates, selectedDate, showDates } = this.state;
+		const { dates, selectedDate } = this.state;
 
 		const filteredHistory = history.filter(
 			item => new Date(item.date) > new Date(dates[selectedDate].date)
@@ -90,44 +88,10 @@ class StatsScreen extends React.PureComponent {
 					/>
 				}
 			>
-				<BlockTemplate
-					roundedTop
-					roundedBottom={!showDates}
-					shadow
-					style={{
-						flex: 1,
-						flexDirection: 'row',
-						justifyContent: 'space-between',
-						margin: 15,
-						marginBottom: 0,
-					}}
+				<TitleParams
+					title={t('title')}
+					settingText={`${t('since')} ${dates[selectedDate].title.toLowerCase()}`}
 				>
-					<Text style={{ fontSize: 22, fontWeight: 'bold', color: colors.primary }}>
-						{t('title')}
-					</Text>
-					<BlockTemplate
-						roundedTop
-						roundedBottom
-						shadow
-						style={{ paddingVertical: 5 }}
-						onPress={() => this.setState({ showDates: !showDates })}
-					>
-						<View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
-							<Text
-								style={{
-									fontSize: 14,
-									fontWeight: 'bold',
-									color: colors.secondary,
-									marginRight: 5,
-								}}
-							>
-								{`${t('since')} ${dates[selectedDate].title.toLowerCase()}`}
-							</Text>
-							<Ionicons name="ios-options" size={16} color={colors.secondary} />
-						</View>
-					</BlockTemplate>
-				</BlockTemplate>
-				{showDates ? (
 					<TabsBlockTemplate
 						roundedBottom
 						text={t('show_since')}
@@ -137,7 +101,7 @@ class StatsScreen extends React.PureComponent {
 						style={{ marginHorizontal: 15, borderTopWidth: 0 }}
 						tabs={dates}
 					/>
-				) : null}
+				</TitleParams>
 				<View style={{ height: 15 }} />
 				<StatsHorizontalScrollView
 					history={history}

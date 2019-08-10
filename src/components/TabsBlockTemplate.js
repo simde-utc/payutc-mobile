@@ -51,7 +51,9 @@ export default class TabsBlockTemplate extends React.PureComponent {
 							margin: 10,
 							marginBottom: 0,
 						}}
-					>{text}</Text>
+					>
+						{text}
+					</Text>
 				) : null}
 				<ScrollView
 					horizontal
@@ -59,6 +61,8 @@ export default class TabsBlockTemplate extends React.PureComponent {
 					contentContainerStyle={{
 						margin: 5,
 						padding: 5,
+						marginRight: 0,
+						paddingRight: 0,
 						flexGrow: 1,
 						flexDirection: 'row',
 						justifyContent: 'space-between',
