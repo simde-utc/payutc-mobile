@@ -14,8 +14,39 @@ import colors from '../../styles/colors';
 import { floatToEuro } from '../../utils';
 
 export default class Balance extends React.PureComponent {
+	getWeekAmount() {
+		const { weekAmount } = this.props;
+
+		return floatToEuro(Math.abs(weekAmount));
+	}
+
+	getWeekAmountColor() {
+		const { weekAmount } = this.props;
+
+		if (weekAmount < 0) {
+			return colors.more;
+		}
+
+		if (weekAmount === 0) {
+			return colors.yellow;
+		}
+
+		return colors.less;
+	}
+
+	getWeekAmountText() {
+		const { weekAmount } = this.props;
+		const amount = Math.abs(weekAmount);
+
+		if (amount !== weekAmount) {
+			return t('week_positive', { count: Math.floor(amount) });
+		}
+
+		return t('week_negative', { count: Math.floor(amount) });
+	}
+
 	render() {
-		const { amount, name, loading, thisWeek } = this.props;
+		const { amount, name, loading } = this.props;
 
 		return (
 			<BlockTemplate roundedTop roundedBottom shadow>
@@ -32,12 +63,14 @@ export default class Balance extends React.PureComponent {
 					</Text>
 				)}
 				<Text style={{ fontSize: 13, color: colors.secondary }}>
-					{thisWeek ? (
-						<Text style={{ fontWeight: 'bold', color: colors.less }}>{thisWeek}</Text>
-					) : (
+					{loading ? (
 						_('loading_text_replacement')
+					) : (
+						<Text style={{ fontWeight: 'bold', color: this.getWeekAmountColor() }}>
+							{this.getWeekAmount()}
+						</Text>
 					)}{' '}
-					{t('this_week')}
+					{this.getWeekAmountText()}
 				</Text>
 			</BlockTemplate>
 		);

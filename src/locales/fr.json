@@ -10,14 +10,23 @@
 			"title": "Accueil",
 			"hi": "Salut",
 			"your_balance": "Salut %{name}, voici ton solde :",
-			"this_week": "dépensés cette semaine.",
 			"no_balance": "Impossible d'afficher le solde :(",
 			"refill": "Recharger",
 			"transfer": "Transférer",
 			"all_stats": "Toutes les statistiques...",
 			"recent_activity": "Activité récente :",
 			"all_history": "Voir tout l'historique...",
-			"cannot_fetch_wallet": "Une erreur est survenue lors de la récupération des informations de votre compte."
+			"cannot_fetch_wallet": "Une erreur est survenue lors de la récupération des informations de votre compte.",
+			"week_positive": {
+				"one": "crédité cette semaine.",
+				"other": "crédités cette semaine.",
+				"zero": "crédité cette semaine."
+			},
+			"week_negative": {
+				"one": "dépensé depuis cette semaine.",
+				"other": "dépensés depuis cette semaine.",
+				"zero": "dépensé depuis cette semaine."
+			}
 		},
 		"Refill": {
 			"title": "Rechargement",
