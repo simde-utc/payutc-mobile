@@ -120,7 +120,8 @@
 			"refills_desc": "Rechargements %{since}",
 			"transfers": "Transferts",
 			"transfers_desc": "Transferts %{since}",
-			"empty_list": "Aucune donnée à afficher :("
+			"empty_list": "Aucune donnée à afficher :(",
+			"search": "Rechercher"
 		},
 		"Stats": {
 			"title": "Statistiques",
