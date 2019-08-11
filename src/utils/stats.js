@@ -97,6 +97,6 @@ export const mostGivenToPeople = history => {
 export const totalAmount = (history, since) => {
 	return history
 		.filter(({ date }) => new Date(date) > new Date(since))
-		.map(({ type, amount }) => (type === 'PURCHASE' || type === 'VIROUT' ? -amount : amount))
+		.map(({ type, amount }) => (type === 'PURCHASE' || type === 'VIROUT' ? amount : -amount))
 		.reduce((acc, cur) => acc + cur, 0);
 };
