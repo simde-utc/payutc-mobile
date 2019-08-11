@@ -14,7 +14,7 @@ import colors from '../../styles/colors';
 import TitleParams from '../../components/TitleParams';
 import BlockTemplate from '../../components/BlockTemplate';
 import List from '../../components/History/List';
-import { PayUTC } from '../../redux/actions';
+import { Config, PayUTC } from '../../redux/actions';
 import TabsBlockTemplate from '../../components/TabsBlockTemplate';
 import { firstTransaction } from '../../utils/stats';
 import { _, History as t } from '../../utils/i18n';
@@ -47,11 +47,12 @@ class HistoryScreen extends React.Component {
 				{ lazyTitle: 'week', date: oneWeekAgo },
 				{ lazyTitle: 'yesterday', date: yesterday },
 			],
-			selectedDate: 0,
 			search: '',
 		};
 
 		this.onSearchChange = this.onSearchChange.bind(this);
+		this.onSelectedDateChange = this.onSelectedDateChange.bind(this);
+		this.onSelectedCategoryChange = this.onSelectedCategoryChange.bind(this);
 	}
 
 	componentDidMount() {
@@ -70,15 +71,30 @@ class HistoryScreen extends React.Component {
 		this.setState({ search });
 	}
 
+	onSelectedDateChange(selectedDate) {
+		const { dispatch } = this.props;
+
+		dispatch(Config.preferences({ selectedDate }));
+	}
+
+	onSelectedCategoryChange(selectedHistoryCategory) {
+		const { dispatch } = this.props;
+
+		dispatch(Config.preferences({ selectedHistoryCategory }));
+	}
+
 	getHistory(type) {
 		let { history } = this.props;
-		const { dates, selectedDate, search } = this.state;
+		const { preferences } = this.props;
+		const { dates, search } = this.state;
 
 		if (type) {
 			history = history.filter(transaction => transaction.type.startsWith(type));
 		}
 
-		history = history.filter(({ date }) => new Date(date) > new Date(dates[selectedDate].date));
+		history = history.filter(
+			({ date }) => new Date(date) > new Date(dates[preferences.selectedDate].date)
+		);
 
 		if (search !== '') {
 			history = history.filter(
@@ -91,9 +107,11 @@ class HistoryScreen extends React.Component {
 	}
 
 	render() {
-		const { historyFetching } = this.props;
-		const { dates, selectedDate, search } = this.state;
-		const since = _('since_*', { since: _(dates[selectedDate].lazyTitle).toLowerCase() });
+		const { historyFetching, preferences } = this.props;
+		const { dates, search } = this.state;
+		const since = _('since_*', {
+			since: _(dates[preferences.selectedDate].lazyTitle).toLowerCase(),
+		});
 
 		return (
 			<ScrollView
@@ -131,8 +149,8 @@ class HistoryScreen extends React.Component {
 						roundedBottom
 						text={_('show_since')}
 						tintColor={colors.secondary}
-						default={selectedDate}
-						onChange={index => this.setState({ selectedDate: index })}
+						value={preferences.selectedDate}
+						onChange={this.onSelectedDateChange}
 						style={{ marginHorizontal: 15, borderTopWidth: 0 }}
 						tabs={dates}
 					/>
@@ -141,6 +159,8 @@ class HistoryScreen extends React.Component {
 					style={{ margin: 15 }}
 					roundedTop
 					roundedBottom
+					value={preferences.selectedHistoryCategory}
+					onChange={this.onSelectedCategoryChange}
 					tintColor={colors.primary}
 					tabs={[
 						{
@@ -190,10 +210,11 @@ class HistoryScreen extends React.Component {
 	}
 }
 
-const mapStateToProps = ({ payutc }) => {
+const mapStateToProps = ({ payutc, config: { preferences } }) => {
 	const history = payutc.getHistory();
 
 	return {
+		preferences,
 		history: history.getData({ historique: [] }).historique,
 		historyFetching: history.isFetching(),
 		historyFetched: history.isFetched(),
