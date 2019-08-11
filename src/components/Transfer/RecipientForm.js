@@ -108,12 +108,12 @@ export default class RecipientForm extends React.Component {
 							style={{
 								flexGrow: 1,
 								fontSize: 18,
-								color: colors.lightBlue,
+								color: colors.transfer,
 							}}
 							keyboardType="default"
 							placeholder={t('recipient_placeholder')}
 							maxLength={this.maxLength}
-							selectionColor={error == null ? colors.lightBlue : colors.error}
+							selectionColor={error == null ? colors.transfer : colors.error}
 							textContentType="none"
 							autoCorrect={false}
 							onChangeText={text => this.onChange(text)}

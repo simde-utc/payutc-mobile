@@ -38,7 +38,7 @@ const mapStateToProps = ({ config }) => ({ config });
 
 const ConnectedApp = connect(mapStateToProps)(({ config }) => (
 	<SafeAreaView style={{ flex: 1, paddingTop }} forceInset={{ bottom: 'never' }}>
-		<StatusBar backgroundColor={colors.yellow} translucent />
+		<StatusBar backgroundColor={colors.primary} translucent />
 		<SpinnerOverlay {...config.spinner} />
 		<AppContainer screenProps={{ config }} />
 	</SafeAreaView>

@@ -23,7 +23,7 @@ const shortcuts = [
 		screen: 'Transfer',
 		lazyTitle: 'transfer',
 		icon: ['fas', 'share'],
-		color: colors.lightBlue,
+		color: colors.transfer,
 	},
 ];
 

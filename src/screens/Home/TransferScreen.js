@@ -22,7 +22,7 @@ class TransferScreen extends React.Component {
 	static navigationOptions = () => ({
 		title: t('title'),
 		headerStyle: { borderBottomWidth: 0 },
-		headerTintColor: colors.lightBlue,
+		headerTintColor: colors.transfer,
 		headerForceInset: { top: 'never' },
 	});
 

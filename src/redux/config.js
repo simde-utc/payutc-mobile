@@ -15,9 +15,9 @@ export const configState = {
 	lang: 'fr',
 	spinner: {
 		visible: false,
-		color: colors.white,
+		color: colors.backgroundBlock,
 		textStyle: {
-			color: colors.white,
+			color: colors.backgroundBlock,
 			textAlign: 'center',
 			paddingHorizontal: 15,
 		},
