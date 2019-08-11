@@ -18,12 +18,12 @@ import PayUTC from '../../services/PayUTC';
 import { Config } from '../../redux/actions';
 import { Auth as t, _ } from '../../utils/i18n';
 
-class AuthScreen extends React.PureComponent {
-	static navigationOptions = {
+class AuthScreen extends React.Component {
+	static navigationOptions = () => ({
 		title: t('title'),
 		header: null,
 		headerVisible: false,
-	};
+	});
 
 	constructor(props) {
 		super(props);

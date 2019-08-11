@@ -12,7 +12,7 @@ import BlockTemplate from '../BlockTemplate';
 import colors from '../../styles/colors';
 import { _, History as t } from '../../utils/i18n';
 
-export default class List extends React.PureComponent {
+export default class List extends React.Component {
 	static renderItem(item, rank, last = false) {
 		return (
 			<Item

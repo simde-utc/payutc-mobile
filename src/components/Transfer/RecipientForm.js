@@ -13,7 +13,7 @@ import colors from '../../styles/colors';
 import BlockTemplate from '../BlockTemplate';
 import { Transfer as t } from '../../utils/i18n';
 
-export default class RecipientForm extends React.PureComponent {
+export default class RecipientForm extends React.Component {
 	constructor(props) {
 		super(props);
 

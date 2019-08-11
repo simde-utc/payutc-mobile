@@ -14,14 +14,14 @@ import Submit from '../../components/Refill/Submit';
 import { Refill as t } from '../../utils/i18n';
 import { isAmountValid } from '../../utils';
 
-export default class RefillScreen extends React.PureComponent {
-	static navigationOptions = {
+export default class RefillScreen extends React.Component {
+	static navigationOptions = () => ({
 		title: t('title'),
 		headerStyle: { borderBottomWidth: 0 },
 		headerTintColor: colors.more,
 		headerForceInset: { top: 'never' },
 		headerBackTitle: t('back_button_title'),
-	};
+	});
 
 	constructor(props) {
 		super(props);

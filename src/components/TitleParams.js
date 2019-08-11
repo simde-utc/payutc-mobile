@@ -11,7 +11,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import BlockTemplate from './BlockTemplate';
 import colors from '../styles/colors';
 
-export default class TitleParams extends React.PureComponent {
+export default class TitleParams extends React.Component {
 	constructor(props) {
 		super(props);
 
@@ -23,7 +23,7 @@ export default class TitleParams extends React.PureComponent {
 	}
 
 	render() {
-		const { title, settingText, children } = this.props;
+		const { title, settingText, style, children } = this.props;
 		const { show } = this.state;
 
 		return (
@@ -32,13 +32,16 @@ export default class TitleParams extends React.PureComponent {
 					roundedTop
 					roundedBottom={!show}
 					shadow
-					style={{
-						flex: 1,
-						flexDirection: 'row',
-						justifyContent: 'space-between',
-						margin: 15,
-						marginBottom: 0,
-					}}
+					style={[
+						{
+							flex: 1,
+							flexDirection: 'row',
+							justifyContent: 'space-between',
+							margin: 15,
+							marginBottom: 0,
+						},
+						style,
+					]}
 				>
 					<Text style={{ fontSize: 22, fontWeight: 'bold', color: colors.primary }}>{title}</Text>
 					<BlockTemplate

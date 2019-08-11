@@ -12,7 +12,7 @@ import colors from '../../styles/colors';
 import BlockTemplate from '../BlockTemplate';
 import { _, Transfer as t } from '../../utils/i18n';
 
-export default class MessageForm extends React.PureComponent {
+export default class MessageForm extends React.Component {
 	constructor(props) {
 		super(props);
 
