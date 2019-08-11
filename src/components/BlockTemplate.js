@@ -9,7 +9,7 @@
  */
 
 import React from 'react';
-import { TouchableOpacity, View } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 import colors from '../styles/colors';
 
 export default class BlockTemplate extends React.PureComponent {
@@ -25,7 +25,10 @@ export default class BlockTemplate extends React.PureComponent {
 			style,
 		} = this.props;
 		return (
-			<View
+			<TouchableOpacity
+				onPress={onPress}
+				disabled={disabled}
+				activeOpacity={onPress ? 0.2 : 1}
 				style={[
 					{
 						backgroundColor: customBackground || colors.backgroundBlock,
@@ -43,14 +46,8 @@ export default class BlockTemplate extends React.PureComponent {
 					style,
 				]}
 			>
-				{onPress ? (
-					<TouchableOpacity onPress={onPress} disabled={disabled}>
-						{children}
-					</TouchableOpacity>
-				) : (
-					children
-				)}
-			</View>
+				{children}
+			</TouchableOpacity>
 		);
 	}
 }

@@ -30,6 +30,7 @@
 		},
 		"Refill": {
 			"title": "Rechargement",
+			"back_button_title": "Montant",
 			"amount": "Montant du rechargement :",
 			"pay": "Accéder au paiement...",
 			"bad_amount": "Le montant doit être compris %{min} entre %{max}",
@@ -42,7 +43,7 @@
 			"paiement_canceled": "Aucun paiement effectué, rechargement annulé",
 			"paiement_confirmed": "Rechargement de %{amount} validé !",
 			"checking": "Vérification de la transaction",
-			"getting_refill": "Récupération de l'information de rechargement"
+			"getting_refill": "Récupération de l'information de rechargement",
 		},
 		"Transfer": {
 			"title": "Transfert",
