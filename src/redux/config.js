@@ -12,6 +12,7 @@ import Storage from '../services/Storage';
 export const CONFIG = 'CONFIG';
 
 export const configState = {
+	lang: 'fr',
 	spinner: {
 		visible: false,
 		color: colors.white,
@@ -21,7 +22,11 @@ export const configState = {
 			paddingHorizontal: 15,
 		},
 	},
-	lang: 'fr',
+	preferences: {
+		selectedDate: 0,
+		selectedHistoryCategory: 0,
+		selectedStatCategory: 0,
+	},
 };
 
 export const configReducer = (state = configState, { type, config, data }) => {
@@ -32,7 +37,7 @@ export const configReducer = (state = configState, { type, config, data }) => {
 			case 'set':
 				i18n.locale = data.lang;
 
-				return data;
+				return Object.assign(state, data);
 
 			case 'setLang':
 				i18n.locale = data;
