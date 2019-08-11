@@ -126,10 +126,22 @@ export default class AppLoaderScreen extends React.Component {
 
 		return (
 			<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-				<Image source={payutcLogo} style={{ height: '15%', width: '82%', marginBottom: 35}} resizeMode="contain" />
+				<Image
+					source={payutcLogo}
+					style={{ height: '15%', width: '82%', marginBottom: 35 }}
+					resizeMode="contain"
+				/>
 				<ActivityIndicator size="large" color={colors.secondary} />
 				<Text
-					style={{ height: 100, width: 250, marginTop: 10, fontWeight: 'bold', fontSize: 18, textAlign: 'center', color: colors.secondary }}
+					style={{
+						height: 100,
+						width: 250,
+						marginTop: 10,
+						fontWeight: 'bold',
+						fontSize: 18,
+						textAlign: 'center',
+						color: colors.secondary,
+					}}
 				>
 					{text}
 				</Text>

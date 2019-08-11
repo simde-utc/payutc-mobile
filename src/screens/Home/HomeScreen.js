@@ -96,7 +96,11 @@ class HomeScreen extends React.PureComponent {
 						onPress={() => this.setState({ message: {} })}
 					>
 						<Text
-							style={{ fontSize: 16, fontWeight: 'bold', color: message.color || colors.backgroundBlock }}
+							style={{
+								fontSize: 16,
+								fontWeight: 'bold',
+								color: message.color || colors.backgroundBlock,
+							}}
 						>
 							{message.message}
 						</Text>
