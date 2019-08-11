@@ -21,7 +21,7 @@ import payutcLogo from '../images/payutc-logo.png';
 import styles from '../styles';
 import colors from '../styles/colors';
 import { Config } from '../redux/actions';
-import { _, AppLoader as t } from '../utils/i18n';
+import { AppLoader as t } from '../utils/i18n';
 
 class AppLoaderScreen extends React.Component {
 	static loadLibrairies() {
@@ -113,27 +113,29 @@ class AppLoaderScreen extends React.Component {
 	bootstrap() {
 		AppLoaderScreen.loadLibrairies();
 
-		return Storage.getData('config').then(data => {
-			const { dispatch } = this.props;
+		return Storage.getData('config')
+			.then(data => {
+				const { dispatch } = this.props;
 
-			if (data) {
-				data.spinner.visible = false;
+				if (data) {
+					data.spinner.visible = false;
 
-				dispatch(Config.set(data));
-			} else {
-				let lang;
-
-				if (Platform.OS === 'ios') {
-					lang = NativeModules.SettingsManager.settings.AppleLocale;
+					dispatch(Config.set(data));
 				} else {
-					lang = NativeModules.I18nManager.localeIdentifier;
+					let lang;
+
+					if (Platform.OS === 'ios') {
+						lang = NativeModules.SettingsManager.settings.AppleLocale;
+					} else {
+						lang = NativeModules.I18nManager.localeIdentifier;
+					}
+
+					dispatch(Config.setLang(lang.split('_')[0]));
 				}
 
-				dispatch(Config.setLang(lang.split('_')[0]));
-			}
-
-			return this.loadData();
-		});
+				return this.loadData();
+			})
+			.catch(() => this.reinitData());
 	}
 
 	appLoaded() {
@@ -156,7 +158,7 @@ class AppLoaderScreen extends React.Component {
 						{ height: 100, width: 250, marginTop: 10 },
 					]}
 				>
-					{lazyText ? t(lazyText) : _('loading_text_replacement')}
+					{lazyText ? t(lazyText) : ''}
 				</Text>
 			</View>
 		);
