@@ -9,8 +9,8 @@
 		"Home": {
 			"title": "Home",
 			"hi": "Hi",
-			"your_balance": "Hi %{name}, your solde :",
-			"no_balance": "Impossible to get your solde :(",
+			"your_balance": "Hi %{name}, your balance :",
+			"no_balance": "Impossible to get your balance :(",
 			"refill": "Refill",
 			"transfer": "Transfer",
 			"all_stats": "All your statistics...",
@@ -22,11 +22,12 @@
 		},
 		"Refill": {
 			"title": "Refill",
+			"back_button_title": "Amount",
 			"amount": "Refill amount :",
 			"pay": "Access to payment...",
 			"bad_amount": "The amount must be between %{min} and %{max}.",
 			"amount_error": "The amount is incorrect.",
-			"refill_checks": "Vérfication before refilling...",
+			"refill_checks": "Verification before refilling...",
 			"redirect_to_refill": "Redirecting to the payment page..."
 		},
 		"Payment": {
@@ -47,9 +48,9 @@
 			"bad_amount": "The amount must be between %{min} and %{max}.",
 			"recipient_not_found": "No recipient found.",
 			"amount_error": "The amount is incorrect.",
-			"transfer_checks": "Vérfication before transfering...",
+			"transfer_checks": "Verification before transfering...",
 			"transfering": "Transfering...",
-			"transfer_confirmed": "Transfere of %{amount} confirmed to %{name}",
+			"transfer_confirmed": "Transfer of %{amount} confirmed to %{name}",
 			"thanks": "Thanks !",
 			"happy": "😊",
 			"kiss": "😘",
