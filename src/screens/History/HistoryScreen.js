@@ -9,7 +9,7 @@
 import React from 'react';
 import { RefreshControl, TextInput, ScrollView, View } from 'react-native';
 import { connect } from 'react-redux';
-import Ionicons from '@expo/vector-icons/Ionicons';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import colors from '../../styles/colors';
 import TitleParams from '../../components/TitleParams';
 import BlockTemplate from '../../components/BlockTemplate';
@@ -110,7 +110,7 @@ class HistoryScreen extends React.PureComponent {
 				<TitleParams title={t('title')} settingText={since}>
 					<BlockTemplate shadow style={{ marginHorizontal: 15 }}>
 						<View style={{ flex: 1, flexDirection: 'row', paddingLeft: 5, alignItems: 'center' }}>
-							<Ionicons name="ios-search" size={22} color={colors.secondary} />
+							<FontAwesomeIcon icon={['fas', 'search']} size={20} color={colors.secondary} />
 							<TextInput
 								style={{
 									flexGrow: 1,
