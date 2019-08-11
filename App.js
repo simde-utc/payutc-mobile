@@ -38,7 +38,7 @@ export default function App() {
 	return (
 		<Provider store={store}>
 			<SafeAreaView style={{ flex: 1, paddingTop }} forceInset={{ bottom: 'never' }}>
-				<StatusBar backgroundColor={colors.yellow} translucent />
+				<StatusBar backgroundColor={colors.primary} translucent />
 				<Spinner />
 				<AppContainer />
 			</SafeAreaView>
