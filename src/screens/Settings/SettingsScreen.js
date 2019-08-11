@@ -14,7 +14,7 @@ import colors from '../../styles/colors';
 import TitleParams from '../../components/TitleParams';
 import TabsBlockTemplate from '../../components/TabsBlockTemplate';
 import BlockTemplate from '../../components/BlockTemplate';
-import i18n, { _, Settings as t, Global as g } from '../../utils/i18n';
+import { _, Settings as t, Global as g } from '../../utils/i18n';
 import SwitchBlockTemplate from '../../components/SwitchBlockTemplate';
 import { Config, PayUTC } from '../../redux/actions';
 
@@ -28,11 +28,8 @@ class SettingsScreen extends React.PureComponent {
 	constructor(props) {
 		super(props);
 
-		this.state = {
-			lang: '',
-		};
-
 		this.onLockChange = this.onLockChange.bind(this);
+		this.setLang = this.setLang.bind(this);
 	}
 
 	componentDidMount() {
@@ -41,8 +38,6 @@ class SettingsScreen extends React.PureComponent {
 
 	onRefresh() {
 		const { lockStatusFetching, dispatch } = this.props;
-
-		this.setState({ lang: i18n.currentLocale() });
 
 		if (!lockStatusFetching) {
 			dispatch(PayUTC.getLockStatus());
@@ -84,9 +79,9 @@ class SettingsScreen extends React.PureComponent {
 	}
 
 	setLang(lang) {
-		i18n.locale = lang;
+		const { dispatch } = this.props;
 
-		this.setState({ lang });
+		dispatch(Config.setLang(lang));
 	}
 
 	signOut() {
@@ -96,8 +91,7 @@ class SettingsScreen extends React.PureComponent {
 	}
 
 	render() {
-		const { lockStatus, lockStatusFetching, navigation } = this.props;
-		const { lang } = this.state;
+		const { lockStatus, lockStatusFetching, lang, navigation } = this.props;
 
 		return (
 			<View style={{ flex: 1, backgroundColor: colors.backgroundLight, paddingHorizontal: 15 }}>
@@ -118,7 +112,7 @@ class SettingsScreen extends React.PureComponent {
 							text={t('lang')}
 							tintColor={colors.secondary}
 							default={lang}
-							onChange={lang => this.setLang(lang)}
+							onChange={this.setLang}
 							style={{ borderTopWidth: 0 }}
 							tabs={g('langs')}
 						/>
@@ -185,10 +179,11 @@ class SettingsScreen extends React.PureComponent {
 	}
 }
 
-const mapStateToProps = ({ payutc }) => {
+const mapStateToProps = ({ payutc, config: { lang } }) => {
 	const lockStatus = payutc.getLockStatus();
 
 	return {
+		lang,
 		lockStatus: lockStatus.getData(false),
 		lockStatusFetching: lockStatus.isFetching(),
 		lockStatusFetched: lockStatus.isFetched(),

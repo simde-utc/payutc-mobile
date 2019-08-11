@@ -9,7 +9,7 @@
 
 import React from 'react';
 import { View, Text, Image, ActivityIndicator } from 'react-native';
-import i18nJs from 'i18n-js';
+import { connect } from 'react-redux';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { far } from '@fortawesome/free-regular-svg-icons';
@@ -19,13 +19,10 @@ import CASAuth from '../services/CASAuth';
 import payutcLogo from '../images/payutc-logo.png';
 import styles from '../styles';
 import colors from '../styles/colors';
+import { Config } from '../redux/actions';
 import { _, AppLoader as t } from '../utils/i18n';
 
-export default class AppLoaderScreen extends React.Component {
-	static loadLocale() {
-		i18nJs.locale = 'fr';
-	}
-
+class AppLoaderScreen extends React.Component {
 	static loadLibrairies() {
 		library.add(fas, far);
 	}
@@ -90,7 +87,10 @@ export default class AppLoaderScreen extends React.Component {
 	}
 
 	bootstrap() {
-		AppLoaderScreen.loadLocale();
+		const { dispatch } = this.props;
+
+		dispatch(Config.setLang('fr'));
+
 		AppLoaderScreen.loadLibrairies();
 
 		this.setState({
@@ -141,3 +141,5 @@ export default class AppLoaderScreen extends React.Component {
 		);
 	}
 }
+
+export default connect()(AppLoaderScreen);
