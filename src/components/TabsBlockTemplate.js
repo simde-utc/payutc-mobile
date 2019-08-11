@@ -14,7 +14,8 @@ import colors from '../styles/colors';
 export default class TabsBlockTemplate extends React.PureComponent {
 	constructor(props) {
 		super(props);
-		this.state = { selected: props.default || 0 };
+
+		this.state = { selected: `${props.default || 0}` };
 	}
 
 	onTabChange(index) {
@@ -34,6 +35,8 @@ export default class TabsBlockTemplate extends React.PureComponent {
 			onChange,
 		} = this.props;
 		const { selected } = this.state;
+		const tabValues = Object.values(tabs);
+		const tabKeys = Object.keys(tabs);
 
 		return (
 			<BlockTemplate
@@ -74,39 +77,43 @@ export default class TabsBlockTemplate extends React.PureComponent {
 						borderBottomRightRadius: roundedBottom ? 10 : 0,
 					}}
 				>
-					{tabs.map((tab, index) => (
-						<BlockTemplate
-							roundedTop
-							roundedBottom
-							shadow
-							key={tab.title}
-							disabled={disabled}
-							customBackground={selected === index && !disabled ? tintColor : null}
-							style={{ marginRight: 10 }}
-							onPress={() => {
-								this.onTabChange(index);
-								if (onChange) onChange(index);
-							}}
-						>
-							<Text
-								style={{
-									fontSize: 14,
-									fontWeight: 'bold',
-									color: disabled
-										? colors.disabled
-										: selected === index
-										? colors.backgroundBlock
-										: tintColor,
+					{tabValues.map((tab, index) => {
+						const key = tabKeys[index];
+
+						return (
+							<BlockTemplate
+								roundedTop
+								roundedBottom
+								shadow
+								key={tab.title || tab}
+								disabled={disabled}
+								customBackground={selected === key && !disabled ? tintColor : null}
+								style={{ marginRight: 10 }}
+								onPress={() => {
+									this.onTabChange(key);
+									if (onChange) onChange(key);
 								}}
 							>
-								{tab.title}
-							</Text>
-						</BlockTemplate>
-					))}
+								<Text
+									style={{
+										fontSize: 14,
+										fontWeight: 'bold',
+										color: disabled
+											? colors.disabled
+											: selected === key
+											? colors.backgroundBlock
+											: tintColor,
+									}}
+								>
+									{tab.title || tab}
+								</Text>
+							</BlockTemplate>
+						);
+					})}
 				</ScrollView>
 				<View
 					style={{
-						borderBottomWidth: tabs.filter(tab => tab.children).length ? 1 : 0,
+						borderBottomWidth: tabValues.filter(tab => tab.children).length ? 1 : 0,
 						borderBottomColor: colors.backgroundLight,
 					}}
 				/>
