@@ -42,10 +42,10 @@ class HistoryScreen extends React.Component {
 
 		this.state = {
 			dates: [
-				{ title: _('ever'), date: ever },
-				{ title: _('month'), date: oneMonthAgo },
-				{ title: _('week'), date: oneWeekAgo },
-				{ title: _('yesterday'), date: yesterday },
+				{ lazyTitle: 'ever', date: ever },
+				{ lazyTitle: 'month', date: oneMonthAgo },
+				{ lazyTitle: 'week', date: oneWeekAgo },
+				{ lazyTitle: 'yesterday', date: yesterday },
 			],
 			selectedDate: 0,
 			search: '',
@@ -93,7 +93,7 @@ class HistoryScreen extends React.Component {
 	render() {
 		const { historyFetching } = this.props;
 		const { dates, selectedDate, search } = this.state;
-		const since = _('since_*', { since: dates[selectedDate].title.toLowerCase() });
+		const since = _('since_*', { since: _(dates[selectedDate].lazyTitle).toLowerCase() });
 
 		return (
 			<ScrollView
