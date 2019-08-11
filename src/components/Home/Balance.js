@@ -24,24 +24,12 @@ export default class Balance extends React.Component {
 	getWeekAmountColor() {
 		const { weekAmount } = this.props;
 
-		if (weekAmount < 0) {
-			return colors.more;
-		}
-
-		if (weekAmount === 0) {
-			return colors.primary;
-		}
-
-		return colors.less;
+		return weekAmount === 0 ? colors.primary : colors.less;
 	}
 
 	getWeekAmountText() {
 		const { weekAmount } = this.props;
 		const amount = Math.abs(weekAmount);
-
-		if (amount !== weekAmount) {
-			return t('week_positive', { count: Math.floor(amount) });
-		}
 
 		return t('week_negative', { count: Math.floor(amount) });
 	}

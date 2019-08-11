@@ -17,15 +17,10 @@
 			"recent_activity": "Activité récente :",
 			"all_history": "Voir tout l'historique...",
 			"cannot_fetch_wallet": "Une erreur est survenue lors de la récupération des informations de votre compte.",
-			"week_positive": {
-				"one": "crédité cette semaine.",
-				"other": "crédités cette semaine.",
-				"zero": "crédité cette semaine."
-			},
 			"week_negative": {
-				"one": "dépensé depuis cette semaine.",
-				"other": "dépensés depuis cette semaine.",
-				"zero": "dépensé depuis cette semaine."
+				"one": "dépensé cette semaine.",
+				"other": "dépensés cette semaine.",
+				"zero": "dépensé cette semaine."
 			}
 		},
 		"Refill": {
@@ -127,7 +122,7 @@
 		"Stats": {
 			"title": "Statistiques",
 			"purchases_count": "achats effectués",
-			"purchases_amount": "dépensés",
+			"purchases_amount": "d'achats effectués",
 			"received_amount": "reçus",
 			"give_amount": "transférés",
 			"empty_list": "Aucune donnée à afficher :(",
