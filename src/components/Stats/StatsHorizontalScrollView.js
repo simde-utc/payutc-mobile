@@ -47,7 +47,7 @@ export default class StatsHorizontalScrollView extends React.PureComponent {
 				<DataBlockTemplate
 					head={historyFetching ? loadingText : givenAmount(history, since.date)}
 					description={`${t('give_amount')} ${since.text}`}
-					headTintColor={colors.lightBlue}
+					headTintColor={colors.transfer}
 				/>
 				<View style={{ width: 15 }} />
 				<DataBlockTemplate

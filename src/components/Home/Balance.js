@@ -29,7 +29,7 @@ export default class Balance extends React.PureComponent {
 		}
 
 		if (weekAmount === 0) {
-			return colors.yellow;
+			return colors.primary;
 		}
 
 		return colors.less;
