@@ -175,11 +175,12 @@ class HomeScreen extends React.PureComponent {
 	}
 }
 
-const mapStateToProps = ({ payutc }) => {
+const mapStateToProps = ({ payutc, config }) => {
 	const details = payutc.getWalletDetails();
 	const history = payutc.getHistory();
 
 	return {
+		config,
 		details: details.getData({}),
 		detailsFetching: details.isFetching(),
 		detailsFetched: details.isFetched(),
