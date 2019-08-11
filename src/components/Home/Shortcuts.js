@@ -27,37 +27,33 @@ const shortcuts = [
 	},
 ];
 
-export default class Shortcuts extends React.PureComponent {
-	render() {
-		const { amount, navigation } = this.props;
-
-		return (
-			<View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
-				{shortcuts.map(({ screen, lazyTitle, icon, color }) => (
-					<BlockTemplate
-						roundedTop
-						roundedBottom
-						shadow
-						key={lazyTitle}
-						style={{ width: `${90 / shortcuts.length}%`, alignItems: 'center' }}
-						onPress={() => navigation.navigate(screen, { credit: amount })}
-					>
-						<View style={{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: 10 }}>
-							<FontAwesomeIcon icon={icon} size={15} style={{ color }} />
-							<Text
-								style={{
-									paddingLeft: 5,
-									fontSize: 15,
-									fontWeight: 'bold',
-									color,
-								}}
-							>
-								{t(lazyTitle)}
-							</Text>
-						</View>
-					</BlockTemplate>
-				))}
-			</View>
-		);
-	}
+export default function Shortcuts({ amount, navigation }) {
+	return (
+		<View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
+			{shortcuts.map(({ screen, lazyTitle, icon, color }) => (
+				<BlockTemplate
+					roundedTop
+					roundedBottom
+					shadow
+					key={lazyTitle}
+					style={{ width: `${90 / shortcuts.length}%`, alignItems: 'center' }}
+					onPress={() => navigation.navigate(screen, { credit: amount })}
+				>
+					<View style={{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: 10 }}>
+						<FontAwesomeIcon icon={icon} size={15} style={{ color }} />
+						<Text
+							style={{
+								paddingLeft: 5,
+								fontSize: 15,
+								fontWeight: 'bold',
+								color,
+							}}
+						>
+							{t(lazyTitle)}
+						</Text>
+					</View>
+				</BlockTemplate>
+			))}
+		</View>
+	);
 }

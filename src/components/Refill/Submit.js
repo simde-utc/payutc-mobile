@@ -15,7 +15,7 @@ import { Refill as t } from '../../utils/i18n';
 import { floatToEuro } from '../../utils';
 import { PAYUTC_CALLBACK_LINK } from '../../../config';
 
-class Submit extends React.PureComponent {
+class Submit extends React.Component {
 	isAmountValid(minAmount, maxAmount) {
 		const { amount } = this.props;
 		const amountAsFloat = parseFloat(amount.replace(',', '.'));

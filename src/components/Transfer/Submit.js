@@ -14,7 +14,7 @@ import { Config, PayUTC } from '../../redux/actions';
 import { Transfer as t } from '../../utils/i18n';
 import { floatToEuro } from '../../utils';
 
-class Submit extends React.PureComponent {
+class Submit extends React.Component {
 	isAmountValid(credit) {
 		const { minAmount, amount } = this.props;
 		const amountAsFloat = parseFloat(amount.replace(',', '.'));

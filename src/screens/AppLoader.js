@@ -8,23 +8,21 @@
  */
 
 import React from 'react';
-import { View, Text, Image, ActivityIndicator } from 'react-native';
-import i18nJs from 'i18n-js';
+import { View, Text, Image, Platform, NativeModules, ActivityIndicator } from 'react-native';
+import { connect } from 'react-redux';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 import { far } from '@fortawesome/free-regular-svg-icons';
 
 import PayUTC from '../services/PayUTC';
 import CASAuth from '../services/CASAuth';
+import Storage from '../services/Storage';
 import payutcLogo from '../images/payutc-logo.png';
 import colors from '../styles/colors';
-import { _, AppLoader as t } from '../utils/i18n';
+import { Config } from '../redux/actions';
+import { AppLoader as t } from '../utils/i18n';
 
-export default class AppLoaderScreen extends React.Component {
-	static loadLocale() {
-		i18nJs.locale = 'fr';
-	}
-
+class AppLoaderScreen extends React.Component {
 	static loadLibrairies() {
 		library.add(fas, far);
 	}
@@ -37,7 +35,7 @@ export default class AppLoaderScreen extends React.Component {
 		super(props);
 
 		this.state = {
-			text: t('loading'),
+			lazyText: null,
 			screen: 'Auth',
 		};
 	}
@@ -48,6 +46,29 @@ export default class AppLoaderScreen extends React.Component {
 			.catch(error => AppLoaderScreen.handleError.bind(this, error));
 	}
 
+	loadData() {
+		this.setState({
+			lazyText: 'loading',
+		});
+
+		return PayUTC.getData()
+			.then(data => {
+				if (data) {
+					this.setState({
+						lazyText: 'reconnection',
+						screen: 'Home',
+					});
+
+					return this.login(data);
+				}
+
+				return false;
+			})
+			.catch(() => {
+				return this.reinitData();
+			});
+	}
+
 	checkCasConnection(ticket, login, password) {
 		return CASAuth.isTicketValid(ticket)
 			.then(() => {
@@ -55,7 +76,7 @@ export default class AppLoaderScreen extends React.Component {
 			})
 			.catch(() => {
 				this.setState({
-					text: t('connect_cas'),
+					lazyText: 'connect_cas',
 				});
 
 				return CASAuth.login(login, password)
@@ -81,37 +102,39 @@ export default class AppLoaderScreen extends React.Component {
 
 	reinitData() {
 		this.setState({
-			text: t('reset_data'),
+			lazyText: 'reset_data',
 			screen: 'Auth',
 		});
 
-		return PayUTC.forget();
+		return new Promise.all(Storage.removeData('config'), PayUTC.forget());
 	}
 
 	bootstrap() {
-		AppLoaderScreen.loadLocale();
 		AppLoaderScreen.loadLibrairies();
 
-		this.setState({
-			text: _('loading'),
-		});
-
-		return PayUTC.getData()
+		return Storage.getData('config')
 			.then(data => {
-				if (data) {
-					this.setState({
-						text: t('reconnection'),
-						screen: 'Home',
-					});
+				const { dispatch } = this.props;
 
-					return this.login(data);
+				if (data) {
+					data.spinner.visible = false;
+
+					dispatch(Config.set(data));
+				} else {
+					let lang;
+
+					if (Platform.OS === 'ios') {
+						lang = NativeModules.SettingsManager.settings.AppleLocale;
+					} else {
+						lang = NativeModules.I18nManager.localeIdentifier;
+					}
+
+					dispatch(Config.setLang(lang.split('_')[0]));
 				}
 
-				return false;
+				return this.loadData();
 			})
-			.catch(() => {
-				return this.reinitData();
-			});
+			.catch(() => this.reinitData());
 	}
 
 	appLoaded() {
@@ -122,7 +145,7 @@ export default class AppLoaderScreen extends React.Component {
 	}
 
 	render() {
-		const { text } = this.state;
+		const { lazyText } = this.state;
 
 		return (
 			<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
@@ -143,9 +166,11 @@ export default class AppLoaderScreen extends React.Component {
 						color: colors.secondary,
 					}}
 				>
-					{text}
+					{lazyText ? t(lazyText) : ''}
 				</Text>
 			</View>
 		);
 	}
 }
+
+export default connect()(AppLoaderScreen);

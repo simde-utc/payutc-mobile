@@ -13,7 +13,7 @@ import BlockTemplate from '../BlockTemplate';
 import { Transfer as t } from '../../utils/i18n';
 import AmountInput from '../Home/AmountInput';
 
-export default class AmountForm extends React.PureComponent {
+export default class AmountForm extends React.Component {
 	constructor(props) {
 		super(props);
 
