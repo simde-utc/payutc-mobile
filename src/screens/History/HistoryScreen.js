@@ -109,7 +109,9 @@ class HistoryScreen extends React.Component {
 	render() {
 		const { historyFetching, preferences } = this.props;
 		const { dates, search } = this.state;
-		const since = _('since_*', { since: _(dates[preferences.selectedDate].lazyTitle).toLowerCase() });
+		const since = _('since_*', {
+			since: _(dates[preferences.selectedDate].lazyTitle).toLowerCase(),
+		});
 
 		return (
 			<ScrollView

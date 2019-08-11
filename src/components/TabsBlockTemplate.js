@@ -10,6 +10,7 @@ import React from 'react';
 import { ScrollView, Text, View } from 'react-native';
 import BlockTemplate from './BlockTemplate';
 import colors from '../styles/colors';
+import { _ } from '../utils/i18n';
 
 export default function TabsBlockTemplate({
 	tabs,
@@ -67,13 +68,14 @@ export default function TabsBlockTemplate({
 			>
 				{tabValues.map((tab, index) => {
 					const key = tabKeys[index];
+					const title = tab.title || (tab.lazyTitle ? _(tab.lazyTitle) : tab);
 
 					return (
 						<BlockTemplate
 							roundedTop
 							roundedBottom
 							shadow
-							key={tab.title || tab}
+							key={title}
 							disabled={disabled}
 							customBackground={value === key && !disabled ? tintColor : null}
 							style={{ marginRight: 10 }}
@@ -90,7 +92,7 @@ export default function TabsBlockTemplate({
 										: tintColor,
 								}}
 							>
-								{tab.title || tab}
+								{title}
 							</Text>
 						</BlockTemplate>
 					);
