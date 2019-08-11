@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { FlatList, RefreshControl, Text, ScrollView, View } from 'react-native';
+import { FlatList, RefreshControl, Text, View } from 'react-native';
 import { connect } from 'react-redux';
 import colors from '../../styles/colors';
 import Balance from '../../components/Home/Balance';
@@ -51,16 +51,16 @@ class HomeScreen extends React.PureComponent {
 			dispatch,
 		} = this.props;
 
-		if (!detailsFetching && !detailsFetched) {
+		if (!detailsFetching) {
 			dispatch(PayUTC.getWalletDetails());
 		}
 
-		if (!historyFetching && !historyFetched) {
+		if (!historyFetching) {
 			dispatch(PayUTC.getHistory());
 		}
 	}
 
-	componentWillUmount() {
+	componentWillUnmount() {
 		this.subscriptions.forEach(subscription => subscription.remove());
 	}
 
@@ -102,36 +102,26 @@ class HomeScreen extends React.PureComponent {
 						</Text>
 					</BlockTemplate>
 				) : null}
-				<View>
-					<ScrollView
-						style={{ paddingBottom: 15 }}
-						refreshControl={
-							<RefreshControl
-								refreshing={detailsFetching}
-								onRefresh={() => this.onRefresh()}
-								colors={[colors.secondary]}
-								tintColor={colors.secondary}
-							/>
-						}
-					>
-						<Balance
-							amount={amount}
-							loading={detailsFetching}
-							name={details.first_name}
-							weekAmount={totalAmount(history, oneWeekAgo) / 100}
-						/>
-					</ScrollView>
 
-					<Shortcuts amount={amount} navigation={navigation} />
+				<BlockTemplate roundedTop roundedBottom shadow style={{ marginBottom: 15 }}>
+					<Balance
+						amount={amount}
+						loading={detailsFetching}
+						name={details.first_name}
+						weekAmount={totalAmount(history, oneWeekAgo) / 100}
+						onRefresh={() => this.onRefresh()}
+					/>
+				</BlockTemplate>
 
-					<BlockTemplate roundedTop shadow style={{ marginTop: 15 }}>
-						<Text style={{ fontSize: 16, fontWeight: 'bold', color: colors.primary }}>
-							{t('recent_activity')}
-						</Text>
-					</BlockTemplate>
+				<Shortcuts amount={amount} navigation={navigation} />
 
-					<View style={{ borderColor: colors.backgroundLight, height: 1 }} />
-				</View>
+				<BlockTemplate roundedTop shadow style={{ marginTop: 15 }}>
+					<Text style={{ fontSize: 16, fontWeight: 'bold', color: colors.primary }}>
+						{t('recent_activity')}
+					</Text>
+				</BlockTemplate>
+
+				<View style={{ borderColor: colors.backgroundLight, height: 1 }} />
 				<FlatList
 					data={history.slice(0, 10)}
 					keyExtractor={item => item.id.toString()}
