@@ -141,6 +141,7 @@
 		},
 		"Settings": {
 			"title": "Paramètres",
+			"lang": "Langue de l'application :",
 			"lock": "Verrouiller le badge",
 			"locking": "Verrouillage en cours...",
 			"unlocking": "Déverrouillage en cours...",
@@ -149,7 +150,7 @@
 			"unlock_error": "Impossible de déverrouiller le badge.",
 			"sign_out": "Se déconnecter",
 			"about": "À propos",
-			"legal": "Mentions légales"
+			"legal": "Mentions légales",
 		}
 	},
 
@@ -166,7 +167,7 @@
 		"month": "Un mois",
 		"week": "Une semaine",
 		"yesterday": "Hier",
-		"show_since": "Afficher les statistiques depuis :"
+		"show_since": "Afficher les statistiques depuis :",
 	},
 
 	"navigation": {
