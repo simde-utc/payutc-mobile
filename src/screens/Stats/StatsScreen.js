@@ -11,7 +11,7 @@ import { RefreshControl, ScrollView, View } from 'react-native';
 import { connect } from 'react-redux';
 import colors from '../../styles/colors';
 import TitleParams from '../../components/TitleParams';
-import { PayUTC } from '../../redux/actions';
+import { Config, PayUTC } from '../../redux/actions';
 import StatsHorizontalScrollView from '../../components/Stats/StatsHorizontalScrollView';
 import RankedList from '../../components/Stats/RankedList';
 import { _, Stats as t } from '../../utils/i18n';
@@ -52,8 +52,10 @@ class StatsScreen extends React.Component {
 				{ title: _('week'), date: oneWeekAgo },
 				{ title: _('yesterday'), date: yesterday },
 			],
-			selectedDate: 0,
 		};
+
+		this.onSelectedDateChange = this.onSelectedDateChange.bind(this);
+		this.onSelectedCategoryChange = this.onSelectedCategoryChange.bind(this);
 	}
 
 	componentDidMount() {
@@ -68,12 +70,24 @@ class StatsScreen extends React.Component {
 		}
 	}
 
+	onSelectedDateChange(selectedDate) {
+		const { dispatch } = this.props;
+
+		dispatch(Config.preferences({ selectedDate }));
+	}
+
+	onSelectedCategoryChange(selectedStatCategory) {
+		const { dispatch } = this.props;
+
+		dispatch(Config.preferences({ selectedStatCategory }));
+	}
+
 	render() {
-		const { historyFetched, history } = this.props;
-		const { dates, selectedDate } = this.state;
+		const { historyFetched, history, preferences } = this.props;
+		const { dates } = this.state;
 
 		const filteredHistory = history.filter(
-			item => new Date(item.date) > new Date(dates[selectedDate].date)
+			item => new Date(item.date) > new Date(dates[preferences.selectedDate].date)
 		);
 
 		return (
@@ -90,14 +104,14 @@ class StatsScreen extends React.Component {
 			>
 				<TitleParams
 					title={t('title')}
-					settingText={_('since_*', { since: dates[selectedDate].title.toLowerCase() })}
+					settingText={_('since_*', { since: dates[preferences.selectedDate].title.toLowerCase() })}
 				>
 					<TabsBlockTemplate
 						roundedBottom
 						text={_('show_since')}
 						tintColor={colors.secondary}
-						default={selectedDate}
-						onChange={index => this.setState({ selectedDate: index })}
+						default={preferences.selectedDate}
+						onChange={this.onSelectedDateChange}
 						style={{ marginHorizontal: 15, borderTopWidth: 0 }}
 						tabs={dates}
 					/>
@@ -106,13 +120,15 @@ class StatsScreen extends React.Component {
 				<StatsHorizontalScrollView
 					history={history}
 					historyFetching={!historyFetched}
-					since={{ text: '', date: dates[selectedDate].date }}
+					since={{ text: '', date: dates[preferences.selectedDate].date }}
 				/>
 				<TabsBlockTemplate
 					style={{ margin: 15 }}
 					roundedTop
 					roundedBottom
 					tintColor={colors.primary}
+					default={preferences.selectedStatCategory}
+					onChange={this.onSelectedCategoryChange}
 					tabs={[
 						{
 							title: t('buy_ranking_title'),
@@ -167,10 +183,11 @@ class StatsScreen extends React.Component {
 	}
 }
 
-const mapStateToProps = ({ payutc }) => {
+const mapStateToProps = ({ payutc, config: { preferences } }) => {
 	const history = payutc.getHistory();
 
 	return {
+		preferences,
 		history: history.getData({ historique: [] }).historique,
 		historyFetching: history.isFetching(),
 		historyFetched: history.isFetched(),
