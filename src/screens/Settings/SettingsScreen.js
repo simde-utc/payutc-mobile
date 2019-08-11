@@ -11,8 +11,10 @@ import { Alert, RefreshControl, ScrollView, Text, View } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { connect } from 'react-redux';
 import colors from '../../styles/colors';
+import TitleParams from '../../components/TitleParams';
+import TabsBlockTemplate from '../../components/TabsBlockTemplate';
 import BlockTemplate from '../../components/BlockTemplate';
-import { _, Settings as t } from '../../utils/i18n';
+import i18n, { _, Settings as t, Global as g } from '../../utils/i18n';
 import SwitchBlockTemplate from '../../components/SwitchBlockTemplate';
 import { Config, PayUTC } from '../../redux/actions';
 
@@ -25,6 +27,11 @@ class SettingsScreen extends React.PureComponent {
 
 	constructor(props) {
 		super(props);
+
+		this.state = {
+			lang: '',
+		};
+
 		this.onLockChange = this.onLockChange.bind(this);
 	}
 
@@ -34,6 +41,8 @@ class SettingsScreen extends React.PureComponent {
 
 	onRefresh() {
 		const { lockStatusFetching, dispatch } = this.props;
+
+		this.setState({ lang: i18n.currentLocale() });
 
 		if (!lockStatusFetching) {
 			dispatch(PayUTC.getLockStatus());
@@ -74,6 +83,12 @@ class SettingsScreen extends React.PureComponent {
 		});
 	}
 
+	setLang(lang) {
+		i18n.locale = lang;
+
+		this.setState({ lang });
+	}
+
 	signOut() {
 		const { navigation } = this.props;
 
@@ -82,6 +97,7 @@ class SettingsScreen extends React.PureComponent {
 
 	render() {
 		const { lockStatus, lockStatusFetching, navigation } = this.props;
+		const { lang } = this.state;
 
 		return (
 			<View style={{ flex: 1, backgroundColor: colors.backgroundLight, paddingHorizontal: 15 }}>
@@ -96,11 +112,17 @@ class SettingsScreen extends React.PureComponent {
 					}
 				>
 					<View style={{ height: 15 }} />
-					<BlockTemplate roundedTop roundedBottom shadow>
-						<Text style={{ fontSize: 22, fontWeight: 'bold', color: colors.primary }}>
-							{t('title')}
-						</Text>
-					</BlockTemplate>
+					<TitleParams title={t('title')} settingText={g(`langs.${lang}`)} style={{ margin: 0 }}>
+						<TabsBlockTemplate
+							roundedBottom
+							text={t('lang')}
+							tintColor={colors.secondary}
+							default={lang}
+							onChange={lang => this.setLang(lang)}
+							style={{ borderTopWidth: 0 }}
+							tabs={g('langs')}
+						/>
+					</TitleParams>
 					<View style={{ height: 15 }} />
 					<SwitchBlockTemplate
 						roundedTop
