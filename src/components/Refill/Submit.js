@@ -7,11 +7,9 @@
  */
 
 import React from 'react';
-import { Text, View } from 'react-native';
 import { connect } from 'react-redux';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import colors from '../../styles/colors';
-import BlockTemplate from '../BlockTemplate';
+import LinkButton from '../LinkButton';
 import { Config, PayUTC } from '../../redux/actions';
 import { Refill as t } from '../../utils/i18n';
 import { floatToEuro } from '../../utils';
@@ -93,27 +91,13 @@ class Submit extends React.Component {
 		const { disabled } = this.props;
 
 		return (
-			<BlockTemplate
-				roundedTop
-				roundedBottom
-				shadow
-				onPress={() => this.submit()}
+			<LinkButton
+				text={t('pay')}
+				color={colors.backgroundLight}
+				backgroundColor={colors.more}
 				disabled={disabled}
-				customBackground={disabled ? colors.disabled : colors.more}
-			>
-				<View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
-					<Text
-						style={{
-							fontSize: 16,
-							fontWeight: 'bold',
-							color: colors.backgroundLight,
-						}}
-					>
-						{t('pay')}
-					</Text>
-					<FontAwesomeIcon icon={['fas', 'angle-right']} size={20} color={colors.backgroundLight} />
-				</View>
-			</BlockTemplate>
+				onPress={() => this.submit()}
+			/>
 		);
 	}
 }
