@@ -13,7 +13,7 @@ import BlockTemplate from '../BlockTemplate';
 import AmountInput from '../Home/AmountInput';
 import { Refill as t } from '../../utils/i18n';
 
-export default class AmountForm extends React.PureComponent {
+export default class AmountForm extends React.Component {
 	constructor(props) {
 		super(props);
 

@@ -14,7 +14,7 @@ import { History as t } from '../../utils/i18n';
 import { beautifyDateTime } from '../../utils';
 import Transaction from './Transaction';
 
-export default class Item extends React.PureComponent {
+export default class Item extends React.Component {
 	static renderTransaction(transaction) {
 		switch (transaction.type) {
 			case 'PURCHASE': {

@@ -14,13 +14,13 @@ import { Config, PayUTC } from '../../redux/actions';
 import { floatToEuro } from '../../utils';
 import { PAYUTC_CALLBACK_LINK } from '../../../config';
 
-class PaymentScreen extends React.PureComponent {
-	static navigationOptions = {
+class PaymentScreen extends React.Component {
+	static navigationOptions = () => ({
 		title: t('title'),
 		headerStyle: { borderBottomWidth: 0 },
 		headerTintColor: colors.more,
 		headerForceInset: { top: 'never' },
-	};
+	});
 
 	handleOnNavigationStateChange({ url }) {
 		const { history, navigation, dispatch } = this.props;

@@ -1,5 +1,6 @@
-/*
+/**
  * @author Arthur Martello <arthur.martello@etu.utc.fr>
+ * @author Samy Nastuzzi <samy@nastuzzi.fr>
  *
  * @copyright Copyright (c) 2019, SiMDE-UTC
  * @license GPL-3.0
@@ -10,7 +11,7 @@ import { Text, View } from 'react-native';
 import BlockTemplate from '../BlockTemplate';
 import colors from '../../styles/colors';
 
-export default class DataBlockTemplate extends React.PureComponent {
+export default class DataBlockTemplate extends React.Component {
 	renderDescription() {
 		const { description } = this.props;
 

@@ -7,25 +7,29 @@
  */
 
 import React from 'react';
-import { Alert, RefreshControl, ScrollView, Text, View } from 'react-native';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { Alert, RefreshControl, ScrollView, Text, View, Linking } from 'react-native';
 import { connect } from 'react-redux';
 import colors from '../../styles/colors';
-import BlockTemplate from '../../components/BlockTemplate';
-import { _, Settings as t } from '../../utils/i18n';
+import TitleParams from '../../components/TitleParams';
+import TabsBlockTemplate from '../../components/TabsBlockTemplate';
+import LinkButton from '../../components/LinkButton';
+import { _, Settings as t, Global as g } from '../../utils/i18n';
 import SwitchBlockTemplate from '../../components/SwitchBlockTemplate';
 import { Config, PayUTC } from '../../redux/actions';
+import { PAYUTC_EMAIL } from '../../../config';
 
-class SettingsScreen extends React.PureComponent {
-	static navigationOptions = {
+class SettingsScreen extends React.Component {
+	static navigationOptions = () => ({
 		title: t('title'),
 		header: null,
 		headerForceInset: { top: 'never' },
-	};
+	});
 
 	constructor(props) {
 		super(props);
+
 		this.onLockChange = this.onLockChange.bind(this);
+		this.setLang = this.setLang.bind(this);
 	}
 
 	componentDidMount() {
@@ -74,6 +78,12 @@ class SettingsScreen extends React.PureComponent {
 		});
 	}
 
+	setLang(lang) {
+		const { dispatch } = this.props;
+
+		dispatch(Config.setLang(lang));
+	}
+
 	signOut() {
 		const { navigation } = this.props;
 
@@ -81,7 +91,7 @@ class SettingsScreen extends React.PureComponent {
 	}
 
 	render() {
-		const { lockStatus, lockStatusFetching, navigation } = this.props;
+		const { lockStatus, lockStatusFetching, lang, navigation } = this.props;
 
 		return (
 			<View style={{ flex: 1, backgroundColor: colors.backgroundLight, paddingHorizontal: 15 }}>
@@ -96,11 +106,17 @@ class SettingsScreen extends React.PureComponent {
 					}
 				>
 					<View style={{ height: 15 }} />
-					<BlockTemplate roundedTop roundedBottom shadow>
-						<Text style={{ fontSize: 22, fontWeight: 'bold', color: colors.primary }}>
-							{t('title')}
-						</Text>
-					</BlockTemplate>
+					<TitleParams title={t('title')} settingText={g(`langs.${lang}`)} style={{ margin: 0 }}>
+						<TabsBlockTemplate
+							roundedBottom
+							text={t('lang')}
+							tintColor={colors.secondary}
+							value={lang}
+							onChange={this.setLang}
+							style={{ borderTopWidth: 0 }}
+							tabs={g('langs')}
+						/>
+					</TitleParams>
 					<View style={{ height: 15 }} />
 					<SwitchBlockTemplate
 						roundedTop
@@ -131,42 +147,29 @@ class SettingsScreen extends React.PureComponent {
 						</View>
 					</SwitchBlockTemplate>
 					<View style={{ height: 15 }} />
-					<BlockTemplate roundedTop roundedBottom onPress={() => navigation.navigate('About')}>
-						<View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
-							<Text style={{ fontSize: 16, fontWeight: 'bold', color: colors.secondary }}>
-								{t('about')}
-							</Text>
-							<FontAwesomeIcon icon={['fas', 'angle-right']} size={16} color={colors.secondary} />
-						</View>
-					</BlockTemplate>
+					<LinkButton text={t('about')} onPress={() => navigation.navigate('About')} />
 					<View style={{ height: 15 }} />
-					<BlockTemplate roundedTop roundedBottom onPress={() => navigation.navigate('Legal')}>
-						<View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
-							<Text style={{ fontSize: 16, fontWeight: 'bold', color: colors.secondary }}>
-								{t('legal')}
-							</Text>
-							<FontAwesomeIcon icon={['fas', 'angle-right']} size={16} color={colors.secondary} />
-						</View>
-					</BlockTemplate>
+					<LinkButton text={t('legal')} onPress={() => navigation.navigate('Legal')} />
 					<View style={{ height: 15 }} />
-					<BlockTemplate roundedTop roundedBottom onPress={() => this.signOut()}>
-						<View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
-							<Text style={{ fontSize: 16, fontWeight: 'bold', color: colors.less }}>
-								{t('sign_out')}
-							</Text>
-							<FontAwesomeIcon icon={['fas', 'angle-right']} size={16} color={colors.less} />
-						</View>
-					</BlockTemplate>
+					<LinkButton
+						text={t('contact_us')}
+						onPress={() =>
+							Linking.openURL(`mailto:${PAYUTC_EMAIL}?subject=[App] &body=${t('mail_body')}`)
+						}
+					/>
+					<View style={{ height: 15 }} />
+					<LinkButton text={t('sign_out')} color={colors.less} onPress={() => this.signOut()} />
 				</ScrollView>
 			</View>
 		);
 	}
 }
 
-const mapStateToProps = ({ payutc }) => {
+const mapStateToProps = ({ payutc, config: { lang } }) => {
 	const lockStatus = payutc.getLockStatus();
 
 	return {
+		lang,
 		lockStatus: lockStatus.getData(false),
 		lockStatusFetching: lockStatus.isFetching(),
 		lockStatusFetched: lockStatus.isFetched(),

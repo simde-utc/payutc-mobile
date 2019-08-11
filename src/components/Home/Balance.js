@@ -14,7 +14,7 @@ import { _, Home as t } from '../../utils/i18n';
 import colors from '../../styles/colors';
 import { floatToEuro } from '../../utils';
 
-export default class Balance extends React.PureComponent {
+export default class Balance extends React.Component {
 	getWeekAmount() {
 		const { weekAmount } = this.props;
 

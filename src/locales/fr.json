@@ -28,7 +28,7 @@
 			"back_button_title": "Montant",
 			"amount": "Montant du rechargement :",
 			"pay": "Accéder au paiement...",
-			"bad_amount": "Le montant doit être compris %{min} entre %{max}",
+			"bad_amount": "Le montant doit être compris %{min} entre %{max}.",
 			"amount_error": "Le montant est invalide.",
 			"refill_checks": "Vérfication avant rechargement...",
 			"redirect_to_refill": "Redirection vers la page de paiement..."
@@ -48,7 +48,7 @@
 			"message": "Message : ",
 			"message_placeholder": "Un (gentil) message",
 			"transfer_button": "Transférer...",
-			"bad_amount": "Le montant doit être compris %{min} entre %{max}",
+			"bad_amount": "Le montant doit être compris %{min} entre %{max}.",
 			"recipient_not_found": "Aucun destinataire trouvé.",
 			"amount_error": "Le montant est invalide.",
 			"transfer_checks": "Vérfication avant transfert...",
@@ -97,8 +97,8 @@
 			"password_placeholder": "Mot de passe de connexion",
 			"bad_login_password": "Mauvais identifiants",
 			"button": "C'est parti !",
-			"cas_connection": "Connexion au CAS-UTC",
-			"payutc_connection": "Connexion au service PayUTC",
+			"cas_connection": "Connexion au CAS-UTC...",
+			"payutc_connection": "Connexion au service PayUTC...",
 		},
 		"History": {
 			"title": "Historique",
@@ -137,6 +137,7 @@
 		},
 		"Settings": {
 			"title": "Paramètres",
+			"lang": "Langue de l'application :",
 			"lock": "Verrouiller le badge",
 			"locking": "Verrouillage en cours...",
 			"unlocking": "Déverrouillage en cours...",
@@ -145,24 +146,26 @@
 			"unlock_error": "Impossible de déverrouiller le badge.",
 			"sign_out": "Se déconnecter",
 			"about": "À propos",
-			"legal": "Mentions légales"
+			"legal": "Mentions légales",
+			"contact_us": "Nous contacter",
+			"mail_body": "Salut ! \n\nAvant tout, merci pour cette magnifique application !\n\n",
 		}
 	},
 
 	"words": {
 		"optional": "facultatif",
-		"continue": "Continuer",
-		"error": "Une erreur est survenue",
+		"continue": "continuer",
+		"error": "une erreur est survenue",
 		"ok": "OK",
 		"loading_text_replacement": "•••",
 		"and": "et",
 		"at": "à",
-		"since_*": "Depuis %{since}",
-		"ever": "Toujours",
-		"month": "Un mois",
-		"week": "Une semaine",
-		"yesterday": "Hier",
-		"show_since": "Afficher les statistiques depuis :"
+		"since_*": "depuis %{since}",
+		"ever": "toujours",
+		"month": "un mois",
+		"week": "une semaine",
+		"yesterday": "hier",
+		"show_since": "afficher les statistiques depuis :",
 	},
 
 	"navigation": {
