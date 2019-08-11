@@ -10,6 +10,9 @@
 import React from 'react';
 import { View, Text, Image, ActivityIndicator } from 'react-native';
 import i18nJs from 'i18n-js';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { fas } from '@fortawesome/free-solid-svg-icons';
+import { far } from '@fortawesome/free-regular-svg-icons';
 
 import PayUTC from '../services/PayUTC';
 import CASAuth from '../services/CASAuth';
@@ -21,6 +24,10 @@ import { _, AppLoader as t } from '../utils/i18n';
 export default class AppLoaderScreen extends React.Component {
 	static loadLocale() {
 		i18nJs.locale = 'fr';
+	}
+
+	static loadLibrairies() {
+		library.add(fas, far);
 	}
 
 	static handleError(error) {
@@ -84,6 +91,7 @@ export default class AppLoaderScreen extends React.Component {
 
 	bootstrap() {
 		AppLoaderScreen.loadLocale();
+		AppLoaderScreen.loadLibrairies();
 
 		this.setState({
 			text: _('loading'),

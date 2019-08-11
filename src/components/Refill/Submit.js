@@ -9,13 +9,13 @@
 import React from 'react';
 import { Text, View } from 'react-native';
 import { connect } from 'react-redux';
-import Ionicons from '@expo/vector-icons/Ionicons';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import colors from '../../styles/colors';
 import BlockTemplate from '../BlockTemplate';
 import { Config, PayUTC } from '../../redux/actions';
 import { Refill as t } from '../../utils/i18n';
 import { floatToEuro } from '../../utils';
-import { PAYUTC_LINK } from '../../../config';
+import { PAYUTC_CALLBACK_LINK } from '../../../config';
 
 class Submit extends React.PureComponent {
 	isAmountValid(minAmount, maxAmount) {
@@ -57,6 +57,7 @@ class Submit extends React.PureComponent {
 			}
 
 			const { amount } = this.props;
+			const amountAsFloat = parseFloat(amount.replace(',', '.'));
 
 			dispatch(
 				Config.spinner({
@@ -65,7 +66,7 @@ class Submit extends React.PureComponent {
 				})
 			);
 
-			const action = PayUTC.getRefillUrl(amount * 100, PAYUTC_LINK);
+			const action = PayUTC.getRefillUrl(amountAsFloat * 100, PAYUTC_CALLBACK_LINK);
 			dispatch(action);
 
 			action.payload
@@ -76,7 +77,7 @@ class Submit extends React.PureComponent {
 						})
 					);
 
-					navigation.navigate('Payment', { url, amount: floatToEuro(amount) });
+					navigation.navigate('Payment', { url, amount: amountAsFloat });
 				})
 				.catch(() => {
 					dispatch(
@@ -110,7 +111,7 @@ class Submit extends React.PureComponent {
 					>
 						{t('pay')}
 					</Text>
-					<Ionicons name="md-arrow-forward" size={20} color={colors.backgroundLight} />
+					<FontAwesomeIcon icon={['fas', 'angle-right']} size={20} color={colors.backgroundLight} />
 				</View>
 			</BlockTemplate>
 		);

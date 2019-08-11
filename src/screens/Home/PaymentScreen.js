@@ -10,8 +10,9 @@ import { Alert, WebView } from 'react-native';
 import { connect } from 'react-redux';
 import colors from '../../styles/colors';
 import { Payment as t } from '../../utils/i18n';
-import { PayUTC } from '../../redux/actions';
-import { PAYUTC_LINK, PAYUTC_ABORTED_LINK } from '../../../config';
+import { Config, PayUTC } from '../../redux/actions';
+import { floatToEuro } from '../../utils';
+import { PAYUTC_CALLBACK_LINK } from '../../../config';
 
 class PaymentScreen extends React.PureComponent {
 	static navigationOptions = {
@@ -22,19 +23,70 @@ class PaymentScreen extends React.PureComponent {
 	};
 
 	handleOnNavigationStateChange({ url }) {
-		const { navigation, dispatch } = this.props;
+		const { history, navigation, dispatch } = this.props;
 
-		if (url === PAYUTC_ABORTED_LINK) {
-			Alert.alert(t('title'), t('paiement_canceled'));
-
+		if (url.startsWith(PAYUTC_CALLBACK_LINK)) {
 			navigation.goBack();
-		} else if (url === PAYUTC_LINK) {
-			dispatch(PayUTC.getWalletDetails());
-			dispatch(PayUTC.getHistory());
 
-			navigation.navigate('Home', {
-				message: t('paiement_confirmed', { amount: navigation.getParam('amount') }),
-			});
+			dispatch(
+				Config.spinner({
+					visible: true,
+					textContent: t('checking'),
+				})
+			);
+
+			PayUTC.checkRefill(url.split('?')[1])
+				.payload.then(() => {
+					const action = PayUTC.getHistory();
+					const lastLength = history.length;
+
+					dispatch(PayUTC.getWalletDetails());
+					dispatch(action);
+
+					dispatch(
+						Config.spinner({
+							visible: true,
+							textContent: t('getting_refill'),
+						})
+					);
+
+					action.payload.then(([{ historique: history }]) => {
+						const refillAmount = navigation.getParam('amount');
+
+						for (let i = 0; i < history.length - lastLength; i++) {
+							const { type, amount } = history[i];
+
+							if (type === 'RECHARGE' && amount === refillAmount * 100) {
+								dispatch(
+									Config.spinner({
+										visible: false,
+									})
+								);
+
+								return navigation.navigate('Home', {
+									message: t('paiement_confirmed', {
+										amount: floatToEuro(refillAmount),
+									}),
+								});
+							}
+						}
+
+						dispatch(
+							Config.spinner({
+								visible: false,
+							})
+						);
+
+						Alert.alert(t('title'), t('paiement_canceled'));
+					});
+				})
+				.catch(() => {
+					dispatch(
+						Config.spinner({
+							visible: false,
+						})
+					);
+				});
 		}
 	}
 
@@ -51,4 +103,12 @@ class PaymentScreen extends React.PureComponent {
 	}
 }
 
-export default connect()(PaymentScreen);
+const mapStateToProps = ({ payutc }) => {
+	const history = payutc.getHistory();
+
+	return {
+		history: history.getData({ historique: [] }).historique,
+	};
+};
+
+export default connect(mapStateToProps)(PaymentScreen);
