@@ -7,11 +7,9 @@
  */
 
 import React from 'react';
-import { Text, View } from 'react-native';
 import { connect } from 'react-redux';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import colors from '../../styles/colors';
-import BlockTemplate from '../BlockTemplate';
+import LinkButton from '../LinkButton';
 import { Config, PayUTC } from '../../redux/actions';
 import { Transfer as t } from '../../utils/i18n';
 import { floatToEuro } from '../../utils';
@@ -99,27 +97,13 @@ class Submit extends React.PureComponent {
 		const { disabled } = this.props;
 
 		return (
-			<BlockTemplate
-				roundedTop
-				roundedBottom
-				shadow
-				onPress={() => this.submit()}
+			<LinkButton
+				text={t('transfer_button')}
+				color={colors.backgroundLight}
+				backgroundColor={colors.lightBlue}
 				disabled={disabled}
-				customBackground={disabled ? colors.disabled : colors.transfer}
-			>
-				<View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
-					<Text
-						style={{
-							fontSize: 18,
-							fontWeight: 'bold',
-							color: colors.backgroundBlock,
-						}}
-					>
-						{t('transfer_button')}
-					</Text>
-					<FontAwesomeIcon icon={['fas', 'angle-right']} size={20} color={colors.backgroundBlock} />
-				</View>
-			</BlockTemplate>
+				onPress={() => this.submit()}
+			/>
 		);
 	}
 }
