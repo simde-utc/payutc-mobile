@@ -7,14 +7,15 @@
  */
 
 import React from 'react';
-import { Alert, RefreshControl, ScrollView, Text, View } from 'react-native';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { Alert, RefreshControl, ScrollView, Text, View, Linking } from 'react-native';
 import { connect } from 'react-redux';
 import colors from '../../styles/colors';
 import BlockTemplate from '../../components/BlockTemplate';
+import LinkButton from '../../components/LinkButton';
 import { _, Settings as t } from '../../utils/i18n';
 import SwitchBlockTemplate from '../../components/SwitchBlockTemplate';
 import { Config, PayUTC } from '../../redux/actions';
+import { PAYUTC_EMAIL } from '../../../config';
 
 class SettingsScreen extends React.PureComponent {
 	static navigationOptions = {
@@ -131,32 +132,18 @@ class SettingsScreen extends React.PureComponent {
 						</View>
 					</SwitchBlockTemplate>
 					<View style={{ height: 15 }} />
-					<BlockTemplate roundedTop roundedBottom onPress={() => navigation.navigate('About')}>
-						<View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
-							<Text style={{ fontSize: 16, fontWeight: 'bold', color: colors.secondary }}>
-								{t('about')}
-							</Text>
-							<FontAwesomeIcon icon={['fas', 'angle-right']} size={16} color={colors.secondary} />
-						</View>
-					</BlockTemplate>
+					<LinkButton text={t('about')} onPress={() => navigation.navigate('About')} />
 					<View style={{ height: 15 }} />
-					<BlockTemplate roundedTop roundedBottom onPress={() => navigation.navigate('Legal')}>
-						<View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
-							<Text style={{ fontSize: 16, fontWeight: 'bold', color: colors.secondary }}>
-								{t('legal')}
-							</Text>
-							<FontAwesomeIcon icon={['fas', 'angle-right']} size={16} color={colors.secondary} />
-						</View>
-					</BlockTemplate>
+					<LinkButton text={t('legal')} onPress={() => navigation.navigate('Legal')} />
 					<View style={{ height: 15 }} />
-					<BlockTemplate roundedTop roundedBottom onPress={() => this.signOut()}>
-						<View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
-							<Text style={{ fontSize: 16, fontWeight: 'bold', color: colors.less }}>
-								{t('sign_out')}
-							</Text>
-							<FontAwesomeIcon icon={['fas', 'angle-right']} size={16} color={colors.less} />
-						</View>
-					</BlockTemplate>
+					<LinkButton
+						text={t('contact_us')}
+						onPress={() =>
+							Linking.openURL(`mailto:${PAYUTC_EMAIL}?subject=[App] &body=${t('mail_body')}`)
+						}
+					/>
+					<View style={{ height: 15 }} />
+					<LinkButton text={t('sign_out')} color={colors.less} onPress={() => this.signOut()} />
 				</ScrollView>
 			</View>
 		);

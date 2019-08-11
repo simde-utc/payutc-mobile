@@ -6,6 +6,7 @@ export const PAYUTC_LINK = '';
 export const PAYUTC_CALLBACK_LINK = '';
 export const PAYUTC_KEY = '';
 export const PAYUTC_SYSTEM_ID = '';
+export const PAYUTC_EMAIL = '';
 
 export default {
 	APP_NAME,
@@ -16,4 +17,5 @@ export default {
 	PAYUTC_LINK,
 	PAYUTC_CALLBACK_LINK,
 	PAYUTC_SYSTEM_ID,
+	PAYUTC_EMAIL,
 };

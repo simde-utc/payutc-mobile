@@ -150,7 +150,9 @@
 			"unlock_error": "Impossible de déverrouiller le badge.",
 			"sign_out": "Se déconnecter",
 			"about": "À propos",
-			"legal": "Mentions légales"
+			"legal": "Mentions légales",
+			"contact_us": "Nous contacter",
+			"mail_body": "Salut ! \n\nAvant tout, merci pour cette magnifique application !\n\n",
 		}
 	},
 
