@@ -42,14 +42,12 @@ class HomeScreen extends React.PureComponent {
 		this.onRefresh();
 	}
 
+	componentWillUnmount() {
+		this.subscriptions.forEach(subscription => subscription.remove());
+	}
+
 	onRefresh() {
-		const {
-			detailsFetching,
-			detailsFetched,
-			historyFetching,
-			historyFetched,
-			dispatch,
-		} = this.props;
+		const { detailsFetching, historyFetching, dispatch } = this.props;
 
 		if (!detailsFetching) {
 			dispatch(PayUTC.getWalletDetails());
@@ -58,10 +56,6 @@ class HomeScreen extends React.PureComponent {
 		if (!historyFetching) {
 			dispatch(PayUTC.getHistory());
 		}
-	}
-
-	componentWillUnmount() {
-		this.subscriptions.forEach(subscription => subscription.remove());
 	}
 
 	handleNavigationOnFocus({ action: { params } }) {
