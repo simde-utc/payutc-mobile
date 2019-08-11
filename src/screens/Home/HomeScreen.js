@@ -18,12 +18,12 @@ import { PayUTC } from '../../redux/actions';
 import { _, Home as t } from '../../utils/i18n';
 import { totalAmount } from '../../utils/stats';
 
-class HomeScreen extends React.PureComponent {
-	static navigationOptions = {
+class HomeScreen extends React.Component {
+	static navigationOptions = () => ({
 		title: t('title'),
 		header: null,
 		headerForceInset: { top: 'never' },
-	};
+	});
 
 	constructor(props) {
 		super(props);

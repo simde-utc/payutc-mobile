@@ -18,13 +18,13 @@ import { PayUTC } from '../../redux/actions';
 import { Transfer as t } from '../../utils/i18n';
 import { isAmountValid } from '../../utils';
 
-class TransferScreen extends React.PureComponent {
-	static navigationOptions = {
+class TransferScreen extends React.Component {
+	static navigationOptions = () => ({
 		title: t('title'),
 		headerStyle: { borderBottomWidth: 0 },
 		headerTintColor: colors.lightBlue,
 		headerForceInset: { top: 'never' },
-	};
+	});
 
 	constructor(props) {
 		super(props);

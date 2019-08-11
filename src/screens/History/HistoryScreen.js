@@ -19,12 +19,12 @@ import TabsBlockTemplate from '../../components/TabsBlockTemplate';
 import { firstTransaction } from '../../utils/stats';
 import { _, History as t } from '../../utils/i18n';
 
-class HistoryScreen extends React.PureComponent {
-	static navigationOptions = {
+class HistoryScreen extends React.Component {
+	static navigationOptions = () => ({
 		title: t('title'),
 		header: null,
 		headerForceInset: { top: 'never' },
-	};
+	});
 
 	constructor(props) {
 		super(props);

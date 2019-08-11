@@ -11,7 +11,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import BlockTemplate from './BlockTemplate';
 import colors from '../styles/colors';
 
-export default class TitleParams extends React.PureComponent {
+export default class TitleParams extends React.Component {
 	constructor(props) {
 		super(props);
 

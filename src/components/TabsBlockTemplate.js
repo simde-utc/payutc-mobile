@@ -11,7 +11,7 @@ import { ScrollView, Text, View } from 'react-native';
 import BlockTemplate from './BlockTemplate';
 import colors from '../styles/colors';
 
-export default class TabsBlockTemplate extends React.PureComponent {
+export default class TabsBlockTemplate extends React.Component {
 	constructor(props) {
 		super(props);
 

@@ -18,12 +18,12 @@ import { _, Settings as t, Global as g } from '../../utils/i18n';
 import SwitchBlockTemplate from '../../components/SwitchBlockTemplate';
 import { Config, PayUTC } from '../../redux/actions';
 
-class SettingsScreen extends React.PureComponent {
-	static navigationOptions = {
+class SettingsScreen extends React.Component {
+	static navigationOptions = () => ({
 		title: t('title'),
 		header: null,
 		headerForceInset: { top: 'never' },
-	};
+	});
 
 	constructor(props) {
 		super(props);

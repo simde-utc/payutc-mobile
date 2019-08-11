@@ -1,5 +1,6 @@
-/*
+/**
  * @author Arthur Martello <arthur.martello@etu.utc.fr>
+ * @author Samy Nastuzzi <samy@nastuzzi.fr>
  *
  * @copyright Copyright (c) 2019, SiMDE-UTC
  * @license GPL-3.0
@@ -12,7 +13,7 @@ import colors from '../../styles/colors';
 import { _, Stats as t } from '../../utils/i18n';
 import { floatToEuro } from '../../utils';
 
-export default class RankedList extends React.PureComponent {
+export default class RankedList extends React.Component {
 	renderItem(item, rank, roundedBottom = false) {
 		const { euro, countTintColor } = this.props;
 

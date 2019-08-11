@@ -24,12 +24,12 @@ import {
 	mostSpentItems,
 } from '../../utils/stats';
 
-class StatsScreen extends React.PureComponent {
-	static navigationOptions = {
+class StatsScreen extends React.Component {
+	static navigationOptions = () => ({
 		title: t('title'),
 		header: null,
 		headerForceInset: { top: 'never' },
-	};
+	});
 
 	constructor(props) {
 		super(props);
