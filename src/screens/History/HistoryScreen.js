@@ -92,7 +92,9 @@ class HistoryScreen extends React.Component {
 			history = history.filter(transaction => transaction.type.startsWith(type));
 		}
 
-		history = history.filter(({ date }) => new Date(date) > new Date(dates[preferences.selectedDate].date));
+		history = history.filter(
+			({ date }) => new Date(date) > new Date(dates[preferences.selectedDate].date)
+		);
 
 		if (search !== '') {
 			history = history.filter(
@@ -145,7 +147,7 @@ class HistoryScreen extends React.Component {
 						roundedBottom
 						text={_('show_since')}
 						tintColor={colors.secondary}
-						default={preferences.selectedDate}
+						value={preferences.selectedDate}
 						onChange={this.onSelectedDateChange}
 						style={{ marginHorizontal: 15, borderTopWidth: 0 }}
 						tabs={dates}
@@ -155,7 +157,7 @@ class HistoryScreen extends React.Component {
 					style={{ margin: 15 }}
 					roundedTop
 					roundedBottom
-					default={preferences.selectedHistoryCategory}
+					value={preferences.selectedHistoryCategory}
 					onChange={this.onSelectedCategoryChange}
 					tintColor={colors.primary}
 					tabs={[

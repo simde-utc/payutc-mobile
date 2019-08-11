@@ -110,7 +110,7 @@ class StatsScreen extends React.Component {
 						roundedBottom
 						text={_('show_since')}
 						tintColor={colors.secondary}
-						default={preferences.selectedDate}
+						value={preferences.selectedDate}
 						onChange={this.onSelectedDateChange}
 						style={{ marginHorizontal: 15, borderTopWidth: 0 }}
 						tabs={dates}
@@ -127,7 +127,7 @@ class StatsScreen extends React.Component {
 					roundedTop
 					roundedBottom
 					tintColor={colors.primary}
-					default={preferences.selectedStatCategory}
+					value={preferences.selectedStatCategory}
 					onChange={this.onSelectedCategoryChange}
 					tabs={[
 						{

@@ -111,7 +111,7 @@ class SettingsScreen extends React.Component {
 							roundedBottom
 							text={t('lang')}
 							tintColor={colors.secondary}
-							default={lang}
+							value={lang}
 							onChange={this.setLang}
 							style={{ borderTopWidth: 0 }}
 							tabs={g('langs')}
