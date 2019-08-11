@@ -16,7 +16,7 @@ import BlockTemplate from '../../components/BlockTemplate';
 import Item from '../../components/History/Item';
 import { PayUTC } from '../../redux/actions';
 import { _, Home as t } from '../../utils/i18n';
-import { purchasesAmount } from '../../utils/stats';
+import { totalAmount } from '../../utils/stats';
 
 class HomeScreen extends React.PureComponent {
 	static navigationOptions = {
@@ -118,7 +118,7 @@ class HomeScreen extends React.PureComponent {
 							amount={amount}
 							loading={detailsFetching}
 							name={details.first_name}
-							thisWeek={purchasesAmount(history, oneWeekAgo)}
+							weekAmount={totalAmount(history, oneWeekAgo) / 100}
 						/>
 					</ScrollView>
 

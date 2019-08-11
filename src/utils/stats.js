@@ -1,5 +1,6 @@
-/*
+/**
  * @author Arthur Martello <arthur.martello@etu.utc.fr>
+ * @author Samy Nastuzzi <samy@nastuzzi.fr>
  *
  * @copyright Copyright (c) 2019, SiMDE-UTC
  * @license GPL-3.0
@@ -91,4 +92,11 @@ export const mostReceivedFromPersons = history => {
 
 export const mostGivenToPeople = history => {
 	return sortedItems(history, 'VIROUT', ['firstname', 'lastname'], 'amount');
+};
+
+export const totalAmount = (history, since) => {
+	return history
+		.filter(({ date }) => new Date(date) > new Date(since))
+		.map(({ type, amount }) => (type === 'PURCHASE' || type === 'VIROUT' ? amount : -amount))
+		.reduce((acc, cur) => acc + cur, 0);
 };
