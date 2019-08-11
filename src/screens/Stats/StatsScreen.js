@@ -9,12 +9,12 @@
 import React from 'react';
 import { RefreshControl, ScrollView, View } from 'react-native';
 import { connect } from 'react-redux';
-import { Stats as t } from '../../utils/i18n';
 import colors from '../../styles/colors';
 import TitleParams from '../../components/TitleParams';
 import { PayUTC } from '../../redux/actions';
 import StatsHorizontalScrollView from '../../components/Stats/StatsHorizontalScrollView';
 import RankedList from '../../components/Stats/RankedList';
+import { _, Stats as t } from '../../utils/i18n';
 import TabsBlockTemplate from '../../components/TabsBlockTemplate';
 import {
 	firstTransaction,
@@ -47,10 +47,10 @@ class StatsScreen extends React.PureComponent {
 
 		this.state = {
 			dates: [
-				{ title: t('ever'), date: ever },
-				{ title: t('month'), date: oneMonthAgo },
-				{ title: t('week'), date: oneWeekAgo },
-				{ title: t('yesterday'), date: yesterday },
+				{ title: _('ever'), date: ever },
+				{ title: _('month'), date: oneMonthAgo },
+				{ title: _('week'), date: oneWeekAgo },
+				{ title: _('yesterday'), date: yesterday },
 			],
 			selectedDate: 0,
 		};
@@ -90,11 +90,11 @@ class StatsScreen extends React.PureComponent {
 			>
 				<TitleParams
 					title={t('title')}
-					settingText={`${t('since')} ${dates[selectedDate].title.toLowerCase()}`}
+					settingText={_('since_*', { since: dates[selectedDate].title.toLowerCase() })}
 				>
 					<TabsBlockTemplate
 						roundedBottom
-						text={t('show_since')}
+						text={_('show_since')}
 						tintColor={colors.secondary}
 						default={selectedDate}
 						onChange={index => this.setState({ selectedDate: index })}

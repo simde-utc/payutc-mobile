@@ -26,5 +26,7 @@
     "ios": {
       "supportsTablet": true
     }
-  }
+  },
+  "displayName": "PayUTC",
+  "name": "PayUTC"
 }

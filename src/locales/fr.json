@@ -39,8 +39,10 @@
 		},
 		"Payment": {
 			"title": "Paiement",
-			"paiement_canceled": "La tentative de paiement a été annulée",
+			"paiement_canceled": "Aucun paiement effectué, rechargement annulé",
 			"paiement_confirmed": "Rechargement de %{amount} validé !",
+			"checking": "Vérification de la transaction",
+			"getting_refill": "Récupération de l'information de rechargement"
 		},
 		"Transfer": {
 			"title": "Transfert",
@@ -111,13 +113,13 @@
 			"unsupported_transaction": "Impossible d'afficher la transaction",
 			"good_job": "Bravo, tu es arrivé au bout !",
 			"all": "Tous",
-			"all_desc": "Dernières actions sur le compte",
+			"all_desc": "Actions %{since}",
 			"purchased": "Achats",
-			"purchased_desc": "Derniers achats",
+			"purchased_desc": "Achats %{since}",
 			"refills": "Rechargements",
-			"refills_desc": "Derniers rechargements",
+			"refills_desc": "Rechargements %{since}",
 			"transfers": "Transferts",
-			"transfers_desc": "Derniers transferts",
+			"transfers_desc": "Transferts %{since}",
 			"empty_list": "Aucune donnée à afficher :("
 		},
 		"Stats": {
@@ -126,12 +128,6 @@
 			"purchases_amount": "dépensés",
 			"received_amount": "reçus",
 			"give_amount": "transférés",
-			"since": "Depuis",
-			"ever": "Toujours",
-			"month": "Un mois",
-			"week": "Une semaine",
-			"yesterday": "Hier",
-			"show_since": "Afficher les statistiques depuis :",
 			"empty_list": "Aucune donnée à afficher :(",
 			"first_transaction": "Première transaction :",
 			"buy_ranking": "Produits les plus achetés",
@@ -163,7 +159,13 @@
 		"ok": "OK",
 		"loading_text_replacement": "•••",
 		"and": "et",
-		"at": "à"
+		"at": "à",
+		"since_*": "Depuis %{since}",
+		"ever": "Toujours",
+		"month": "Un mois",
+		"week": "Une semaine",
+		"yesterday": "Hier",
+		"show_since": "Afficher les statistiques depuis :"
 	},
 
 	"navigation": {

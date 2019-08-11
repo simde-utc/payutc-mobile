@@ -7,8 +7,8 @@
  */
 
 import React from 'react';
-import { FlatList, RefreshControl, Text, TextInput, View } from 'react-native';
-import Ionicons from '@expo/vector-icons/Ionicons';
+import { FlatList, RefreshControl, Text, TextInput, View, TouchableOpacity } from 'react-native';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import colors from '../../styles/colors';
 import BlockTemplate from '../BlockTemplate';
 import { Transfer as t } from '../../utils/i18n';
@@ -54,15 +54,11 @@ export default class RecipientForm extends React.PureComponent {
 
 	renderCancelRecipient() {
 		return (
-			<BlockTemplate
-				roundedTop
-				roundedBottom
-				shadow
-				style={{ paddingVertical: 0 }}
-				onPress={() => this.handleRecipientSelected(null)}
-			>
-				<Ionicons name="ios-close" size={32} style={{ color: colors.error }} />
-			</BlockTemplate>
+			<TouchableOpacity onPress={() => this.handleRecipientSelected(null)}>
+				<View style={{ padding: 10 }}>
+					<FontAwesomeIcon icon={['fas', 'times']} size={20} color={colors.error} />
+				</View>
+			</TouchableOpacity>
 		);
 	}
 
@@ -107,7 +103,7 @@ export default class RecipientForm extends React.PureComponent {
 					>
 						{t('recipient')}
 					</Text>
-					<View style={{ flexDirection: 'row' }}>
+					<View style={{ flexDirection: 'row', alignItems: 'center' }}>
 						<TextInput
 							style={{
 								flexGrow: 1,

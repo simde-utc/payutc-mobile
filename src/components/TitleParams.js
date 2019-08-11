@@ -7,7 +7,7 @@
 
 import React from 'react';
 import { Text, View } from 'react-native';
-import Ionicons from '@expo/vector-icons/Ionicons';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import BlockTemplate from './BlockTemplate';
 import colors from '../styles/colors';
 
@@ -60,7 +60,7 @@ export default class TitleParams extends React.PureComponent {
 							>
 								{settingText}
 							</Text>
-							<Ionicons name="ios-options" size={16} color={colors.secondary} />
+							<FontAwesomeIcon icon={['fas', 'sliders-h']} size={14} color={colors.secondary} />
 						</View>
 					</BlockTemplate>
 				</BlockTemplate>
