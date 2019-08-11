@@ -68,7 +68,7 @@ export default class MessageForm extends React.Component {
 						style={{
 							fontSize: 14,
 							fontWeight: 'bold',
-							color: getValue ? colors.lightBlue : colors.secondary,
+							color: getValue ? colors.transfer : colors.secondary,
 							fontStyle: getValue ? 'italic' : null,
 						}}
 					>
@@ -105,13 +105,13 @@ export default class MessageForm extends React.Component {
 				<TextInput
 					style={{
 						fontSize: 18,
-						color: colors.lightBlue,
+						color: colors.transfer,
 					}}
 					keyboardType="default"
 					placeholder={t('message_placeholder')}
 					maxLength={this.maxLength}
 					multiline
-					selectionColor={error == null ? colors.lightBlue : colors.error}
+					selectionColor={error == null ? colors.transfer : colors.error}
 					textContentType="none"
 					autoCorrect={false}
 					onChangeText={text => this.onChange(text)}

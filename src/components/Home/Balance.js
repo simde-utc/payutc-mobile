@@ -7,7 +7,8 @@
  */
 
 import React from 'react';
-import { Text } from 'react-native';
+import { Text, View } from 'react-native';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import BlockTemplate from '../BlockTemplate';
 import { _, Home as t } from '../../utils/i18n';
 import colors from '../../styles/colors';
@@ -28,7 +29,7 @@ export default class Balance extends React.Component {
 		}
 
 		if (weekAmount === 0) {
-			return colors.yellow;
+			return colors.primary;
 		}
 
 		return colors.less;
@@ -46,33 +47,46 @@ export default class Balance extends React.Component {
 	}
 
 	render() {
-		const { amount, name, loading } = this.props;
+		const { amount, name, loading, onRefresh } = this.props;
 
 		return (
-			<BlockTemplate roundedTop roundedBottom shadow>
-				<Text style={{ fontSize: 14, fontWeight: 'bold', color: colors.secondary }}>
-					{loading ? _('loading_text_replacement') : t('your_balance', { name })}
-				</Text>
-				{amount || loading ? (
-					<Text style={{ fontSize: 70, fontWeight: 'bold', color: colors.primary, lineHeight: 75 }}>
-						{loading ? _('loading_text_replacement') : floatToEuro(amount)}
+			<View
+				style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start' }}
+			>
+				<View>
+					<Text style={{ fontSize: 14, fontWeight: 'bold', color: colors.secondary }}>
+						{loading ? _('loading_text_replacement') : t('your_balance', { name })}
 					</Text>
-				) : (
-					<Text style={{ fontSize: 12, fontWeight: 'bold', color: colors.primary }}>
-						{t('no_balance')}
-					</Text>
-				)}
-				<Text style={{ fontSize: 13, color: colors.secondary }}>
-					{loading ? (
-						_('loading_text_replacement')
-					) : (
-						<Text style={{ fontWeight: 'bold', color: this.getWeekAmountColor() }}>
-							{this.getWeekAmount()}
+					{amount || loading ? (
+						<Text
+							style={{ fontSize: 65, fontWeight: 'bold', color: colors.primary, lineHeight: 70 }}
+						>
+							{loading ? _('loading_text_replacement') : floatToEuro(amount)}
 						</Text>
-					)}{' '}
-					{this.getWeekAmountText()}
-				</Text>
-			</BlockTemplate>
+					) : (
+						<Text style={{ fontSize: 12, fontWeight: 'bold', color: colors.primary }}>
+							{t('no_balance')}
+						</Text>
+					)}
+					<Text style={{ fontSize: 13, color: colors.secondary }}>
+						{loading ? (
+							_('loading_text_replacement')
+						) : (
+							<Text style={{ fontWeight: 'bold', color: this.getWeekAmountColor() }}>
+								{this.getWeekAmount()}
+							</Text>
+						)}{' '}
+						{this.getWeekAmountText()}
+					</Text>
+				</View>
+				<BlockTemplate roundedTop roundedBottom shadow onPress={onRefresh} disabled={loading}>
+					<FontAwesomeIcon
+						icon={['fas', 'sync-alt']}
+						size={14}
+						color={loading ? colors.disabled : colors.secondary}
+					/>
+				</BlockTemplate>
+			</View>
 		);
 	}
 }

@@ -17,7 +17,6 @@ import { far } from '@fortawesome/free-regular-svg-icons';
 import PayUTC from '../services/PayUTC';
 import CASAuth from '../services/CASAuth';
 import payutcLogo from '../images/payutc-logo.png';
-import styles from '../styles';
 import colors from '../styles/colors';
 import { Config } from '../redux/actions';
 import { _, AppLoader as t } from '../utils/i18n';
@@ -126,14 +125,23 @@ class AppLoaderScreen extends React.Component {
 		const { text } = this.state;
 
 		return (
-			<View style={styles.container.center}>
-				<Image source={payutcLogo} style={styles.img.logoStyle} resizeMode="contain" />
-				<ActivityIndicator size="large" color={colors.yellow} />
+			<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+				<Image
+					source={payutcLogo}
+					style={{ height: '15%', width: '82%', marginBottom: 35 }}
+					resizeMode="contain"
+				/>
+				<ActivityIndicator size="large" color={colors.secondary} />
 				<Text
-					style={[
-						styles.get('text.h3', 'text.center', 'text.h3'),
-						{ height: 100, width: 250, marginTop: 10 },
-					]}
+					style={{
+						height: 100,
+						width: 250,
+						marginTop: 10,
+						fontWeight: 'bold',
+						fontSize: 18,
+						textAlign: 'center',
+						color: colors.secondary,
+					}}
 				>
 					{text}
 				</Text>

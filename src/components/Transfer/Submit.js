@@ -105,7 +105,7 @@ class Submit extends React.Component {
 				shadow
 				onPress={() => this.submit()}
 				disabled={disabled}
-				customBackground={disabled ? colors.disabled : colors.lightBlue}
+				customBackground={disabled ? colors.disabled : colors.transfer}
 			>
 				<View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
 					<Text

@@ -22,6 +22,7 @@
 		},
 		"Refill": {
 			"title": "Refill",
+			"back_button_title": "Amount",
 			"amount": "Refill amount :",
 			"pay": "Access to payment...",
 			"bad_amount": "The amount must be between %{min} and %{max}.",

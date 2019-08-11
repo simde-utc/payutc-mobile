@@ -20,6 +20,7 @@ export default class RefillScreen extends React.Component {
 		headerStyle: { borderBottomWidth: 0 },
 		headerTintColor: colors.more,
 		headerForceInset: { top: 'never' },
+		headerBackTitle: t('back_button_title'),
 	});
 
 	constructor(props) {
