@@ -35,6 +35,7 @@ export default function LinkButton({
 				style={{
 					flex: 1,
 					flexDirection: 'row',
+					flexWrap: 'wrap',
 					justifyContent: 'space-between',
 					alignItems: 'center',
 				}}

@@ -30,19 +30,27 @@ class ContributorsScreen extends React.Component {
 	}
 
 	componentDidUpdate(prevProps) {
-		const { contributors, contributorsFetching, dispatch } = this.props;
+		const { contributors, contributorsFetched } = this.props;
 
-		if (prevProps.contributorsFetching && !contributorsFetching) {
-			dispatch(GitHub.getUsers(contributors.map(({ login }) => login)));
+		if (!prevProps.contributorsFetched && contributorsFetched) {
+			contributors.map(({ login }) => this.fetchGithubUser(login));
 		}
 	}
 
+	fetchGithubUser(login) {
+		const { dispatch } = this.props;
+
+		dispatch(GitHub[`getUser#${login}`]());
+	}
+
 	renderContributor({ login, contributions, avatar_url, html_url }, index, last) {
-		const { users } = this.props;
-		console.log(users);
+		const { github } = this.props;
+		const data = github[`getUser#${login}`]().getData({});
+
 		return (
 			<Contributor
-				name={login}
+				name={data.name || login}
+				subname={data.name ? login : null}
 				description={t('contributions', { count: contributions })}
 				picture={avatar_url}
 				url={html_url}
@@ -79,9 +87,9 @@ const mapStateToProps = ({ github }) => {
 	const contributors = github.getContributors();
 
 	return {
-		users: github.getUsers().getData([]),
+		github,
 		contributors: contributors.getData([]),
-		contributorsFetching: contributors.isFetching(),
+		contributorsFetched: contributors.isFetched(),
 	};
 };
 

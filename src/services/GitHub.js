@@ -26,6 +26,20 @@ class GitHub extends Api {
 	getContributors() {
 		return this.call(`repos/${APP_REPO_NAME}/contributors`);
 	}
+
+	getUser(user) {
+		return this.call(`users/${user}`);
+	}
 }
 
-export default new GitHub();
+export default new Proxy(new GitHub(), {
+	get: (github, method) => {
+		if (method.indexOf('#') === -1) {
+			return github[method];
+		}
+
+		const [realMethod, data] = method.split('#');
+
+		return (...args) => github[realMethod](data, ...args);
+	},
+});

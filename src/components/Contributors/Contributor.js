@@ -12,6 +12,7 @@ import colors from '../../styles/colors';
 
 export default function Contributor({
 	name,
+	subname,
 	description,
 	picture,
 	url,
@@ -25,30 +26,23 @@ export default function Contributor({
 			notRoundedTop
 			notRoundedBottom={!roundedBottom}
 		>
+			<Image style={{ height: 50, width: 50 }} source={{ uri: picture }} />
 			<View
 				style={{
 					flex: 1,
 					flexDirection: 'row',
+					justifyContent: 'space-between',
+					alignItems: 'center',
+					paddingLeft: 10,
+					paddingRight: 5,
 				}}
 			>
-				<Image style={{ height: 50, width: 50 }} source={{ uri: picture }} />
-				<View
-					style={{
-						flex: 1,
-						flexDirection: 'row',
-						justifyContent: 'space-between',
-						alignItems: 'center',
-						paddingLeft: 10,
-					}}
-				>
-					<View>
-						<Text style={{ fontSize: 16, fontWeight: 'bold', color: colors.secondary }}>
-							{name}
-						</Text>
-						<Text style={{ fontSize: 12, color: colors.secondary }}>{description}</Text>
-					</View>
+				<View>
+					<Text style={{ fontSize: 16, fontWeight: 'bold', color: colors.secondary }}>{name}</Text>
+					<Text style={{ fontSize: 10, color: colors.secondary }}>{subname}</Text>
 				</View>
 			</View>
+			<Text style={{ fontSize: 12, color: colors.secondary }}>{description}</Text>
 		</LinkButton>
 	);
 }
