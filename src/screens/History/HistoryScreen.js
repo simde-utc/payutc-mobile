@@ -13,7 +13,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import colors from '../../styles/colors';
 import TitleParams from '../../components/TitleParams';
 import BlockTemplate from '../../components/BlockTemplate';
-import List from '../../components/History/List';
+import HistoryList from '../../components/History/HistoryList';
 import { Config, PayUTC } from '../../redux/actions';
 import TabsBlockTemplate from '../../components/TabsBlockTemplate';
 import { firstTransaction } from '../../utils/stats';
@@ -166,7 +166,7 @@ class HistoryScreen extends React.Component {
 						{
 							title: t('all'),
 							children: () => (
-								<List
+								<HistoryList
 									loading={historyFetching}
 									items={this.getHistory()}
 									title={t('all_desc', { since: since.toLowerCase() })}
@@ -176,7 +176,7 @@ class HistoryScreen extends React.Component {
 						{
 							title: t('purchased'),
 							children: () => (
-								<List
+								<HistoryList
 									loading={historyFetching}
 									items={this.getHistory('PURCHASE')}
 									title={t('purchased_desc', { since: since.toLowerCase() })}
@@ -186,7 +186,7 @@ class HistoryScreen extends React.Component {
 						{
 							title: t('refills'),
 							children: () => (
-								<List
+								<HistoryList
 									loading={historyFetching}
 									items={this.getHistory('RECHARGE')}
 									title={t('refills_desc', { since: since.toLowerCase() })}
@@ -196,7 +196,7 @@ class HistoryScreen extends React.Component {
 						{
 							title: t('transfers'),
 							children: () => (
-								<List
+								<HistoryList
 									loading={historyFetching}
 									items={this.getHistory('VIR')}
 									title={t('transfers_desc', { since: since.toLowerCase() })}

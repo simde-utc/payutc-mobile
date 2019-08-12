@@ -117,7 +117,6 @@
 			"refills_desc": "Rechargements %{since}",
 			"transfers": "Transferts",
 			"transfers_desc": "Transferts %{since}",
-			"empty_list": "Aucune donnée à afficher :(",
 			"search": "Rechercher"
 		},
 		"Stats": {
@@ -126,7 +125,6 @@
 			"purchases_amount": "d'achats effectués",
 			"received_amount": "reçus",
 			"give_amount": "transférés",
-			"empty_list": "Aucune donnée à afficher :(",
 			"first_transaction": "Première transaction :",
 			"buy_ranking": "Produits les plus achetés",
 			"buy_ranking_title": "Par quantité",
@@ -154,9 +152,30 @@
 			"title": "A propos",
 			"license": "Licence",
 			"legal": "Mentions légales",
+			"dependencies": "Paquets Open Source",
 		},
 		"License": {
 			"title": "Licence"
+		},
+		"Dependencies": {
+			"title": "Paquets Open Source",
+			"react_native_app": "Application développée avec React Native",
+			"license_info": "Cette application utilise différentes librairies Open Source listées ci-dessous.\nPubliée sur le PlayStore et l'Apple Store.",
+			"dependencies": "Toutes les dépendances",
+			"dev_dependencies": "Toutes les dépendances pour le développement",
+			"descriptions": {
+				"@fortawesome/free-solid-svg-core": "Ensemble d'icônes FontAwesome",
+				"@fortawesome/react-native-fontawesome": "Intégration de FontAwesome dans React Native",
+				"expo": "Permet le développement simple et rapide sur smartphone",
+				"i18n-js": "Gestion des traductions",
+				"react": "Framework NodeJS pour le frontend",
+				"react-native": "Framework pour le développement mobile Android et iOS",
+				"react-navigation": "Gestion de la navigation entre les différentes pages",
+				"redux": "Gestion harmonisé de la mémoire et des configurations",
+				"react-redux": "Implémentation de Redux dans React Native",
+				"eslint": "Standardisation du code",
+				"prettier": "Amélioration de la qualité du code",
+			},
 		}
 	},
 
@@ -174,6 +193,7 @@
 		"week": "une semaine",
 		"yesterday": "hier",
 		"show_since": "afficher les statistiques depuis :",
+		"empty_list": "Aucune donnée à afficher :(",
 	},
 
 	"navigation": {

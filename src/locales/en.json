@@ -114,7 +114,6 @@
 			"refills_desc": "Refills %{since}",
 			"transfers": "Transfers",
 			"transfers_desc": "Transfers %{since}",
-			"empty_list": "Not data to show :(",
 			"search": "Search"
 		},
 		"Stats": {
@@ -123,7 +122,6 @@
 			"purchases_amount": "spent",
 			"received_amount": "received",
 			"give_amount": "transfered",
-			"empty_list": "Not data to show :(",
 			"first_transaction": "First transaction :",
 			"buy_ranking": "Most bought items",
 			"buy_ranking_title": "By quantity",
@@ -151,9 +149,30 @@
 			"title": "About",
 			"license": "License",
 			"legal": "Legal terms",
+			"dependencies": "Open Source dependencies",
 		},
 		"License": {
 			"title": "License"
+		},
+		"Dependencies": {
+			"title": "Open Source dependencies",
+			"react_native_app": "Application developped with React Native",
+			"license_info": "This application uses different Open Source librairies listed under.\nPublished on Play Store and Apple Store.",
+			"dependencies": "All dependencies",
+			"dev_dependencies": "All development dependencies",
+			"descriptions": {
+				"@fortawesome/free-solid-svg-core": "Bundle of FontAwesome icons",
+				"@fortawesome/react-native-fontawesome": "Integrate FontAwesome in React Native",
+				"expo": "Allow simple and fast development under smartphones",
+				"i18n-js": "Handle translations",
+				"react": "Frontend NodeJS framework",
+				"react-native": "Framework for Android and iOS mobile development",
+				"react-navigation": "Handle navigation between screens",
+				"redux": "Harmonised management of the memory",
+				"react-redux": "Implement Redux in React Native",
+				"eslint": "Code standardization",
+				"prettier": "Improve the code quality",
+			},
 		}
 	},
 
@@ -171,6 +190,7 @@
 		"week": "a week",
 		"yesterday": "yesterday",
 		"show_since": "show all statistics since :",
+		"empty_list": "Not data to show :(",
 	},
 
 	"navigation": {
