@@ -150,6 +150,9 @@
 			"license": "License",
 			"legal": "Legal terms",
 			"dependencies": "Open Source dependencies",
+			"report_bug": "Report a bug",
+			"developed_github": "Code distributed on GitHub",
+			"developed_disc": "The application and its code are owned by the SiMDE-UTC (conventionned commission of the BDE-UTC).\nEach file is also owned by their authors.\n\nAll kind of contributions are deeply appreciated.",
 		},
 		"License": {
 			"title": "License"
