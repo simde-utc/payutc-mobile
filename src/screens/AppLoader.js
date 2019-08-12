@@ -12,7 +12,6 @@ import { View, Text, Image, Platform, NativeModules, ActivityIndicator } from 'r
 import { connect } from 'react-redux';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
-import { far } from '@fortawesome/free-regular-svg-icons';
 
 import PayUTC from '../services/PayUTC';
 import CASAuth from '../services/CASAuth';
@@ -24,7 +23,7 @@ import { AppLoader as t } from '../utils/i18n';
 
 class AppLoaderScreen extends React.Component {
 	static loadLibrairies() {
-		library.add(fas, far);
+		library.add(fas);
 	}
 
 	static handleError(error) {
