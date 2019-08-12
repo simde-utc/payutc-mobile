@@ -5,6 +5,8 @@
 			"connect_cas": "Reconnexion au CAS-UTC...",
 			"reconnection": "Reconnexion...",
 			"reset_data": "Réinitialisation des données...",
+			"config_keys_error": "Le fichier de configuration n'est pas le même que celui d'exemple. Certaines clés sont manquantes.",
+			"config_values_error": "Certaines clés du fichier de configuration ne sont pas renseignées. Cela conduira a des erreurs.",
 		},
 		"Home": {
 			"title": "Accueil",
