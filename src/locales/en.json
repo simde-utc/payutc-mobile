@@ -204,6 +204,9 @@
 			"co_conceptor": "Co-conceptor",
 			"design_fixer": "Design coordinator",
 		},
+		"Changelog": {
+			"title": "Changelog",
+		},
 	},
 
 	"words": {

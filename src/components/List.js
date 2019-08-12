@@ -35,11 +35,17 @@ export default function List({
 					</Text>
 				</BlockTemplate>
 			)}
-			ListHeaderComponent={() => (
-				<BlockTemplate roundedTop={!notRoundedTop}>
-					<Text style={{ fontSize: 16, fontWeight: 'bold', color: colors.primary }}>{title}</Text>
-				</BlockTemplate>
-			)}
+			ListHeaderComponent={
+				title
+					? () => (
+							<BlockTemplate roundedTop={!notRoundedTop}>
+								<Text style={{ fontSize: 16, fontWeight: 'bold', color: colors.primary }}>
+									{title}
+								</Text>
+							</BlockTemplate>
+					  )
+					: null
+			}
 		/>
 	);
 }

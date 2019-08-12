@@ -38,7 +38,7 @@ class AboutScreen extends React.Component {
 				t('up_to_date'),
 				colors.more,
 				t('in_development'),
-				() => navigation.navigate('Changelogs'),
+				() => navigation.navigate('Changelog'),
 			];
 		}
 
@@ -47,7 +47,7 @@ class AboutScreen extends React.Component {
 				t('up_to_date'),
 				colors.more,
 				t('actual_version', { current: VersionNumber.appVersion }),
-				() => navigation.navigate('Changelogs'),
+				() => navigation.navigate('Changelog'),
 			];
 		}
 
