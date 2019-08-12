@@ -47,10 +47,10 @@ class StatsScreen extends React.Component {
 
 		this.state = {
 			dates: [
-				{ title: _('ever'), date: ever },
-				{ title: _('month'), date: oneMonthAgo },
-				{ title: _('week'), date: oneWeekAgo },
-				{ title: _('yesterday'), date: yesterday },
+				{ lazyTitle: 'ever', date: ever },
+				{ lazyTitle: 'month', date: oneMonthAgo },
+				{ lazyTitle: 'week', date: oneWeekAgo },
+				{ lazyTitle: 'yesterday', date: yesterday },
 			],
 		};
 
@@ -104,7 +104,9 @@ class StatsScreen extends React.Component {
 			>
 				<TitleParams
 					title={t('title')}
-					settingText={_('since_*', { since: dates[preferences.selectedDate].title.toLowerCase() })}
+					settingText={_('since_*', {
+						since: _(dates[preferences.selectedDate].lazyTitle).toLowerCase(),
+					})}
 				>
 					<TabsBlockTemplate
 						roundedBottom
