@@ -12,7 +12,6 @@ import LinkButton from '../../components/LinkButton';
 import Paragraphe from '../../components/Paragraphe';
 import { About as t } from '../../utils/i18n';
 import GitHub from '../../services/GitHub';
-import { GITHUB_URL } from '../../../config';
 
 const buttons = ['Legal', 'Dependencies', 'License', 'Contributors'];
 
@@ -26,6 +25,7 @@ export default class AboutScreen extends React.Component {
 
 	render() {
 		const { navigation } = this.props;
+		const repoUrl = GitHub.getRepoUrl();
 
 		return (
 			<View style={{ flex: 1, backgroundColor: colors.backgroundLight, paddingHorizontal: 15 }}>
@@ -50,7 +50,7 @@ export default class AboutScreen extends React.Component {
 						title={t('developed_github')}
 						description={t('developed_disc')}
 						titleColor={colors.transfer}
-						onPress={() => Linking.openURL(GitHub.getRepoUrl())}
+						onPress={() => Linking.openURL(repoUrl)}
 					>
 						<Text
 							style={{
@@ -60,7 +60,7 @@ export default class AboutScreen extends React.Component {
 								marginTop: 13,
 							}}
 						>
-							{GITHUB_URL.replace(/http(s?):\/\//, '')}
+							{repoUrl.replace(/http(s?):\/\//, '')}
 						</Text>
 					</Paragraphe>
 				</ScrollView>

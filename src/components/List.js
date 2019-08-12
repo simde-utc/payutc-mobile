@@ -12,7 +12,15 @@ import BlockTemplate from './BlockTemplate';
 import colors from '../styles/colors';
 import { _ } from '../utils/i18n';
 
-export default function List({ items, title, noBottomBorder, loading, renderItem, keyExtractor }) {
+export default function List({
+	items,
+	title,
+	noBottomBorder,
+	notRoundedTop,
+	loading,
+	renderItem,
+	keyExtractor,
+}) {
 	return (
 		<FlatList
 			data={items}
@@ -28,7 +36,7 @@ export default function List({ items, title, noBottomBorder, loading, renderItem
 				</BlockTemplate>
 			)}
 			ListHeaderComponent={() => (
-				<BlockTemplate roundedTop>
+				<BlockTemplate roundedTop={!notRoundedTop}>
 					<Text style={{ fontSize: 16, fontWeight: 'bold', color: colors.primary }}>{title}</Text>
 				</BlockTemplate>
 			)}

@@ -111,6 +111,41 @@ class SettingsScreen extends React.Component {
 					</Text>
 				</BlockTemplate>
 
+				<TabsBlockTemplate
+					roundedTop
+					roundedBottom
+					shadow
+					text={t('lang')}
+					tintColor={colors.secondary}
+					value={lang}
+					onChange={this.setLang}
+					tabs={g('langs')}
+					justifyContent="flex-start"
+					style={{ margin: 15, marginTop: 0 }}
+				/>
+
+				<LinkButton
+					text={t('about')}
+					onPress={() => navigation.navigate('About')}
+					style={{ margin: 15, marginTop: 0 }}
+				/>
+
+				<LinkButton
+					text={t('contact_us')}
+					onPress={() =>
+						Linking.openURL(`mailto:${PAYUTC_EMAIL}?subject=[App] &body=${t('mail_body')}`)
+					}
+					style={{ margin: 15, marginTop: 0 }}
+				/>
+
+				<View
+					style={{
+						marginHorizontal: 50,
+						borderBottomWidth: 1,
+						borderBottomColor: colors.backgroundBlock,
+					}}
+				/>
+
 				<SwitchBlockTemplate
 					roundedTop
 					roundedBottom
@@ -119,7 +154,7 @@ class SettingsScreen extends React.Component {
 					onValueChange={this.onLockChange}
 					tintColor={colors.less}
 					disabled={lockStatusFetching}
-					style={{ marginHorizontal: 15 }}
+					style={{ margin: 15 }}
 				>
 					<View style={{ flex: 1, flexDirection: 'column' }}>
 						<Text
@@ -141,42 +176,6 @@ class SettingsScreen extends React.Component {
 						</Text>
 					</View>
 				</SwitchBlockTemplate>
-
-				<View
-					style={{
-						marginTop: 15,
-						marginHorizontal: 50,
-						borderBottomWidth: 1,
-						borderBottomColor: colors.backgroundBlock,
-					}}
-				/>
-
-				<LinkButton
-					text={t('about')}
-					onPress={() => navigation.navigate('About')}
-					style={{ margin: 15 }}
-				/>
-
-				<TabsBlockTemplate
-					roundedTop
-					roundedBottom
-					shadow
-					text={t('lang')}
-					tintColor={colors.secondary}
-					value={lang}
-					onChange={this.setLang}
-					tabs={g('langs')}
-					justifyContent="flex-start"
-					style={{ margin: 15, marginTop: 0 }}
-				/>
-
-				<LinkButton
-					text={t('contact_us')}
-					onPress={() =>
-						Linking.openURL(`mailto:${PAYUTC_EMAIL}?subject=[App] &body=${t('mail_body')}`)
-					}
-					style={{ margin: 15, marginTop: 0 }}
-				/>
 
 				<LinkButton
 					text={t('sign_out')}

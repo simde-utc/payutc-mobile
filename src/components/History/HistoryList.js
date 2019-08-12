@@ -31,6 +31,7 @@ export default class HistoryList extends React.Component {
 				loading={loading}
 				renderItem={HistoryList.renderItem}
 				keyExtractor={item => item.id.toString()}
+				notRoundedTop
 			/>
 		);
 	}
