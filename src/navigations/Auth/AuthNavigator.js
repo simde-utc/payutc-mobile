@@ -1,5 +1,6 @@
-/*
+/**
  * @author Arthur Martello <arthur.martello@etu.utc.fr>
+ * @author Samy Nastuzzi <samy@nastuzzi.fr>
  *
  * @copyright Copyright (c) 2019, SiMDE-UTC
  * @license GPL-3.0
@@ -11,6 +12,7 @@ import { createStackNavigator } from 'react-navigation';
 import AuthScreen from '../../screens/Auth/AuthScreen';
 import AboutScreen from '../../screens/Settings/AboutScreen';
 import LicenseScreen from '../../screens/Settings/LicenseScreen';
+import DependenciesScreen from '../../screens/Settings/DependenciesScreen';
 
 const AuthNavigator = createStackNavigator(
 	{
@@ -18,6 +20,7 @@ const AuthNavigator = createStackNavigator(
 		About: AboutScreen,
 		License: LicenseScreen,
 		Legal: () => <Text>Mentions légales</Text>,
+		Dependencies: DependenciesScreen,
 	},
 	{}
 );
