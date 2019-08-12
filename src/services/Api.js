@@ -34,6 +34,10 @@ export default class Api {
 		this.baseUrl = url;
 	}
 
+	getUrl() {
+		return this.baseUrl;
+	}
+
 	static serialize(queries) {
 		const str = [];
 
