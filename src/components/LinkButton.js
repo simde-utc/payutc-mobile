@@ -21,12 +21,13 @@ export default function LinkButton({
 	onPress,
 	notRoundedTop,
 	notRoundedBottom,
+	noShadow,
 }) {
 	return (
 		<BlockTemplate
 			roundedTop={!notRoundedTop}
 			roundedBottom={!notRoundedBottom}
-			shadow
+			shadow={!noShadow}
 			onPress={onPress}
 			disabled={disabled}
 			customBackground={disabled ? colors.disabled : backgroundColor}
