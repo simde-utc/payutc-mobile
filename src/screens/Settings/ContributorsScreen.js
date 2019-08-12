@@ -14,6 +14,14 @@ import Contributor from '../../components/Contributors/Contributor';
 import colors from '../../styles/colors';
 import { GitHub } from '../../redux/actions';
 import { Contributors as t } from '../../utils/i18n';
+import {
+	CONTRIBUTORS_MAIN_TEAM,
+	CONTRIBUTORS_DESIGN_TEAM,
+	CONTRIBUTORS_BLACKLIST,
+} from '../../../config';
+
+const mainTeamKeys = Object.keys(CONTRIBUTORS_MAIN_TEAM);
+const designTeamKeys = Object.keys(CONTRIBUTORS_DESIGN_TEAM);
 
 class ContributorsScreen extends React.Component {
 	static navigationOptions = () => ({
@@ -23,10 +31,19 @@ class ContributorsScreen extends React.Component {
 		headerTintColor: colors.primary,
 	});
 
+	constructor(props) {
+		super(props);
+
+		this.renderContributor = this.renderContributor.bind(this);
+	}
+
 	componentDidMount() {
 		const { dispatch } = this.props;
 
 		dispatch(GitHub.getContributors());
+
+		mainTeamKeys.map(login => this.fetchGithubUser(login));
+		designTeamKeys.map(login => this.fetchGithubUser(login));
 	}
 
 	componentDidUpdate(prevProps) {
@@ -37,13 +54,47 @@ class ContributorsScreen extends React.Component {
 		}
 	}
 
+	getContributors() {
+		const { contributors } = this.props;
+
+		return contributors
+			.filter(({ login }) => !CONTRIBUTORS_BLACKLIST.includes(login))
+			.map(({ id, login, contributions, avatar_url, html_url }) => ({
+				id,
+				login,
+				description: t('contributions', { count: contributions }),
+				avatar_url,
+				html_url,
+			}));
+	}
+
+	static getMainTeam() {
+		return mainTeamKeys.map(login => ({
+			login,
+			description: t(CONTRIBUTORS_MAIN_TEAM[login]),
+		}));
+	}
+
+	static getDesignTeam() {
+		return designTeamKeys.map(login => ({
+			login,
+			description: t(CONTRIBUTORS_DESIGN_TEAM[login]),
+		}));
+	}
+
+	refresh() {
+		const { dispatch } = this.props;
+
+		dispatch(GitHub.getContributors());
+	}
+
 	fetchGithubUser(login) {
 		const { dispatch } = this.props;
 
 		dispatch(GitHub[`getUser#${login}`]());
 	}
 
-	renderContributor({ login, contributions, avatar_url, html_url }, index, last) {
+	renderContributor({ login, description, avatar_url, html_url }, index, last) {
 		const { github } = this.props;
 		const data = github[`getUser#${login}`]().getData({});
 
@@ -51,9 +102,9 @@ class ContributorsScreen extends React.Component {
 			<Contributor
 				name={data.name || login}
 				subname={data.name ? login : null}
-				description={t('contributions', { count: contributions })}
-				picture={avatar_url}
-				url={html_url}
+				description={description}
+				picture={avatar_url || data.avatar_url}
+				url={html_url || data.html_url}
 				backgroundColor={index % 2 === 0 ? colors.backgroundBlockAlt : colors.backgroundBlock}
 				roundedBottom={last}
 			/>
@@ -61,7 +112,7 @@ class ContributorsScreen extends React.Component {
 	}
 
 	render() {
-		const { contributors, contributorsFetching } = this.props;
+		const { contributorsFetching } = this.props;
 
 		return (
 			<ScrollView style={{ backgroundColor: colors.backgroundLight, padding: 15 }}>
@@ -72,12 +123,27 @@ class ContributorsScreen extends React.Component {
 				/>
 				<View style={{ height: 15 }} />
 				<List
-					title={t('contributors')}
-					items={contributors}
+					title={t('main_team')}
+					items={ContributorsScreen.getMainTeam()}
 					loading={contributorsFetching}
-					keyExtractor={({ id }) => id.toString()}
-					renderItem={this.renderContributor.bind(this)}
+					keyExtractor={({ login }) => login}
+					renderItem={this.renderContributor}
 				/>
+				<View style={{ height: 15 }} />
+				<List
+					title={t('design_team')}
+					items={ContributorsScreen.getDesignTeam()}
+					keyExtractor={({ login }) => login}
+					renderItem={this.renderContributor}
+				/>
+				<View style={{ height: 15 }} />
+				<List
+					title={t('contributors')}
+					items={this.getContributors()}
+					keyExtractor={({ id }) => id.toString()}
+					renderItem={this.renderContributor}
+				/>
+				<View style={{ height: 30 }} />
 			</ScrollView>
 		);
 	}

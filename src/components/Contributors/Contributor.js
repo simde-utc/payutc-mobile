@@ -39,10 +39,12 @@ export default function Contributor({
 			>
 				<View>
 					<Text style={{ fontSize: 16, fontWeight: 'bold', color: colors.secondary }}>{name}</Text>
-					<Text style={{ fontSize: 10, color: colors.secondary }}>{subname}</Text>
+					{subname ? (
+						<Text style={{ fontSize: 10, color: colors.secondary }}>{subname}</Text>
+					) : null}
 				</View>
 			</View>
-			<Text style={{ fontSize: 12, color: colors.secondary }}>{description}</Text>
+			<Text style={{ fontSize: 11, color: colors.secondary }}>{description}</Text>
 		</LinkButton>
 	);
 }

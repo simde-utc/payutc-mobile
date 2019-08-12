@@ -29,16 +29,19 @@ export const PAYUTC_SYSTEM_ID = '';
 export const PAYUTC_EMAIL = '';
 
 // Main team contributors.
-export const CONTRIBUTORS_MAIN_TEAM = [
-	'NastuzziSamy',
-	'MercierCorentin',
-	'aarrtthhuurr',
-	'pierrickdes59',
-	'lafondoc',
-];
+export const CONTRIBUTORS_MAIN_TEAM = {
+	NastuzziSamy: 'project_chief',
+	MercierCorentin: 'project_follower',
+	aarrtthhuurr: 'principal_developer',
+	pierrickdes59: 'co_conceptor',
+	lafondoc: 'co_conceptor',
+};
 
 // Designer contributors.
-export const CONTRIBUTORS_DESIGN_TEAM = ['aarrtthhuurr', 'NastuzziSamy'];
+export const CONTRIBUTORS_DESIGN_TEAM = {
+	aarrtthhuurr: 'principal_designer',
+	NastuzziSamy: 'design_fixer',
+};
 
 // Contributors who doesn't want to be shown in the app (by username).
 export const CONTRIBUTORS_BLACKLIST = [];

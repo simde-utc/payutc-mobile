@@ -185,12 +185,20 @@
 			"title": "Equipe de développement",
 			"developped": "Développé avec coeur par l'équipe du SiMDE-UTC & PayUTC",
 			"developped_desc": "Développement initié en Juillet 2019.",
+			"main_team": "Equipe chargée de l'application",
+			"design_team": "Equipe ayant développée le design",
 			"contributors": "Contributeurs",
 			"contributions": {
 				"one": "1 seule contribution",
 				"other": "%{count} contributions",
 				"zero": "Aucune contribution"
-			}
+			},
+			"project_chief": "Chef du projet",
+			"project_follower": "Suiveur du projet",
+			"principal_developer": "Principal développeur",
+			"principal_designer": "Principal designer",
+			"co_conceptor": "Co-concepteur",
+			"design_fixer": "Coordinateur design",
 		},
 	},
 
