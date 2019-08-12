@@ -96,7 +96,7 @@
 			"button": "Let's go !",
 			"cas_connection": "CAS-UTC connection...",
 			"payutc_connection": "Connexion to the PayUTC service...",
-			"about": "About",
+			"valid_terms": "By clicking \"%{button}\" you accept all the terms",
 		},
 		"History": {
 			"title": "Historic",

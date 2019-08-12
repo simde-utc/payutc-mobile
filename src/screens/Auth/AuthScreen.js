@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { Alert, Image, Text, TextInput, View } from 'react-native';
+import { Alert, Image, Text, TextInput, View, TouchableOpacity } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { connect } from 'react-redux';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -135,7 +135,7 @@ class AuthScreen extends React.Component {
 	}
 
 	render() {
-		const { lang } = this.props;
+		const { lang, navigation } = this.props;
 		const { login, password } = this.state;
 
 		return (
@@ -239,6 +239,13 @@ class AuthScreen extends React.Component {
 						{t('button')}
 					</Text>
 				</BlockTemplate>
+				<TouchableOpacity onPress={() => navigation.navigate('About')}>
+					<Text
+						style={{ paddingTop: 3, color: colors.secondary, fontSize: 12, textAlign: 'center' }}
+					>
+						{t('valid_terms', { button: t('button') })}
+					</Text>
+				</TouchableOpacity>
 			</KeyboardAwareScrollView>
 		);
 	}

@@ -99,7 +99,7 @@
 			"button": "C'est parti !",
 			"cas_connection": "Connexion au CAS-UTC...",
 			"payutc_connection": "Connexion au service PayUTC...",
-			"about": "A propos",
+			"valid_terms": "En cliquant sur \"%{button}\" vous acceptez les termes d'utilisation",
 		},
 		"History": {
 			"title": "Historique",
