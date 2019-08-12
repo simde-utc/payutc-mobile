@@ -96,6 +96,7 @@
 			"button": "Let's go !",
 			"cas_connection": "CAS-UTC connection...",
 			"payutc_connection": "Connexion to the PayUTC service...",
+			"about": "About",
 		},
 		"History": {
 			"title": "Historic",
@@ -143,13 +144,13 @@
 			"unlock_error": "Impossible to unlock the badge.",
 			"sign_out": "Disconnect",
 			"about": "About",
-			"legal": "Legal terms",
 			"contact_us": "Contact us",
 			"mail_body": "Hello ! \n\nFirst of all, thank you for this application !\n\n",
 		},
 		"About": {
 			"title": "About",
 			"license": "License",
+			"legal": "Legal terms",
 		},
 		"License": {
 			"title": "License"

@@ -25,6 +25,8 @@ export default class AboutScreen extends React.Component {
 			<View style={{ flex: 1, backgroundColor: colors.backgroundLight, paddingHorizontal: 15 }}>
 				<ScrollView>
 					<View style={{ height: 15 }} />
+					<LinkButton text={t('legal')} onPress={() => navigation.navigate('Legal')} />
+					<View style={{ height: 15 }} />
 					<LinkButton text={t('license')} onPress={() => navigation.navigate('License')} />
 				</ScrollView>
 			</View>
