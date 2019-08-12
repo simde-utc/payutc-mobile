@@ -8,6 +8,7 @@
 import React from 'react';
 import { WebView } from 'react-native';
 import { License as t } from '../../utils/i18n';
+import colors from '../../styles/colors';
 
 const LICENSE = `
 GNU GENERAL PUBLIC LICENSE
@@ -241,8 +242,9 @@ The GNU General Public License does not permit incorporating your program into p
 export default class LicenseScreen extends React.Component {
 	static navigationOptions = () => ({
 		title: t('title'),
-		headerStyle: { borderBottomWidth: 0 },
+		headerStyle: { borderBottomWidth: 1, borderBottomColor: colors.backgroundLight },
 		headerForceInset: { top: 'never' },
+		headerTintColor: colors.primary,
 	});
 
 	render() {

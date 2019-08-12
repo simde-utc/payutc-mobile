@@ -152,11 +152,11 @@
 		},
 		"About": {
 			"title": "A propos",
-			"license": "License",
+			"license": "Licence",
 			"legal": "Mentions légales",
 		},
 		"License": {
-			"title": "License"
+			"title": "Licence"
 		}
 	},
 
