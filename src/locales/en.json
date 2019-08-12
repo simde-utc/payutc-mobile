@@ -156,6 +156,11 @@
 			"report_bug": "Report a bug",
 			"developed_github": "Code distributed on GitHub",
 			"developed_disc": "The application and its code are owned by the SiMDE-UTC (conventionned commission of the BDE-UTC).\nEach file is also owned by their authors.\n\nAll kind of contributions are deeply appreciated.",
+			"up_to_date": "Application up to date !",
+			"in_development": "The application is still in development.",
+			"actual_version": "The application is under version %{current}.",
+			"need_update": "The application needs to be updated !",
+			"update_version": "The application is under version %{current}. Click to update to version %{next}.",
 		},
 		"License": {
 			"title": "License"

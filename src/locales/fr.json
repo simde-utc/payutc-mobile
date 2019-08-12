@@ -159,6 +159,11 @@
 			"report_bug": "Signaler un problème",
 			"developed_github": "Code répertorié sur GitHub",
 			"developed_disc": "L'application et le code appartient au SiMDE-UTC (commission conventionnée par le BDE-UTC).\nChaque fichier appartient de même à ses auteurs.\n\nToute contribution est fortement appréciée.",
+			"up_to_date": "Application à jour !",
+			"in_development": "L'application est encore en cours de développement.",
+			"actual_version": "L'application est sous la version %{current}.",
+			"need_update": "L'application n'est pas à jour !",
+			"update_version": "L'application est sous la version %{current}. Cliquez pour mettre à jour vers la version %{next}.",
 		},
 		"License": {
 			"title": "Licence"

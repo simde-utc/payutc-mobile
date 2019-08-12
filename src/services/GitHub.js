@@ -35,6 +35,10 @@ class GitHub extends Api {
 	getUser(user) {
 		return this.call(`users/${user}`);
 	}
+
+	getLastestRelease() {
+		return this.call(`repos/${APP_REPO_NAME}/releases/latest`);
+	}
 }
 
 export default new Proxy(new GitHub(), {
