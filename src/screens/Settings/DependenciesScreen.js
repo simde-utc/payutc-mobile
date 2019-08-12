@@ -6,13 +6,15 @@
  */
 
 import React from 'react';
-import { ScrollView, View, Text } from 'react-native';
+import { ScrollView, View, Text, Linking } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import List from '../../components/List';
 import BlockTemplate from '../../components/BlockTemplate';
 import colors from '../../styles/colors';
 import { Dependencies as t } from '../../utils/i18n';
 import PackageJson from '../../../package.json';
+
+const NPM_PACKAGE_URL = 'https://www.npmjs.com/package';
 
 export default class DependenciesScreen extends React.Component {
 	static navigationOptions = () => ({
@@ -29,6 +31,7 @@ export default class DependenciesScreen extends React.Component {
 			<BlockTemplate
 				customBackground={index % 2 === 0 ? colors.backgroundBlockAlt : colors.backgroundBlock}
 				roundedBottom={last}
+				onPress={() => Linking.openURL(`${NPM_PACKAGE_URL}/${dependency}`)}
 			>
 				<View
 					style={{

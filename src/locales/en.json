@@ -161,7 +161,17 @@
 			"dependencies": "All dependencies",
 			"dev_dependencies": "All development dependencies",
 			"descriptions": {
-				"react": "Frontend NodeJS framework"
+				"@fortawesome/free-solid-svg-core": "Bundle of FontAwesome icons",
+				"@fortawesome/react-native-fontawesome": "Integrate FontAwesome in React Native",
+				"expo": "Allow simple and fast development under smartphones",
+				"i18n-js": "Handle translations",
+				"react": "Frontend NodeJS framework",
+				"react-native": "Framework for Android and iOS mobile development",
+				"react-navigation": "Handle navigation between screens",
+				"redux": "Harmonised management of the memory",
+				"react-redux": "Implement Redux in React Native",
+				"eslint": "Code standardization",
+				"prettier": "Improve the code quality",
 			},
 		}
 	},
