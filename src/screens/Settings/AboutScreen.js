@@ -49,7 +49,7 @@ export default class AboutScreen extends React.Component {
 						title={t('developed_github')}
 						description={t('developed_disc')}
 						titleColor={colors.transfer}
-						onPress={() => Linking.openURL(GitHub.getUrl())}
+						onPress={() => Linking.openURL(GitHub.getRepoUrl())}
 					/>
 				</ScrollView>
 			</View>

@@ -19,6 +19,11 @@ class GitHub extends Api {
 	}
 
 	// eslint-disable-next-line class-methods-use-this
+	getRepoUrl() {
+		return `${GITHUB_URL}${APP_REPO_NAME}`;
+	}
+
+	// eslint-disable-next-line class-methods-use-this
 	getIssueUrl() {
 		return `${GITHUB_URL}${APP_REPO_NAME}/issues`;
 	}
