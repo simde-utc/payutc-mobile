@@ -6,12 +6,14 @@
  */
 
 import React from 'react';
-import { ScrollView, View } from 'react-native';
+import { ScrollView, View, Linking } from 'react-native';
 import colors from '../../styles/colors';
 import LinkButton from '../../components/LinkButton';
+import Paragraphe from '../../components/Paragraphe';
 import { About as t } from '../../utils/i18n';
+import GitHub from '../../services/GitHub';
 
-const buttons = ['Legal', 'License', 'Dependencies'];
+const buttons = ['Legal', 'Dependencies', 'License'];
 
 export default class AboutScreen extends React.Component {
 	static navigationOptions = () => ({
@@ -36,6 +38,19 @@ export default class AboutScreen extends React.Component {
 							/>
 						</View>
 					))}
+					<View style={{ height: 15 }} />
+					<LinkButton
+						text={t('report_bug')}
+						color={colors.less}
+						onPress={() => Linking.openURL(GitHub.getIssueUrl())}
+					/>
+					<View style={{ height: 15 }} />
+					<Paragraphe
+						title={t('developed_github')}
+						description={t('developed_disc')}
+						titleColor={colors.transfer}
+						onPress={() => Linking.openURL(GitHub.getUrl())}
+					/>
 				</ScrollView>
 			</View>
 		);

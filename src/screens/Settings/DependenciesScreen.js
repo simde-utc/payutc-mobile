@@ -9,6 +9,7 @@ import React from 'react';
 import { ScrollView, View, Text, Linking } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import List from '../../components/List';
+import Paragraphe from '../../components/Paragraphe';
 import BlockTemplate from '../../components/BlockTemplate';
 import colors from '../../styles/colors';
 import { Dependencies as t } from '../../utils/i18n';
@@ -58,27 +59,7 @@ export default class DependenciesScreen extends React.Component {
 	render() {
 		return (
 			<ScrollView style={{ backgroundColor: colors.backgroundLight, padding: 15 }}>
-				<BlockTemplate roundedTop roundedBottom shadow>
-					<View style={{ flex: 1, flexDirection: 'column' }}>
-						<Text
-							style={{
-								fontSize: 16,
-								fontWeight: 'bold',
-								color: colors.secondary,
-							}}
-						>
-							{t('react_native_app')}
-						</Text>
-						<Text
-							style={{
-								fontSize: 13,
-								color: colors.secondary,
-							}}
-						>
-							{t('license_info')}
-						</Text>
-					</View>
-				</BlockTemplate>
+				<Paragraphe title={t('react_native_app')} description={t('license_info')} />
 				<View style={{ height: 15 }} />
 				<List
 					title={t('dependencies')}

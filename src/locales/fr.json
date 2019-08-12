@@ -153,6 +153,9 @@
 			"license": "Licence",
 			"legal": "Mentions légales",
 			"dependencies": "Paquets Open Source",
+			"report_bug": "Signaler un problème",
+			"developed_github": "Code répertorié sur GitHub",
+			"developed_disc": "L'application et le code appartient au SiMDE-UTC (commission conventionnée par le BDE-UTC).\nChaque fichier appartient de même à ses auteurs.\n\nToute contribution est fortement appréciée.",
 		},
 		"License": {
 			"title": "Licence"
