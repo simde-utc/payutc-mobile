@@ -16,6 +16,7 @@ export default class AboutScreen extends React.Component {
 		title: t('title'),
 		headerStyle: { borderBottomWidth: 0 },
 		headerForceInset: { top: 'never' },
+		headerTintColor: colors.primary,
 	});
 
 	render() {

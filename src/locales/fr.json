@@ -152,7 +152,10 @@
 		},
 		"About": {
 			"title": "A propos",
-			"license": "License",
+			"license": "Licence",
+		},
+		"License": {
+			"title": "Licence"
 		}
 	},
 
