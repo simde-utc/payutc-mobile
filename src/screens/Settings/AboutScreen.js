@@ -11,6 +11,8 @@ import colors from '../../styles/colors';
 import LinkButton from '../../components/LinkButton';
 import { About as t } from '../../utils/i18n';
 
+const buttons = ['Legal', 'License', 'Dependencies'];
+
 export default class AboutScreen extends React.Component {
 	static navigationOptions = () => ({
 		title: t('title'),
@@ -25,10 +27,15 @@ export default class AboutScreen extends React.Component {
 		return (
 			<View style={{ flex: 1, backgroundColor: colors.backgroundLight, paddingHorizontal: 15 }}>
 				<ScrollView>
-					<View style={{ height: 15 }} />
-					<LinkButton text={t('legal')} onPress={() => navigation.navigate('Legal')} />
-					<View style={{ height: 15 }} />
-					<LinkButton text={t('license')} onPress={() => navigation.navigate('License')} />
+					{buttons.map(button => (
+						<View key={button}>
+							<View style={{ height: 15 }} />
+							<LinkButton
+								text={t(button.toLowerCase())}
+								onPress={() => navigation.navigate(button)}
+							/>
+						</View>
+					))}
 				</ScrollView>
 			</View>
 		);

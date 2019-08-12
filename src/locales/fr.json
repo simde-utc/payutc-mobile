@@ -152,9 +152,20 @@
 			"title": "A propos",
 			"license": "Licence",
 			"legal": "Mentions légales",
+			"dependencies": "Paquets Open Source",
 		},
 		"License": {
 			"title": "Licence"
+		},
+		"Dependencies": {
+			"title": "Paquets Open Source",
+			"react_native_app": "Application développée avec React Native",
+			"license_info": "Cette application utilise différentes librairies Open Source listées ci-dessous.\nPubliée sur le PlayStore et l'Apple Store.",
+			"dependencies": "Toutes les dépendances",
+			"dev_dependencies": "Toutes les dépendances pour le développement",
+			"descriptions": {
+				"react": "Framework NodeJS pour le frontend"
+			},
 		}
 	},
 
