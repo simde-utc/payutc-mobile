@@ -180,7 +180,12 @@
 				"eslint": "Standardisation du code",
 				"prettier": "Amélioration de la qualité du code",
 			},
-		}
+		},
+		"Contributors": {
+			"title": "Equipe de développement",
+			"developped": "Développé avec coeur par l'équipe du SiMDE-UTC & PayUTC",
+			"developped_desc": "Développement initié en Juillet 2019.",
+		},
 	},
 
 	"words": {

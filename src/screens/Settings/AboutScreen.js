@@ -13,7 +13,7 @@ import Paragraphe from '../../components/Paragraphe';
 import { About as t } from '../../utils/i18n';
 import GitHub from '../../services/GitHub';
 
-const buttons = ['Legal', 'Dependencies', 'License'];
+const buttons = ['Legal', 'Dependencies', 'License', 'Contributors'];
 
 export default class AboutScreen extends React.Component {
 	static navigationOptions = () => ({

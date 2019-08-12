@@ -6,21 +6,20 @@
  * @license GPL-3.0
  */
 
-import React from 'react';
-import { Text } from 'react-native';
 import { createStackNavigator } from 'react-navigation';
 import SettingsScreen from '../../screens/Settings/SettingsScreen';
 import AboutScreen from '../../screens/Settings/AboutScreen';
 import LicenseScreen from '../../screens/Settings/LicenseScreen';
 import DependenciesScreen from '../../screens/Settings/DependenciesScreen';
+import ContributorsScreen from '../../screens/Settings/ContributorsScreen';
 
 const SettingsNavigator = createStackNavigator(
 	{
 		Settings: SettingsScreen,
 		About: AboutScreen,
 		License: LicenseScreen,
-		Legal: () => <Text>Mentions légales</Text>,
 		Dependencies: DependenciesScreen,
+		Contributors: ContributorsScreen,
 	},
 	{}
 );
