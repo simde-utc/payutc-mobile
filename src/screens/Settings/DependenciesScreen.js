@@ -6,16 +6,13 @@
  */
 
 import React from 'react';
-import { ScrollView, View, Text, Linking } from 'react-native';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { ScrollView, View } from 'react-native';
 import List from '../../components/List';
 import Paragraphe from '../../components/Paragraphe';
-import BlockTemplate from '../../components/BlockTemplate';
+import Dependency from '../../components/Dependencies/Dependency';
 import colors from '../../styles/colors';
 import { Dependencies as t } from '../../utils/i18n';
 import PackageJson from '../../../package.json';
-
-const NPM_PACKAGE_URL = 'https://www.npmjs.com/package';
 
 export default class DependenciesScreen extends React.Component {
 	static navigationOptions = () => ({
@@ -26,40 +23,23 @@ export default class DependenciesScreen extends React.Component {
 	});
 
 	static renderDependency(dependency, index, last) {
-		const description = t(`descriptions.${dependency}`, { defaultValue: '' });
-
 		return (
-			<BlockTemplate
-				customBackground={index % 2 === 0 ? colors.backgroundBlockAlt : colors.backgroundBlock}
+			<Dependency
+				dependency={dependency}
+				backgroundColor={index % 2 === 0 ? colors.backgroundBlockAlt : colors.backgroundBlock}
 				roundedBottom={last}
-				onPress={() => Linking.openURL(`${NPM_PACKAGE_URL}/${dependency}`)}
-			>
-				<View
-					style={{
-						flex: 1,
-						flexDirection: 'row',
-						justifyContent: 'space-between',
-						alignItems: 'center',
-					}}
-				>
-					<View>
-						<Text style={{ fontSize: 14, fontWeight: 'bold', color: colors.secondary }}>
-							{dependency}
-						</Text>
-						{description ? (
-							<Text style={{ fontSize: 10, color: colors.secondary }}>{description}</Text>
-						) : null}
-					</View>
-					<FontAwesomeIcon icon={['fas', 'angle-right']} size={20} color={colors.secondary} />
-				</View>
-			</BlockTemplate>
+			/>
 		);
 	}
 
 	render() {
 		return (
 			<ScrollView style={{ backgroundColor: colors.backgroundLight, padding: 15 }}>
-				<Paragraphe title={t('react_native_app')} description={t('license_info')} />
+				<Paragraphe
+					title={t('react_native_app')}
+					description={t('license_info')}
+					titleColor={colors.transfer}
+				/>
 				<View style={{ height: 15 }} />
 				<List
 					title={t('dependencies')}
