@@ -185,6 +185,12 @@
 			"title": "Equipe de développement",
 			"developped": "Développé avec coeur par l'équipe du SiMDE-UTC & PayUTC",
 			"developped_desc": "Développement initié en Juillet 2019.",
+			"contributors": "Contributeurs",
+			"contributions": {
+				"one": "1 seule contribution",
+				"other": "%{count} contributions",
+				"zero": "Aucune contribution"
+			}
 		},
 	},
 

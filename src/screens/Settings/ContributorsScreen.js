@@ -7,12 +7,15 @@
 
 import React from 'react';
 import { ScrollView, View } from 'react-native';
+import { connect } from 'react-redux';
+import List from '../../components/List';
 import Paragraphe from '../../components/Paragraphe';
-import Dependency from '../../components/Dependencies/Dependency';
+import Contributor from '../../components/Contributors/Contributor';
 import colors from '../../styles/colors';
+import { GitHub } from '../../redux/actions';
 import { Contributors as t } from '../../utils/i18n';
 
-export default class ContributorsScreen extends React.Component {
+class ContributorsScreen extends React.Component {
 	static navigationOptions = () => ({
 		title: t('title'),
 		headerStyle: { borderBottomWidth: 0 },
@@ -20,10 +23,29 @@ export default class ContributorsScreen extends React.Component {
 		headerTintColor: colors.primary,
 	});
 
-	static renderDependency(dependency, index, last) {
+	componentDidMount() {
+		const { dispatch } = this.props;
+
+		dispatch(GitHub.getContributors());
+	}
+
+	componentDidUpdate(prevProps) {
+		const { contributors, contributorsFetching, dispatch } = this.props;
+
+		if (prevProps.contributorsFetching && !contributorsFetching) {
+			dispatch(GitHub.getUsers(contributors.map(({ login }) => login)));
+		}
+	}
+
+	renderContributor({ login, contributions, avatar_url, html_url }, index, last) {
+		const { users } = this.props;
+		console.log(users);
 		return (
-			<Dependency
-				dependency={dependency}
+			<Contributor
+				name={login}
+				description={t('contributions', { count: contributions })}
+				picture={avatar_url}
+				url={html_url}
 				backgroundColor={index % 2 === 0 ? colors.backgroundBlockAlt : colors.backgroundBlock}
 				roundedBottom={last}
 			/>
@@ -31,6 +53,8 @@ export default class ContributorsScreen extends React.Component {
 	}
 
 	render() {
+		const { contributors, contributorsFetching } = this.props;
+
 		return (
 			<ScrollView style={{ backgroundColor: colors.backgroundLight, padding: 15 }}>
 				<Paragraphe
@@ -39,7 +63,26 @@ export default class ContributorsScreen extends React.Component {
 					titleColor={colors.transfer}
 				/>
 				<View style={{ height: 15 }} />
+				<List
+					title={t('contributors')}
+					items={contributors}
+					loading={contributorsFetching}
+					keyExtractor={({ id }) => id.toString()}
+					renderItem={this.renderContributor.bind(this)}
+				/>
 			</ScrollView>
 		);
 	}
 }
+
+const mapStateToProps = ({ github }) => {
+	const contributors = github.getContributors();
+
+	return {
+		users: github.getUsers().getData([]),
+		contributors: contributors.getData([]),
+		contributorsFetching: contributors.isFetching(),
+	};
+};
+
+export default connect(mapStateToProps)(ContributorsScreen);

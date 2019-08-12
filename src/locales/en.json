@@ -182,6 +182,12 @@
 			"title": "Development team",
 			"developped": "Développed with love by the SiMDE-UTC & PayUTC teams",
 			"developped_desc": "Development initialized in July 2019.",
+			"contributors": "Contributors",
+			"contributions": {
+				"one": "one unique contribution",
+				"other": "%{count} contributions",
+				"zero": "No contributions"
+			}
 		},
 	},
 
