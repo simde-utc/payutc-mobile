@@ -11,12 +11,13 @@ import { Text } from 'react-native';
 import { createStackNavigator } from 'react-navigation';
 import SettingsScreen from '../../screens/Settings/SettingsScreen';
 import AboutScreen from '../../screens/Settings/AboutScreen';
+import LicenseScreen from '../../screens/Settings/LicenseScreen';
 
 const SettingsNavigator = createStackNavigator(
 	{
 		Settings: SettingsScreen,
-		About: () => <Text>À propos</Text>,
 		About: AboutScreen,
+		License: LicenseScreen,
 		Legal: () => <Text>Mentions légales</Text>,
 	},
 	{}

@@ -153,6 +153,9 @@
 		"About": {
 			"title": "A propos",
 			"license": "License",
+		},
+		"License": {
+			"title": "License"
 		}
 	},
 
