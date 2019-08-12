@@ -149,8 +149,6 @@ class SettingsScreen extends React.Component {
 					<View style={{ height: 15 }} />
 					<LinkButton text={t('about')} onPress={() => navigation.navigate('About')} />
 					<View style={{ height: 15 }} />
-					<LinkButton text={t('legal')} onPress={() => navigation.navigate('Legal')} />
-					<View style={{ height: 15 }} />
 					<LinkButton
 						text={t('contact_us')}
 						onPress={() =>

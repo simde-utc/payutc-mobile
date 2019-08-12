@@ -50,6 +50,8 @@ export const Auth = getTranslationsFor('screens.Auth.');
 export const History = getTranslationsFor('screens.History.');
 export const Stats = getTranslationsFor('screens.Stats.');
 export const Settings = getTranslationsFor('screens.Settings.');
+export const About = getTranslationsFor('screens.About.');
+export const License = getTranslationsFor('screens.License.');
 export const Navigation = getTranslationsFor('navigation.');
 
 const i18n = i18nJs;
