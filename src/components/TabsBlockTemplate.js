@@ -33,7 +33,8 @@ export default function TabsBlockTemplate({
 			roundedTop={roundedTop}
 			roundedBottom={roundedBottom}
 			shadow={shadow}
-			style={[{ padding: 0, backgroundColor: colors.backgroundBlock }, style]}
+			style={[{ padding: 0 }, style]}
+			customBackground={colors.backgroundBlock}
 		>
 			{text ? (
 				<Text
@@ -48,59 +49,68 @@ export default function TabsBlockTemplate({
 					{text}
 				</Text>
 			) : null}
-			<ScrollView
-				horizontal
-				showsHorizontalScrollIndicator={false}
-				contentContainerStyle={{
-					margin: 5,
-					padding: 5,
-					marginRight: 0,
-					paddingRight: 0,
-					flexGrow: 1,
-					flexDirection: 'row',
-					justifyContent: justifyContent || 'space-between',
-					flexWrap: 'nowrap',
-					backgroundColor: colors.backgroundBlock,
-					borderTopLeftRadius: roundedTop ? 10 : 0,
-					borderTopRightRadius: roundedTop ? 10 : 0,
-					borderBottomLeftRadius: roundedBottom ? 10 : 0,
-					borderBottomRightRadius: roundedBottom ? 10 : 0,
-				}}
-			>
-				{tabValues.map((tab, index) => {
-					const key = tabKeys[index];
-					const title = tab.title || (tab.lazyTitle ? _(tab.lazyTitle) : tab);
-
-					return (
-						<BlockTemplate
-							roundedTop
-							roundedBottom
-							shadow
-							key={title}
-							disabled={disabled}
-							customBackground={value === key && !disabled ? tintColor : null}
-							style={{ marginRight: 10 }}
-							onPress={() => onChange(key)}
-						>
-							<Text
-								style={{
-									fontSize: 14,
-									fontWeight: 'bold',
-									color: disabled
-										? colors.disabled
-										: value === key
-										? colors.backgroundBlock
-										: tintColor,
-								}}
-							>
-								{title}
-							</Text>
-						</BlockTemplate>
-					);
-				})}
-			</ScrollView>
 			<View
 				style={{
+					backgroundColor: colors.backgroundBlock,
+					borderTopLeftRadius: 10,
+					borderTopRightRadius: 10,
+				}}
+			>
+				<ScrollView
+					horizontal
+					showsHorizontalScrollIndicator={false}
+					contentContainerStyle={{
+						margin: 5,
+						padding: 5,
+						marginRight: 0,
+						paddingRight: 0,
+						flexGrow: 1,
+						flexDirection: 'row',
+						justifyContent: justifyContent || 'space-between',
+						flexWrap: 'nowrap',
+						backgroundColor: colors.backgroundBlock,
+						borderTopLeftRadius: roundedTop ? 10 : 0,
+						borderTopRightRadius: roundedTop ? 10 : 0,
+						borderBottomLeftRadius: roundedBottom ? 10 : 0,
+						borderBottomRightRadius: roundedBottom ? 10 : 0,
+					}}
+				>
+					{tabValues.map((tab, index) => {
+						const key = tabKeys[index];
+						const title = tab.title || (tab.lazyTitle ? _(tab.lazyTitle) : tab);
+
+						return (
+							<BlockTemplate
+								roundedTop
+								roundedBottom
+								shadow
+								key={title}
+								disabled={disabled}
+								customBackground={value === key && !disabled ? tintColor : null}
+								style={{ marginRight: 10 }}
+								onPress={() => onChange(key)}
+							>
+								<Text
+									style={{
+										fontSize: 14,
+										fontWeight: 'bold',
+										color: disabled
+											? colors.disabled
+											: value === key
+											? colors.backgroundBlock
+											: tintColor,
+									}}
+								>
+									{title}
+								</Text>
+							</BlockTemplate>
+						);
+					})}
+				</ScrollView>
+			</View>
+			<View
+				style={{
+					backgroundColor: colors.backgroundBlock,
 					borderBottomWidth: tabValues.filter(tab => tab.children).length ? 1 : 0,
 					borderBottomColor: colors.backgroundLight,
 				}}
