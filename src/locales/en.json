@@ -88,7 +88,7 @@
 		},
 		"Auth": {
 			"title": "Connection",
-			"login_label": "Identifiant :",
+			"login_label": "Username :",
 			"login_placeholder": "CAS-UTC or email",
 			"password_label": "Password :",
 			"password_placeholder": "Connection password",
@@ -96,6 +96,7 @@
 			"button": "Let's go !",
 			"cas_connection": "CAS-UTC connection...",
 			"payutc_connection": "Connexion to the PayUTC service...",
+			"valid_terms": "By clicking \"%{button}\" you accept all the terms",
 		},
 		"History": {
 			"title": "Historic",
@@ -143,9 +144,16 @@
 			"unlock_error": "Impossible to unlock the badge.",
 			"sign_out": "Disconnect",
 			"about": "About",
-			"legal": "Legal terms",
 			"contact_us": "Contact us",
 			"mail_body": "Hello ! \n\nFirst of all, thank you for this application !\n\n",
+		},
+		"About": {
+			"title": "About",
+			"license": "License",
+			"legal": "Legal terms",
+		},
+		"License": {
+			"title": "License"
 		}
 	},
 

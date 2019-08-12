@@ -7,7 +7,8 @@
  */
 
 import React from 'react';
-import { Alert, Image, Text, TextInput, View } from 'react-native';
+import { Alert, Image, Text, TextInput, View, TouchableOpacity } from 'react-native';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { connect } from 'react-redux';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import colors from '../../styles/colors';
@@ -16,7 +17,7 @@ import Logo from '../../images/payutc-logo.png';
 import CASAuth from '../../services/CASAuth';
 import PayUTC from '../../services/PayUTC';
 import { Config } from '../../redux/actions';
-import { Auth as t, _ } from '../../utils/i18n';
+import { _, Auth as t, Global as g } from '../../utils/i18n';
 
 class AuthScreen extends React.Component {
 	static navigationOptions = () => ({
@@ -32,6 +33,8 @@ class AuthScreen extends React.Component {
 			login: null,
 			password: null,
 		};
+
+		this.switchLang = this.switchLang.bind(this);
 	}
 
 	onLoginChange(login) {
@@ -40,6 +43,16 @@ class AuthScreen extends React.Component {
 
 	onPasswordChange(password) {
 		this.setState({ password });
+	}
+
+	switchLang() {
+		const { lang, dispatch } = this.props;
+
+		const langs = g('langs');
+		const langKeys = Object.keys(langs);
+		const currentIndex = langKeys.indexOf(lang);
+
+		dispatch(Config.setLang(langKeys[(currentIndex + 1) % langKeys.length]));
 	}
 
 	isButtonDisabled() {
@@ -122,13 +135,44 @@ class AuthScreen extends React.Component {
 	}
 
 	render() {
+		const { lang, navigation } = this.props;
 		const { login, password } = this.state;
 
 		return (
 			<KeyboardAwareScrollView
-				style={{ flex: 1, backgroundColor: colors.backgroundLight, padding: 40 }}
+				style={{ flex: 1, backgroundColor: colors.backgroundLight, padding: 40, paddingTop: 20 }}
 			>
-				<View style={{ alignItems: 'center', marginVertical: 40 }}>
+				<View
+					style={{
+						flex: 1,
+						flexDirection: 'row',
+						justifyContent: 'flex-end',
+						paddingBottom: 20,
+					}}
+				>
+					<BlockTemplate
+						roundedTop
+						roundedBottom
+						shadow
+						style={{ paddingVertical: 5 }}
+						onPress={this.switchLang}
+					>
+						<View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
+							<Text
+								style={{
+									fontSize: 14,
+									fontWeight: 'bold',
+									color: colors.secondary,
+									marginRight: 5,
+								}}
+							>
+								{g(`langs.${lang}`)}
+							</Text>
+							<FontAwesomeIcon icon={['fas', 'globe']} size={14} color={colors.secondary} />
+						</View>
+					</BlockTemplate>
+				</View>
+				<View style={{ alignItems: 'center', marginBottom: 40 }}>
 					<Image source={Logo} resizeMode="contain" style={{ height: 180, width: 180 }} />
 				</View>
 				<BlockTemplate roundedTop roundedBottom shadow>
@@ -195,9 +239,18 @@ class AuthScreen extends React.Component {
 						{t('button')}
 					</Text>
 				</BlockTemplate>
+				<TouchableOpacity onPress={() => navigation.navigate('About')}>
+					<Text
+						style={{ paddingTop: 3, color: colors.secondary, fontSize: 12, textAlign: 'center' }}
+					>
+						{t('valid_terms', { button: t('button') })}
+					</Text>
+				</TouchableOpacity>
 			</KeyboardAwareScrollView>
 		);
 	}
 }
 
-export default connect()(AuthScreen);
+const mapStateToProps = ({ config: { lang } }) => ({ lang });
+
+export default connect(mapStateToProps)(AuthScreen);

@@ -99,6 +99,7 @@
 			"button": "C'est parti !",
 			"cas_connection": "Connexion au CAS-UTC...",
 			"payutc_connection": "Connexion au service PayUTC...",
+			"valid_terms": "En cliquant sur \"%{button}\" vous acceptez les termes d'utilisation",
 		},
 		"History": {
 			"title": "Historique",
@@ -146,13 +147,13 @@
 			"unlock_error": "Impossible de déverrouiller le badge.",
 			"sign_out": "Se déconnecter",
 			"about": "À propos",
-			"legal": "Mentions légales",
 			"contact_us": "Nous contacter",
 			"mail_body": "Salut ! \n\nAvant tout, merci pour cette magnifique application !\n\n",
 		},
 		"About": {
 			"title": "A propos",
 			"license": "Licence",
+			"legal": "Mentions légales",
 		},
 		"License": {
 			"title": "Licence"
