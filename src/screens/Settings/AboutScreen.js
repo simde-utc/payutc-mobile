@@ -14,7 +14,7 @@ import { About as t } from '../../utils/i18n';
 import GitHub from '../../services/GitHub';
 import { GITHUB_URL } from '../../../config';
 
-const buttons = ['Legal', 'Dependencies', 'License'];
+const buttons = ['Legal', 'Dependencies', 'License', 'Contributors'];
 
 export default class AboutScreen extends React.Component {
 	static navigationOptions = () => ({
@@ -50,7 +50,7 @@ export default class AboutScreen extends React.Component {
 						title={t('developed_github')}
 						description={t('developed_disc')}
 						titleColor={colors.transfer}
-						onPress={() => Linking.openURL(GitHub.getUrl())}
+						onPress={() => Linking.openURL(GitHub.getRepoUrl())}
 					>
 						<Text
 							style={{

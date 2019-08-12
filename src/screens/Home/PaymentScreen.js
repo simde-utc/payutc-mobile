@@ -12,7 +12,7 @@ import colors from '../../styles/colors';
 import { Payment as t } from '../../utils/i18n';
 import { Config, PayUTC } from '../../redux/actions';
 import { floatToEuro } from '../../utils';
-import { PAYUTC_CALLBACK_LINK } from '../../../config';
+import { PAYUTC_CALLBACK_URL } from '../../../config';
 
 class PaymentScreen extends React.Component {
 	static navigationOptions = () => ({
@@ -25,7 +25,7 @@ class PaymentScreen extends React.Component {
 	handleOnNavigationStateChange({ url }) {
 		const { history, navigation, dispatch } = this.props;
 
-		if (url.startsWith(PAYUTC_CALLBACK_LINK)) {
+		if (url.startsWith(PAYUTC_CALLBACK_URL)) {
 			navigation.goBack();
 
 			dispatch(

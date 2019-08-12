@@ -152,6 +152,7 @@
 			"license": "License",
 			"legal": "Legal terms",
 			"dependencies": "Open Source dependencies",
+			"contributors": "Development team",
 			"report_bug": "Report a bug",
 			"developed_github": "Code distributed on GitHub",
 			"developed_disc": "The application and its code are owned by the SiMDE-UTC (conventionned commission of the BDE-UTC).\nEach file is also owned by their authors.\n\nAll kind of contributions are deeply appreciated.",
@@ -178,7 +179,26 @@
 				"eslint": "Code standardization",
 				"prettier": "Improve the code quality",
 			},
-		}
+		},
+		"Contributors": {
+			"title": "Development team",
+			"developped": "Développed with love by the SiMDE-UTC & PayUTC teams",
+			"developped_desc": "Development initialized in July 2019.",
+			"main_team": "Team managing the application",
+			"design_team": "Team working on the design",
+			"contributors": "Contributors",
+			"contributions": {
+				"one": "one unique contribution",
+				"other": "%{count} contributions",
+				"zero": "No contributions"
+			},
+			"project_chief": "Project chief",
+			"project_follower": "Project follower",
+			"principal_developer": "Principal developer",
+			"principal_designer": "Principal designer",
+			"co_conceptor": "Co-conceptor",
+			"design_fixer": "Design coordinator",
+		},
 	},
 
 	"words": {
