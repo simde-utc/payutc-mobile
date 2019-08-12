@@ -114,7 +114,6 @@
 			"refills_desc": "Refills %{since}",
 			"transfers": "Transfers",
 			"transfers_desc": "Transfers %{since}",
-			"empty_list": "Not data to show :(",
 			"search": "Search"
 		},
 		"Stats": {
@@ -123,7 +122,6 @@
 			"purchases_amount": "spent",
 			"received_amount": "received",
 			"give_amount": "transfered",
-			"empty_list": "Not data to show :(",
 			"first_transaction": "First transaction :",
 			"buy_ranking": "Most bought items",
 			"buy_ranking_title": "By quantity",
@@ -171,6 +169,7 @@
 		"week": "a week",
 		"yesterday": "yesterday",
 		"show_since": "show all statistics since :",
+		"empty_list": "Not data to show :(",
 	},
 
 	"navigation": {

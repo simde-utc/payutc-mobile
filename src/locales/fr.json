@@ -117,7 +117,6 @@
 			"refills_desc": "Rechargements %{since}",
 			"transfers": "Transferts",
 			"transfers_desc": "Transferts %{since}",
-			"empty_list": "Aucune donnée à afficher :(",
 			"search": "Rechercher"
 		},
 		"Stats": {
@@ -126,7 +125,6 @@
 			"purchases_amount": "d'achats effectués",
 			"received_amount": "reçus",
 			"give_amount": "transférés",
-			"empty_list": "Aucune donnée à afficher :(",
 			"first_transaction": "Première transaction :",
 			"buy_ranking": "Produits les plus achetés",
 			"buy_ranking_title": "Par quantité",
@@ -174,6 +172,7 @@
 		"week": "une semaine",
 		"yesterday": "hier",
 		"show_since": "afficher les statistiques depuis :",
+		"empty_list": "Aucune donnée à afficher :(",
 	},
 
 	"navigation": {
