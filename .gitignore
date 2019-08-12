@@ -80,7 +80,10 @@ web-report/
 
 /config.js
 
-
+# Android
 android/.gradle
 android/app/build
 android/build
+
+# Xcode
+xcuserdata/

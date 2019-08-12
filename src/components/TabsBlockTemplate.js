@@ -23,6 +23,7 @@ export default function TabsBlockTemplate({
 	tintColor,
 	onChange,
 	value,
+	justifyContent,
 }) {
 	const tabValues = Object.values(tabs);
 	const tabKeys = Object.keys(tabs);
@@ -37,7 +38,7 @@ export default function TabsBlockTemplate({
 			{text ? (
 				<Text
 					style={{
-						fontSize: 14,
+						fontSize: 16,
 						fontWeight: 'bold',
 						color: colors.secondary,
 						margin: 10,
@@ -57,7 +58,7 @@ export default function TabsBlockTemplate({
 					paddingRight: 0,
 					flexGrow: 1,
 					flexDirection: 'row',
-					justifyContent: 'space-between',
+					justifyContent: justifyContent || 'space-between',
 					flexWrap: 'nowrap',
 					backgroundColor: colors.backgroundBlock,
 					borderTopLeftRadius: roundedTop ? 10 : 0,

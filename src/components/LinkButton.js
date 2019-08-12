@@ -12,7 +12,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import colors from '../styles/colors';
 import BlockTemplate from './BlockTemplate';
 
-export default function LinkButton({ text, color, backgroundColor, disabled, onPress }) {
+export default function LinkButton({ text, color, backgroundColor, disabled, onPress, style }) {
 	return (
 		<BlockTemplate
 			roundedTop
@@ -21,6 +21,7 @@ export default function LinkButton({ text, color, backgroundColor, disabled, onP
 			onPress={onPress}
 			disabled={disabled}
 			customBackground={disabled ? colors.disabled : backgroundColor}
+			style={style}
 		>
 			<View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
 				<Text
