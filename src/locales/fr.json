@@ -163,7 +163,7 @@
 		"Dependencies": {
 			"title": "Paquets Open Source",
 			"react_native_app": "Application développée avec React Native",
-			"license_info": "Cette application utilise différentes librairies Open Source listées ci-dessous.\nPubliée sur le PlayStore et l'Apple Store.",
+			"license_info": "Cette application utilise différentes librairies Open Source listées ci-dessous.\nPubliée sur Google Play et sur l'App Store.",
 			"dependencies": "Toutes les dépendances",
 			"dev_dependencies": "Toutes les dépendances pour le développement",
 			"descriptions": {
