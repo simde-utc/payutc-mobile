@@ -10,7 +10,7 @@
 import Api from './Api';
 import CASAuth from './CASAuth';
 import Storage from './Storage';
-import { PAYUTC_API, PAYUTC_KEY, PAYUTC_SYSTEM_ID } from '../../config';
+import { PAYUTC_API_URL, PAYUTC_KEY, PAYUTC_SYSTEM_ID } from '../../config';
 
 const ACCOUNT_SERVICE = 'MYACCOUNT';
 const TRANSFER_SERVICE = 'TRANSFER';
@@ -32,7 +32,7 @@ export class PayUTCApi extends Api {
 	EMAIL_AUTH_TYPE = 'email';
 
 	constructor() {
-		super(PAYUTC_API);
+		super(PAYUTC_API_URL);
 	}
 
 	call(service, request, method, queries, body, headers, validStatus, json = true) {
@@ -45,13 +45,13 @@ export class PayUTCApi extends Api {
 
 	connectWithCas(login, password) {
 		return this.connectApp().then(() => {
-			return CASAuth.getServiceTicket(PAYUTC_API).then(([ticket]) => {
+			return CASAuth.getServiceTicket(PAYUTC_API_URL).then(([ticket]) => {
 				if (!ticket) {
 					throw 'No tickets !';
 				}
 
 				return this.call(ACCOUNT_SERVICE, LOGIN_CAS_URI, Api.POST, AUTH_QUERIES, {
-					service: PAYUTC_API,
+					service: PAYUTC_API_URL,
 					ticket,
 				})
 					.then(() => {

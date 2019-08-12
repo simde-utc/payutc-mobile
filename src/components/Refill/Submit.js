@@ -13,7 +13,7 @@ import LinkButton from '../LinkButton';
 import { Config, PayUTC } from '../../redux/actions';
 import { Refill as t } from '../../utils/i18n';
 import { floatToEuro } from '../../utils';
-import { PAYUTC_CALLBACK_LINK } from '../../../config';
+import { PAYUTC_CALLBACK_URL } from '../../../config';
 
 class Submit extends React.Component {
 	isAmountValid(minAmount, maxAmount) {
@@ -64,7 +64,7 @@ class Submit extends React.Component {
 				})
 			);
 
-			const action = PayUTC.getRefillUrl(amountAsFloat * 100, PAYUTC_CALLBACK_LINK);
+			const action = PayUTC.getRefillUrl(amountAsFloat * 100, PAYUTC_CALLBACK_URL);
 			dispatch(action);
 
 			action.payload

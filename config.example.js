@@ -1,23 +1,52 @@
+// App name.
 export const APP_NAME = 'PayUTC';
-export const APP_DEBUG = true;
+
+// GitHub repo url.
 export const GITHUB_URL = '';
+
+// Cas ticket resolution url.
 export const CAS_URL = '';
-export const PAYUTC_API = '';
-export const PAYUTC_LINK = '';
-export const PAYUTC_CALLBACK_LINK = '';
+
+// PayUTC API url.
+export const PAYUTC_API_URL = '';
+
+// PayUTC refill callback url.
+export const PAYUTC_CALLBACK_URL = '';
+
+// PayUTC API key.
 export const PAYUTC_KEY = '';
+
+// PayUTC id.
 export const PAYUTC_SYSTEM_ID = '';
+
+// PayUTC email adress.
 export const PAYUTC_EMAIL = '';
+
+// Main team contributors.
+export const CONTRIBUTORS_MAIN_TEAM = [
+	'NastuzziSamy',
+	'MercierCorentin',
+	'aarrtthhuurr',
+	'pierrickdes59',
+	'lafondoc',
+];
+
+// Designer contributors.
+export const CONTRIBUTORS_DESIGN_TEAM = ['aarrtthhuurr', 'NastuzziSamy'];
+
+// Contributors who doesn't want to be shown in the app (by username).
+export const CONTRIBUTORS_BLACKLIST = [];
 
 export default {
 	APP_NAME,
-	APP_DEBUG,
 	GITHUB_URL,
 	CAS_URL,
-	PAYUTC_API,
+	PAYUTC_API_URL,
 	PAYUTC_KEY,
-	PAYUTC_LINK,
-	PAYUTC_CALLBACK_LINK,
+	PAYUTC_CALLBACK_URL,
 	PAYUTC_SYSTEM_ID,
 	PAYUTC_EMAIL,
+	CONTRIBUTORS_MAIN_TEAM,
+	CONTRIBUTORS_DESIGN_TEAM,
+	CONTRIBUTORS_BLACKLIST,
 };
