@@ -5,6 +5,8 @@
 			"connect_cas": "CAS-UTC reconnection...",
 			"reconnection": "Reconnection...",
 			"reset_data": "Wipping data...",
+			"config_keys_error": "The config file is not the same as the example one. Some keys are missing.",
+			"config_values_error": "Some keys are not filled in your config file. This will cause issues.",
 		},
 		"Home": {
 			"title": "Home",
