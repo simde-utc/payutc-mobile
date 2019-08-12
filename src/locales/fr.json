@@ -149,6 +149,10 @@
 			"legal": "Mentions légales",
 			"contact_us": "Nous contacter",
 			"mail_body": "Salut ! \n\nAvant tout, merci pour cette magnifique application !\n\n",
+		},
+		"About": {
+			"title": "A propos",
+			"license": "License",
 		}
 	},
 
