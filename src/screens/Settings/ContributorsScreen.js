@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import { ScrollView, View } from 'react-native';
+import { ScrollView, View, RefreshControl } from 'react-native';
 import { connect } from 'react-redux';
 import List from '../../components/List';
 import Paragraphe from '../../components/Paragraphe';
@@ -54,6 +54,12 @@ class ContributorsScreen extends React.Component {
 		}
 	}
 
+	onRefresh() {
+		const { dispatch } = this.props;
+
+		dispatch(GitHub.getContributors());
+	}
+
 	getContributors() {
 		const { contributors } = this.props;
 
@@ -80,12 +86,6 @@ class ContributorsScreen extends React.Component {
 			login,
 			description: t(CONTRIBUTORS_DESIGN_TEAM[login]),
 		}));
-	}
-
-	refresh() {
-		const { dispatch } = this.props;
-
-		dispatch(GitHub.getContributors());
 	}
 
 	fetchGithubUser(login) {
@@ -115,35 +115,46 @@ class ContributorsScreen extends React.Component {
 		const { contributorsFetching } = this.props;
 
 		return (
-			<ScrollView style={{ backgroundColor: colors.backgroundLight, padding: 15 }}>
-				<Paragraphe
-					title={t('developped')}
-					description={t('developped_desc')}
-					titleColor={colors.transfer}
-				/>
-				<View style={{ height: 15 }} />
-				<List
-					title={t('main_team')}
-					items={ContributorsScreen.getMainTeam()}
-					loading={contributorsFetching}
-					keyExtractor={({ login }) => login}
-					renderItem={this.renderContributor}
-				/>
-				<View style={{ height: 15 }} />
-				<List
-					title={t('design_team')}
-					items={ContributorsScreen.getDesignTeam()}
-					keyExtractor={({ login }) => login}
-					renderItem={this.renderContributor}
-				/>
-				<View style={{ height: 15 }} />
-				<List
-					title={t('contributors')}
-					items={this.getContributors()}
-					keyExtractor={({ id }) => id.toString()}
-					renderItem={this.renderContributor}
-				/>
-				<View style={{ height: 30 }} />
+			<ScrollView
+				style={{ backgroundColor: colors.backgroundLight }}
+				refreshControl={
+					<RefreshControl
+						refreshing={contributorsFetching}
+						onRefresh={() => this.onRefresh()}
+						colors={[colors.secondary]}
+						tintColor={colors.secondary}
+					/>
+				}
+			>
+				<View style={{ padding: 15 }}>
+					<Paragraphe
+						title={t('developped')}
+						description={t('developped_desc')}
+						titleColor={colors.transfer}
+					/>
+					<View style={{ height: 15 }} />
+					<List
+						title={t('main_team')}
+						items={ContributorsScreen.getMainTeam()}
+						loading={contributorsFetching}
+						keyExtractor={({ login }) => login}
+						renderItem={this.renderContributor}
+					/>
+					<View style={{ height: 15 }} />
+					<List
+						title={t('design_team')}
+						items={ContributorsScreen.getDesignTeam()}
+						keyExtractor={({ login }) => login}
+						renderItem={this.renderContributor}
+					/>
+					<View style={{ height: 15 }} />
+					<List
+						title={t('contributors')}
+						items={this.getContributors()}
+						keyExtractor={({ id }) => id.toString()}
+						renderItem={this.renderContributor}
+					/>
+				</View>
 			</ScrollView>
 		);
 	}
@@ -155,6 +166,7 @@ const mapStateToProps = ({ github }) => {
 	return {
 		github,
 		contributors: contributors.getData([]),
+		contributorsFetching: contributors.isFetching(),
 		contributorsFetched: contributors.isFetched(),
 	};
 };

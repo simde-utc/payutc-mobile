@@ -22,7 +22,7 @@ export default function Contributor({
 	return (
 		<LinkButton
 			backgroundColor={backgroundColor}
-			onPress={() => Linking.openURL(url)}
+			onPress={url ? () => Linking.openURL(url) : null}
 			notRoundedTop
 			notRoundedBottom={!roundedBottom}
 		>
