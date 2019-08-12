@@ -10,7 +10,14 @@ import { View, Text } from 'react-native';
 import BlockTemplate from './BlockTemplate';
 import colors from '../styles/colors';
 
-export default function Pragraphe({ title, titleColor, description, descriptionColor, onPress }) {
+export default function Paragraphe({
+	title,
+	titleColor,
+	description,
+	descriptionColor,
+	onPress,
+	children,
+}) {
 	return (
 		<BlockTemplate roundedTop roundedBottom shadow onPress={onPress}>
 			<View style={{ flex: 1, flexDirection: 'column' }}>
@@ -26,12 +33,12 @@ export default function Pragraphe({ title, titleColor, description, descriptionC
 				<Text
 					style={{
 						fontSize: 13,
-						textAlign: 'justify',
 						color: descriptionColor || colors.secondary,
 					}}
 				>
 					{description}
 				</Text>
+				{children}
 			</View>
 		</BlockTemplate>
 	);

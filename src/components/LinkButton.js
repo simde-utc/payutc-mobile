@@ -22,6 +22,7 @@ export default function LinkButton({
 	notRoundedTop,
 	notRoundedBottom,
 	noShadow,
+	style,
 }) {
 	return (
 		<BlockTemplate
@@ -31,6 +32,7 @@ export default function LinkButton({
 			onPress={onPress}
 			disabled={disabled}
 			customBackground={disabled ? colors.disabled : backgroundColor}
+			style={style}
 		>
 			<View
 				style={{

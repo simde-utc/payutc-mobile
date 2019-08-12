@@ -21,6 +21,7 @@ export default function SwitchBlockTemplate({
 	value,
 	onValueChange,
 	tintColor,
+	style,
 }) {
 	return (
 		<BlockTemplate
@@ -30,6 +31,7 @@ export default function SwitchBlockTemplate({
 			onPress={onPress}
 			disabled={disabled}
 			customBackground={customBackground}
+			style={style}
 		>
 			<View
 				style={{

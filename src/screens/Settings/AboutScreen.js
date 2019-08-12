@@ -6,12 +6,13 @@
  */
 
 import React from 'react';
-import { ScrollView, View, Linking } from 'react-native';
+import { ScrollView, View, Linking, Text } from 'react-native';
 import colors from '../../styles/colors';
 import LinkButton from '../../components/LinkButton';
 import Paragraphe from '../../components/Paragraphe';
 import { About as t } from '../../utils/i18n';
 import GitHub from '../../services/GitHub';
+import { GITHUB_URL } from '../../../config';
 
 const buttons = ['Legal', 'Dependencies', 'License', 'Contributors'];
 
@@ -50,7 +51,18 @@ export default class AboutScreen extends React.Component {
 						description={t('developed_disc')}
 						titleColor={colors.transfer}
 						onPress={() => Linking.openURL(GitHub.getRepoUrl())}
-					/>
+					>
+						<Text
+							style={{
+								fontSize: 13,
+								fontWeight: 'bold',
+								color: colors.transfer,
+								marginTop: 13,
+							}}
+						>
+							{GITHUB_URL.replace(/http(s?):\/\//, '')}
+						</Text>
+					</Paragraphe>
 				</ScrollView>
 			</View>
 		);

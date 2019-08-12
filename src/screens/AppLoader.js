@@ -20,6 +20,8 @@ import payutcLogo from '../images/payutc-logo.png';
 import colors from '../styles/colors';
 import { Config } from '../redux/actions';
 import { AppLoader as t } from '../utils/i18n';
+import config from '../../config';
+import configExemple from '../../config.example';
 
 class AppLoaderScreen extends React.Component {
 	static loadLibrairies() {
@@ -28,6 +30,20 @@ class AppLoaderScreen extends React.Component {
 
 	static handleError(error) {
 		console.warn(error);
+	}
+
+	static checkConfigs() {
+		const keys = Object.keys(config);
+		const exampleKeys = Object.keys(configExemple);
+
+		if (
+			keys.length !== exampleKeys.length ||
+			!exampleKeys.sort().some((value, index) => value === keys.sort()[index])
+		) {
+			console.warn(t('config_keys_error'));
+		} else if (Object.values(config).some(value => value === '' || value === null)) {
+			console.warn(t('config_values_error'));
+		}
 	}
 
 	constructor(props) {
@@ -139,6 +155,8 @@ class AppLoaderScreen extends React.Component {
 	appLoaded() {
 		const { navigation } = this.props;
 		const { screen } = this.state;
+
+		AppLoaderScreen.checkConfigs();
 
 		navigation.navigate(screen);
 	}

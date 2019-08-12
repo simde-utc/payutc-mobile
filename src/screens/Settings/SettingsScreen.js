@@ -7,16 +7,16 @@
  */
 
 import React from 'react';
-import { Alert, RefreshControl, ScrollView, Text, View, Linking } from 'react-native';
+import { Alert, Linking, RefreshControl, ScrollView, Text, View } from 'react-native';
 import { connect } from 'react-redux';
 import colors from '../../styles/colors';
-import TitleParams from '../../components/TitleParams';
 import TabsBlockTemplate from '../../components/TabsBlockTemplate';
 import LinkButton from '../../components/LinkButton';
-import { _, Settings as t, Global as g } from '../../utils/i18n';
+import { _, Global as g, Settings as t } from '../../utils/i18n';
 import SwitchBlockTemplate from '../../components/SwitchBlockTemplate';
 import { Config, PayUTC } from '../../redux/actions';
 import { PAYUTC_EMAIL } from '../../../config';
+import BlockTemplate from '../../components/BlockTemplate';
 
 class SettingsScreen extends React.Component {
 	static navigationOptions = () => ({
@@ -94,71 +94,97 @@ class SettingsScreen extends React.Component {
 		const { lockStatus, lockStatusFetching, lang, navigation } = this.props;
 
 		return (
-			<View style={{ flex: 1, backgroundColor: colors.backgroundLight, paddingHorizontal: 15 }}>
-				<ScrollView
-					refreshControl={
-						<RefreshControl
-							refreshing={lockStatusFetching}
-							onRefresh={() => this.onRefresh()}
-							colors={[colors.secondary]}
-							tintColor={colors.secondary}
-						/>
-					}
-				>
-					<View style={{ height: 15 }} />
-					<TitleParams title={t('title')} settingText={g(`langs.${lang}`)} style={{ margin: 0 }}>
-						<TabsBlockTemplate
-							roundedBottom
-							text={t('lang')}
-							tintColor={colors.secondary}
-							value={lang}
-							onChange={this.setLang}
-							style={{ borderTopWidth: 0 }}
-							tabs={g('langs')}
-						/>
-					</TitleParams>
-					<View style={{ height: 15 }} />
-					<SwitchBlockTemplate
-						roundedTop
-						roundedBottom
-						value={lockStatusFetching ? false : lockStatus}
-						onValueChange={this.onLockChange}
-						tintColor={colors.less}
-						disabled={lockStatusFetching}
-					>
-						<View style={{ flex: 1, flexDirection: 'column' }}>
-							<Text
-								style={{
-									fontSize: 16,
-									fontWeight: 'bold',
-									color: lockStatusFetching ? colors.disabled : colors.secondary,
-								}}
-							>
-								{t('lock')}
-							</Text>
-							<Text
-								style={{
-									fontSize: 13,
-									color: lockStatusFetching ? colors.disabled : colors.secondary,
-								}}
-							>
-								{t('lock_info')}
-							</Text>
-						</View>
-					</SwitchBlockTemplate>
-					<View style={{ height: 15 }} />
-					<LinkButton text={t('about')} onPress={() => navigation.navigate('About')} />
-					<View style={{ height: 15 }} />
-					<LinkButton
-						text={t('contact_us')}
-						onPress={() =>
-							Linking.openURL(`mailto:${PAYUTC_EMAIL}?subject=[App] &body=${t('mail_body')}`)
-						}
+			<ScrollView
+				refreshControl={
+					<RefreshControl
+						refreshing={lockStatusFetching}
+						onRefresh={() => this.onRefresh()}
+						colors={[colors.secondary]}
+						tintColor={colors.secondary}
 					/>
-					<View style={{ height: 15 }} />
-					<LinkButton text={t('sign_out')} color={colors.less} onPress={() => this.signOut()} />
-				</ScrollView>
-			</View>
+				}
+				style={{ backgroundColor: colors.backgroundLight }}
+			>
+				<BlockTemplate roundedTop roundedBottom shadow style={{ margin: 15 }}>
+					<Text style={{ fontSize: 22, fontWeight: 'bold', color: colors.primary }}>
+						{t('title')}
+					</Text>
+				</BlockTemplate>
+
+				<SwitchBlockTemplate
+					roundedTop
+					roundedBottom
+					shadow
+					value={lockStatusFetching ? false : lockStatus}
+					onValueChange={this.onLockChange}
+					tintColor={colors.less}
+					disabled={lockStatusFetching}
+					style={{ marginHorizontal: 15 }}
+				>
+					<View style={{ flex: 1, flexDirection: 'column' }}>
+						<Text
+							style={{
+								fontSize: 16,
+								fontWeight: 'bold',
+								color: lockStatusFetching ? colors.disabled : colors.secondary,
+							}}
+						>
+							{t('lock')}
+						</Text>
+						<Text
+							style={{
+								fontSize: 13,
+								color: lockStatusFetching ? colors.disabled : colors.secondary,
+							}}
+						>
+							{t('lock_info')}
+						</Text>
+					</View>
+				</SwitchBlockTemplate>
+
+				<View
+					style={{
+						marginTop: 15,
+						marginHorizontal: 50,
+						borderBottomWidth: 1,
+						borderBottomColor: colors.backgroundBlock,
+					}}
+				/>
+
+				<LinkButton
+					text={t('about')}
+					onPress={() => navigation.navigate('About')}
+					style={{ margin: 15 }}
+				/>
+
+				<TabsBlockTemplate
+					roundedTop
+					roundedBottom
+					shadow
+					text={t('lang')}
+					tintColor={colors.secondary}
+					value={lang}
+					onChange={this.setLang}
+					tabs={g('langs')}
+					justifyContent="flex-start"
+					style={{ margin: 15, marginTop: 0 }}
+				/>
+
+				<LinkButton
+					text={t('contact_us')}
+					onPress={() =>
+						Linking.openURL(`mailto:${PAYUTC_EMAIL}?subject=[App] &body=${t('mail_body')}`)
+					}
+					style={{ margin: 15, marginTop: 0 }}
+				/>
+
+				<LinkButton
+					text={t('sign_out')}
+					color={colors.less}
+					onPress={() => this.signOut()}
+					style={{ margin: 15, marginTop: 0 }}
+				/>
+			</ScrollView>
 		);
 	}
 }
