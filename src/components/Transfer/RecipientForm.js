@@ -113,7 +113,6 @@ export default class RecipientForm extends React.Component {
 							keyboardType="default"
 							placeholder={t('recipient_placeholder')}
 							maxLength={this.maxLength}
-							selectionColor={error == null ? colors.transfer : colors.error}
 							textContentType="none"
 							autoCorrect={false}
 							onChangeText={text => this.onChange(text)}
