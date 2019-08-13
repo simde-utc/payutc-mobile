@@ -139,7 +139,6 @@ class HistoryScreen extends React.Component {
 								}}
 								autoCapitalize="none"
 								placeholder={t('search')}
-								selectionColor={colors.primary}
 								textContentType="none"
 								onChangeText={this.onSearchChange}
 								value={search}
