@@ -15,20 +15,20 @@ const TERMS = `En vigueur à la publication de l’application le 1er Juillet 20
 Les présentes conditions générales d’utilisation (dites « CGUs ») ont pour objet l’encadrement juridique des modalités de mise à disposition de l’application et des services, de définir les conditions d’accès et d’utilisation des services par l’utilisateur.
 Les présentes CGUs sont accessibles via l’application mobile.
 Toute inscription ou utilisation de l’application implique l’acceptation sans aucune réserve ni restriction des présentes CGUs par l’utilisateur.
-En cas de non-acceptation des CGUs stipulées dans le présent contrat, l’utilisateur se doit de renoncer à l’accès aux services proposés par le site.
+En cas de non-acceptation des CGUs stipulées dans le présent contrat, l’utilisateur se doit de renoncer à l’accès aux services proposés par l'application.
 
 	1. Contact
-L’édition et la direction de la publication de l’application mobile PayUTC est la Bureau des Etudiants de l’Université de Technologie de Compiègne (dites « BDE-UTC ») dont le siège est situé au Rue du Docteur Schweitzer CS 60319. La prise de contact peut être réalisée avec le numéro de téléphone : +33 3 44 23 43 85 ou l’adresse email suivante : bde@assos.utc.fr.
-Le directeur de publication est le président du Service Informatique de la Maison des Etudiants (dites « SiMDE »), commission conventionnée par le BDE-UTC. La prise de contact peut être réalisée avec le numéro de téléphone : +33 3 44 23 43 85 ou l’adresse email suivante : simde@assos.utc.fr.
+L’édition et la direction de la publication de l’application mobile PayUTC est la Bureau des Etudiants de l’Université de Technologie de Compiègne (dit « BDE-UTC ») dont le siège est situé au Rue du Docteur Schweitzer CS 60319. La prise de contact peut être réalisée avec le numéro de téléphone : +33 3 44 23 43 85 ou l’adresse email suivante : bde@assos.utc.fr.
+Le directeur de publication est le président du Service Informatique de la Maison des Etudiants (dit « SiMDE »), commission conventionnée par le BDE-UTC. La prise de contact peut être réalisée avec le numéro de téléphone : +33 3 44 23 43 85 ou l’adresse email suivante : simde@assos.utc.fr.
 
 	2. Mentions légales
 L’éditeur de l’application est le SiMDE. Cette commission assure la maintenabilité et la sécurité de l’application ainsi que la gestion de tickets et de demandes réalisés à l'adresse email suivante: payutc@assos.utc.fr.
 
 	3. Présentation des services de l’application
-Le présent contrat régit votre utilisation des services de l’application mobile du BDE-UTC, par le biais desquels vous pouvez consulter votre solde PayUTC (service de paiement utilisé au sein de la fédération BDE-UTC), recharger votre compte via une interface de paiement en ligne sécurisé, transféré à une autre personne une partie ou la totalité de votre solde, obtenir et gérer des statistiques et données relatives à votre activité et votre compte PayUTC.
+Le présent contrat régit votre utilisation des services de l’application mobile du BDE-UTC, par le biais desquels vous pouvez consulter votre solde PayUTC (service de paiement utilisé au sein de la fédération BDE-UTC), recharger votre compte via une interface de paiement en ligne sécurisé, transférer à une autre personne une partie ou la totalité de votre solde, obtenir et gérer des statistiques et données relatives à votre activité et votre compte PayUTC.
 
 	4. Accès à l’application
-L’application mobile est accessible via téléchargement sur github.com/simde-utc ou via téléchargement sur les plateformes officielles Google Play et Apple Store.
+L’application mobile est accessible via téléchargement sur github.com/simde-utc/payutc-mobile ou via téléchargement sur les plateformes officielles Google Play et Apple Store.
 L’application propose un ensemble de service présenté dans l’article 3 de ce document.
 L’application est accessible gratuitement en tout lieu à tout utilisateur ayant un accès à Internet. Tous les frais supportés par l’utilisateur pour accéder au service (matériel informatique, logiciels, connexion Internet, etc.) sont à son entière charge.
 L’utilisateur non membre n’a accès qu’à une partie restreinte de l’application. Pour s’affranchir de ces restrictions et accéder aux services, l’utilisateur doit ensuite s’identifier à l’aide de son identifiant et de son mot de passe lui permettant de s'authentifier au service PayUTC ou CAS-UTC.
@@ -42,9 +42,10 @@ En vertu de la loi informatique et Liberté, en date du 6 janvier 1978, l'utilis
 
 	6. Propriété intellectuelle
 Les marques, logos, signes et contenus (textes, images, son…) présentés dans l’application font l’objet d’une protection par le Code de la propriété intellectuelle et plus particulièrement par le droit d’auteur.
-L’utilisateur doit solliciter l’autorisation préalable du site pour toute reproduction, publication, copie des différents contenus. Il s’engage à une utilisation des contenus du site dans un cadre strictement privé, toute utilisation à des fins commerciales et publicitaires est strictement interdite.
+L’utilisateur doit solliciter l’autorisation préalable de l'application pour toute reproduction, publication, copie des différents contenus. Il s’engage à une utilisation des contenus de l'application dans un cadre strictement privé, toute utilisation à des fins commerciales et publicitaires est strictement interdite.
 Toute représentation totale ou partielle de l’application par quelque procédé que ce soit, sans l’autorisation expresse de l’exploitant de l’application constituerait une contrefaçon sanctionnée par l’article L 335-2 et suivants du Code de la propriété intellectuelle.
 Il est rappelé conformément à l’article L122-5 du Code de propriété intellectuelle que l’utilisateur qui reproduit, copie ou publie le contenu protégé doit citer l’auteur et sa source.
+De plus, le code étant sous la licence GNU GPL-3.0, toute utilisation partielle ou totale du code permettant le développement de cette application implique l'utilisation de la même licence pour le projet source.
 
 	7. Responsabilité
 Les sources des informations diffusées sur l’application sont réputées fiables, mais l’application ne garantit pas qu’il soit exempt de défauts, d’erreurs ou d’omissions.
