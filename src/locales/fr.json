@@ -210,7 +210,8 @@
 			"ios_developer": "Développeur iOS",
 		},
 		"Changelog": {
-			"title": "Changelog",
+			"title": "Changements",
+			"version": "Version %{version}",
 		},
 	},
 

@@ -6,10 +6,12 @@
  */
 
 import React from 'react';
-import { ScrollView, Text, View, FlatList } from 'react-native';
+import { ScrollView, Text, View, FlatList, TouchableOpacity, Linking } from 'react-native';
 import { connect } from 'react-redux';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import BlockTemplate from '../../components/BlockTemplate';
 import List from '../../components/List';
+import GitHub from '../../services/GitHub';
 import colors from '../../styles/colors';
 import { Changelog as t } from '../../utils/i18n';
 import fr from '../../changelogs/fr';
@@ -28,25 +30,23 @@ class ChangelogScreen extends React.Component {
 		headerTintColor: colors.primary,
 	});
 
-	static renderItem(item, index) {
+	static renderItem(item, fontSize) {
 		if (item.title && item.data) {
 			const { title, data } = item;
 
 			return (
 				<>
-					{ChangelogScreen.renderItem(title, index)}
+					{ChangelogScreen.renderItem(title, fontSize)}
 					<View
 						style={{
-							borderLeftWidth: 1,
-							borderColor: colors.backgroundLight,
 							backgroundColor: colors.backgroundBlock,
-							paddingLeft: '2.5%',
+							paddingLeft: '5%',
 						}}
 					>
 						<List
 							items={data}
 							keyExtractor={item => `${title}.${item.title || item}`}
-							renderItem={ChangelogScreen.renderItem}
+							renderItem={item => ChangelogScreen.renderItem(item, fontSize - 1)}
 						/>
 					</View>
 				</>
@@ -54,14 +54,21 @@ class ChangelogScreen extends React.Component {
 		}
 
 		return (
-			<BlockTemplate
-				customBackground={index % 2 === 0 ? colors.backgroundBlockAlt : colors.backgroundBlock}
-				roundedTop={index === -1}
-			>
-				<Text style={{ fontSize: 14, fontWeight: 'bold', color: colors.secondary }}>
-					{index === -1 ? '' : '- '}
-					{item}
-				</Text>
+			<BlockTemplate>
+				<View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
+					<FontAwesomeIcon icon={['fas', 'angle-right']} size={14} color={colors.secondary} />
+					<Text
+						style={{
+							fontSize,
+							marginLeft: 5,
+							marginRight: 10,
+							fontWeight: 'bold',
+							color: colors.secondary,
+						}}
+					>
+						{item}
+					</Text>
+				</View>
 			</BlockTemplate>
 		);
 	}
@@ -81,19 +88,33 @@ class ChangelogScreen extends React.Component {
 					<FlatList
 						data={Object.keys(changelog)}
 						keyExtractor={version => version}
-						renderItem={({ item: version }) => (
-							<>
-								{ChangelogScreen.renderItem({ title: version, data: changelog[version] }, -1)}
-								<BlockTemplate
-									backgroundColor={
-										changelog[version].length % 2 === 0
-											? colors.backgroundBlock
-											: colors.backgroundBlockAlt
-									}
-									roundedBottom
-								/>
-							</>
-						)}
+						renderItem={({ item: version }) => {
+							const versionUrl = GitHub.getVersionUrl(version);
+							const onPress = () => Linking.openURL(versionUrl);
+
+							return (
+								<>
+									<List
+										title={t('version', { version })}
+										onPress={onPress}
+										items={changelog[version]}
+										keyExtractor={item => `${version}.${item.title || item}`}
+										renderItem={item => ChangelogScreen.renderItem(item, 15)}
+									/>
+									<BlockTemplate roundedBottom onPress={onPress}>
+										<Text
+											style={{
+												fontSize: 12,
+												fontWeight: 'bold',
+												color: colors.transfer,
+											}}
+										>
+											{versionUrl.replace(/http(s?):\/\//, '')}
+										</Text>
+									</BlockTemplate>
+								</>
+							);
+						}}
 						ItemSeparatorComponent={<View style={{ height: 15 }} />}
 					/>
 				</View>

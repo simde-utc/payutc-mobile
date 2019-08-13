@@ -28,6 +28,11 @@ class GitHub extends Api {
 		return `${GITHUB_URL}${APP_REPO_NAME}/issues`;
 	}
 
+	// eslint-disable-next-line class-methods-use-this
+	getVersionUrl(version) {
+		return `${GITHUB_URL}${APP_REPO_NAME}/releases/tag/${version}`;
+	}
+
 	getContributors() {
 		return this.call(`repos/${APP_REPO_NAME}/contributors`);
 	}

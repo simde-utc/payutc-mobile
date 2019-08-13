@@ -66,8 +66,8 @@ class AboutScreen extends React.Component {
 		const [titleStatus, titleColor, descriptionStatus, onPressStatus] = this.getApplicationStatus();
 
 		return (
-			<View style={{ flex: 1, backgroundColor: colors.backgroundLight, paddingHorizontal: 15 }}>
-				<ScrollView>
+			<ScrollView style={{ backgroundColor: colors.backgroundLight }}>
+				<View style={{ paddingHorizontal: 15 }}>
 					{buttons.map(button => (
 						<View key={button}>
 							<View style={{ height: 15 }} />
@@ -92,10 +92,10 @@ class AboutScreen extends React.Component {
 					>
 						<Text
 							style={{
-								fontSize: 13,
+								fontSize: 12,
 								fontWeight: 'bold',
 								color: colors.transfer,
-								marginTop: 13,
+								marginTop: 12,
 							}}
 						>
 							{repoUrl.replace(/http(s?):\/\//, '')}
@@ -109,8 +109,8 @@ class AboutScreen extends React.Component {
 						titleColor={titleColor}
 					/>
 					<View style={{ height: 15 }} />
-				</ScrollView>
-			</View>
+				</View>
+			</ScrollView>
 		);
 	}
 }
