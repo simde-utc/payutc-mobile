@@ -73,14 +73,14 @@ Pour toute question relative à l’application des présentes CGUs, vous pouvez
 class TermsScreen extends React.Component {
 	static navigationOptions = () => ({
 		title: t('title'),
-		headerStyle: { borderBottomWidth: 1, borderBottomColor: colors.backgroundLight },
+		headerStyle: { borderBottomWidth: 0 },
 		headerForceInset: { top: 'never' },
 		headerTintColor: colors.primary,
 		headerTruncatedBackTitle: _('back'),
 	});
 
 	validate() {
-		const { dispatch } = this.props;
+		const { navigation, dispatch } = this.props;
 
 		dispatch(
 			Config.terms({
@@ -88,6 +88,10 @@ class TermsScreen extends React.Component {
 				date: Date.now(),
 			})
 		);
+
+		if (navigation.getParam('quick')) {
+			navigation.goBack();
+		}
 	}
 
 	render() {

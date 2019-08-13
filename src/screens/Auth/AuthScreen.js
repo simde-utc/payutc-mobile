@@ -13,6 +13,7 @@ import { connect } from 'react-redux';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import colors from '../../styles/colors';
 import BlockTemplate from '../../components/BlockTemplate';
+import { TERMS_VERSION } from '../Settings/TermsScreen';
 import Logo from '../../images/payutc-logo.png';
 import CASAuth from '../../services/CASAuth';
 import PayUTC from '../../services/PayUTC';
@@ -33,9 +34,21 @@ class AuthScreen extends React.Component {
 		this.state = {
 			login: null,
 			password: null,
+			needValidation: false,
 		};
 
 		this.switchLang = this.switchLang.bind(this);
+		this.handleNavigationOnFocus = this.handleNavigationOnFocus.bind(this);
+	}
+
+	componentDidMount() {
+		const { navigation } = this.props;
+
+		this.subscriptions = [navigation.addListener('willFocus', this.handleNavigationOnFocus)];
+	}
+
+	componentWillUnmount() {
+		this.subscriptions.forEach(subscription => subscription.remove());
 	}
 
 	onLoginChange(login) {
@@ -44,6 +57,21 @@ class AuthScreen extends React.Component {
 
 	onPasswordChange(password) {
 		this.setState({ password });
+	}
+
+	handleNavigationOnFocus({ action: { params } }) {
+		const { needValidation } = this.state;
+
+		if (needValidation && this.areTermsValidated() && !this.isButtonDisabled()) {
+			this.setState({ needValidation: false });
+
+			this.submit();
+		} else if (this.isButtonDisabled()) {
+			this.setState(prevState => ({
+				...prevState,
+				login: params ? params.login : prevState.login,
+			}));
+		}
 	}
 
 	switchLang() {
@@ -60,6 +88,12 @@ class AuthScreen extends React.Component {
 		const { login, password } = this.state;
 
 		return login == null || password == null;
+	}
+
+	areTermsValidated() {
+		const { terms } = this.props;
+
+		return terms.version === TERMS_VERSION;
 	}
 
 	connectWithCas() {
@@ -103,6 +137,12 @@ class AuthScreen extends React.Component {
 		const { navigation, dispatch } = this.props;
 		const { login } = this.state;
 		let promise;
+
+		if (!this.areTermsValidated()) {
+			this.setState({ needValidation: true });
+
+			return navigation.navigate('Terms', { quick: true });
+		}
 
 		if (login.includes('@')) {
 			promise = this.connectWithEmail();
@@ -250,6 +290,6 @@ class AuthScreen extends React.Component {
 	}
 }
 
-const mapStateToProps = ({ config: { lang } }) => ({ lang });
+const mapStateToProps = ({ config: { lang, terms } }) => ({ lang, terms });
 
 export default connect(mapStateToProps)(AuthScreen);

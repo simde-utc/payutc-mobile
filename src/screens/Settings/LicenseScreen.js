@@ -240,7 +240,7 @@ The GNU General Public License does not permit incorporating your program into p
 export default class LicenseScreen extends React.Component {
 	static navigationOptions = () => ({
 		title: t('title'),
-		headerStyle: { borderBottomWidth: 1, borderBottomColor: colors.backgroundLight },
+		headerStyle: { borderBottomWidth: 0 },
 		headerForceInset: { top: 'never' },
 		headerTintColor: colors.primary,
 		headerTruncatedBackTitle: _('back'),
