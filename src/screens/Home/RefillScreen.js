@@ -11,7 +11,7 @@ import { ScrollView, View } from 'react-native';
 import colors from '../../styles/colors';
 import AmountForm from '../../components/Refill/AmountForm';
 import Submit from '../../components/Refill/Submit';
-import { Refill as t } from '../../utils/i18n';
+import { _, Refill as t } from '../../utils/i18n';
 import { isAmountValid } from '../../utils';
 
 export default class RefillScreen extends React.Component {
@@ -21,6 +21,7 @@ export default class RefillScreen extends React.Component {
 		headerTintColor: colors.more,
 		headerForceInset: { top: 'never' },
 		headerBackTitle: t('back_button_title'),
+		headerTruncatedBackTitle: _('back'),
 	});
 
 	constructor(props) {
