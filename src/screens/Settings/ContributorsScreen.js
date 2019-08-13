@@ -13,7 +13,7 @@ import Paragraphe from '../../components/Paragraphe';
 import Contributor from '../../components/Contributors/Contributor';
 import colors from '../../styles/colors';
 import { GitHub } from '../../redux/actions';
-import { Contributors as t } from '../../utils/i18n';
+import { _, Contributors as t } from '../../utils/i18n';
 import {
 	CONTRIBUTORS_MAIN_TEAM,
 	CONTRIBUTORS_DESIGN_TEAM,
@@ -29,6 +29,7 @@ class ContributorsScreen extends React.Component {
 		headerStyle: { borderBottomWidth: 0 },
 		headerForceInset: { top: 'never' },
 		headerTintColor: colors.primary,
+		headerTruncatedBackTitle: _('back'),
 	});
 
 	constructor(props) {

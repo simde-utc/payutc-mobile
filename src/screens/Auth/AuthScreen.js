@@ -24,6 +24,7 @@ class AuthScreen extends React.Component {
 		title: t('title'),
 		header: null,
 		headerVisible: false,
+		headerTruncatedBackTitle: _('back'),
 	});
 
 	constructor(props) {

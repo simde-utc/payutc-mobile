@@ -9,7 +9,7 @@ import React from 'react';
 import { Alert, WebView } from 'react-native';
 import { connect } from 'react-redux';
 import colors from '../../styles/colors';
-import { Payment as t } from '../../utils/i18n';
+import { _, Payment as t } from '../../utils/i18n';
 import { Config, PayUTC } from '../../redux/actions';
 import { floatToEuro } from '../../utils';
 import { PAYUTC_CALLBACK_URL } from '../../../config';
@@ -20,6 +20,7 @@ class PaymentScreen extends React.Component {
 		headerStyle: { borderBottomWidth: 0 },
 		headerTintColor: colors.more,
 		headerForceInset: { top: 'never' },
+		headerTruncatedBackTitle: _('back'),
 	});
 
 	handleOnNavigationStateChange({ url }) {
