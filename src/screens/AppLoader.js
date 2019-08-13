@@ -19,7 +19,7 @@ import Storage from '../services/Storage';
 import payutcLogo from '../images/payutc-logo.png';
 import colors from '../styles/colors';
 import { Config } from '../redux/actions';
-import { AppLoader as t } from '../utils/i18n';
+import i18n, { AppLoader as t } from '../utils/i18n';
 import config from '../../config';
 import configExemple from '../../config.example';
 
@@ -126,6 +126,8 @@ class AppLoaderScreen extends React.Component {
 
 	bootstrap() {
 		AppLoaderScreen.loadLibrairies();
+
+		i18n.locale = 'fr';
 
 		return Storage.getData('config')
 			.then(config => {
