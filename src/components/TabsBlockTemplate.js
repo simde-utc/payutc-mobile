@@ -52,16 +52,14 @@ export default function TabsBlockTemplate({
 			<View
 				style={{
 					backgroundColor: colors.backgroundBlock,
-					borderTopLeftRadius: 10,
-					borderTopRightRadius: 10,
+					margin: 5,
+					padding: 5,
 				}}
 			>
 				<ScrollView
 					horizontal
 					showsHorizontalScrollIndicator={false}
 					contentContainerStyle={{
-						margin: 5,
-						padding: 5,
 						marginRight: 0,
 						paddingRight: 0,
 						flexGrow: 1,
@@ -74,6 +72,9 @@ export default function TabsBlockTemplate({
 						borderBottomLeftRadius: roundedBottom ? 10 : 0,
 						borderBottomRightRadius: roundedBottom ? 10 : 0,
 					}}
+					style={{
+						backgroundColor: colors.backgroundBlock,
+					}}
 				>
 					{tabValues.map((tab, index) => {
 						const key = tabKeys[index];
@@ -83,11 +84,14 @@ export default function TabsBlockTemplate({
 							<BlockTemplate
 								roundedTop
 								roundedBottom
-								shadow
 								key={title}
 								disabled={disabled}
 								customBackground={value === key && !disabled ? tintColor : null}
-								style={{ marginRight: 10 }}
+								style={{
+									marginRight: 10,
+									borderWidth: value === key ? 0 : 1,
+									borderColor: colors.backgroundLight,
+								}}
 								onPress={() => onChange(key)}
 							>
 								<Text

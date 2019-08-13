@@ -194,6 +194,7 @@
 			"developped_desc": "Développement initié en Juillet 2019.",
 			"main_team": "Equipe chargée de l'application",
 			"design_team": "Equipe ayant développé le design",
+			"old_team": "Equipe ayant travaillé sur d'anciennes applications PayUTC",
 			"contributors": "Contributeurs",
 			"contributions": {
 				"one": "1 seule contribution",
@@ -206,6 +207,7 @@
 			"principal_designer": "Principal designer",
 			"co_conceptor": "Co-concepteur",
 			"design_fixer": "Coordinateur design",
+			"ios_developer": "Développeur iOS",
 		},
 		"Changelog": {
 			"title": "Changelog",
@@ -227,6 +229,7 @@
 		"yesterday": "hier",
 		"show_since": "afficher les statistiques depuis :",
 		"empty_list": "Aucune donnée à afficher :(",
+		"back": "Retour"
 	},
 
 	"navigation": {

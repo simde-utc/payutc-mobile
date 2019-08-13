@@ -24,6 +24,7 @@ class AuthScreen extends React.Component {
 		title: t('title'),
 		header: null,
 		headerVisible: false,
+		headerTruncatedBackTitle: _('back'),
 	});
 
 	constructor(props) {
@@ -189,7 +190,6 @@ class AuthScreen extends React.Component {
 						keyboardType="email-address"
 						autoCapitalize="none"
 						placeholder={t('login_placeholder')}
-						selectionColor={colors.primary}
 						textContentType="none"
 						autoCorrect={false}
 						onChangeText={login => this.onLoginChange(login)}
@@ -212,7 +212,6 @@ class AuthScreen extends React.Component {
 						autoCapitalize="none"
 						secureTextEntry
 						placeholder={t('password_placeholder')}
-						selectionColor={colors.primary}
 						textContentType="none"
 						autoCorrect={false}
 						onChangeText={pwd => this.onPasswordChange(pwd)}

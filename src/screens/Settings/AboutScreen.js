@@ -12,7 +12,7 @@ import VersionNumber from 'react-native-version-number';
 import colors from '../../styles/colors';
 import LinkButton from '../../components/LinkButton';
 import Paragraphe from '../../components/Paragraphe';
-import { About as t } from '../../utils/i18n';
+import { _, About as t } from '../../utils/i18n';
 import GitHub from '../../services/GitHub';
 import { IOS_STORE_URL, ANDROID_STORE_URL } from '../../../config';
 
@@ -24,6 +24,7 @@ class AboutScreen extends React.Component {
 		headerStyle: { borderBottomWidth: 0 },
 		headerForceInset: { top: 'never' },
 		headerTintColor: colors.primary,
+		headerTruncatedBackTitle: _('back'),
 	});
 
 	getApplicationStatus() {

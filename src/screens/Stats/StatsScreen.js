@@ -29,6 +29,7 @@ class StatsScreen extends React.Component {
 		title: t('title'),
 		header: null,
 		headerForceInset: { top: 'never' },
+		headerTruncatedBackTitle: _('back'),
 	});
 
 	constructor(props) {

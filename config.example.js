@@ -49,6 +49,11 @@ export const CONTRIBUTORS_DESIGN_TEAM = {
 	NastuzziSamy: 'design_fixer',
 };
 
+// Old contributors of old apps.
+export const CONTRIBUTORS_OLD_TEAM = {
+	thomasriccioli: 'ios_developer',
+};
+
 // Contributors who doesn't want to be shown in the app (by username).
 export const CONTRIBUTORS_BLACKLIST = [];
 
@@ -67,5 +72,6 @@ export default {
 	PAYUTC_EMAIL,
 	CONTRIBUTORS_MAIN_TEAM,
 	CONTRIBUTORS_DESIGN_TEAM,
+	CONTRIBUTORS_OLD_TEAM,
 	CONTRIBUTORS_BLACKLIST,
 };
