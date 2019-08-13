@@ -23,9 +23,9 @@ export const configState = {
 		},
 	},
 	preferences: {
-		selectedDate: 0,
-		selectedHistoryCategory: 0,
-		selectedStatCategory: 0,
+		selectedDate: '0',
+		selectedHistoryCategory: '0',
+		selectedStatCategory: '0',
 	},
 };
 
