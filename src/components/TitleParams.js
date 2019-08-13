@@ -48,6 +48,7 @@ export default class TitleParams extends React.Component {
 						roundedTop
 						roundedBottom
 						shadow
+						borderForAndroid={!show}
 						style={{ paddingVertical: 5 }}
 						onPress={() => this.setState({ show: !show })}
 						customBackground={show ? colors.backgroundLight : null}
