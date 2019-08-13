@@ -31,7 +31,8 @@
     "react-navigation": "^3.11.1",
     "react-redux": "^7.1.0",
     "redux": "^4.0.4",
-    "redux-promise-middleware": "^6.1.1"
+    "redux-promise-middleware": "^6.1.1",
+    "rn-placeholder": "^3.0.0"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.2",

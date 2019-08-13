@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { FlatList, RefreshControl, Text, View } from 'react-native';
+import { RefreshControl, Text, View } from 'react-native';
 import { connect } from 'react-redux';
 import colors from '../../styles/colors';
 import Balance from '../../components/Home/Balance';
@@ -17,6 +17,7 @@ import Item from '../../components/History/Item';
 import { PayUTC } from '../../redux/actions';
 import { _, Home as t } from '../../utils/i18n';
 import { totalAmount } from '../../utils/stats';
+import List from '../../components/List';
 
 class HomeScreen extends React.Component {
 	static navigationOptions = () => ({
@@ -114,32 +115,31 @@ class HomeScreen extends React.Component {
 
 				<Shortcuts amount={amount} navigation={navigation} />
 
-				<BlockTemplate roundedTop shadow style={{ marginTop: 15 }}>
+				<BlockTemplate
+					roundedTop
+					shadow
+					style={{
+						marginTop: 15,
+						borderBottomWidth: 1,
+						borderBottomColor: colors.backgroundBlockAlt,
+					}}
+				>
 					<Text style={{ fontSize: 16, fontWeight: 'bold', color: colors.primary }}>
 						{t('recent_activity')}
 					</Text>
 				</BlockTemplate>
 
-				<View style={{ borderColor: colors.backgroundLight, height: 1 }} />
-				<FlatList
-					data={history.slice(0, 10)}
-					keyExtractor={item => item.id.toString()}
-					renderItem={({ item, index }) => (
+				<List
+					items={history.slice(0, 10)}
+					loading={historyFetching}
+					notRoundedTop
+					renderItem={(item, index) => (
 						<Item
 							transaction={item}
 							customBackground={index % 2 === 0 ? colors.backgroundBlockAlt : null}
 						/>
 					)}
-					ListEmptyComponent={() => (
-						<BlockTemplate>
-							<Text style={{ fontSize: 14, fontWeight: 'bold', color: colors.disabled }}>
-								{_('loading_text_replacement')}
-							</Text>
-						</BlockTemplate>
-					)}
-					ItemSeparatorComponent={() => (
-						<View style={{ borderColor: colors.backgroundLight, height: 1 }} />
-					)}
+					keyExtractor={item => item.id.toString()}
 					refreshControl={
 						<RefreshControl
 							refreshing={historyFetching}
@@ -149,16 +149,6 @@ class HomeScreen extends React.Component {
 						/>
 					}
 				/>
-				{history.length ? (
-					<View>
-						<View style={{ borderColor: colors.backgroundLight, height: 1 }} />
-						<BlockTemplate roundedBottom onPress={() => navigation.navigate('History')}>
-							<Text style={{ fontSize: 10, fontWeight: 'bold', color: colors.primary }}>
-								{t('all_history')}
-							</Text>
-						</BlockTemplate>
-					</View>
-				) : null}
 			</View>
 		);
 	}
