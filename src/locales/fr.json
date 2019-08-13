@@ -101,7 +101,7 @@
 			"button": "C'est parti !",
 			"cas_connection": "Connexion au CAS-UTC...",
 			"payutc_connection": "Connexion au service PayUTC...",
-			"valid_terms": "En cliquant sur \"%{button}\" vous acceptez les termes d'utilisation",
+			"valid_terms": "En cliquant sur \"%{button}\" vous acceptez tous les termes",
 		},
 		"History": {
 			"title": "Historique",
@@ -153,7 +153,7 @@
 		"About": {
 			"title": "A propos",
 			"license": "Licence",
-			"legal": "Mentions légales",
+			"terms": "Mentions légales",
 			"dependencies": "Paquets Open Source",
 			"contributors": "Equipe de développement",
 			"report_bug": "Signaler un problème",
@@ -212,6 +212,9 @@
 		"Changelog": {
 			"title": "Changements",
 			"version": "Version %{version}",
+		},
+		"Terms": {
+			"title": "Mentions légales",
 		},
 	},
 
