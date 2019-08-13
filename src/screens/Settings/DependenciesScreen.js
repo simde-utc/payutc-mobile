@@ -11,7 +11,7 @@ import List from '../../components/List';
 import Paragraphe from '../../components/Paragraphe';
 import Dependency from '../../components/Dependencies/Dependency';
 import colors from '../../styles/colors';
-import { Dependencies as t } from '../../utils/i18n';
+import { _, Dependencies as t } from '../../utils/i18n';
 import PackageJson from '../../../package.json';
 
 export default class DependenciesScreen extends React.Component {
@@ -20,6 +20,7 @@ export default class DependenciesScreen extends React.Component {
 		headerStyle: { borderBottomWidth: 0 },
 		headerForceInset: { top: 'never' },
 		headerTintColor: colors.primary,
+		headerTruncatedBackTitle: _('back'),
 	});
 
 	static renderDependency(dependency, index, last) {

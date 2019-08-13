@@ -24,6 +24,7 @@ class HistoryScreen extends React.Component {
 		title: t('title'),
 		header: null,
 		headerForceInset: { top: 'never' },
+		headerTruncatedBackTitle: _('back'),
 	});
 
 	constructor(props) {
@@ -138,7 +139,6 @@ class HistoryScreen extends React.Component {
 								}}
 								autoCapitalize="none"
 								placeholder={t('search')}
-								selectionColor={colors.primary}
 								textContentType="none"
 								onChangeText={this.onSearchChange}
 								value={search}
