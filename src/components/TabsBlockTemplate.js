@@ -72,6 +72,9 @@ export default function TabsBlockTemplate({
 						borderBottomLeftRadius: roundedBottom ? 10 : 0,
 						borderBottomRightRadius: roundedBottom ? 10 : 0,
 					}}
+					style={{
+						backgroundColor: colors.backgroundBlock,
+					}}
 				>
 					{tabValues.map((tab, index) => {
 						const key = tabKeys[index];
