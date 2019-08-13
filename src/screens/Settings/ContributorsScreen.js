@@ -17,11 +17,13 @@ import { _, Contributors as t } from '../../utils/i18n';
 import {
 	CONTRIBUTORS_MAIN_TEAM,
 	CONTRIBUTORS_DESIGN_TEAM,
+	CONTRIBUTORS_OLD_TEAM,
 	CONTRIBUTORS_BLACKLIST,
 } from '../../../config';
 
 const mainTeamKeys = Object.keys(CONTRIBUTORS_MAIN_TEAM);
 const designTeamKeys = Object.keys(CONTRIBUTORS_DESIGN_TEAM);
+const oldTeamKeys = Object.keys(CONTRIBUTORS_OLD_TEAM);
 
 class ContributorsScreen extends React.Component {
 	static navigationOptions = () => ({
@@ -45,6 +47,7 @@ class ContributorsScreen extends React.Component {
 
 		mainTeamKeys.map(login => this.fetchGithubUser(login));
 		designTeamKeys.map(login => this.fetchGithubUser(login));
+		oldTeamKeys.map(login => this.fetchGithubUser(login));
 	}
 
 	componentDidUpdate(prevProps) {
@@ -86,6 +89,13 @@ class ContributorsScreen extends React.Component {
 		return designTeamKeys.map(login => ({
 			login,
 			description: t(CONTRIBUTORS_DESIGN_TEAM[login]),
+		}));
+	}
+
+	static getOldTeam() {
+		return oldTeamKeys.map(login => ({
+			login,
+			description: t(CONTRIBUTORS_OLD_TEAM[login]),
 		}));
 	}
 
@@ -153,6 +163,13 @@ class ContributorsScreen extends React.Component {
 						title={t('contributors')}
 						items={this.getContributors()}
 						keyExtractor={({ id }) => id.toString()}
+						renderItem={this.renderContributor}
+					/>
+					<View style={{ height: 15 }} />
+					<List
+						title={t('old_team')}
+						items={ContributorsScreen.getOldTeam()}
+						keyExtractor={({ login }) => login}
 						renderItem={this.renderContributor}
 					/>
 				</View>
