@@ -14,7 +14,7 @@ import { _, Terms as t } from '../../utils/i18n';
 import { Config } from '../../redux/actions';
 import colors from '../../styles/colors';
 
-export const TERMS_VERSION = 1;
+export const TERMS_VERSION = 2;
 
 const TERMS = `En vigueur à la publication de l’application le 1er Juillet 2019.
 
@@ -73,7 +73,7 @@ Pour toute question relative à l’application des présentes CGUs, vous pouvez
 class TermsScreen extends React.Component {
 	static navigationOptions = () => ({
 		title: t('title'),
-		headerStyle: { borderBottomWidth: 0 },
+		headerStyle: { borderBottomWidth: 1, borderBottomColor: colors.backgroundLight },
 		headerForceInset: { top: 'never' },
 		headerTintColor: colors.primary,
 		headerTruncatedBackTitle: _('back'),
@@ -103,13 +103,16 @@ class TermsScreen extends React.Component {
 		return (
 			<View style={{ flex: 1 }}>
 				<WebView
-					source={{ html: `<p style='text-align: justify; white-space: pre-wrap;'>${TERMS}</p>` }}
+					style={{ backgroundColor: 'transparent' }}
+					source={{
+						html: `<p style='font-family: sans-serif; text-align: justify; white-space: pre-wrap;'>${TERMS}</p>`,
+					}}
 				/>
 				<BlockTemplate
 					roundedTop
 					roundedBottom
 					shadow
-					customBackground={validated ? colors.more : colors.transfer}
+					customBackground={validated ? colors.more : colors.primary}
 					disabled={validated}
 					style={{ margin: 5 }}
 					onPress={() => this.validate()}

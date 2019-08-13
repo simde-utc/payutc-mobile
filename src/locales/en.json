@@ -213,7 +213,7 @@
 		"Terms": {
 			"title": "Legal terms (in French)",
 			"accept": "I accept the terms",
-			"validated": "Valided on %{date}",
+			"validated": "Accepted on %{date}",
 		},
 	},
 

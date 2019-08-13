@@ -249,7 +249,10 @@ export default class LicenseScreen extends React.Component {
 	render() {
 		return (
 			<WebView
-				source={{ html: `<p style='text-align: justify; white-space: pre-wrap;'>${LICENSE}</p>` }}
+				style={{ backgroundColor: 'transparent' }}
+				source={{
+					html: `<p style='font-family: sans-serif; text-align: justify; white-space: pre-wrap;'>${LICENSE}</p>`,
+				}}
 			/>
 		);
 	}
