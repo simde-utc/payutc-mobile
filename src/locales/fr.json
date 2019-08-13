@@ -215,6 +215,8 @@
 		},
 		"Terms": {
 			"title": "Mentions légales",
+			"accept": "J'accepte les CGUs",
+			"validated": "Validé le %{date}"
 		},
 	},
 

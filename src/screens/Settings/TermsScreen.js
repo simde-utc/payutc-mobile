@@ -6,9 +6,15 @@
  */
 
 import React from 'react';
-import { WebView } from 'react-native';
+import { WebView, View, Text } from 'react-native';
+import { connect } from 'react-redux';
+import BlockTemplate from '../../components/BlockTemplate';
+import { beautifyDateTime } from '../../utils';
 import { _, Terms as t } from '../../utils/i18n';
+import { Config } from '../../redux/actions';
 import colors from '../../styles/colors';
+
+export const TERMS_VERSION = 1;
 
 const TERMS = `En vigueur à la publication de l’application le 1er Juillet 2019.
 
@@ -64,7 +70,7 @@ La législation française s’applique au présent contrat. En cas d’absence 
 Pour toute question relative à l’application des présentes CGUs, vous pouvez joindre l’éditeur aux coordonnées inscrites à l’Article 1.
 `;
 
-export default class LicenseScreen extends React.Component {
+class TermsScreen extends React.Component {
 	static navigationOptions = () => ({
 		title: t('title'),
 		headerStyle: { borderBottomWidth: 1, borderBottomColor: colors.backgroundLight },
@@ -73,11 +79,53 @@ export default class LicenseScreen extends React.Component {
 		headerTruncatedBackTitle: _('back'),
 	});
 
+	validate() {
+		const { dispatch } = this.props;
+
+		dispatch(
+			Config.terms({
+				version: TERMS_VERSION,
+				date: Date.now(),
+			})
+		);
+	}
+
 	render() {
+		const {
+			terms: { version, date },
+		} = this.props;
+		const validated = version === TERMS_VERSION;
+
 		return (
-			<WebView
-				source={{ html: `<p style='text-align: justify; white-space: pre-wrap;'>${TERMS}</p>` }}
-			/>
+			<View style={{ flex: 1 }}>
+				<WebView
+					source={{ html: `<p style='text-align: justify; white-space: pre-wrap;'>${TERMS}</p>` }}
+				/>
+				<BlockTemplate
+					roundedTop
+					roundedBottom
+					shadow
+					customBackground={validated ? colors.more : colors.transfer}
+					disabled={validated}
+					style={{ margin: 5 }}
+					onPress={() => this.validate()}
+				>
+					<Text
+						style={{
+							fontSize: 18,
+							fontWeight: 'bold',
+							textAlign: 'center',
+							color: colors.backgroundBlock,
+						}}
+					>
+						{validated ? t('validated', { date: beautifyDateTime(date) }) : t('accept')}
+					</Text>
+				</BlockTemplate>
+			</View>
 		);
 	}
 }
+
+const mapStateToProps = ({ config: { terms } }) => ({ terms });
+
+export default connect(mapStateToProps)(TermsScreen);
