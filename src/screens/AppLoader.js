@@ -128,13 +128,13 @@ class AppLoaderScreen extends React.Component {
 		AppLoaderScreen.loadLibrairies();
 
 		return Storage.getData('config')
-			.then(data => {
+			.then(config => {
 				const { dispatch } = this.props;
 
-				if (data) {
-					data.spinner.visible = false;
+				if (config) {
+					config.spinner.visible = false;
 
-					dispatch(Config.set(data));
+					dispatch(Config.set(config));
 				} else {
 					let lang;
 
