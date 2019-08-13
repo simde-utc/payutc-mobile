@@ -186,6 +186,7 @@
 			"developped_desc": "Development initialized in July 2019.",
 			"main_team": "Team managing the application",
 			"design_team": "Team working on the design",
+			"old_team": "Team that worked on old PayUTC applications",
 			"contributors": "Contributors",
 			"contributions": {
 				"one": "one unique contribution",
@@ -198,6 +199,7 @@
 			"principal_designer": "Principal designer",
 			"co_conceptor": "Co-conceptor",
 			"design_fixer": "Design coordinator",
+			"ios_developer": "iOS developer",
 		},
 	},
 
