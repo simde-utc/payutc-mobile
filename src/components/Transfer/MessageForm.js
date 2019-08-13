@@ -87,7 +87,6 @@ export default class MessageForm extends React.Component {
 
 	render() {
 		const { text } = this.state;
-		const { error } = this.props;
 
 		return (
 			<BlockTemplate roundedTop roundedBottom shadow>
@@ -111,7 +110,6 @@ export default class MessageForm extends React.Component {
 					placeholder={t('message_placeholder')}
 					maxLength={this.maxLength}
 					multiline
-					selectionColor={error == null ? colors.transfer : colors.error}
 					textContentType="none"
 					autoCorrect={false}
 					onChangeText={text => this.onChange(text)}

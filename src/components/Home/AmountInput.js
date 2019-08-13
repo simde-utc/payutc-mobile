@@ -24,7 +24,6 @@ export default function AmountInput({ value, error, maxLength, onChange, tintCol
 				keyboardType="decimal-pad"
 				placeholder="00,00"
 				maxLength={maxLength}
-				selectionColor={error == null ? tintColor : colors.error}
 				autoFocus={autofocus}
 				textContentType="none"
 				autoCorrect={false}
