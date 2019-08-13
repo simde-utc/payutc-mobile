@@ -15,7 +15,7 @@ import RecipientForm from '../../components/Transfer/RecipientForm';
 import Submit from '../../components/Transfer/Submit';
 import colors from '../../styles/colors';
 import { PayUTC } from '../../redux/actions';
-import { Transfer as t } from '../../utils/i18n';
+import { _, Transfer as t } from '../../utils/i18n';
 import { isAmountValid } from '../../utils';
 
 class TransferScreen extends React.Component {
@@ -24,6 +24,7 @@ class TransferScreen extends React.Component {
 		headerStyle: { borderBottomWidth: 0 },
 		headerTintColor: colors.transfer,
 		headerForceInset: { top: 'never' },
+		headerTruncatedBackTitle: _('back'),
 	});
 
 	constructor(props) {
