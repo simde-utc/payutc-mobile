@@ -32,6 +32,16 @@ function LoadingItem({ backgroundColor }) {
 	);
 }
 
+function LoadingList() {
+	return (
+		<>
+			<LoadingItem backgroundColor={colors.backgroundBlockAlt} />
+			<LoadingItem backgroundColor={colors.backgroundBlock} />
+			<LoadingItem backgroundColor={colors.backgroundBlockAlt} />
+		</>
+	);
+}
+
 export default function List({
 	items,
 	title,
@@ -54,15 +64,15 @@ export default function List({
 			data={items}
 			keyExtractor={keyExtractor}
 			renderItem={({ item, index }) =>
-				renderItem(item, index, !noBottomBorder && index === items.length - 1)
+				loading ? (
+					<LoadingList />
+				) : (
+					renderItem(item, index, !noBottomBorder && index === items.length - 1)
+				)
 			}
 			ListEmptyComponent={() =>
 				loading ? (
-					<>
-						<LoadingItem backgroundColor={colors.backgroundBlockAlt} />
-						<LoadingItem backgroundColor={colors.backgroundBlock} />
-						<LoadingItem backgroundColor={colors.backgroundBlockAlt} />
-					</>
+					<LoadingList />
 				) : (
 					<BlockTemplate roundedBottom customBackground={colors.backgroundBlockAlt}>
 						<Text style={{ fontSize: 14, fontWeight: 'bold', color: colors.disabled }}>
