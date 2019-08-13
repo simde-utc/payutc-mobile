@@ -189,7 +189,6 @@ class AuthScreen extends React.Component {
 						keyboardType="email-address"
 						autoCapitalize="none"
 						placeholder={t('login_placeholder')}
-						selectionColor={colors.primary}
 						textContentType="none"
 						autoCorrect={false}
 						onChangeText={login => this.onLoginChange(login)}
@@ -212,7 +211,6 @@ class AuthScreen extends React.Component {
 						autoCapitalize="none"
 						secureTextEntry
 						placeholder={t('password_placeholder')}
-						selectionColor={colors.primary}
 						textContentType="none"
 						autoCorrect={false}
 						onChangeText={pwd => this.onPasswordChange(pwd)}
