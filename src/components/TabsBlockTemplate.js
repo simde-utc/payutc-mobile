@@ -84,12 +84,14 @@ export default function TabsBlockTemplate({
 							<BlockTemplate
 								roundedTop
 								roundedBottom
-								shadow
-								borderForAndroid={value !== key}
 								key={title}
 								disabled={disabled}
 								customBackground={value === key && !disabled ? tintColor : null}
-								style={{ marginRight: 10 }}
+								style={{
+									marginRight: 10,
+									borderWidth: value === key ? 0 : 1,
+									borderColor: colors.backgroundLight,
+								}}
 								onPress={() => onChange(key)}
 							>
 								<Text
