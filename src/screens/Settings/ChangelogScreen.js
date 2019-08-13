@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import { ScrollView, Text, View, FlatList, TouchableOpacity, Linking } from 'react-native';
+import { FlatList, Linking, ScrollView, Text, View } from 'react-native';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import BlockTemplate from '../../components/BlockTemplate';
@@ -80,11 +80,6 @@ class ChangelogScreen extends React.Component {
 		return (
 			<ScrollView style={{ backgroundColor: colors.backgroundLight }}>
 				<View style={{ padding: 15 }}>
-					<BlockTemplate roundedTop roundedBottom shadow style={{ marginBottom: 15 }}>
-						<Text style={{ fontSize: 22, fontWeight: 'bold', color: colors.primary }}>
-							{t('title')}
-						</Text>
-					</BlockTemplate>
 					<FlatList
 						data={Object.keys(changelog)}
 						keyExtractor={version => version}
