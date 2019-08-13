@@ -54,6 +54,7 @@ export const About = getTranslationsFor('screens.About.');
 export const License = getTranslationsFor('screens.License.');
 export const Dependencies = getTranslationsFor('screens.Dependencies.');
 export const Contributors = getTranslationsFor('screens.Contributors.');
+export const Changelog = getTranslationsFor('screens.Changelog.');
 export const Navigation = getTranslationsFor('navigation.');
 
 const i18n = i18nJs;

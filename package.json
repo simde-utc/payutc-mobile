@@ -26,10 +26,11 @@
     "react-native-loading-spinner-overlay": "^1.0.1",
     "react-native-svg": "^9.6.2",
     "react-native-vector-icons": "^6.6.0",
+    "react-native-version-number": "^0.3.6",
     "react-native-web": "^0.11.4",
     "react-navigation": "^3.11.1",
-    "redux": "^4.0.4",
     "react-redux": "^7.1.0",
+    "redux": "^4.0.4",
     "redux-promise-middleware": "^6.1.1"
   },
   "devDependencies": {

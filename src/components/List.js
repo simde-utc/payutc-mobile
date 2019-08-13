@@ -20,6 +20,7 @@ export default function List({
 	loading,
 	renderItem,
 	keyExtractor,
+	onPress,
 }) {
 	return (
 		<FlatList
@@ -35,11 +36,17 @@ export default function List({
 					</Text>
 				</BlockTemplate>
 			)}
-			ListHeaderComponent={() => (
-				<BlockTemplate roundedTop={!notRoundedTop}>
-					<Text style={{ fontSize: 16, fontWeight: 'bold', color: colors.primary }}>{title}</Text>
-				</BlockTemplate>
-			)}
+			ListHeaderComponent={
+				title
+					? () => (
+							<BlockTemplate roundedTop={!notRoundedTop} onPress={onPress}>
+								<Text style={{ fontSize: 16, fontWeight: 'bold', color: colors.primary }}>
+									{title}
+								</Text>
+							</BlockTemplate>
+					  )
+					: null
+			}
 		/>
 	);
 }

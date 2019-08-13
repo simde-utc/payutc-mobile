@@ -4,6 +4,12 @@ export const APP_NAME = 'PayUTC';
 // App name.
 export const APP_REPO_NAME = 'simde-utc/payutc-mobile';
 
+// iOS Store url of our app.
+export const IOS_STORE_URL = '';
+
+// Android Store url of our app.
+export const ANDROID_STORE_URL = '';
+
 // GitHub url.
 export const GITHUB_URL = '';
 
@@ -54,6 +60,8 @@ export const CONTRIBUTORS_BLACKLIST = [];
 export default {
 	APP_NAME,
 	APP_REPO_NAME,
+	IOS_STORE_URL,
+	ANDROID_STORE_URL,
 	GITHUB_URL,
 	GITHUB_API_URL,
 	CAS_URL,
