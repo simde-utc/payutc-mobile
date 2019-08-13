@@ -52,16 +52,14 @@ export default function TabsBlockTemplate({
 			<View
 				style={{
 					backgroundColor: colors.backgroundBlock,
-					borderTopLeftRadius: 10,
-					borderTopRightRadius: 10,
+					margin: 5,
+					padding: 5,
 				}}
 			>
 				<ScrollView
 					horizontal
 					showsHorizontalScrollIndicator={false}
 					contentContainerStyle={{
-						margin: 5,
-						padding: 5,
 						marginRight: 0,
 						paddingRight: 0,
 						flexGrow: 1,
@@ -84,6 +82,7 @@ export default function TabsBlockTemplate({
 								roundedTop
 								roundedBottom
 								shadow
+								borderForAndroid={value !== key}
 								key={title}
 								disabled={disabled}
 								customBackground={value === key && !disabled ? tintColor : null}
