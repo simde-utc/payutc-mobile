@@ -112,7 +112,6 @@ export default class MessageForm extends React.Component {
 					maxLength={this.maxLength}
 					multiline
 					textContentType="none"
-					autoCorrect={false}
 					onChangeText={text => this.onChange(text)}
 					value={text}
 				/>

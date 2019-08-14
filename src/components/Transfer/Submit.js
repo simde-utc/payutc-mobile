@@ -15,6 +15,8 @@ import { Transfer as t } from '../../utils/i18n';
 import { floatToEuro } from '../../utils';
 
 class Submit extends React.Component {
+	submiting = false;
+
 	isAmountValid(credit) {
 		const { minAmount, amount } = this.props;
 		const amountAsFloat = parseFloat(amount.replace(',', '.'));
@@ -24,6 +26,13 @@ class Submit extends React.Component {
 
 	submit() {
 		const { dispatch, navigation } = this.props;
+
+		// Avoid multiple sumbits on laggy phones...
+		if (this.submiting) {
+			return;
+		}
+
+		this.submiting = true;
 
 		dispatch(
 			Config.spinner({
@@ -46,6 +55,8 @@ class Submit extends React.Component {
 						visible: false,
 					})
 				);
+
+				this.submiting = false;
 
 				return onAmountErrorChange(
 					t('bad_amount', { min: floatToEuro(minAmount), max: floatToEuro(credit) })
@@ -73,6 +84,8 @@ class Submit extends React.Component {
 						})
 					);
 
+					this.submiting = false;
+
 					dispatch(PayUTC.getWalletDetails());
 					dispatch(PayUTC.getHistory());
 
@@ -89,6 +102,8 @@ class Submit extends React.Component {
 							visible: false,
 						})
 					);
+
+					this.submiting = false;
 				});
 		});
 	}
@@ -100,7 +115,7 @@ class Submit extends React.Component {
 			<LinkButton
 				text={t('transfer_button')}
 				color={colors.backgroundLight}
-				backgroundColor={colors.lightBlue}
+				backgroundColor={colors.transfer}
 				disabled={disabled}
 				onPress={() => this.submit()}
 			/>
