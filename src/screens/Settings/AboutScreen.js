@@ -16,7 +16,7 @@ import { _, About as t } from '../../utils/i18n';
 import GitHub from '../../services/GitHub';
 import { IOS_STORE_URL, ANDROID_STORE_URL } from '../../../config';
 
-const buttons = ['Legal', 'Dependencies', 'License', 'Contributors'];
+const buttons = ['Terms', 'Dependencies', 'License', 'Contributors'];
 
 class AboutScreen extends React.Component {
 	static navigationOptions = () => ({

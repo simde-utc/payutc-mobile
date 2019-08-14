@@ -154,12 +154,11 @@ class HomeScreen extends React.Component {
 	}
 }
 
-const mapStateToProps = ({ payutc, config }) => {
+const mapStateToProps = ({ payutc }) => {
 	const details = payutc.getWalletDetails();
 	const history = payutc.getHistory();
 
 	return {
-		config,
 		details: details.getData({}),
 		detailsFetching: details.isFetching(),
 		detailsFetched: details.isFetched(),

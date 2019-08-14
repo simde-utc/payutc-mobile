@@ -9,6 +9,7 @@
 import { createStackNavigator } from 'react-navigation';
 import SettingsScreen from '../../screens/Settings/SettingsScreen';
 import AboutScreen from '../../screens/Settings/AboutScreen';
+import TermsScreen from '../../screens/Settings/TermsScreen';
 import LicenseScreen from '../../screens/Settings/LicenseScreen';
 import DependenciesScreen from '../../screens/Settings/DependenciesScreen';
 import ContributorsScreen from '../../screens/Settings/ContributorsScreen';
@@ -18,6 +19,7 @@ const SettingsNavigator = createStackNavigator(
 	{
 		Settings: SettingsScreen,
 		About: AboutScreen,
+		Terms: TermsScreen,
 		License: LicenseScreen,
 		Dependencies: DependenciesScreen,
 		Contributors: ContributorsScreen,

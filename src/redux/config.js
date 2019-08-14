@@ -27,6 +27,10 @@ export const configState = {
 		selectedHistoryCategory: '0',
 		selectedStatCategory: '0',
 	},
+	terms: {
+		version: 0,
+		date: '',
+	},
 };
 
 export const configReducer = (state = configState, { type, config, data }) => {
@@ -46,7 +50,7 @@ export const configReducer = (state = configState, { type, config, data }) => {
 				break;
 
 			default:
-				state[config] = Object.assign(state[config], data);
+				state[config] = Object.assign(state[config] || {}, data);
 		}
 
 		Storage.setData('config', state);
