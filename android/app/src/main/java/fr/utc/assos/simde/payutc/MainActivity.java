@@ -1,4 +1,4 @@
-package com.payutc;
+package fr.utc.assos.simde.payutc;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;

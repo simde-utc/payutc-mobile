@@ -1,4 +1,4 @@
-package com.payutc.generated;
+package fr.utc.assos.simde.payutc.generated;
 
 import java.util.Arrays;
 import java.util.List;
