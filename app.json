@@ -9,6 +9,7 @@
     "version": "1.0.0",
     "githubUrl": "https://github.com/simde-utc/payutc-mobile",
     "orientation": "portrait",
+    "icon": "./assets/icon.png",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -22,7 +23,7 @@
     ],
     "ios": {
       "bundleIdentifier": "fr.utc.assos.simde.payutc",
-      "icon": "./assets/ios-icon.png"
+      "icon": "./assets/icon.png"
     },
     "android": {
       "package": "fr.utc.assos.simde.payutc",
@@ -31,6 +32,9 @@
     "platforms": [
       "android",
       "ios"
-    ]
-  }
+    ],
+    "entryPoint": "node_modules/expo/AppEntry.js"
+  },
+  "displayName": "PayUTC",
+  "name": "PayUTC"
 }
