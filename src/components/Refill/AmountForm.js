@@ -44,6 +44,7 @@ export default class AmountForm extends React.Component {
 					roundedTop
 					roundedBottom
 					shadow
+					borderForAndroid
 					key={shortcut}
 					onPress={() => this.onChange(shortcut.toString())}
 				>
