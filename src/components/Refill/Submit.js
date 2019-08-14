@@ -16,6 +16,8 @@ import { floatToEuro } from '../../utils';
 import { PAYUTC_CALLBACK_URL } from '../../../config';
 
 class Submit extends React.Component {
+	submitting = false;
+
 	isAmountValid(minAmount, maxAmount) {
 		const { amount } = this.props;
 		const amountAsFloat = parseFloat(amount.replace(',', '.'));
@@ -25,6 +27,13 @@ class Submit extends React.Component {
 
 	submit() {
 		const { dispatch, navigation } = this.props;
+
+		// Avoid multiple sumbits on laggy phones...
+		if (this.submiting) {
+			return;
+		}
+
+		this.submiting = true;
 
 		dispatch(
 			Config.spinner({
@@ -48,6 +57,8 @@ class Submit extends React.Component {
 						visible: false,
 					})
 				);
+
+				this.submiting = false;
 
 				return onAmountErrorChange(
 					t('bad_amount', { min: floatToEuro(minAmount), max: floatToEuro(maxAmount) })
@@ -75,6 +86,8 @@ class Submit extends React.Component {
 						})
 					);
 
+					this.submiting = false;
+
 					navigation.navigate('Payment', { url, amount: amountAsFloat });
 				})
 				.catch(() => {
@@ -83,6 +96,8 @@ class Submit extends React.Component {
 							visible: false,
 						})
 					);
+
+					this.submiting = false;
 				});
 		});
 	}
