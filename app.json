@@ -2,16 +2,13 @@
   "expo": {
     "name": "PayUTC",
     "slug": "payutc-mobile",
+    "description": "Le porte-monnaie électronique des associations de l'Université de Technologie de Compiègne.",
+    "owner": "BDE-UTC",
     "privacy": "public",
     "sdkVersion": "33.0.0",
-    "platforms": [
-      "ios",
-      "android",
-      "web"
-    ],
     "version": "1.0.0",
+    "githubUrl": "https://github.com/simde-utc/payutc-mobile",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -24,9 +21,16 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
-    }
-  },
-  "displayName": "PayUTC",
-  "name": "PayUTC"
+      "bundleIdentifier": "fr.utc.assos.simde.payutc",
+      "icon": "./assets/ios-icon.png"
+    },
+    "android": {
+      "package": "fr.utc.assos.simde.payutc",
+      "icon": "./assets/icon.png"
+    },
+    "platforms": [
+      "android",
+      "ios"
+    ]
+  }
 }
