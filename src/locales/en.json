@@ -212,6 +212,8 @@
 		},
 		"Terms": {
 			"title": "Legal terms (in French)",
+			"accept": "I accept the terms",
+			"validated": "Accepted on %{date}",
 		},
 	},
 

@@ -240,7 +240,7 @@ The GNU General Public License does not permit incorporating your program into p
 export default class LicenseScreen extends React.Component {
 	static navigationOptions = () => ({
 		title: t('title'),
-		headerStyle: { borderBottomWidth: 1, borderBottomColor: colors.backgroundLight },
+		headerStyle: { borderBottomWidth: 0 },
 		headerForceInset: { top: 'never' },
 		headerTintColor: colors.primary,
 		headerTruncatedBackTitle: _('back'),
@@ -249,7 +249,10 @@ export default class LicenseScreen extends React.Component {
 	render() {
 		return (
 			<WebView
-				source={{ html: `<p style='text-align: justify; white-space: pre-wrap;'>${LICENSE}</p>` }}
+				style={{ backgroundColor: 'transparent' }}
+				source={{
+					html: `<p style='font-family: sans-serif; text-align: justify; white-space: pre-wrap;'>${LICENSE}</p>`,
+				}}
 			/>
 		);
 	}

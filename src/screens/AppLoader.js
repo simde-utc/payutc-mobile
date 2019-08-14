@@ -13,6 +13,7 @@ import { connect } from 'react-redux';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 
+import { TERMS_VERSION } from './Settings/TermsScreen';
 import PayUTC from '../services/PayUTC';
 import CASAuth from '../services/CASAuth';
 import Storage from '../services/Storage';
@@ -52,13 +53,20 @@ class AppLoaderScreen extends React.Component {
 		this.state = {
 			lazyText: null,
 			screen: 'Auth',
+			data: {},
 		};
 	}
 
-	componentWillMount() {
+	componentDidMount() {
 		this.bootstrap()
 			.then(this.appLoaded.bind(this))
 			.catch(error => AppLoaderScreen.handleError.bind(this, error));
+	}
+
+	areTermsValidated() {
+		const { terms } = this.props;
+
+		return terms.version === TERMS_VERSION;
 	}
 
 	loadData() {
@@ -105,6 +113,12 @@ class AppLoaderScreen extends React.Component {
 	}
 
 	login(data) {
+		if (!this.areTermsValidated()) {
+			this.setState({ screen: 'Auth', data });
+
+			return false;
+		}
+
 		if (data.type === PayUTC.CAS_AUTH_TYPE) {
 			return this.checkCasConnection(data.ticket, data.login, data.password);
 		}
@@ -156,11 +170,11 @@ class AppLoaderScreen extends React.Component {
 
 	appLoaded() {
 		const { navigation } = this.props;
-		const { screen } = this.state;
+		const { screen, data } = this.state;
 
 		AppLoaderScreen.checkConfigs();
 
-		navigation.navigate(screen);
+		navigation.navigate(screen, data);
 	}
 
 	render() {
@@ -192,4 +206,6 @@ class AppLoaderScreen extends React.Component {
 	}
 }
 
-export default connect()(AppLoaderScreen);
+const mapStateToProps = ({ config: { terms } }) => ({ terms });
+
+export default connect(mapStateToProps)(AppLoaderScreen);
