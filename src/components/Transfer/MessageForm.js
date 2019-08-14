@@ -105,6 +105,8 @@ export default class MessageForm extends React.Component {
 					style={{
 						fontSize: 18,
 						color: colors.transfer,
+						padding: 0,
+						margin: 0,
 					}}
 					keyboardType="default"
 					placeholder={t('message_placeholder')}
