@@ -100,7 +100,7 @@ class Submit extends React.Component {
 			<LinkButton
 				text={t('transfer_button')}
 				color={colors.backgroundLight}
-				backgroundColor={colors.lightBlue}
+				backgroundColor={colors.transfer}
 				disabled={disabled}
 				onPress={() => this.submit()}
 			/>
