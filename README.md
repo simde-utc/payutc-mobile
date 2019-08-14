@@ -15,8 +15,16 @@ Specifications are defined in `SPECIFICATIONS.md`
 - Run expo for Android: `npm run android`
 - Run expo for iOS: `npm run ios`
 
-## Develop
+## Application build
+### iOS
+iOS build requires Xcode. In order to use Xcode, you should update your pods using theses commands:
+- `cd ios`
+- `pod install`
 
+And then, open `PayUTC.xcworkspace` in Xcode and build the app.
+
+## Develop
+ 
 - We use the workflow `gitflow` as described [here](https://nvie.com/files/Git-branching-model.pdf) but without the `release` branch. It means:
     * All Pull Requests (PR) are merged into the branch `develop`.
     * From `develop` we release versions on `master`.
