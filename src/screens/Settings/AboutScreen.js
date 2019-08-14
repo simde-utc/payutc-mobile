@@ -43,11 +43,13 @@ class AboutScreen extends React.Component {
 			];
 		}
 
-		if (release.name === VersionNumber.appVersion) {
+		const appVersion = `v${VersionNumber.appVersion}`;
+
+		if (release.name === appVersion) {
 			return [
 				t('up_to_date'),
 				colors.more,
-				t('actual_version', { current: VersionNumber.appVersion }),
+				t('actual_version', { current: appVersion }),
 				() => navigation.navigate('Changelog'),
 			];
 		}
@@ -55,7 +57,7 @@ class AboutScreen extends React.Component {
 		return [
 			t('need_update'),
 			colors.less,
-			t('update_version', { current: VersionNumber.appVersion, next: release.name }),
+			t('update_version', { current: appVersion, next: release.name }),
 			() => Linking.openURL(Platform.OS === 'ios' ? IOS_STORE_URL : ANDROID_STORE_URL),
 		];
 	}

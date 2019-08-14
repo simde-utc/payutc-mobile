@@ -14,7 +14,7 @@ import { _, Terms as t } from '../../utils/i18n';
 import { Config } from '../../redux/actions';
 import colors from '../../styles/colors';
 
-export const TERMS_VERSION = 2;
+export const TERMS_VERSION = 1;
 
 const TERMS = `En vigueur à la publication de l’application le 1er Juillet 2019.
 
