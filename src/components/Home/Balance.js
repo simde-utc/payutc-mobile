@@ -104,7 +104,14 @@ export default class Balance extends React.Component {
 				style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start' }}
 			>
 				{this.renderDetails(loading, name, amount)}
-				<BlockTemplate roundedTop roundedBottom shadow onPress={onRefresh} disabled={loading}>
+				<BlockTemplate
+					roundedTop
+					roundedBottom
+					shadow
+					borderForAndroid
+					onPress={onRefresh}
+					disabled={loading}
+				>
 					<FontAwesomeIcon
 						icon={['fas', 'sync-alt']}
 						size={14}

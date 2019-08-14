@@ -61,6 +61,7 @@ export default class MessageForm extends React.Component {
 					roundedTop
 					roundedBottom
 					shadow
+					borderForAndroid
 					key={text}
 					onPress={() => this.onChange(getValue ? getValue() : text)}
 				>
