@@ -8,9 +8,39 @@
 
 import React from 'react';
 import { FlatList, Text } from 'react-native';
+import { Fade, Placeholder, PlaceholderLine } from 'rn-placeholder';
 import BlockTemplate from './BlockTemplate';
 import colors from '../styles/colors';
 import { _ } from '../utils/i18n';
+
+function LoadingItem({ backgroundColor }) {
+	return (
+		<BlockTemplate customBackground={backgroundColor}>
+			<Placeholder Animation={Fade}>
+				<PlaceholderLine
+					width={70}
+					height={14}
+					style={{ backgroundColor: colors.backgroundBlockAlt, marginBottom: 7, borderRadius: 10 }}
+				/>
+				<PlaceholderLine
+					width={60}
+					height={13}
+					style={{ backgroundColor: colors.backgroundBlockAlt, marginBottom: 0, borderRadius: 10 }}
+				/>
+			</Placeholder>
+		</BlockTemplate>
+	);
+}
+
+function LoadingList() {
+	return (
+		<>
+			<LoadingItem backgroundColor={colors.backgroundBlockAlt} />
+			<LoadingItem backgroundColor={colors.backgroundBlock} />
+			<LoadingItem backgroundColor={colors.backgroundBlockAlt} />
+		</>
+	);
+}
 
 export default function List({
 	items,
@@ -21,21 +51,36 @@ export default function List({
 	renderItem,
 	keyExtractor,
 	onPress,
+	refreshControl,
 }) {
 	return (
 		<FlatList
+			style={{
+				backgroundColor: colors.backgroundBlock,
+				borderTopLeftRadius: notRoundedTop ? 0 : 10,
+				borderTopRightRadius: notRoundedTop ? 0 : 10,
+				borderRadius: 10,
+			}}
 			data={items}
 			keyExtractor={keyExtractor}
 			renderItem={({ item, index }) =>
-				renderItem(item, index, !noBottomBorder && index === items.length - 1)
+				loading ? (
+					<LoadingList />
+				) : (
+					renderItem(item, index, !noBottomBorder && index === items.length - 1)
+				)
 			}
-			ListEmptyComponent={() => (
-				<BlockTemplate roundedBottom customBackground={colors.backgroundBlockAlt}>
-					<Text style={{ fontSize: 14, fontWeight: 'bold', color: colors.disabled }}>
-						{loading ? _('loading_text_replacement') : _('empty_list')}
-					</Text>
-				</BlockTemplate>
-			)}
+			ListEmptyComponent={() =>
+				loading ? (
+					<LoadingList />
+				) : (
+					<BlockTemplate roundedBottom customBackground={colors.backgroundBlockAlt}>
+						<Text style={{ fontSize: 14, fontWeight: 'bold', color: colors.disabled }}>
+							{_('empty_list')}
+						</Text>
+					</BlockTemplate>
+				)
+			}
 			ListHeaderComponent={
 				title
 					? () => (
@@ -47,6 +92,7 @@ export default function List({
 					  )
 					: null
 			}
+			refreshControl={refreshControl}
 		/>
 	);
 }
