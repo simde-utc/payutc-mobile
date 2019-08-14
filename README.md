@@ -17,11 +17,10 @@ Specifications are defined in `SPECIFICATIONS.md`
 
 ## Application build
 ### iOS
-iOS build requires Xcode. In order to use Xcode, you should update your pods using theses commands:
-- `cd ios`
-- `pod install`
-
-And then, open `PayUTC.xcworkspace` in Xcode and build the app.
+- iOS build requires Xcode. In order to use Xcode, you should update your pods using theses commands:
+    * `cd ios`
+    * `pod install`
+- And then, open `PayUTC.xcworkspace` in Xcode and build the app.
 
 ## Develop
  
