@@ -33,7 +33,9 @@ export default class AmountForm extends React.Component {
 		const { error } = this.props;
 
 		return error ? (
-			<Text style={{ fontSize: 14, fontWeight: 'bold', color: colors.error }}>{error}</Text>
+			<Text style={{ textAlign: 'center', fontSize: 14, fontWeight: 'bold', color: colors.error }}>
+				{error}
+			</Text>
 		) : null;
 	}
 
