@@ -240,5 +240,12 @@
 		"history": "Historic",
 		"stats": "Statistics",
 		"settings": "Settings"
+	},
+
+	"api": {
+		"connection_issue": "Connection issue",
+		"connection_retry": "The application was unable to access to Internet. Would you want to retry ?",
+		"cancel": "Cancel",
+		"retry": "Retry",
 	}
 }

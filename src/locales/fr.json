@@ -243,5 +243,12 @@
 		"history": "Historique",
 		"stats": "Statistiques",
 		"settings": "Paramètres"
+	},
+
+	"api": {
+		"connection_issue": "Erreur de connexion",
+		"connection_retry": "L'application n'a pas pu se connecter à Internet. Souhaitez-vous réessayer ?",
+		"cancel": "Annuler",
+		"retry": "Réessayer",
 	}
 }

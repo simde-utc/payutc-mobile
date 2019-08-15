@@ -9,6 +9,7 @@
  */
 
 import { Alert } from 'react-native';
+import { Api as t } from '../utils/i18n';
 
 export default class Api {
 	static GET = 'GET';
@@ -66,11 +67,11 @@ export default class Api {
 
 		if (Api.PENDING_REQUESTS.length === 1) {
 			Alert.alert(
-				'Connection issues',
-				'Retry ?',
+				t('connection_issue'),
+				t('connection_retry'),
 				[
 					{
-						text: 'Cancel',
+						text: t('cancel'),
 						onPress: () => {
 							const requests = Api.PENDING_REQUESTS;
 							Api.PENDING_REQUESTS = [];
@@ -80,7 +81,7 @@ export default class Api {
 						style: 'cancel',
 					},
 					{
-						text: 'Retry',
+						text: t('retry'),
 						onPress: () => {
 							const requests = Api.PENDING_REQUESTS;
 							Api.PENDING_REQUESTS = [];
