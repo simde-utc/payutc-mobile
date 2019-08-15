@@ -136,6 +136,8 @@ class HistoryScreen extends React.Component {
 									paddingLeft: 10,
 									fontSize: 18,
 									color: colors.primary,
+									padding: 0,
+									margin: 0,
 								}}
 								autoCapitalize="none"
 								placeholder={t('search')}

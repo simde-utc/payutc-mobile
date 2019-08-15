@@ -226,6 +226,8 @@ class AuthScreen extends React.Component {
 						style={{
 							fontSize: 18,
 							color: colors.primary,
+							padding: 0,
+							margin: 0,
 						}}
 						keyboardType="email-address"
 						autoCapitalize="none"
@@ -247,6 +249,8 @@ class AuthScreen extends React.Component {
 						style={{
 							fontSize: 18,
 							color: colors.primary,
+							padding: 0,
+							margin: 0,
 						}}
 						keyboardType="default"
 						autoCapitalize="none"
@@ -255,6 +259,7 @@ class AuthScreen extends React.Component {
 						textContentType="none"
 						autoCorrect={false}
 						onChangeText={pwd => this.onPasswordChange(pwd)}
+						onSubmitEditing={() => !this.isButtonDisabled() && this.submit()}
 						value={password}
 					/>
 				</BlockTemplate>
