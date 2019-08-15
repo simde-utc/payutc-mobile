@@ -53,9 +53,52 @@ export default class RecipientForm extends React.Component {
 		) : null;
 	}
 
+	renderShortcuts() {
+		const { history, historyFetching } = this.props;
+
+		if (historyFetching) return null;
+
+		const people = history
+			.filter(transaction => transaction.type === 'VIROUT')
+			.map(transaction => {
+				return {
+					fullName: `${transaction.firstname} ${transaction.lastname}`,
+					shortName: `${transaction.firstname} ${transaction.lastname[0]}.`,
+				};
+			})
+			.filter((thing, index, self) => self.findIndex(t => t.fullName === thing.fullName) === index);
+
+		const shortcutsBlocks = [...new Set(people)].slice(0, 3).map(recipient => (
+			<BlockTemplate
+				roundedTop
+				roundedBottom
+				shadow
+				borderForAndroid
+				key={recipient.fullName}
+				onPress={() => this.onChange(recipient.fullName)}
+				style={{ marginRight: 10 }}
+			>
+				<Text style={{ fontSize: 14, fontWeight: 'bold', color: colors.secondary }}>
+					{recipient.shortName}
+				</Text>
+			</BlockTemplate>
+		));
+
+		return (
+			<View style={{ flexDirection: 'row', paddingTop: people.length > 0 ? 10 : 0 }}>
+				{shortcutsBlocks}
+			</View>
+		);
+	}
+
 	renderCancelRecipient() {
 		return (
-			<TouchableOpacity onPress={() => this.handleRecipientSelected(null)}>
+			<TouchableOpacity
+				onPress={() => {
+					this.handleRecipientSelected(null);
+					this.setState({ text: null });
+				}}
+			>
 				<FontAwesomeIcon icon={['fas', 'times']} size={18} color={colors.error} />
 			</TouchableOpacity>
 		);
@@ -125,6 +168,7 @@ export default class RecipientForm extends React.Component {
 						{recipient ? this.renderCancelRecipient() : null}
 					</View>
 					{this.renderErrorMessage()}
+					{text ? null : this.renderShortcuts()}
 				</BlockTemplate>
 				{recipient ? null : this.renderRecipientSuggestions()}
 			</View>

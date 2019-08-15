@@ -112,7 +112,7 @@ class TransferScreen extends React.Component {
 
 	render() {
 		const minAmount = 0.01;
-		const { navigation, suggestionsFetching } = this.props;
+		const { navigation, suggestionsFetching, history, historyFetching } = this.props;
 		const { message, amount, recipientError, amountError, recipient, suggestions } = this.state;
 
 		return (
@@ -125,6 +125,8 @@ class TransferScreen extends React.Component {
 						suggestionsFetching={suggestionsFetching}
 						onChange={this.handleRecipientChange}
 						onSelect={this.handleRecipientSelected}
+						history={history}
+						historyFetching={historyFetching}
 					/>
 				</View>
 				<View style={{ padding: 15, paddingTop: 0 }}>
@@ -151,10 +153,13 @@ class TransferScreen extends React.Component {
 
 const mapStateToProps = ({ payutc }) => {
 	const suggestions = payutc.getUserAutoComplete();
+	const history = payutc.getHistory();
 
 	return {
 		suggestions: suggestions.getData([]),
 		suggestionsFetching: suggestions.isFetching(),
+		history: history.getData({ historique: [] }).historique,
+		historyFetching: history.isFetching(),
 	};
 };
 
