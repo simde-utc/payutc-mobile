@@ -88,3 +88,4 @@ android/local.properties
 
 # Xcode
 xcuserdata/
+ios/Pods
