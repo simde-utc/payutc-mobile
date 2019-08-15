@@ -27,6 +27,7 @@ class CASAuth extends Api {
 
 		return new Promise((resolve, reject) => {
 			Api.fetch(
+				false,
 				resolve,
 				reject,
 				Api.urlWithQueries(this.baseUrl + request, queries),
@@ -73,8 +74,7 @@ class CASAuth extends Api {
 				this.ticket = CASAuth.parseTgt(response);
 
 				return [response, status, url];
-			})
-			.catch(CASAuth.error);
+			});
 	}
 
 	getServiceTicket(service, queries) {
@@ -87,23 +87,7 @@ class CASAuth extends Api {
 			},
 			CASAuth.HEADERS_FORM_URLENCODED,
 			[200]
-		).catch(CASAuth.error);
-	}
-
-	static error(e) {
-		console.warn(e);
-
-		if (e instanceof TypeError) {
-			return [JSON.stringify(e), 523, ''];
-		}
-
-		if (Array.isArray(e) && e.length === 3) {
-			const [a, b, c] = e;
-
-			return [JSON.stringify(a), JSON.stringify(b), JSON.stringify(c)];
-		}
-
-		return ['Erreur réseau', 523, ''];
+		);
 	}
 
 	static parseTgt(content) {

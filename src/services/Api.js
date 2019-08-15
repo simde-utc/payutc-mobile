@@ -62,7 +62,7 @@ export default class Api {
 		return `${url}?${Api.serialize(queries)}`;
 	}
 
-	static handleConnectionIssue(fetchData) {
+	static handleConnectionIssue(...fetchData) {
 		Api.PENDING_REQUESTS.push(fetchData);
 
 		if (Api.PENDING_REQUESTS.length === 1) {
@@ -70,16 +70,16 @@ export default class Api {
 				t('connection_issue'),
 				t('connection_retry'),
 				[
-					{
+					fetchData[0] ? {
 						text: t('cancel'),
 						onPress: () => {
 							const requests = Api.PENDING_REQUESTS;
 							Api.PENDING_REQUESTS = [];
 
-							requests.map(([_, reject]) => reject([null, 523]));
+							requests.map(fetchData => fetchData[2]([null, 523]));
 						},
 						style: 'cancel',
-					},
+					} : {},
 					{
 						text: t('retry'),
 						onPress: () => {
@@ -95,7 +95,7 @@ export default class Api {
 		}
 	}
 
-	static fetch(resolve, reject, url, params, validStatus, json) {
+	static fetch(allowCancel, resolve, reject, url, params, validStatus, json) {
 		fetch(url, params)
 			.then(response => {
 				const toReturn = data => {
@@ -113,11 +113,11 @@ export default class Api {
 				return response.text().then(toReturn);
 			})
 			.catch(() => {
-				Api.handleConnectionIssue([resolve, reject, url, params, validStatus, json]);
+				Api.handleConnectionIssue(allowCancel, resolve, reject, url, params, validStatus, json);
 			});
 	}
 
-	call(request, method, queries, body, headers, validStatus, json = true) {
+	call(request, method, queries, body, headers, validStatus, json = true, allowCancel = true) {
 		const parameters = {
 			credentials: 'same-origin',
 			method: method || Api.GET,
@@ -130,6 +130,7 @@ export default class Api {
 
 		return new Promise((resolve, reject) => {
 			Api.fetch(
+				allowCancel,
 				resolve,
 				reject,
 				Api.urlWithQueries(this.baseUrl + request, queries),

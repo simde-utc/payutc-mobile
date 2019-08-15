@@ -39,8 +39,12 @@ export class PayUTCApi extends Api {
 		return super.call(`${service}/${request}`, method, queries, body, headers, validStatus, json);
 	}
 
+	mustCall(service, request, method, queries, body, headers, validStatus, json = true) {
+		return this.call(service, request, method, queries, body, headers, validStatus, json, false);
+	}
+
 	connectApp() {
-		return this.call(ACCOUNT_SERVICE, LOGIN_APP_URI, Api.POST, AUTH_QUERIES, { key: PAYUTC_KEY });
+		return this.mustCall(ACCOUNT_SERVICE, LOGIN_APP_URI, Api.POST, AUTH_QUERIES, { key: PAYUTC_KEY });
 	}
 
 	connectWithCas(login, password) {
@@ -50,7 +54,7 @@ export class PayUTCApi extends Api {
 					throw 'No tickets !';
 				}
 
-				return this.call(ACCOUNT_SERVICE, LOGIN_CAS_URI, Api.POST, AUTH_QUERIES, {
+				return this.mustCall(ACCOUNT_SERVICE, LOGIN_CAS_URI, Api.POST, AUTH_QUERIES, {
 					service: PAYUTC_API_URL,
 					ticket,
 				})
@@ -75,7 +79,7 @@ export class PayUTCApi extends Api {
 
 	connectWithEmail(login, password) {
 		return this.connectApp().then(() => {
-			return this.call(ACCOUNT_SERVICE, LOGIN_URI, Api.POST, AUTH_QUERIES, {
+			return this.mustCall(ACCOUNT_SERVICE, LOGIN_URI, Api.POST, AUTH_QUERIES, {
 				login,
 				password,
 			})
