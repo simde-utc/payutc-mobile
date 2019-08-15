@@ -109,6 +109,8 @@ export default class RecipientForm extends React.Component {
 								flexGrow: 1,
 								fontSize: 18,
 								color: colors.transfer,
+								padding: 0,
+								margin: 0,
 							}}
 							keyboardType="default"
 							placeholder={t('recipient_placeholder')}
