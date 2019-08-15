@@ -7,11 +7,12 @@
  */
 
 import React from 'react';
-import { FlatList, RefreshControl, Text, TextInput, View, TouchableOpacity } from 'react-native';
+import { Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import colors from '../../styles/colors';
 import BlockTemplate from '../BlockTemplate';
 import { Transfer as t } from '../../utils/i18n';
+import List from '../List';
 
 export default class RecipientForm extends React.Component {
 	constructor(props) {
@@ -55,49 +56,49 @@ export default class RecipientForm extends React.Component {
 	renderCancelRecipient() {
 		return (
 			<TouchableOpacity onPress={() => this.handleRecipientSelected(null)}>
-				<View style={{ padding: 10 }}>
-					<FontAwesomeIcon icon={['fas', 'times']} size={20} color={colors.error} />
-				</View>
+				<FontAwesomeIcon icon={['fas', 'times']} size={18} color={colors.error} />
 			</TouchableOpacity>
 		);
 	}
 
 	renderRecipientSuggestions() {
 		const { suggestions, suggestionsFetching } = this.props;
+		const { text } = this.state;
+
+		if (!text) return null;
 
 		return (
-			<FlatList
-				data={suggestions}
-				keyExtractor={item => item.id.toString()}
-				renderItem={({ item, index }) => (
+			<List
+				items={suggestions}
+				loading={suggestionsFetching}
+				notRoundedTop
+				renderItem={(item, index) => (
 					<BlockTemplate
-						customBackground={index % 2 === 0 ? colors.backgroundBlockAlt : null}
 						onPress={() => this.handleRecipientSelected(item)}
+						customBackground={index % 2 === 0 ? colors.backgroundBlockAlt : colors.backgroundBlock}
 					>
-						<Text style={{ fontSize: 13, color: colors.secondary, marginBottom: 3 }}>
+						<Text style={{ fontSize: 13, fontWeight: 'bold', color: colors.secondary }}>
 							{item.name}
 						</Text>
 					</BlockTemplate>
 				)}
-				refreshControl={
-					<RefreshControl
-						refreshing={suggestionsFetching}
-						onRefresh={() => {}}
-						colors={[colors.secondary]}
-						tintColor={colors.secondary}
-					/>
-				}
+				noEmptyComponent
+				keyExtractor={item => item.id.toString()}
 			/>
 		);
 	}
 
 	render() {
 		const { text } = this.state;
-		const { error, recipient } = this.props;
+		const { error, recipient, suggestionsFetching } = this.props;
 
 		return (
 			<View>
-				<BlockTemplate style={{ paddingBottom: 5 }} roundedTop shadow>
+				<BlockTemplate
+					roundedTop
+					roundedBottom={(error && !suggestionsFetching) || !text || recipient}
+					shadow
+				>
 					<Text
 						style={{ fontSize: 14, fontWeight: 'bold', color: colors.secondary, marginBottom: 5 }}
 					>
@@ -123,10 +124,9 @@ export default class RecipientForm extends React.Component {
 						/>
 						{recipient ? this.renderCancelRecipient() : null}
 					</View>
-					{error ? this.renderErrorMessage() : null}
+					{this.renderErrorMessage()}
 				</BlockTemplate>
 				{recipient ? null : this.renderRecipientSuggestions()}
-				<BlockTemplate style={{ padding: 5 }} roundedBottom />
 			</View>
 		);
 	}
