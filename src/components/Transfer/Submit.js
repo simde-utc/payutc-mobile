@@ -25,7 +25,9 @@ class Submit extends React.Component {
 		return amountAsFloat >= minAmount && amountAsFloat <= credit;
 	}
 
-	accept(dispatch, amountAsFloat, recipient, message, navigation) {
+	accept(amountAsFloat, recipient, message) {
+		const { dispatch, navigation } = this.props;
+
 		dispatch(
 			Config.spinner({
 				visible: true,
@@ -63,11 +65,15 @@ class Submit extends React.Component {
 					})
 				);
 
+				this.cancel(dispatch);
+
 				this.submiting = false;
 			});
 	}
 
-	cancel(dispatch) {
+	refuse() {
+		const { dispatch } = this.props;
+
 		dispatch(
 			Config.spinner({
 				visible: false,
@@ -78,7 +84,7 @@ class Submit extends React.Component {
 	}
 
 	submit() {
-		const { dispatch, navigation } = this.props;
+		const { dispatch } = this.props;
 
 		// Avoid multiple sumbits on laggy phones...
 		if (this.submiting) {
@@ -123,10 +129,10 @@ class Submit extends React.Component {
 				t('confirm_title'),
 				t('confirm_message', { amount: floatToEuro(amountAsFloat), name: recipient.name }),
 				[
-					{ text: _('cancel'), onPress: () => this.cancel(dispatch) },
+					{ text: _('cancel'), onPress: () => this.refuse() },
 					{
 						text: t('confirm'),
-						onPress: () => this.accept(dispatch, amountAsFloat, recipient, message, navigation),
+						onPress: () => this.accept(amountAsFloat, recipient, message),
 						style: 'destructive',
 					},
 				],

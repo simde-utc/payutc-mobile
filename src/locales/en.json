@@ -59,7 +59,7 @@
 			"bg": "😎",
 			"random": "Random",
 			"confirm_title": "Confirm",
-			"confirm_message": "Do you confirm your transfer of ${amount} to ${name} ?",
+			"confirm_message": "Do you confirm your transfer of %{amount} to %{name} ?",
 			"confirm": "Let's go!",
 			"message_suggestions": [
 				"You are a beautiful person !",
