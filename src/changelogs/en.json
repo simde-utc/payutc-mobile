@@ -2,11 +2,11 @@
 	"v1.0.0": [
 		"First release",
 		{
-			"title": "Nouveautés",
+			"title": "New features",
 			"data": [
 				"Auto connection (with disconnect link)",
 				"Show balance",
-				"Show week consumtion",
+				"Show week consumption",
 				{
 					"title": "Show history",
 					"data": [

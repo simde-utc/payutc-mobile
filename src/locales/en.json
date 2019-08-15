@@ -210,6 +210,8 @@
 		"Changelog": {
 			"title": "Changelog",
 			"version": "Version %{version}",
+			"go_to_store": "See the application on the Store",
+			"update_store": "Update to version %{version}",
 		},
 		"Terms": {
 			"title": "Legal terms (in French)",

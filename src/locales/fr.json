@@ -213,6 +213,8 @@
 		"Changelog": {
 			"title": "Changements",
 			"version": "Version %{version}",
+			"go_to_store": "Voir l'application sur le Store",
+			"update_store": "Mettre à jour vers la version %{version}",
 		},
 		"Terms": {
 			"title": "Mentions légales",

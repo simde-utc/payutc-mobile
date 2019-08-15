@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import { ScrollView, View, Linking, Text, Platform } from 'react-native';
+import { ScrollView, View, Linking, Text } from 'react-native';
 import { connect } from 'react-redux';
 import VersionNumber from 'react-native-version-number';
 import colors from '../../styles/colors';
@@ -15,7 +15,6 @@ import Paragraphe from '../../components/Paragraphe';
 import { _, About as t } from '../../utils/i18n';
 import { GitHub } from '../../redux/actions';
 import GitHubService from '../../services/GitHub';
-import { IOS_STORE_URL, ANDROID_STORE_URL } from '../../../config';
 
 const buttons = ['Terms', 'Dependencies', 'License', 'Contributors'];
 
@@ -70,7 +69,7 @@ class AboutScreen extends React.Component {
 			t('need_update'),
 			colors.less,
 			t('update_version', { current: appVersion, next: tagName }),
-			() => Linking.openURL(Platform.OS === 'ios' ? IOS_STORE_URL : ANDROID_STORE_URL),
+			() => navigation.navigate('Changelog'),
 		];
 	}
 
