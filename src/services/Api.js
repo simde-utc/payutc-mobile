@@ -70,16 +70,18 @@ export default class Api {
 				t('connection_issue'),
 				t('connection_retry'),
 				[
-					fetchData[0] ? {
-						text: t('cancel'),
-						onPress: () => {
-							const requests = Api.PENDING_REQUESTS;
-							Api.PENDING_REQUESTS = [];
+					fetchData[0]
+						? {
+								text: t('cancel'),
+								onPress: () => {
+									const requests = Api.PENDING_REQUESTS;
+									Api.PENDING_REQUESTS = [];
 
-							requests.map(fetchData => fetchData[2]([null, 523]));
-						},
-						style: 'cancel',
-					} : {},
+									requests.map(fetchData => fetchData[2]([null, 523]));
+								},
+								style: 'cancel',
+						  }
+						: {},
 					{
 						text: t('retry'),
 						onPress: () => {

@@ -44,7 +44,9 @@ export class PayUTCApi extends Api {
 	}
 
 	connectApp() {
-		return this.mustCall(ACCOUNT_SERVICE, LOGIN_APP_URI, Api.POST, AUTH_QUERIES, { key: PAYUTC_KEY });
+		return this.mustCall(ACCOUNT_SERVICE, LOGIN_APP_URI, Api.POST, AUTH_QUERIES, {
+			key: PAYUTC_KEY,
+		});
 	}
 
 	connectWithCas(login, password) {

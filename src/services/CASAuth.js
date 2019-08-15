@@ -69,12 +69,11 @@ class CASAuth extends Api {
 			},
 			CASAuth.HEADERS_FORM_URLENCODED,
 			[201]
-		)
-			.then(([response, status, url]) => {
-				this.ticket = CASAuth.parseTgt(response);
+		).then(([response, status, url]) => {
+			this.ticket = CASAuth.parseTgt(response);
 
-				return [response, status, url];
-			});
+			return [response, status, url];
+		});
 	}
 
 	getServiceTicket(service, queries) {
