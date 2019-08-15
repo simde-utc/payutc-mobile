@@ -9,15 +9,16 @@
 import React from 'react';
 import { RefreshControl, Text, View } from 'react-native';
 import { connect } from 'react-redux';
+import VersionNumber from 'react-native-version-number';
+import List from '../../components/List';
 import colors from '../../styles/colors';
 import Balance from '../../components/Home/Balance';
 import Shortcuts from '../../components/Home/Shortcuts';
 import BlockTemplate from '../../components/BlockTemplate';
 import Item from '../../components/History/Item';
-import { PayUTC } from '../../redux/actions';
+import { GitHub, PayUTC } from '../../redux/actions';
 import { _, Home as t } from '../../utils/i18n';
 import { totalAmount } from '../../utils/stats';
-import List from '../../components/List';
 
 class HomeScreen extends React.Component {
 	static navigationOptions = () => ({
@@ -37,9 +38,14 @@ class HomeScreen extends React.Component {
 	}
 
 	componentDidMount() {
-		const { navigation } = this.props;
+		const { dispatch, navigation } = this.props;
 
 		this.subscriptions = [navigation.addListener('willFocus', this.handleNavigationOnFocus)];
+
+		const action = GitHub.getLastestRelease();
+
+		dispatch(action);
+		action.payload.then(([release]) => this.checkNewUpdate(release));
 
 		this.onRefresh();
 	}
@@ -66,6 +72,22 @@ class HomeScreen extends React.Component {
 		});
 	}
 
+	checkNewUpdate({ tag_name: tagName }) {
+		const { navigation } = this.props;
+		const { message } = this.state;
+		const { appVersion } = VersionNumber;
+
+		if (!message.message && appVersion && tagName && `v${appVersion}` !== tagName) {
+			this.setState({
+				message: {
+					message: t('new_update', { version: tagName }),
+					backgroundColor: colors.transfer,
+					onPress: () => navigation.navigate('Changelog'),
+				},
+			});
+		}
+	}
+
 	render() {
 		const { details, detailsFetching, history, historyFetching, navigation } = this.props;
 		const { message } = this.state;
@@ -89,7 +111,13 @@ class HomeScreen extends React.Component {
 						roundedBottom
 						shadow
 						style={{ marginBottom: 15, backgroundColor: message.backgroundColor || colors.more }}
-						onPress={() => this.setState({ message: {} })}
+						onPress={() => {
+							if (message.onPress) {
+								message.onPress();
+							}
+
+							this.setState({ message: {} });
+						}}
 					>
 						<Text
 							style={{

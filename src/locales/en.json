@@ -20,7 +20,8 @@
 			"all_history": "See all my history...",
 			"cannot_fetch_wallet": "An error occured when fetching your information.",
 			"week_positive": "credited this week.",
-			"week_negative": "spent this week."
+			"week_negative": "spent this week.",
+			"new_update": "A new update is available (version %{version}). Click here to install.",
 		},
 		"Refill": {
 			"title": "Refill",

@@ -23,7 +23,8 @@
 				"one": "dépensé cette semaine.",
 				"other": "dépensés cette semaine.",
 				"zero": "dépensé cette semaine."
-			}
+			},
+			"new_update": "Une nouvelle mise à jour est disponible (version %{version}). Cliquez ici pour l'installer",
 		},
 		"Refill": {
 			"title": "Rechargement",
