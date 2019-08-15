@@ -19,26 +19,21 @@ class CASAuth extends Api {
 	}
 
 	call(request, method, queries, body, headers, validStatus) {
-		return new Promise((resolve, reject) => {
-			return fetch(Api.urlWithQueries(this.baseUrl + request, queries), {
-				method: method || Api.GET,
-				headers: headers || {},
-				body: Api.serialize(body),
-			})
-				.then(response => {
-					if ((validStatus || Api.VALID_STATUS).includes(response.status)) {
-						return response.text().then(text => {
-							return resolve([text, response.status, response.url]);
-						});
-					}
+		const parameters = {
+			method: method || Api.GET,
+			headers: headers || {},
+			body: Api.serialize(body),
+		};
 
-					return response.text().then(text => {
-						return reject([text, response.status, response.url]);
-					});
-				})
-				.catch(e => {
-					return reject([e.message, 523, '']);
-				});
+		return new Promise((resolve, reject) => {
+			Api.fetch(
+				resolve,
+				reject,
+				Api.urlWithQueries(this.baseUrl + request, queries),
+				parameters,
+				validStatus || Api.VALID_STATUS,
+				false
+			);
 		});
 	}
 
