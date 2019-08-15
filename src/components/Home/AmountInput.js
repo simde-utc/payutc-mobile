@@ -18,9 +18,7 @@ export default function AmountInput({ value, error, maxLength, onChange, tintCol
 					fontSize: 70,
 					fontWeight: 'bold',
 					color: error == null ? tintColor : colors.error,
-					alignSelf: 'center',
 					textAlign: 'right',
-					width: value ? 'auto' : 180,
 					padding: 0,
 					margin: 0,
 				}}
