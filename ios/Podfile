@@ -35,6 +35,8 @@ target 'PayUTC' do
 
   pod 'react-native-version-number', :path => '../node_modules/react-native-version-number'
 
+  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+
   target 'PayUTCTests' do
     inherit! :search_paths
   end
