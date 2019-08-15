@@ -9,6 +9,7 @@
 
 import React from 'react';
 import { View, Text, Image, Platform, NativeModules, ActivityIndicator } from 'react-native';
+import VersionNumber from 'react-native-version-number';
 import { connect } from 'react-redux';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
@@ -19,7 +20,7 @@ import CASAuth from '../services/CASAuth';
 import Storage from '../services/Storage';
 import payutcLogo from '../images/payutc-logo.png';
 import colors from '../styles/colors';
-import { Config } from '../redux/actions';
+import { GitHub, Config } from '../redux/actions';
 import i18n, { AppLoader as t } from '../utils/i18n';
 import config from '../../config';
 import configExemple from '../../config.example';
@@ -61,6 +62,29 @@ class AppLoaderScreen extends React.Component {
 		this.bootstrap()
 			.then(this.appLoaded.bind(this))
 			.catch(error => AppLoaderScreen.handleError.bind(this, error));
+	}
+
+	checkApp() {
+		const { dispatch, navigation } = this.props;
+
+		const action = GitHub.getLastestRelease();
+		dispatch(action);
+
+		return action.payload.then(([{ tag_name: tagName }]) => {
+			const { appVersion } = VersionNumber;
+
+			if (appVersion && tagName && `v${appVersion}` !== tagName) {
+				this.setState({
+					data: {
+						message: t('new_update', { version: tagName }),
+						backgroundColor: colors.transfer,
+						onPress: () => navigation.navigate('Changelog'),
+					},
+				});
+			}
+
+			return this.loadData();
+		});
 	}
 
 	areTermsValidated() {
@@ -163,7 +187,7 @@ class AppLoaderScreen extends React.Component {
 					dispatch(Config.setLang(lang.split('_')[0]));
 				}
 
-				return this.loadData();
+				return this.checkApp();
 			})
 			.catch(() => this.reinitData());
 	}

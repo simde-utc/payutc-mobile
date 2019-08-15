@@ -7,6 +7,7 @@
 			"reset_data": "Wipping data...",
 			"config_keys_error": "The config file is not the same as the example one. Some keys are missing.",
 			"config_values_error": "Some keys are not filled in your config file. This will cause issues.",
+			"new_update": "A new update is available (version %{version}). Click here to install.",
 		},
 		"Home": {
 			"title": "Home",
@@ -21,7 +22,6 @@
 			"cannot_fetch_wallet": "An error occured when fetching your information.",
 			"week_positive": "credited this week.",
 			"week_negative": "spent this week.",
-			"new_update": "A new update is available (version %{version}). Click here to install.",
 		},
 		"Refill": {
 			"title": "Refill",
