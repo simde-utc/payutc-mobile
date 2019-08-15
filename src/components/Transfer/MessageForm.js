@@ -16,7 +16,7 @@ export default class MessageForm extends React.Component {
 	constructor(props) {
 		super(props);
 
-		this.state = { text: null };
+		this.state = { text: '' };
 		this.maxLength = 255;
 		this.messages = t('message_suggestions');
 
