@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import { FlatList, Linking, ScrollView, Text, View, Platform } from 'react-native';
+import { Linking, ScrollView, Text, View, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import VersionNumber from 'react-native-version-number';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
@@ -99,6 +99,7 @@ class ChangelogScreen extends React.Component {
 	render() {
 		const { lang } = this.props;
 		const changelog = CHANGELOGS[lang];
+		const appVersion = `v${VersionNumber.appVersion}`;
 
 		return (
 			<ValidationScreen
@@ -107,39 +108,34 @@ class ChangelogScreen extends React.Component {
 				onPress={() => Linking.openURL(Platform.OS === 'ios' ? IOS_STORE_URL : ANDROID_STORE_URL)}
 			>
 				<ScrollView style={{ backgroundColor: colors.backgroundLight }}>
-					<View style={{ padding: 15 }}>
-						<FlatList
-							data={Object.keys(changelog)}
-							keyExtractor={version => version}
-							renderItem={({ item: version }) => {
-								const versionUrl = GitHubService.getVersionUrl(version);
-								const onPress = () => Linking.openURL(versionUrl);
+					<View style={{ padding: 15, paddingBottom: 0 }}>
+						{changelog.map(({ version, data }) => {
+							const versionUrl = GitHubService.getVersionUrl(version);
+							const onPress = () => Linking.openURL(versionUrl);
 
-								return (
-									<>
-										<List
-											title={t('version', { version })}
-											onPress={onPress}
-											items={changelog[version]}
-											keyExtractor={item => `${version}.${item.title || item}`}
-											renderItem={item => ChangelogScreen.renderItem(item, 15)}
-										/>
-										<BlockTemplate roundedBottom onPress={onPress}>
-											<Text
-												style={{
-													fontSize: 12,
-													fontWeight: 'bold',
-													color: colors.transfer,
-												}}
-											>
-												{versionUrl.replace(/http(s?):\/\//, '')}
-											</Text>
-										</BlockTemplate>
-									</>
-								);
-							}}
-							ItemSeparatorComponent={<View style={{ height: 15 }} />}
-						/>
+							return (
+								<View style={{ paddingBottom: 15 }} key={version}>
+									<List
+										title={t(appVersion === version ? 'actual_version' : 'version', { version })}
+										onPress={onPress}
+										items={data}
+										keyExtractor={item => `${version}.${item.title || item}`}
+										renderItem={item => ChangelogScreen.renderItem(item, 15)}
+									/>
+									<BlockTemplate roundedBottom onPress={onPress}>
+										<Text
+											style={{
+												fontSize: 12,
+												fontWeight: 'bold',
+												color: colors.transfer,
+											}}
+										>
+											{versionUrl.replace(/http(s?):\/\//, '')}
+										</Text>
+									</BlockTemplate>
+								</View>
+							);
+						})}
 					</View>
 				</ScrollView>
 			</ValidationScreen>

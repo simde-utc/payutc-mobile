@@ -209,6 +209,7 @@
 		},
 		"Changelog": {
 			"title": "Changelog",
+			"actual_version": "Actual version: %{version}",
 			"version": "Version %{version}",
 			"go_to_store": "See the application on the Store",
 			"update_store": "Update to version %{version}",

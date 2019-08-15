@@ -212,6 +212,7 @@
 		},
 		"Changelog": {
 			"title": "Changements",
+			"actual_version": "Version actuelle: %{version}",
 			"version": "Version %{version}",
 			"go_to_store": "Voir l'application sur le Store",
 			"update_store": "Mettre à jour vers la version %{version}",
