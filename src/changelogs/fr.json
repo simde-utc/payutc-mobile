@@ -1,0 +1,42 @@
+[
+	{
+		"version": "v1.0.0",
+		"data": [
+			"Première publication",
+			{
+				"title": "Nouveautés",
+				"data": [
+					"Auto connexion (avec lien de déconnexion)",
+					"Affiche la balance",
+					"Affiche la consommation hebdomadaire",
+					{
+						"title": "Affiche l'historique",
+						"data": [
+							"Recherche possible",
+							"Par période: 10 derniers, jour, semaine, mois, toujours",
+							"Par catégorie: tous, achats, rechargements, transferts"
+						]
+					},
+					{
+						"title": "Affiche des statistiques",
+						"data": [
+							"Nombre de transactions, total en €, reçus, envoyés, première transaction",
+							"Par période: 10 derniers, jour, semaine, mois, toujours",
+							"Par catégorie: tous, achats, rechargements, transferts"
+						]
+					},
+					"Support des langues: français et anglais dans un premier temps",
+					"Vérouiller/déverouiller le badge",
+					"Nous contacter",
+					"Termes légaux",
+					"Liste des dépendances",
+					"Licence",
+					"Affichage de l'équipe de développeurs",
+					"Lien problème",
+					"Lien GitHub",
+					"Vérification de la version"
+				]
+			}
+		]
+	}
+]

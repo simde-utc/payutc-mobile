@@ -62,7 +62,7 @@ typings/
 
 # Expo gitignore
 
-.expo/*
+.expo
 npm-debug.*
 *.jks
 *.p12
@@ -71,3 +71,21 @@ npm-debug.*
 *.orig.*
 web-build/
 web-report/
+
+# idea projects
+.idea
+
+# macOs things
+.DS_Store
+
+/config.js
+
+# Android
+android/.gradle
+android/app/build
+android/build
+android/local.properties
+
+# Xcode
+xcuserdata/
+ios/Pods

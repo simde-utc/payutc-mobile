@@ -45,7 +45,7 @@
     "semi": [1, "always"],
     "indent": [0, "tab"],
     "no-console": 0,
-    "no-case-declarations": 1,
+    "no-case-declarations": 0,
     "no-fallthrough": 0,
     "no-plusplus": 0,
     "no-unused-vars": [1,
@@ -65,7 +65,7 @@
     "react/jsx-filename-extension": 0,
     "react/jsx-uses-vars": 2,
     "react/no-did-mount-set-state": 2,
-    "react/no-did-update-set-state": 2,
+    "react/no-did-update-set-state": 0,
     "react/no-multi-comp": 0,
     "react/no-unknown-property": 2,
     "react/prop-types": 0,
@@ -96,6 +96,8 @@
 	"new-cap": 0,
 	"no-continue": 0,
 	"no-return-assign": 0,
-	"import/no-cycle": 0
+	"import/no-cycle": 0,
+	"react/display-name": 0,
+	"no-nested-ternary": 0
   }
 }
