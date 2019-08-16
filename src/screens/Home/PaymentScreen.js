@@ -108,7 +108,7 @@ const mapStateToProps = ({ payutc }) => {
 	const history = payutc.getHistory();
 
 	return {
-		history: history.getData({ historique: [] }).historique,
+		history: history.getData([]),
 	};
 };
 

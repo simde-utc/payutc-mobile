@@ -7,6 +7,7 @@
  */
 
 import { floatToEuro } from './index';
+import { SALE, TRANSFER_OUT, TRANSFER_IN } from '../components/History/Transaction';
 
 export const numberOfTransactions = history => {
 	return history.length;
@@ -16,7 +17,8 @@ export const firstTransaction = history => {
 	return history.length > 0 ? history[history.length - 1].date : null;
 };
 
-const getQuantityForTransaction = ({ quantity, amount }) => (quantity === amount ? 1 : quantity);
+const getQuantityForTransaction = ({ quantity, variation }) =>
+	quantity === -variation ? 1 : quantity;
 
 const total = (history, type, countAttribute, since) => {
 	return history
@@ -32,19 +34,19 @@ const total = (history, type, countAttribute, since) => {
 };
 
 export const purchasesAmount = (history, since) => {
-	return floatToEuro(total(history, 'PURCHASE', 'amount', since) / 100);
+	return floatToEuro(-total(history, SALE, 'variation', since) / 100);
 };
 
 export const purchasesCount = (history, since) => {
-	return total(history, 'PURCHASE', 'quantity', since);
+	return total(history, SALE, 'quantity', since);
 };
 
 export const receivedAmount = (history, since) => {
-	return floatToEuro(total(history, 'VIRIN', 'amount', since) / 100);
+	return floatToEuro(total(history, TRANSFER_IN, 'variation', since) / 100);
 };
 
 export const givenAmount = (history, since) => {
-	return floatToEuro(total(history, 'VIROUT', 'amount', since) / 100);
+	return floatToEuro(-total(history, TRANSFER_OUT, 'variation', since) / 100);
 };
 
 const sortedItems = (history, type, displayedAttributes, countAttribute) => {
@@ -59,7 +61,7 @@ const sortedItems = (history, type, displayedAttributes, countAttribute) => {
 				count:
 					countAttribute === 'quantity'
 						? getQuantityForTransaction(transaction)
-						: transaction[countAttribute],
+						: Math.abs(transaction[countAttribute]),
 			};
 		})
 		.forEach(key => {
@@ -79,23 +81,23 @@ const sortedItems = (history, type, displayedAttributes, countAttribute) => {
 };
 
 export const mostPurchasedItems = history => {
-	return sortedItems(history, 'PURCHASE', ['name'], 'quantity');
+	return sortedItems(history, SALE, ['item'], 'quantity');
 };
 
 export const mostSpentItems = history => {
-	return sortedItems(history, 'PURCHASE', ['name'], 'amount');
+	return sortedItems(history, SALE, ['item'], 'variation');
 };
 
 export const mostReceivedFromPersons = history => {
-	return sortedItems(history, 'VIRIN', ['firstname', 'lastname'], 'amount');
+	return sortedItems(history, TRANSFER_IN, ['other_name'], 'variation');
 };
 
 export const mostGivenToPeople = history => {
-	return sortedItems(history, 'VIROUT', ['firstname', 'lastname'], 'amount');
+	return sortedItems(history, TRANSFER_OUT, ['other_name'], 'variation');
 };
 
 export const totalAmount = (history, since) => {
-	const purchases = total(history, 'PURCHASE', 'amount', since);
-	const transfers = total(history, 'VIROUT', 'amount', since);
+	const purchases = total(history, SALE, 'variation', since);
+	const transfers = total(history, TRANSFER_OUT, 'variation', since);
 	return purchases + transfers;
 };

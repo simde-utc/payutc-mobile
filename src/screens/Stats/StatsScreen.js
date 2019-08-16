@@ -67,7 +67,7 @@ class StatsScreen extends React.Component {
 		const { historyFetching, dispatch } = this.props;
 
 		if (!historyFetching) {
-			dispatch(PayUTC.getHistory());
+			dispatch(PayUTC.getLastHistory());
 		}
 	}
 
@@ -191,7 +191,7 @@ const mapStateToProps = ({ payutc, config: { preferences } }) => {
 
 	return {
 		preferences,
-		history: history.getData({ historique: [] }).historique,
+		history: history.getData([]),
 		historyFetching: history.isFetching(),
 		historyFetched: history.isFetched(),
 	};

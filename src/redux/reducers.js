@@ -67,6 +67,16 @@ const generalReducer = type => (state, action) => {
 
 	switch (status) {
 		case PENDING:
+			if (method === 'getLastHistory') {
+				const historyState = generateNewStore(newState.getHistory());
+				delete newState.getHistory();
+
+				historyState.fetching = true;
+				historyState.fetched = false;
+				historyState.failed = false;
+				historyState.code = null;
+			}
+
 			methodState.fetching = true;
 			methodState.fetched = false;
 			methodState.failed = false;
@@ -75,22 +85,6 @@ const generalReducer = type => (state, action) => {
 			break;
 
 		case SUCCEEDED:
-			[data, code] = action.payload;
-
-			if (code === 523) {
-				methodState.fetching = false;
-				methodState.fetched = true;
-			} else {
-				delete methodState.data;
-				methodState.data = data;
-				methodState.fetching = false;
-				methodState.fetched = true;
-				methodState.failed = false;
-				methodState.code = code;
-			}
-
-			break;
-
 		case FAILED:
 		default:
 			[data, code] = action.payload;
@@ -99,13 +93,45 @@ const generalReducer = type => (state, action) => {
 				methodState.fetching = false;
 				methodState.fetched = true;
 			} else {
-				delete methodState.data;
-				methodState.data = data;
+				if (method === 'getLastHistory') {
+					const historyState = generateNewStore(newState.getHistory());
+					delete newState.getHistory();
+
+					if (historyState.lastId === null) {
+						historyState.data = data;
+					} else {
+						for (let i = 0; i < data.length; i++) {
+							if (data[i].id === historyState.lastId) {
+								break;
+							}
+
+							historyState.data.splice(i, 0, data[i]);
+						}
+					}
+
+					historyState.lastId = historyState.data.length ? historyState.data[0].id : null;
+					historyState.fetching = false;
+					historyState.fetched = status === SUCCEEDED;
+					historyState.failed = status === FAILED;
+					historyState.code = code;
+
+					newState.getHistory = historyState;
+				} else {
+					delete methodState.data;
+					methodState.data = data;
+				}
+
+				if (method === 'getHistory') {
+					methodState.lastId = data.length ? data[0].id : null;
+				}
+
 				methodState.fetching = false;
-				methodState.fetched = false;
-				methodState.failed = true;
+				methodState.fetched = status === SUCCEEDED;
+				methodState.failed = status === FAILED;
 				methodState.code = code;
 			}
+
+			break;
 	}
 
 	newState[method] = methodState;

@@ -37,11 +37,11 @@ class HomeScreen extends React.Component {
 	}
 
 	componentDidMount() {
-		const { navigation } = this.props;
+		const { dispatch, navigation } = this.props;
 
 		this.subscriptions = [navigation.addListener('willFocus', this.handleNavigationOnFocus)];
 
-		this.onRefresh();
+		dispatch(PayUTC.getHistory());
 	}
 
 	componentWillUnmount() {
@@ -56,7 +56,7 @@ class HomeScreen extends React.Component {
 		}
 
 		if (!historyFetching) {
-			dispatch(PayUTC.getHistory());
+			dispatch(PayUTC.getLastHistory());
 		}
 	}
 
@@ -113,7 +113,7 @@ class HomeScreen extends React.Component {
 					<Balance
 						amount={amount}
 						loading={detailsFetching}
-						name={details.first_name}
+						name={details.user.first_name}
 						weekAmount={totalAmount(history, oneWeekAgo) / 100}
 						onRefresh={() => this.onRefresh()}
 					/>
@@ -168,7 +168,7 @@ const mapStateToProps = ({ payutc }) => {
 		details: details.getData({}),
 		detailsFetching: details.isFetching(),
 		detailsFetched: details.isFetched(),
-		history: history.getData({ historique: [] }).historique,
+		history: history.getData([]),
 		historyFetching: history.isFetching(),
 		historyFetched: history.isFetched(),
 	};

@@ -89,3 +89,4 @@ android/local.properties
 # Xcode
 xcuserdata/
 ios/Pods
+android/app/release

@@ -14,6 +14,7 @@ import colors from '../../styles/colors';
 import TitleParams from '../../components/TitleParams';
 import BlockTemplate from '../../components/BlockTemplate';
 import HistoryList from '../../components/History/HistoryList';
+import { SALE, TRANSFER, REFILL } from '../../components/History/Transaction';
 import { Config, PayUTC } from '../../redux/actions';
 import TabsBlockTemplate from '../../components/TabsBlockTemplate';
 import { firstTransaction } from '../../utils/stats';
@@ -64,7 +65,7 @@ class HistoryScreen extends React.Component {
 		const { historyFetching, dispatch } = this.props;
 
 		if (!historyFetching) {
-			dispatch(PayUTC.getHistory());
+			dispatch(PayUTC.getLastHistory());
 		}
 	}
 
@@ -180,7 +181,7 @@ class HistoryScreen extends React.Component {
 							children: () => (
 								<HistoryList
 									loading={historyFetching}
-									items={this.getHistory('PURCHASE')}
+									items={this.getHistory(SALE)}
 									title={t('purchased_desc', { since: since.toLowerCase() })}
 								/>
 							),
@@ -190,7 +191,7 @@ class HistoryScreen extends React.Component {
 							children: () => (
 								<HistoryList
 									loading={historyFetching}
-									items={this.getHistory('RECHARGE')}
+									items={this.getHistory(REFILL)}
 									title={t('refills_desc', { since: since.toLowerCase() })}
 								/>
 							),
@@ -200,7 +201,7 @@ class HistoryScreen extends React.Component {
 							children: () => (
 								<HistoryList
 									loading={historyFetching}
-									items={this.getHistory('VIR')}
+									items={this.getHistory(TRANSFER)}
 									title={t('transfers_desc', { since: since.toLowerCase() })}
 								/>
 							),
@@ -217,7 +218,7 @@ const mapStateToProps = ({ payutc, config: { preferences } }) => {
 
 	return {
 		preferences,
-		history: history.getData({ historique: [] }).historique,
+		history: history.getData([]),
 		historyFetching: history.isFetching(),
 		historyFetched: history.isFetched(),
 	};

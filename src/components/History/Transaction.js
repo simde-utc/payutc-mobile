@@ -11,6 +11,12 @@ import { Text, View } from 'react-native';
 import colors from '../../styles/colors';
 import { floatToEuro } from '../../utils';
 
+export const SALE = 'sale';
+export const TRANSFER = 'transfer_';
+export const TRANSFER_OUT = 'transfer_out';
+export const TRANSFER_IN = 'transfer_in';
+export const REFILL = 'refill';
+
 export default function Transaction({ name, amount, quantity, message, sign, signTintColor }) {
 	return (
 		<View>

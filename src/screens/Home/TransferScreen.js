@@ -157,7 +157,7 @@ const mapStateToProps = ({ payutc }) => {
 	return {
 		suggestions: suggestions.getData([]),
 		suggestionsFetching: suggestions.isFetching(),
-		history: history.getData({ historique: [] }).historique,
+		history: history.getData([]),
 		historyFetching: history.isFetching(),
 	};
 };
