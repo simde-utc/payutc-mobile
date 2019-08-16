@@ -49,6 +49,7 @@ export default function List({
 	notRoundedTop,
 	loading,
 	renderItem,
+	renderFooter,
 	keyExtractor,
 	onPress,
 	refreshControl,
@@ -93,6 +94,7 @@ export default function List({
 					  )
 					: null
 			}
+			ListFooterComponent={renderFooter}
 			refreshControl={refreshControl}
 		/>
 	);
