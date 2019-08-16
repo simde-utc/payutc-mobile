@@ -58,17 +58,7 @@ class Submit extends React.Component {
 					}),
 				});
 			})
-			.catch(() => {
-				dispatch(
-					Config.spinner({
-						visible: false,
-					})
-				);
-
-				this.cancel(dispatch);
-
-				this.submiting = false;
-			});
+			.catch(() => this.refuse());
 	}
 
 	refuse() {
