@@ -66,11 +66,7 @@ export default function List({
 			data={items}
 			keyExtractor={keyExtractor}
 			renderItem={({ item, index }) =>
-				loading ? (
-					<LoadingList />
-				) : (
-					renderItem(item, index, !noBottomBorder && index === items.length - 1)
-				)
+				renderItem(item, index, !noBottomBorder && index === items.length - 1)
 			}
 			ListEmptyComponent={() =>
 				loading ? (
