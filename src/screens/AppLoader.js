@@ -8,7 +8,7 @@
  */
 
 import React from 'react';
-import { View, Text, Image, Platform, NativeModules, ActivityIndicator } from 'react-native';
+import { View, Text, Image, Platform, NativeModules, Alert, ActivityIndicator } from 'react-native';
 import VersionNumber from 'react-native-version-number';
 import { connect } from 'react-redux';
 import { library } from '@fortawesome/fontawesome-svg-core';
@@ -95,6 +95,17 @@ class AppLoaderScreen extends React.Component {
 					matches.length === 2 &&
 					AppLoaderScreen.isVersionDeprecated(appVersion, matches[1])
 				) {
+					Alert.alert(
+						t('need_update'),
+						t('new_update', { version: tagName }),
+						[
+							{
+								text: t('update'),
+							},
+						],
+						{ cancelable: false }
+					);
+
 					return this.setState({ screen: 'Changelog', data: { titled: true } });
 				}
 

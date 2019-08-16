@@ -8,7 +8,9 @@
 			"reset_data": "Wipping data...",
 			"config_keys_error": "The config file is not the same as the example one. Some keys are missing.",
 			"config_values_error": "Some keys are not filled in your config file. This will cause issues.",
-			"new_update": "A new update is available (version %{version}). Click here to install.",
+			"need_update": "Update required !",
+			"new_update": "A new update is available (version %{version}). Click to install.",
+			"update": "Update",
 		},
 		"Home": {
 			"title": "Home",
