@@ -31,7 +31,7 @@ class TransferScreen extends React.Component {
 		super(props);
 
 		this.state = {
-			message: null,
+			message: '',
 			amount: '',
 			recipient: null,
 			suggestions: [],
