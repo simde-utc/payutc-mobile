@@ -16,7 +16,7 @@ export const generateActions = service => {
 		{
 			get: (_, method) => {
 				return (...args) => ({
-					type: method,
+					type: `${service.TYPE}_${method}`,
 					payload: service[method](...args),
 				});
 			},
