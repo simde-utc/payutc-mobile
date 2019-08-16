@@ -1,12 +1,18 @@
 {
 	"screens": {
 		"AppLoader": {
+			"checking": "Application checking...",
 			"loading": "Application loading...",
 			"connect_cas": "CAS-UTC reconnection...",
 			"reconnection": "Reconnection...",
 			"reset_data": "Wipping data...",
 			"config_keys_error": "The config file is not the same as the example one. Some keys are missing.",
 			"config_values_error": "Some keys are not filled in your config file. This will cause issues.",
+			"need_update": "Update required !",
+			"new_update": "A new update is available (version %{version}). Click to install.",
+			"update": "Update",
+			"need_terms": "New terms !",
+			"new_terms": "New terms were published. In order to use the application, you have to reconnect before accepting them.",
 		},
 		"Home": {
 			"title": "Home",
@@ -20,7 +26,7 @@
 			"all_history": "See all my history...",
 			"cannot_fetch_wallet": "An error occured when fetching your information.",
 			"week_positive": "credited this week.",
-			"week_negative": "spent this week."
+			"week_negative": "spent this week.",
 		},
 		"Refill": {
 			"title": "Refill",
@@ -159,8 +165,9 @@
 			"report_bug": "Report a bug",
 			"developed_github": "Code distributed on GitHub",
 			"developed_disc": "The application and its code are owned by the SiMDE-UTC (conventionned commission of the BDE-UTC).\nEach file is also owned by their authors.\n\nAll kind of contributions are deeply appreciated.",
+			"dev_version": "Application in development !",
+			"in_development": "The application can not be updated when it is in development under Expo.",
 			"up_to_date": "Application up to date !",
-			"in_development": "The application is still in development.",
 			"actual_version": "The application is under version %{current}.",
 			"need_update": "The application needs to be updated !",
 			"update_version": "The application is under version %{current}. Click to update to version %{next}.",
@@ -211,7 +218,11 @@
 		},
 		"Changelog": {
 			"title": "Changelog",
+			"lang": "Application language :",
+			"actual_version": "Actual version: %{version}",
 			"version": "Version %{version}",
+			"go_to_store": "See the application on the Store",
+			"update_store": "Update to version %{version}",
 		},
 		"Terms": {
 			"title": "Legal terms (in French)",

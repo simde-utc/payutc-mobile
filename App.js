@@ -12,6 +12,7 @@ import { createAppContainer, createSwitchNavigator, SafeAreaView } from 'react-n
 import { Provider, connect } from 'react-redux';
 import SpinnerOverlay from 'react-native-loading-spinner-overlay';
 import AppLoader from './src/screens/AppLoader';
+import ChangelogScreen from './src/screens/Settings/ChangelogScreen';
 import MainNavigator from './src/navigations/MainNavigator';
 import AuthNavigator from './src/navigations/Auth/AuthNavigator';
 import store from './src/redux/store';
@@ -22,6 +23,7 @@ const AppNavigator = createSwitchNavigator(
 		Loading: AppLoader,
 		Auth: AuthNavigator,
 		Main: MainNavigator,
+		Changelog: ChangelogScreen,
 	},
 	{
 		initialRouteName: 'Loading',

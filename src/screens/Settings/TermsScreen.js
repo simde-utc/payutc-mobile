@@ -6,9 +6,9 @@
  */
 
 import React from 'react';
-import { WebView, View, Text } from 'react-native';
+import { WebView } from 'react-native';
 import { connect } from 'react-redux';
-import BlockTemplate from '../../components/BlockTemplate';
+import ValidationScreen from '../../components/ValidationScreen';
 import { beautifyDateTime } from '../../utils';
 import { _, Terms as t } from '../../utils/i18n';
 import { Config } from '../../redux/actions';
@@ -102,34 +102,20 @@ class TermsScreen extends React.Component {
 		const validated = version === TERMS_VERSION;
 
 		return (
-			<View style={{ flex: 1 }}>
+			<ValidationScreen
+				buttonColor={validated ? colors.more : colors.primary}
+				backgroundColor={colors.backgroundBlock}
+				text={validated ? t('validated', { date: beautifyDateTime(date) }) : t('accept')}
+				disabled={validated}
+				onPress={() => this.validate()}
+			>
 				<WebView
 					style={{ backgroundColor: 'transparent' }}
 					source={{
 						html: `<p style='font-family: sans-serif; text-align: justify; white-space: pre-wrap;'>${TERMS}</p>`,
 					}}
 				/>
-				<BlockTemplate
-					roundedTop
-					roundedBottom
-					shadow
-					customBackground={validated ? colors.more : colors.primary}
-					disabled={validated}
-					style={{ margin: 5 }}
-					onPress={() => this.validate()}
-				>
-					<Text
-						style={{
-							fontSize: 18,
-							fontWeight: 'bold',
-							textAlign: 'center',
-							color: colors.backgroundBlock,
-						}}
-					>
-						{validated ? t('validated', { date: beautifyDateTime(date) }) : t('accept')}
-					</Text>
-				</BlockTemplate>
-			</View>
+			</ValidationScreen>
 		);
 	}
 }

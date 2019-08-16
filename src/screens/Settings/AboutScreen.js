@@ -6,15 +6,15 @@
  */
 
 import React from 'react';
-import { ScrollView, View, Linking, Text, Platform } from 'react-native';
+import { ScrollView, View, Linking, Text } from 'react-native';
 import { connect } from 'react-redux';
 import VersionNumber from 'react-native-version-number';
 import colors from '../../styles/colors';
 import LinkButton from '../../components/LinkButton';
 import Paragraphe from '../../components/Paragraphe';
 import { _, About as t } from '../../utils/i18n';
-import GitHub from '../../services/GitHub';
-import { IOS_STORE_URL, ANDROID_STORE_URL } from '../../../config';
+import { GitHub } from '../../redux/actions';
+import GitHubService from '../../services/GitHub';
 
 const buttons = ['Terms', 'Dependencies', 'License', 'Contributors'];
 
@@ -27,25 +27,36 @@ class AboutScreen extends React.Component {
 		headerTruncatedBackTitle: _('back'),
 	});
 
+	componentDidMount() {
+		const { dispatch } = this.props;
+
+		dispatch(GitHub.getLastestRelease());
+	}
+
 	getApplicationStatus() {
-		const { release, releaseFetching, navigation } = this.props;
+		const {
+			release: { tag_name: tagName },
+			releaseFetching,
+			navigation,
+		} = this.props;
+		let { appVersion } = VersionNumber;
 
 		if (releaseFetching) {
-			return [_('loading_text_replacement'), colors.less, _('loading_text_replacement'), () => {}];
+			return [_('loading_text_replacement'), null, _('loading_text_replacement'), () => {}];
 		}
 
-		if (!release.name) {
+		if (!tagName || !appVersion) {
 			return [
-				t('up_to_date'),
+				t('dev_version'),
 				colors.more,
 				t('in_development'),
 				() => navigation.navigate('Changelog'),
 			];
 		}
 
-		const appVersion = `v${VersionNumber.appVersion}`;
+		appVersion = `v${appVersion}`;
 
-		if (release.name === appVersion) {
+		if (tagName === appVersion) {
 			return [
 				t('up_to_date'),
 				colors.more,
@@ -57,14 +68,14 @@ class AboutScreen extends React.Component {
 		return [
 			t('need_update'),
 			colors.less,
-			t('update_version', { current: appVersion, next: release.name }),
-			() => Linking.openURL(Platform.OS === 'ios' ? IOS_STORE_URL : ANDROID_STORE_URL),
+			t('update_version', { current: appVersion, next: tagName }),
+			() => navigation.navigate('Changelog'),
 		];
 	}
 
 	render() {
 		const { navigation } = this.props;
-		const repoUrl = GitHub.getRepoUrl();
+		const repoUrl = GitHubService.getRepoUrl();
 		const [titleStatus, titleColor, descriptionStatus, onPressStatus] = this.getApplicationStatus();
 
 		return (
@@ -83,7 +94,7 @@ class AboutScreen extends React.Component {
 					<LinkButton
 						text={t('report_bug')}
 						color={colors.less}
-						onPress={() => Linking.openURL(GitHub.getIssueUrl())}
+						onPress={() => Linking.openURL(GitHubService.getIssueUrl())}
 					/>
 					<View style={{ height: 15 }} />
 					<Paragraphe

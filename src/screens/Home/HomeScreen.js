@@ -9,6 +9,7 @@
 import React from 'react';
 import { RefreshControl, Text, View } from 'react-native';
 import { connect } from 'react-redux';
+import List from '../../components/List';
 import colors from '../../styles/colors';
 import Balance from '../../components/Home/Balance';
 import Shortcuts from '../../components/Home/Shortcuts';
@@ -17,7 +18,6 @@ import Item from '../../components/History/Item';
 import { PayUTC } from '../../redux/actions';
 import { _, Home as t } from '../../utils/i18n';
 import { totalAmount } from '../../utils/stats';
-import List from '../../components/List';
 
 class HomeScreen extends React.Component {
 	static navigationOptions = () => ({
@@ -89,7 +89,13 @@ class HomeScreen extends React.Component {
 						roundedBottom
 						shadow
 						style={{ marginBottom: 15, backgroundColor: message.backgroundColor || colors.more }}
-						onPress={() => this.setState({ message: {} })}
+						onPress={() => {
+							if (message.onPress) {
+								message.onPress();
+							}
+
+							this.setState({ message: {} });
+						}}
 					>
 						<Text
 							style={{

@@ -1,12 +1,17 @@
 {
 	"screens": {
 		"AppLoader": {
+			"checking": "Vérification de l'application...",
 			"loading": "Chargement de l'application...",
 			"connect_cas": "Reconnexion au CAS-UTC...",
 			"reconnection": "Reconnexion...",
 			"reset_data": "Réinitialisation des données...",
 			"config_keys_error": "Le fichier de configuration n'est pas le même que celui d'exemple. Certaines clés sont manquantes.",
 			"config_values_error": "Certaines clés du fichier de configuration ne sont pas renseignées. Cela conduira a des erreurs.",
+			"need_update": "Mise à jour requise !",
+			"new_update": "Une nouvelle mise à jour est disponible (version %{version}). Cliquez pour l'installer.",
+			"need_terms": "Nouvelles CGUs !",
+			"new_terms": "De nouvelles CGUs ont été publiées. Pour pouvoir utiliser l'application, vous devez vous reconnecter et les accepter.",
 		},
 		"Home": {
 			"title": "Accueil",
@@ -23,7 +28,7 @@
 				"one": "dépensé cette semaine.",
 				"other": "dépensés cette semaine.",
 				"zero": "dépensé cette semaine."
-			}
+			},
 		},
 		"Refill": {
 			"title": "Rechargement",
@@ -32,7 +37,7 @@
 			"pay": "Accéder au paiement...",
 			"bad_amount": "Le montant doit être compris %{min} entre %{max}.",
 			"amount_error": "Le montant est invalide.",
-			"refill_checks": "Vérfication avant rechargement...",
+			"refill_checks": "Vérification avant rechargement...",
 			"redirect_to_refill": "Redirection vers la page de paiement..."
 		},
 		"Payment": {
@@ -53,7 +58,7 @@
 			"bad_amount": "Le montant doit être compris %{min} entre %{max}.",
 			"recipient_not_found": "Aucun destinataire trouvé.",
 			"amount_error": "Le montant est invalide.",
-			"transfer_checks": "Vérfication avant transfert...",
+			"transfer_checks": "Vérification avant transfert...",
 			"transfering": "Transfert en cours...",
 			"transfer_confirmed": "Transfert de %{amount} confirmé vers %{name}",
 			"thanks": "Merci !",
@@ -162,8 +167,9 @@
 			"report_bug": "Signaler un problème",
 			"developed_github": "Code répertorié sur GitHub",
 			"developed_disc": "L'application et le code appartient au SiMDE-UTC (commission conventionnée par le BDE-UTC).\nChaque fichier appartient de même à ses auteurs.\n\nToute contribution est fortement appréciée.",
+			"dev_version": "Application en developpement !",
+			"in_development": "L'application ne peut être mise à jour lorsqu'elle est en développement sous Expo.",
 			"up_to_date": "Application à jour !",
-			"in_development": "L'application est encore en cours de développement.",
 			"actual_version": "L'application est sous la version %{current}.",
 			"need_update": "L'application n'est pas à jour !",
 			"update_version": "L'application est sous la version %{current}. Cliquez pour mettre à jour vers la version %{next}.",
@@ -214,7 +220,11 @@
 		},
 		"Changelog": {
 			"title": "Changements",
+			"lang": "Langue de l'application :",
+			"actual_version": "Version actuelle: %{version}",
 			"version": "Version %{version}",
+			"go_to_store": "Voir l'application sur le Store",
+			"update_store": "Mettre à jour vers la version %{version}",
 		},
 		"Terms": {
 			"title": "Mentions légales",
