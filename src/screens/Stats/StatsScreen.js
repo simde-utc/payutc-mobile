@@ -64,9 +64,9 @@ class StatsScreen extends React.Component {
 	}
 
 	onRefresh() {
-		const { historyFetching, historyFetched, dispatch } = this.props;
+		const { historyFetching, dispatch } = this.props;
 
-		if (!historyFetching && !historyFetched) {
+		if (!historyFetching) {
 			dispatch(PayUTC.getHistory());
 		}
 	}
