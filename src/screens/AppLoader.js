@@ -25,6 +25,9 @@ import i18n, { AppLoader as t } from '../utils/i18n';
 import config from '../../config';
 import configExemple from '../../config.example';
 
+const REGEX_VERSION = /^([0-9])+\.([0-9])+\.([0-9])-*.*$/;
+const REGEX_DEPRECATED_VERSION = /# Deprecated versions: < v(.*)$/;
+
 class AppLoaderScreen extends React.Component {
 	static loadLibrairies() {
 		library.add(fas);
@@ -48,6 +51,13 @@ class AppLoaderScreen extends React.Component {
 		}
 	}
 
+	static isVersionDeprecated(appVersion, maxVersion) {
+		const [x1, y1, z1] = appVersion.match(REGEX_VERSION).slice(1);
+		const [x2, y2, z2] = maxVersion.match(REGEX_VERSION).slice(1);
+
+		return x1 <= x2 && y1 <= y2 && z1 < z2;
+	}
+
 	constructor(props) {
 		super(props);
 
@@ -67,13 +77,27 @@ class AppLoaderScreen extends React.Component {
 	checkApp() {
 		const { dispatch, navigation } = this.props;
 
+		this.setState({
+			lazyText: 'checking',
+		});
+
 		const action = GitHub.getLastestRelease();
 		dispatch(action);
 
-		return action.payload.then(([{ tag_name: tagName }]) => {
+		return action.payload.then(([{ body, tag_name: tagName }]) => {
 			const { appVersion } = VersionNumber;
 
 			if (appVersion && tagName && `v${appVersion}` !== tagName) {
+				const matches = body.match(REGEX_DEPRECATED_VERSION);
+
+				if (
+					matches &&
+					matches.length === 2 &&
+					AppLoaderScreen.isVersionDeprecated(appVersion, matches[1])
+				) {
+					return this.setState({ screen: 'Changelog', data: { titled: true } });
+				}
+
 				this.setState({
 					data: {
 						message: t('new_update', { version: tagName }),

@@ -10,9 +10,16 @@ import { View, Text } from 'react-native';
 import BlockTemplate from './BlockTemplate';
 import colors from '../styles/colors';
 
-export default function ValidationScreen({ text, children, buttonColor, disabled, onPress }) {
+export default function ValidationScreen({
+	text,
+	children,
+	buttonColor,
+	backgroundColor,
+	disabled,
+	onPress,
+}) {
 	return (
-		<View style={{ flex: 1 }}>
+		<View style={{ flex: 1, backgroundColor: backgroundColor || colors.backgroundLight }}>
 			{children}
 			<BlockTemplate
 				roundedTop
@@ -20,7 +27,7 @@ export default function ValidationScreen({ text, children, buttonColor, disabled
 				shadow
 				customBackground={buttonColor}
 				disabled={disabled}
-				style={{ margin: 5 }}
+				style={{ margin: 5, marginTop: 0 }}
 				onPress={onPress}
 			>
 				<Text

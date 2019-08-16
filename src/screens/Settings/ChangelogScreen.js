@@ -12,11 +12,13 @@ import VersionNumber from 'react-native-version-number';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import ValidationScreen from '../../components/ValidationScreen';
 import BlockTemplate from '../../components/BlockTemplate';
+import TitleParams from '../../components/TitleParams';
+import TabsBlockTemplate from '../../components/TabsBlockTemplate';
 import List from '../../components/List';
-import { GitHub } from '../../redux/actions';
+import { GitHub, Config } from '../../redux/actions';
 import GitHubService from '../../services/GitHub';
 import colors from '../../styles/colors';
-import { Changelog as t } from '../../utils/i18n';
+import { Changelog as t, Global as g } from '../../utils/i18n';
 import { IOS_STORE_URL, ANDROID_STORE_URL } from '../../../config';
 import fr from '../../changelogs/fr';
 import en from '../../changelogs/en';
@@ -96,10 +98,17 @@ class ChangelogScreen extends React.Component {
 		return t('update_store', { version: tagName });
 	}
 
+	setLang(lang) {
+		const { dispatch } = this.props;
+
+		dispatch(Config.setLang(lang));
+	}
+
 	render() {
-		const { lang } = this.props;
+		const { lang, navigation } = this.props;
 		const changelog = CHANGELOGS[lang];
 		const appVersion = `v${VersionNumber.appVersion}`;
+		const titled = navigation.getParam('titled');
 
 		return (
 			<ValidationScreen
@@ -108,6 +117,19 @@ class ChangelogScreen extends React.Component {
 				onPress={() => Linking.openURL(Platform.OS === 'ios' ? IOS_STORE_URL : ANDROID_STORE_URL)}
 			>
 				<ScrollView style={{ backgroundColor: colors.backgroundLight }}>
+					{titled ? (
+						<TitleParams title={t('title')} settingText={g(`langs.${lang}`)}>
+							<TabsBlockTemplate
+								roundedBottom
+								text={t('lang')}
+								tintColor={colors.secondary}
+								value={lang}
+								onChange={this.setLang.bind(this)}
+								style={{ margin: 15, marginTop: 0, borderTopWidth: 0 }}
+								tabs={g('langs')}
+							/>
+						</TitleParams>
+					) : null}
 					<View style={{ padding: 15, paddingBottom: 0 }}>
 						{changelog.map(({ version, data }) => {
 							const versionUrl = GitHubService.getVersionUrl(version);

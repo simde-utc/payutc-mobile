@@ -1,6 +1,7 @@
 {
 	"screens": {
 		"AppLoader": {
+			"checking": "Vérfication de l'application...",
 			"loading": "Chargement de l'application...",
 			"connect_cas": "Reconnexion au CAS-UTC...",
 			"reconnection": "Reconnexion...",
@@ -213,6 +214,7 @@
 		},
 		"Changelog": {
 			"title": "Changements",
+			"lang": "Langue de l'application :",
 			"actual_version": "Version actuelle: %{version}",
 			"version": "Version %{version}",
 			"go_to_store": "Voir l'application sur le Store",

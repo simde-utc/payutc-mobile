@@ -104,6 +104,7 @@ class TermsScreen extends React.Component {
 		return (
 			<ValidationScreen
 				buttonColor={validated ? colors.more : colors.primary}
+				backgroundColor={colors.backgroundBlock}
 				text={validated ? t('validated', { date: beautifyDateTime(date) }) : t('accept')}
 				disabled={validated}
 				onPress={() => this.validate()}
