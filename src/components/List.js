@@ -52,6 +52,7 @@ export default function List({
 	keyExtractor,
 	onPress,
 	refreshControl,
+	noEmptyComponent,
 }) {
 	return (
 		<FlatList
@@ -73,7 +74,7 @@ export default function List({
 			ListEmptyComponent={() =>
 				loading ? (
 					<LoadingList />
-				) : (
+				) : noEmptyComponent ? null : (
 					<BlockTemplate roundedBottom customBackground={colors.backgroundBlockAlt}>
 						<Text style={{ fontSize: 14, fontWeight: 'bold', color: colors.disabled }}>
 							{_('empty_list')}
