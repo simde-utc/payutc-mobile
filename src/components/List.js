@@ -38,6 +38,10 @@ function LoadingList() {
 			<LoadingItem backgroundColor={colors.backgroundBlockAlt} />
 			<LoadingItem backgroundColor={colors.backgroundBlock} />
 			<LoadingItem backgroundColor={colors.backgroundBlockAlt} />
+			<LoadingItem backgroundColor={colors.backgroundBlock} />
+			<LoadingItem backgroundColor={colors.backgroundBlockAlt} />
+			<LoadingItem backgroundColor={colors.backgroundBlock} />
+			<LoadingItem backgroundColor={colors.backgroundBlockAlt} />
 		</>
 	);
 }
@@ -49,6 +53,7 @@ export default function List({
 	notRoundedTop,
 	loading,
 	renderItem,
+	renderFooter,
 	keyExtractor,
 	onPress,
 	refreshControl,
@@ -62,14 +67,10 @@ export default function List({
 				borderTopRightRadius: notRoundedTop ? 0 : 10,
 				borderRadius: 10,
 			}}
-			data={items}
+			data={loading ? [] : items}
 			keyExtractor={keyExtractor}
 			renderItem={({ item, index }) =>
-				loading ? (
-					<LoadingList />
-				) : (
-					renderItem(item, index, !noBottomBorder && index === items.length - 1)
-				)
+				renderItem(item, index, !noBottomBorder && index === items.length - 1)
 			}
 			ListEmptyComponent={() =>
 				loading ? (
@@ -93,6 +94,7 @@ export default function List({
 					  )
 					: null
 			}
+			ListFooterComponent={renderFooter}
 			refreshControl={refreshControl}
 		/>
 	);
