@@ -27,6 +27,14 @@ export default class HistoryList extends React.Component {
 		this.renderFooter = this.renderFooter.bind(this);
 	}
 
+	componentDidUpdate(prevProps) {
+		const { loading } = this.props;
+
+		if (!prevProps.loading && loading) {
+			this.setState({ maxTransactions: LOAD_TRANSACTIONS });
+		}
+	}
+
 	static renderItem(item, index, last = false) {
 		return (
 			<Item

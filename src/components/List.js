@@ -38,6 +38,10 @@ function LoadingList() {
 			<LoadingItem backgroundColor={colors.backgroundBlockAlt} />
 			<LoadingItem backgroundColor={colors.backgroundBlock} />
 			<LoadingItem backgroundColor={colors.backgroundBlockAlt} />
+			<LoadingItem backgroundColor={colors.backgroundBlock} />
+			<LoadingItem backgroundColor={colors.backgroundBlockAlt} />
+			<LoadingItem backgroundColor={colors.backgroundBlock} />
+			<LoadingItem backgroundColor={colors.backgroundBlockAlt} />
 		</>
 	);
 }
@@ -63,7 +67,7 @@ export default function List({
 				borderTopRightRadius: notRoundedTop ? 0 : 10,
 				borderRadius: 10,
 			}}
-			data={items}
+			data={loading ? [] : items}
 			keyExtractor={keyExtractor}
 			renderItem={({ item, index }) =>
 				renderItem(item, index, !noBottomBorder && index === items.length - 1)
