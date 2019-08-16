@@ -21,7 +21,7 @@ import Storage from '../services/Storage';
 import payutcLogo from '../images/payutc-logo.png';
 import colors from '../styles/colors';
 import { GitHub, Config } from '../redux/actions';
-import i18n, { AppLoader as t } from '../utils/i18n';
+import i18n, { _, AppLoader as t } from '../utils/i18n';
 import config from '../../config';
 import configExemple from '../../config.example';
 
@@ -100,7 +100,7 @@ class AppLoaderScreen extends React.Component {
 						t('new_update', { version: tagName }),
 						[
 							{
-								text: t('update'),
+								text: _('ok'),
 							},
 						],
 						{ cancelable: false }
@@ -173,9 +173,18 @@ class AppLoaderScreen extends React.Component {
 
 	login(data) {
 		if (!this.areTermsValidated()) {
-			this.setState({ screen: 'Auth', data });
+			Alert.alert(
+				t('need_terms'),
+				t('new_terms'),
+				[
+					{
+						text: _('ok'),
+					},
+				],
+				{ cancelable: false }
+			);
 
-			return false;
+			return this.setState({ screen: 'Auth', data });
 		}
 
 		if (data.type === PayUTC.CAS_AUTH_TYPE) {

@@ -1,7 +1,7 @@
 {
 	"screens": {
 		"AppLoader": {
-			"checking": "Vérfication de l'application...",
+			"checking": "Vérification de l'application...",
 			"loading": "Chargement de l'application...",
 			"connect_cas": "Reconnexion au CAS-UTC...",
 			"reconnection": "Reconnexion...",
@@ -9,8 +9,9 @@
 			"config_keys_error": "Le fichier de configuration n'est pas le même que celui d'exemple. Certaines clés sont manquantes.",
 			"config_values_error": "Certaines clés du fichier de configuration ne sont pas renseignées. Cela conduira a des erreurs.",
 			"need_update": "Mise à jour requise !",
-			"new_update": "Une nouvelle mise à jour est disponible (version %{version}). Cliquez pour l'installer",
-			"update": "Mettre à jour",
+			"new_update": "Une nouvelle mise à jour est disponible (version %{version}). Cliquez pour l'installer.",
+			"need_terms": "Nouvelles CGUs !",
+			"new_terms": "De nouvelles CGUs ont été publiées. Pour pouvoir utiliser l'application, vous devez vous reconnecter et les accepter.",
 		},
 		"Home": {
 			"title": "Accueil",
@@ -36,7 +37,7 @@
 			"pay": "Accéder au paiement...",
 			"bad_amount": "Le montant doit être compris %{min} entre %{max}.",
 			"amount_error": "Le montant est invalide.",
-			"refill_checks": "Vérfication avant rechargement...",
+			"refill_checks": "Vérification avant rechargement...",
 			"redirect_to_refill": "Redirection vers la page de paiement..."
 		},
 		"Payment": {
@@ -57,7 +58,7 @@
 			"bad_amount": "Le montant doit être compris %{min} entre %{max}.",
 			"recipient_not_found": "Aucun destinataire trouvé.",
 			"amount_error": "Le montant est invalide.",
-			"transfer_checks": "Vérfication avant transfert...",
+			"transfer_checks": "Vérification avant transfert...",
 			"transfering": "Transfert en cours...",
 			"transfer_confirmed": "Transfert de %{amount} confirmé vers %{name}",
 			"thanks": "Merci !",
