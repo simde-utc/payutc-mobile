@@ -34,6 +34,9 @@ export const PAYUTC_SYSTEM_ID = '';
 // PayUTC email adress.
 export const PAYUTC_EMAIL = '';
 
+// PayUTC API version.
+export const PAYUTC_VERSION = '';
+
 // Main team contributors.
 export const CONTRIBUTORS_MAIN_TEAM = {
 	NastuzziSamy: 'project_chief',
@@ -70,6 +73,7 @@ export default {
 	PAYUTC_CALLBACK_URL,
 	PAYUTC_SYSTEM_ID,
 	PAYUTC_EMAIL,
+	PAYUTC_VERSION,
 	CONTRIBUTORS_MAIN_TEAM,
 	CONTRIBUTORS_DESIGN_TEAM,
 	CONTRIBUTORS_OLD_TEAM,
