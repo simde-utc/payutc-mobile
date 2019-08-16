@@ -15,12 +15,12 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
 
 import { TERMS_VERSION } from './Settings/TermsScreen';
-import PayUTC from '../services/PayUTC';
+import PayUTCService from '../services/PayUTC';
 import CASAuth from '../services/CASAuth';
 import Storage from '../services/Storage';
 import payutcLogo from '../images/payutc-logo.png';
 import colors from '../styles/colors';
-import { GitHub, Config } from '../redux/actions';
+import { PayUTC, GitHub, Config } from '../redux/actions';
 import i18n, { _, AppLoader as t } from '../utils/i18n';
 import config from '../../config';
 import configExemple from '../../config.example';
@@ -128,12 +128,25 @@ class AppLoaderScreen extends React.Component {
 		return terms.version === TERMS_VERSION;
 	}
 
+	loadUserData() {
+		const { dispatch } = this.props;
+		const action = PayUTC.getWalletDetails();
+
+		this.setState({
+			lazyText: 'fetch_user_data',
+		});
+
+		dispatch(action);
+
+		return action.payload;
+	}
+
 	loadData() {
 		this.setState({
 			lazyText: 'loading',
 		});
 
-		return PayUTC.getData()
+		return PayUTCService.getData()
 			.then(data => {
 				if (data) {
 					this.setState({
@@ -154,7 +167,7 @@ class AppLoaderScreen extends React.Component {
 	checkCasConnection(ticket, login, password) {
 		return CASAuth.isTicketValid(ticket)
 			.then(() => {
-				return PayUTC.connectWithCas(login, password);
+				return PayUTCService.connectWithCas(login, password).then(() => this.loadUserData());
 			})
 			.catch(() => {
 				this.setState({
@@ -163,7 +176,7 @@ class AppLoaderScreen extends React.Component {
 
 				return CASAuth.login(login, password)
 					.then(() => {
-						return PayUTC.connectWithCas(login, password);
+						return PayUTCService.connectWithCas(login, password).then(() => this.loadUserData());
 					})
 					.catch(() => {
 						return this.reinitData(login);
@@ -187,11 +200,13 @@ class AppLoaderScreen extends React.Component {
 			return this.setState({ screen: 'Auth', data });
 		}
 
-		if (data.type === PayUTC.CAS_AUTH_TYPE) {
+		if (data.type === PayUTCService.CAS_AUTH_TYPE) {
 			return this.checkCasConnection(data.ticket, data.login, data.password);
 		}
-		if (data.type === PayUTC.EMAIL_AUTH_TYPE) {
-			return PayUTC.connectWithEmail(data.login, data.password);
+		if (data.type === PayUTCService.EMAIL_AUTH_TYPE) {
+			return PayUTCService.connectWithEmail(data.login, data.password).then(() =>
+				this.loadUserData()
+			);
 		}
 
 		return this.reinitData();
@@ -208,7 +223,7 @@ class AppLoaderScreen extends React.Component {
 
 		dispatch(Config.wipe());
 
-		return PayUTC.forget();
+		return PayUTCService.forget();
 	}
 
 	bootstrap() {

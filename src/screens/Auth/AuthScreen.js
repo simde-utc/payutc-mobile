@@ -16,8 +16,8 @@ import BlockTemplate from '../../components/BlockTemplate';
 import { TERMS_VERSION } from '../Settings/TermsScreen';
 import Logo from '../../images/payutc-logo.png';
 import CASAuth from '../../services/CASAuth';
-import PayUTC from '../../services/PayUTC';
-import { Config } from '../../redux/actions';
+import PayUTCService from '../../services/PayUTC';
+import { PayUTC, Config } from '../../redux/actions';
 import { _, Auth as t, Global as g } from '../../utils/i18n';
 
 class AuthScreen extends React.Component {
@@ -96,6 +96,22 @@ class AuthScreen extends React.Component {
 		return terms.version === TERMS_VERSION;
 	}
 
+	loadUserData() {
+		const { dispatch } = this.props;
+		const action = PayUTC.getWalletDetails();
+
+		dispatch(
+			Config.spinner({
+				visible: true,
+				textContent: t('fetch_user_data'),
+			})
+		);
+
+		dispatch(action);
+
+		return action.payload;
+	}
+
 	connectWithCas() {
 		const { dispatch } = this.props;
 		const { login, password } = this.state;
@@ -115,7 +131,7 @@ class AuthScreen extends React.Component {
 				})
 			);
 
-			return PayUTC.connectWithCas(login, password);
+			return PayUTCService.connectWithCas(login, password).then(() => this.loadUserData());
 		});
 	}
 
@@ -130,7 +146,7 @@ class AuthScreen extends React.Component {
 			})
 		);
 
-		return PayUTC.connectWithEmail(login, password);
+		return PayUTCService.connectWithEmail(login, password).then(() => this.loadUserData());
 	}
 
 	submit() {

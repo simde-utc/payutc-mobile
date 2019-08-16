@@ -6,6 +6,7 @@
 			"connect_cas": "CAS-UTC reconnection...",
 			"reconnection": "Reconnection...",
 			"reset_data": "Wipping data...",
+			"fetch_user_data": "Fetching user data...",
 			"config_keys_error": "The config file is not the same as the example one. Some keys are missing.",
 			"config_values_error": "Some keys are not filled in your config file. This will cause issues.",
 			"need_update": "Update required !",
@@ -108,6 +109,7 @@
 			"cas_connection": "CAS-UTC connection...",
 			"payutc_connection": "Connexion to the PayUTC service...",
 			"valid_terms": "By clicking \"%{button}\" you accept all the terms",
+			"fetch_user_data": "Fetching user data...",
 		},
 		"History": {
 			"title": "Historic",
