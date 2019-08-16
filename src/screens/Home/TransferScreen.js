@@ -126,7 +126,6 @@ class TransferScreen extends React.Component {
 						onChange={this.handleRecipientChange}
 						onSelect={this.handleRecipientSelected}
 						history={history}
-						historyFetching={historyFetching}
 					/>
 				</View>
 				<View style={{ padding: 15, paddingTop: 0 }}>

@@ -54,9 +54,7 @@ export default class RecipientForm extends React.Component {
 	}
 
 	renderShortcuts() {
-		const { history, historyFetching } = this.props;
-
-		if (historyFetching) return null;
+		const { history } = this.props;
 
 		const people = history
 			.filter(transaction => transaction.type === 'VIROUT')
