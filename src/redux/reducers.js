@@ -75,22 +75,6 @@ const generalReducer = type => (state, action) => {
 			break;
 
 		case SUCCEEDED:
-			[data, code] = action.payload;
-
-			if (code === 523) {
-				methodState.fetching = false;
-				methodState.fetched = true;
-			} else {
-				delete methodState.data;
-				methodState.data = data;
-				methodState.fetching = false;
-				methodState.fetched = true;
-				methodState.failed = false;
-				methodState.code = code;
-			}
-
-			break;
-
 		case FAILED:
 		default:
 			[data, code] = action.payload;
@@ -99,13 +83,26 @@ const generalReducer = type => (state, action) => {
 				methodState.fetching = false;
 				methodState.fetched = true;
 			} else {
-				delete methodState.data;
-				methodState.data = data;
+				if (method === 'getHistory' && methodState.data) {
+					for (
+						let i = data.historique.length - methodState.data.historique.length - 1;
+						i >= 0;
+						i--
+					) {
+						methodState.data.historique.splice(0, 0, data.historique[i]);
+					}
+				} else {
+					delete methodState.data;
+					methodState.data = data;
+				}
+
 				methodState.fetching = false;
-				methodState.fetched = false;
-				methodState.failed = true;
+				methodState.fetched = status === SUCCEEDED;
+				methodState.failed = status === FAILED;
 				methodState.code = code;
 			}
+
+			break;
 	}
 
 	newState[method] = methodState;
