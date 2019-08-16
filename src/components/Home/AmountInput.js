@@ -15,7 +15,7 @@ export default function AmountInput({ value, error, maxLength, onChange, tintCol
 		<View style={{ flexDirection: 'row', justifyContent: 'center' }}>
 			<TextInput
 				style={{
-					fontSize: 70,
+					fontSize: 65,
 					fontWeight: 'bold',
 					color: error == null ? tintColor : colors.error,
 					textAlign: 'right',
