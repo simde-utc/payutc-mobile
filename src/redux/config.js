@@ -49,6 +49,11 @@ export const configReducer = (state = configState, { type, config, data }) => {
 
 				break;
 
+			case 'wipe':
+				state = Object.assign({}, configState, { lang: state.lang });
+
+				break;
+
 			default:
 				state[config] = Object.assign(state[config] || {}, data);
 		}

@@ -8,6 +8,9 @@
  * @license AGPL-3.0
  */
 
+import { Alert } from 'react-native';
+import { Api as t } from '../utils/i18n';
+
 export default class Api {
 	static GET = 'GET';
 
@@ -27,6 +30,8 @@ export default class Api {
 	};
 
 	static VALID_STATUS = [200, 201, 204];
+
+	static PENDING_REQUESTS = [];
 
 	connected = false;
 
@@ -57,7 +62,64 @@ export default class Api {
 		return `${url}?${Api.serialize(queries)}`;
 	}
 
-	call(request, method, queries, body, headers, validStatus, json = true) {
+	static handleConnectionIssue(...fetchData) {
+		Api.PENDING_REQUESTS.push(fetchData);
+
+		if (Api.PENDING_REQUESTS.length === 1) {
+			Alert.alert(
+				t('connection_issue'),
+				t('connection_retry'),
+				[
+					fetchData[0]
+						? {
+								text: t('cancel'),
+								onPress: () => {
+									const requests = Api.PENDING_REQUESTS;
+									Api.PENDING_REQUESTS = [];
+
+									requests.map(fetchData => fetchData[2]([null, 523]));
+								},
+								style: 'cancel',
+						  }
+						: {},
+					{
+						text: t('retry'),
+						onPress: () => {
+							const requests = Api.PENDING_REQUESTS;
+							Api.PENDING_REQUESTS = [];
+
+							requests.map(fetchData => Api.fetch(...fetchData));
+						},
+					},
+				],
+				{ cancelable: false }
+			);
+		}
+	}
+
+	static fetch(allowCancel, resolve, reject, url, params, validStatus, json) {
+		fetch(url, params)
+			.then(response => {
+				const toReturn = data => {
+					if (validStatus.includes(response.status)) {
+						return resolve([data, response.status]);
+					}
+
+					return reject([data, response.status]);
+				};
+
+				if (json) {
+					return response.json().then(toReturn);
+				}
+
+				return response.text().then(toReturn);
+			})
+			.catch(() => {
+				Api.handleConnectionIssue(allowCancel, resolve, reject, url, params, validStatus, json);
+			});
+	}
+
+	call(request, method, queries, body, headers, validStatus, json = true, allowCancel = true) {
 		const parameters = {
 			credentials: 'same-origin',
 			method: method || Api.GET,
@@ -69,25 +131,15 @@ export default class Api {
 		}
 
 		return new Promise((resolve, reject) => {
-			fetch(Api.urlWithQueries(this.baseUrl + request, queries), parameters)
-				.then(response => {
-					const toReturn = data => {
-						if ((validStatus || Api.VALID_STATUS).includes(response.status)) {
-							return resolve([data, response.status]);
-						}
-
-						return reject([data, response.status]);
-					};
-
-					if (json) {
-						return response.json().then(toReturn);
-					}
-
-					return response.text().then(toReturn);
-				})
-				.catch(e => {
-					return reject([e.message, 523]);
-				});
+			Api.fetch(
+				allowCancel,
+				resolve,
+				reject,
+				Api.urlWithQueries(this.baseUrl + request, queries),
+				parameters,
+				validStatus || Api.VALID_STATUS,
+				json
+			);
 		});
 	}
 

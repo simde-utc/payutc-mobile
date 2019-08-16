@@ -66,21 +66,33 @@ const generalReducer = (state, action) => {
 		const [data, code] = action.payload;
 
 		methodState = generateNewStore(state[serviceMethod]());
-		methodState.data = data;
-		methodState.fetching = false;
-		methodState.fetched = true;
-		methodState.failed = false;
-		methodState.code = code;
+
+		if (code === 523) {
+			methodState.fetching = false;
+			methodState.fetched = true;
+		} else {
+			methodState.data = data;
+			methodState.fetching = false;
+			methodState.fetched = true;
+			methodState.failed = false;
+			methodState.code = code;
+		}
 	} else if (action.type.endsWith(FAILED)) {
 		serviceMethod = action.type.substring(0, action.type.length - FAILED.length);
 		const [data, code] = action.payload;
 
 		methodState = generateNewStore(state[serviceMethod]());
-		methodState.data = data;
-		methodState.fetching = false;
-		methodState.fetched = false;
-		methodState.failed = true;
-		methodState.code = code;
+
+		if (code === 523) {
+			methodState.fetching = false;
+			methodState.fetched = true;
+		} else {
+			methodState.data = data;
+			methodState.fetching = false;
+			methodState.fetched = false;
+			methodState.failed = true;
+			methodState.code = code;
+		}
 	}
 
 	state[serviceMethod] = methodState;
