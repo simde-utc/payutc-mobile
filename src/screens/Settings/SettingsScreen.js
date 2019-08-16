@@ -14,7 +14,6 @@ import TabsBlockTemplate from '../../components/TabsBlockTemplate';
 import LinkButton from '../../components/LinkButton';
 import { _, Global as g, Settings as t } from '../../utils/i18n';
 import SwitchBlockTemplate from '../../components/SwitchBlockTemplate';
-import { configState } from '../../redux/config';
 import { Config, PayUTC } from '../../redux/actions';
 import { PAYUTC_EMAIL } from '../../../config';
 import BlockTemplate from '../../components/BlockTemplate';
@@ -87,10 +86,9 @@ class SettingsScreen extends React.Component {
 	}
 
 	signOut() {
-		const { lang, navigation, dispatch } = this.props;
+		const { navigation, dispatch } = this.props;
 
-		dispatch(Config.set(configState));
-		dispatch(Config.setLang(lang));
+		dispatch(Config.wipe());
 
 		PayUTC.forget().payload.then(() => navigation.navigate('Auth'));
 	}

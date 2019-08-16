@@ -107,7 +107,7 @@ class AppLoaderScreen extends React.Component {
 						return PayUTC.connectWithCas(login, password);
 					})
 					.catch(() => {
-						return this.reinitData();
+						return this.reinitData(login);
 					});
 			});
 	}
@@ -129,13 +129,18 @@ class AppLoaderScreen extends React.Component {
 		return this.reinitData();
 	}
 
-	reinitData() {
+	reinitData(login = '') {
+		const { dispatch } = this.props;
+
 		this.setState({
 			lazyText: 'reset_data',
 			screen: 'Auth',
+			data: { login },
 		});
 
-		return new Promise.all(Storage.removeData('config'), PayUTC.forget());
+		dispatch(Config.wipe());
+
+		return PayUTC.forget();
 	}
 
 	bootstrap() {
