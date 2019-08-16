@@ -61,6 +61,9 @@
 			"kiss": "😘",
 			"bg": "😎",
 			"random": "Aléatoire",
+			"confirm_title": "Confirmation",
+			"confirm_message": "Confirmez-vous le transfert de %{amount} à %{name} ?",
+			"confirm": "C'est parti !",
 			"message_suggestions": [
 				"T'es une belle personne !",
 				"Merci encore",
@@ -235,7 +238,8 @@
 		"yesterday": "hier",
 		"show_since": "afficher les statistiques depuis :",
 		"empty_list": "Aucune donnée à afficher :(",
-		"back": "Retour"
+		"back": "Retour",
+		"cancel": "Annuler"
 	},
 
 	"navigation": {
@@ -243,5 +247,12 @@
 		"history": "Historique",
 		"stats": "Statistiques",
 		"settings": "Paramètres"
+	},
+
+	"api": {
+		"connection_issue": "Erreur de connexion",
+		"connection_retry": "L'application n'a pas pu se connecter à Internet. Souhaitez-vous réessayer ?",
+		"cancel": "Annuler",
+		"retry": "Réessayer",
 	}
 }
