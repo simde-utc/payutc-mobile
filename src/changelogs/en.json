@@ -1,0 +1,42 @@
+[
+	{
+		"version": "v1.0.0",
+		"data": [
+			"First release",
+			{
+				"title": "New features",
+				"data": [
+					"Auto connection (with disconnect link)",
+					"Show balance",
+					"Show week consumption",
+					{
+						"title": "Show history",
+						"data": [
+							"Allow research",
+							"By periods: 10 last, day, week, month, ever",
+							"By categories: all, purchased, refills, transfers"
+						]
+					},
+					{
+						"title": "Show statistics",
+						"data": [
+							"Count purchased, total in €, received, sent, first transaction ever",
+							"By periods: 10 last, day, week, month, ever",
+							"By categories: quantity, price, transfers"
+						]
+					},
+					"Language support: french and english for now",
+					"Lock/unlock badge",
+					"Contact us",
+					"Legal terms",
+					"Dependency listing",
+					"License",
+					"Development team display",
+					"Issue link",
+					"GitHub link",
+					"Version verification"
+				]
+			}
+		]
+	}
+]
