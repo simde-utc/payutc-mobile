@@ -14,6 +14,8 @@ import { CAS_URL } from '../../config';
 import Api from './Api';
 
 class CASAuth extends Api {
+	TYPE = 'cas';
+
 	constructor(url = CAS_URL) {
 		super(url);
 	}

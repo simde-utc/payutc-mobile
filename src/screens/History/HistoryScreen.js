@@ -167,7 +167,7 @@ class HistoryScreen extends React.Component {
 					tabs={[
 						{
 							title: t('all'),
-							children: () => (
+							children: (
 								<HistoryList
 									loading={historyFetching}
 									items={this.getHistory()}
@@ -177,7 +177,7 @@ class HistoryScreen extends React.Component {
 						},
 						{
 							title: t('purchased'),
-							children: () => (
+							children: (
 								<HistoryList
 									loading={historyFetching}
 									items={this.getHistory('PURCHASE')}
@@ -187,7 +187,7 @@ class HistoryScreen extends React.Component {
 						},
 						{
 							title: t('refills'),
-							children: () => (
+							children: (
 								<HistoryList
 									loading={historyFetching}
 									items={this.getHistory('RECHARGE')}
@@ -197,7 +197,7 @@ class HistoryScreen extends React.Component {
 						},
 						{
 							title: t('transfers'),
-							children: () => (
+							children: (
 								<HistoryList
 									loading={historyFetching}
 									items={this.getHistory('VIR')}

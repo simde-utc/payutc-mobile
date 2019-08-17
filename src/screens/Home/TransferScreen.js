@@ -112,7 +112,7 @@ class TransferScreen extends React.Component {
 
 	render() {
 		const minAmount = 0.01;
-		const { navigation, suggestionsFetching, history, historyFetching } = this.props;
+		const { navigation, suggestionsFetching, history } = this.props;
 		const { message, amount, recipientError, amountError, recipient, suggestions } = this.state;
 
 		return (
