@@ -84,6 +84,7 @@ web-report/
 android/.gradle
 android/app/build
 android/build
+android/gradle.properties
 android/local.properties
 android/app/release
 *.iml

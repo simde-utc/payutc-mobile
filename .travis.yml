@@ -1,11 +1,57 @@
-language: node_js
+language: android
 node_js: 12.6.0
 
-before_script:
-  - cp config.example.js config.js
-  - npm install
+jdk: oraclejdk8
+android:
+  components:
+  - platform-tools
+  - tools
+  - build-tools-28.0.3
+  - build-tools-29.0.0
+  - android-29
+  - extra-android-m2repository
+  - extra-google-google_play_services
+  - extra-google-m2repository
+
+licenses:
+  - android-sdk-preview-license-.+
+  - android-sdk-license-.+
+  - google-gdk-license-.+
+
+dist: trusty
+sudo: required
+
+cache:
+  directories:
+  - node_modules
 
 jobs:
   include:
     - stage: "Lint"
       script: npm run lint
+      before_install:
+        - openssl aes-256-cbc -K $encrypted_92f34f82a6b9_key -iv $encrypted_92f34f82a6b9_iv -in travis.tar.enc -out travis.tar -d
+        - tar xvf travis.tar
+        - nvm install 12
+      notifications:
+        email:
+          on_success: never
+          on_failure: always
+
+    - stage: "Deploy Android"
+      before_install:
+        - openssl aes-256-cbc -K $encrypted_92f34f82a6b9_key -iv $encrypted_92f34f82a6b9_iv -in travis.tar.enc -out travis.tar -d
+        - tar xvf travis.tar
+        - nvm install 12
+        - chmod +x ./android/gradlew
+      install:
+        - npm install
+      script:
+        - npm run release-android
+      branches:
+        only:
+        - master
+      notifications:
+        email:
+          on_success: always
+          on_failure: always
