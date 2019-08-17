@@ -10,7 +10,17 @@ import React from 'react';
 import { Text, TextInput, View } from 'react-native';
 import colors from '../../styles/colors';
 
-export default function AmountInput({ value, error, maxLength, onChange, tintColor, autofocus }) {
+export default function AmountInput({
+	value,
+	error,
+	maxLength,
+	onChange,
+	tintColor,
+	autoFocus,
+	blurOnSubmit,
+	setRef,
+	onSubmitEditing,
+}) {
 	return (
 		<View style={{ flexDirection: 'row', justifyContent: 'center' }}>
 			<TextInput
@@ -27,10 +37,13 @@ export default function AmountInput({ value, error, maxLength, onChange, tintCol
 				keyboardType="decimal-pad"
 				placeholder={value ? '' : '00,00'}
 				maxLength={maxLength}
-				autoFocus={autofocus}
+				autoFocus={autoFocus}
 				autoCorrect={false}
 				onChangeText={value => onChange(value)}
 				value={value}
+				blurOnSubmit={blurOnSubmit}
+				ref={setRef}
+				onSubmitEditing={onSubmitEditing}
 			/>
 			<Text
 				style={{

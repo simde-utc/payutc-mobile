@@ -30,7 +30,11 @@ export default class RecipientForm extends React.Component {
 	}
 
 	handleRecipientSelected(recipient) {
-		const { onSelect } = this.props;
+		const { onSelect, onSubmitEditing } = this.props;
+
+		if (onSubmitEditing) {
+			onSubmitEditing();
+		}
 
 		onSelect(recipient);
 	}
@@ -130,8 +134,15 @@ export default class RecipientForm extends React.Component {
 	}
 
 	render() {
+		const {
+			error,
+			recipient,
+			suggestionsFetching,
+			blurOnSubmit,
+			setRef,
+			onSubmitEditing,
+		} = this.props;
 		const { text } = this.state;
-		const { error, recipient, suggestionsFetching } = this.props;
 
 		return (
 			<View>
@@ -162,6 +173,9 @@ export default class RecipientForm extends React.Component {
 							onChangeText={text => this.onChange(text)}
 							value={recipient ? recipient.name : text}
 							editable={!recipient}
+							blurOnSubmit={blurOnSubmit}
+							ref={setRef}
+							onSubmitEditing={onSubmitEditing}
 						/>
 						{recipient ? this.renderCancelRecipient() : null}
 					</View>
