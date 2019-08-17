@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { Text, TextInput, View } from 'react-native';
+import { Text, TextInput, View, Platform } from 'react-native';
 import colors from '../../styles/colors';
 
 export default function AmountInput({
@@ -25,12 +25,12 @@ export default function AmountInput({
 		<View style={{ flexDirection: 'row', justifyContent: 'center' }}>
 			<TextInput
 				style={{
-					fontSize: 70,
+					fontSize: 65,
 					fontWeight: 'bold',
 					color: error == null ? tintColor : colors.error,
 					alignSelf: 'center',
 					textAlign: 'right',
-					width: value ? 'auto' : 180,
+					width: Platform.OS === 'ios' || value ? 'auto' : 180,
 					padding: 0,
 					margin: 0,
 				}}
@@ -47,7 +47,7 @@ export default function AmountInput({
 			/>
 			<Text
 				style={{
-					fontSize: 70,
+					fontSize: 65,
 					fontWeight: 'bold',
 					color: error == null ? tintColor : colors.error,
 				}}
