@@ -29,22 +29,22 @@ export const beautifyDateTime = dateText => {
 	const date = new Date(dateText);
 
 	return (
-		`${forceTextLength(date.getDate())}/${forceTextLength(date.getMonth() + 1)}/${forceTextLength(
-			date.getFullYear()
-		)}` +
+		`${forceTextLength(date.getUTCDate())}/${forceTextLength(
+			date.getUTCMonth() + 1
+		)}/${forceTextLength(date.getUTCFullYear())}` +
 		` ${t('at')} ` +
-		`${forceTextLength(date.getHours())}h${forceTextLength(date.getMinutes())}m${forceTextLength(
-			date.getSeconds()
-		)}`
+		`${forceTextLength(date.getUTCHours())}h${forceTextLength(
+			date.getUTCMinutes()
+		)}m${forceTextLength(date.getUTCSeconds())}`
 	);
 };
 
 export const beautifyDate = dateText => {
 	const date = new Date(dateText);
 
-	return `${forceTextLength(date.getDate())}/${forceTextLength(
-		date.getMonth() + 1
-	)}/${forceTextLength(date.getFullYear())}`;
+	return `${forceTextLength(date.getUTCDate())}/${forceTextLength(
+		date.getUTCMonth() + 1
+	)}/${forceTextLength(date.getUTCFullYear())}`;
 };
 
 export const AMOUNT_FORMAT = /^(?!0\d)\d{1,2}([.,]\d{1,2})?$/;
