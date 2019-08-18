@@ -85,6 +85,7 @@ android/.gradle
 android/app/build
 android/build
 android/local.properties
+android/gradle.properties
 android/app/release
 *.iml
 
