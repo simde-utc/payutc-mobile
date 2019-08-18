@@ -99,8 +99,10 @@ class HistoryScreen extends React.Component {
 
 		if (search !== '') {
 			history = history.filter(
-				({ name, message }) =>
-					(name && name.includes(search)) || (message && message.includes(search))
+				({ name, message, fun }) =>
+					(name && name.includes(search)) ||
+					(message && message.includes(search)) ||
+					(fun && fun.includes(search))
 			);
 		}
 
