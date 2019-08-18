@@ -87,6 +87,7 @@ export default class MessageForm extends React.Component {
 	}
 
 	render() {
+		const { blurOnSubmit, setRef, onSubmitEditing } = this.props;
 		const { text } = this.state;
 
 		return (
@@ -116,6 +117,9 @@ export default class MessageForm extends React.Component {
 					textContentType="none"
 					onChangeText={text => this.onChange(text)}
 					value={text}
+					blurOnSubmit={blurOnSubmit}
+					ref={setRef}
+					onSubmitEditing={onSubmitEditing}
 				/>
 				{this.renderShortcuts()}
 			</BlockTemplate>
