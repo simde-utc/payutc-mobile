@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { RefreshControl, Text, View } from 'react-native';
+import { Platform, RefreshControl, Text, View } from 'react-native';
 import { connect } from 'react-redux';
 import List from '../../components/List';
 import colors from '../../styles/colors';
@@ -155,6 +155,9 @@ class HomeScreen extends React.Component {
 						/>
 					}
 				/>
+				{Platform.OS === 'android' ? (
+					<BlockTemplate roundedBottom style={{ paddingVertical: 5 }} />
+				) : null}
 			</View>
 		);
 	}
