@@ -1,6 +1,5 @@
 language: android
 node_js: 12.6.0
-
 jdk: oraclejdk8
 android:
   components:
@@ -12,46 +11,54 @@ android:
   - extra-android-m2repository
   - extra-google-google_play_services
   - extra-google-m2repository
-
 licenses:
-  - android-sdk-preview-license-.+
-  - android-sdk-license-.+
-  - google-gdk-license-.+
-
+- android-sdk-preview-license-.+
+- android-sdk-license-.+
+- google-gdk-license-.+
 dist: trusty
 sudo: required
-
 cache:
   directories:
   - node_modules
-
 jobs:
   include:
-    - stage: "Lint"
-      script: npm run lint
-      before_install:
-        - openssl aes-256-cbc -K $encrypted_92f34f82a6b9_key -iv $encrypted_92f34f82a6b9_iv -in travis.tar.enc -out travis.tar -d
-        - tar xvf travis.tar
-        - nvm install 12
-      notifications:
-        email:
-          on_success: never
-          on_failure: always
-
-    - stage: "Deploy Android"
-      before_install:
-        - openssl aes-256-cbc -K $encrypted_92f34f82a6b9_key -iv $encrypted_92f34f82a6b9_iv -in travis.tar.enc -out travis.tar -d
-        - tar xvf travis.tar
-        - nvm install 12
-        - chmod +x ./android/gradlew
-      install:
-        - npm install
-      script:
-        - npm run release-android
-      branches:
-        only:
-        - master
-      notifications:
-        email:
-          on_success: always
-          on_failure: always
+  - stage: Lint
+    script: npm run lint
+    before_install:
+    - openssl aes-256-cbc -K $encrypted_92f34f82a6b9_key -iv $encrypted_92f34f82a6b9_iv
+      -in travis.tar.enc -out travis.tar -d
+    - tar xvf travis.tar
+    - nvm install 12
+    notifications:
+      email:
+        on_success: never
+        on_failure: always
+  - stage: Deploy Android
+    before_install:
+    - openssl aes-256-cbc -K $encrypted_92f34f82a6b9_key -iv $encrypted_92f34f82a6b9_iv
+      -in travis.tar.enc -out travis.tar -d
+    - tar xvf travis.tar
+    - nvm install 12
+    - chmod +x ./android/gradlew
+    install:
+    - npm install
+    script:
+    - npm run android:apk
+    - mv android/app/build/outputs/apk/release/app-release.apk "PayUTC-$(node ./get_version.js).apk"
+    before_deploy:
+      - git config --local user.name "NastuzziSamy"
+      - git config --local user.email "samy@nastuzzi.fr"
+      - export TRAVIS_TAG=$(node ./get_version.js)
+      - git tag $TRAVIS_TAG
+    deploy:
+      provider: releases
+      api_key:
+        secure: ivHYJVtZcSTb8lKNU7ZSmsraGSr6HaE6MPevlfzuLK8N/vuazs30Uqf+IE5pAG+JKtALjWlbB/b8h4NpAn7HfSQbdv7Y77XvXuEqLwwYullitYowbURR+Z+wfUGW9yG7j5/yt+S/5gvZFmYxT7JpkHfmY+b6AJip0+EOi8VoLXV81MIMaGJFyCY8HMhkSfoYE8vc7mQbLbiyYNUtITcE7ftAUw0VizVKUIhFivR0NA1/gcAPDiB8/YylFpqe0LZ7GTtpSVa+eRwTByvsCfB4qHQzdrtNbQykg9vtFchURhPjs5GXByx3lX3rbfsfLAQXxes5YlxFpk+LCN9KqSD1t0qFzLUf5z/2ZvxbGQNR1Wpa4F6m2xMFhZfEjEudSn3WmRHyEqd8w/X+3lNF6h5B0xYjs5HRwLMfAFgzpMuzvu3LRIeVy1OaG3iFWW195jAvZOAMfzYkbJIjxjKQ7PZPH7CVGdlW/t4bG+lUN6Zk2g+FIh2HDidRlZMYUkWe+fEQciWKZk/Y3jM5zxlxPX7hoacuSLNK2AS0nmE3uOBbjomPSPJ4w5O4xCblB0uG28BINlnWklFefB5J/NfgUkBZpWOCHQ2CtigO1zegkTYNxzkDO1FVOgmcoFRwxodiDZjZLztVhZHBUodW+Q4wITo+V0ksSZWRx3oxYnLyCxvxrvY=
+        file: "PayUTC-$TRAVIS_TAG.apk"
+        on:
+          repo: simde-utc/payutc-mobile
+          branch: master
+    notifications:
+      email:
+        on_success: always
+        on_failure: always
