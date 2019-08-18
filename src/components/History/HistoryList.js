@@ -54,7 +54,11 @@ export default class HistoryList extends React.Component {
 
 	renderFooter() {
 		return (
-			<BlockTemplate roundedBottom onPress={this.showMore} style={{ paddingVertical: 5 }}>
+			<BlockTemplate
+				roundedBottom
+				onPress={this.showMore}
+				customBackground={colors.backgroundBlockAlt}
+			>
 				<Text style={{ fontSize: 12, fontWeight: 'bold', color: colors.primary }}>
 					{t('show_more')}
 				</Text>
