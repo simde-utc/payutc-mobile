@@ -20,8 +20,8 @@ import GitHubService from '../../services/GitHub';
 import colors from '../../styles/colors';
 import { Changelog as t, Global as g } from '../../utils/i18n';
 import { IOS_STORE_URL, ANDROID_STORE_URL } from '../../../config';
-import fr from '../../changelogs/fr';
-import en from '../../changelogs/en';
+import fr from '../../../assets/changelogs/fr';
+import en from '../../../assets/changelogs/en';
 
 const CHANGELOGS = {
 	fr,
