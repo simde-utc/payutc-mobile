@@ -236,7 +236,7 @@ export class PayUTCApi extends Api {
 			'setPin',
 			Api.POST,
 			AUTH_QUERIES,
-			{ pin: pin },
+			{ pin },
 			Api.HEADERS_JSON
 		);
 	}

@@ -6,13 +6,11 @@
  */
 
 import React from 'react';
-import { Alert } from 'react-native';
 import { connect } from 'react-redux';
 import colors from '../../styles/colors';
 import LinkButton from '../LinkButton';
 import { Config, PayUTC } from '../../redux/actions';
 import { _, ChangePin as t } from '../../utils/i18n';
-import { floatToEuro } from '../../utils';
 
 class Submit extends React.Component {
 	submiting = false;
@@ -45,12 +43,11 @@ class Submit extends React.Component {
 			})
 		);
 
-    const action = PayUTC.setPin(pin);
+		const action = PayUTC.setPin(pin);
 		dispatch(action);
 
-    action.payload
+		action.payload
 			.then(() => {
-        console.log("navigation", navigation);
 				dispatch(
 					Config.spinner({
 						visible: false,
@@ -58,11 +55,8 @@ class Submit extends React.Component {
 				);
 
 				this.submiting = false;
-
 			})
 			.catch(() => this.refuse());
-
-
 	}
 
 	render() {

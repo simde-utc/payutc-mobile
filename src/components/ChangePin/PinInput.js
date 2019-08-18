@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import { Text, TextInput, View } from 'react-native';
+import { TextInput, View } from 'react-native';
 import colors from '../../styles/colors';
 
 export default function PinInput({ value, error, maxLength, onChange, tintColor, autofocus }) {
@@ -23,7 +23,7 @@ export default function PinInput({ value, error, maxLength, onChange, tintColor,
 					padding: 0,
 					margin: 0,
 				}}
-        secureTextEntry={true}
+				secureTextEntry
 				keyboardType="decimal-pad"
 				placeholder={value ? '' : '****'}
 				maxLength={maxLength}

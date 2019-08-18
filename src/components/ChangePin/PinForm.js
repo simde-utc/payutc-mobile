@@ -10,8 +10,7 @@ import { Text } from 'react-native';
 import colors from '../../styles/colors';
 import BlockTemplate from '../BlockTemplate';
 import { ChangePin as t } from '../../utils/i18n';
-import AmountInput from '../Home/AmountInput';
-import PinInput from '../ChangePin/PinInput'
+import PinInput from './PinInput';
 
 export default class PinForm extends React.Component {
 	constructor(props) {
