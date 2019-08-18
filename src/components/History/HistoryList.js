@@ -6,7 +6,8 @@
  */
 
 import React from 'react';
-import { Text } from 'react-native';
+import { Text, TouchableOpacity } from 'react-native';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import Item from './Item';
 import BlockTemplate from '../BlockTemplate';
 import List from '../List';
@@ -59,7 +60,7 @@ export default class HistoryList extends React.Component {
 				onPress={this.showMore}
 				customBackground={colors.backgroundBlockAlt}
 			>
-				<Text style={{ fontSize: 12, fontWeight: 'bold', color: colors.primary }}>
+				<Text style={{ fontSize: 14, fontWeight: 'bold', color: colors.primary }}>
 					{t('show_more')}
 				</Text>
 			</BlockTemplate>
@@ -76,7 +77,7 @@ export default class HistoryList extends React.Component {
 				items={items.slice(0, maxTransactions)}
 				loading={loading}
 				renderItem={HistoryList.renderItem}
-				renderFooter={this.renderFooter}
+				renderFooter={items.length > 0 && items.length > maxTransactions ? this.renderFooter : null}
 				keyExtractor={item => item.id.toString()}
 				notRoundedTop
 				noBottomBorder

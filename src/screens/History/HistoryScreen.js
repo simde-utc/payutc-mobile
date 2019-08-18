@@ -147,6 +147,7 @@ class HistoryScreen extends React.Component {
 								autoCapitalize="none"
 								placeholder={t('search')}
 								textContentType="none"
+								autoCorrect={false}
 								onChangeText={this.onSearchChange}
 								value={search}
 							/>

@@ -128,7 +128,7 @@
 			"transfers": "Transferts",
 			"transfers_desc": "Transferts %{since}",
 			"search": "Rechercher",
-			"show_more": "Voir plus...",
+			"show_more": "Afficher plus..."
 		},
 		"Stats": {
 			"title": "Statistiques",
