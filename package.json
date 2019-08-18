@@ -4,13 +4,15 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "release-android": "cd android && ./gradlew bundleRelease && cd ..",
-    "build-android": "react-native run-android",
-    "build-ios": "react-native run-ios",
+    "android:apk": "cd android && ./gradlew clean && ./gradlew assembleRelease && cd ..",
+    "android:aab": "cd android && ./gradlew clean && ./gradlew bundleRelease && cd ..",
+    "android:build": "react-native run-android",
+    "ios:build": "react-native run-ios",
     "lint": "./node_modules/.bin/eslint .",
     "fix-lint": "./node_modules/.bin/eslint . --fix",
     "test": "npm run lint",
-    "install:clean": "rm -rf node_modules && npm i"
+    "install:clean": "rm -rf node_modules && npm i",
+    "test:prepare": "tar cvf travis.tar config.js android/gradle.properties android/app/android-simde.jks && travis encrypt-file travis.tar && rm travis.tar"
   },
   "dependencies": {
     "expo": "^34.0.1",
