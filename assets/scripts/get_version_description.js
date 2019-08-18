@@ -1,7 +1,9 @@
 const fs = require('fs');
 
-const currentVersion = `v${JSON.parse(fs.readFileSync('app.json', 'utf8')).versionName}`;
 const changelogs = JSON.parse(fs.readFileSync('assets/changelogs/en.json', 'utf8'));
+
+let currentVersion = process.argv[2] || JSON.parse(fs.readFileSync('app.json', 'utf8')).versionName;
+if (currentVersion[0] !== 'v') currentVersion = 'v' + currentVersion;
 
 const showData = (data, space) => {
 	for (subKey in data) {
