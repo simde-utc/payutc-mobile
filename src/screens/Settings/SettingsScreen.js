@@ -181,6 +181,12 @@ class SettingsScreen extends React.Component {
 				</SwitchBlockTemplate>
 
 				<LinkButton
+					text={t('change_pin')}
+					onPress={() => navigation.navigate('ChangePin')}
+					style={{ margin: 15, marginTop: 0 }}
+				/>
+
+				<LinkButton
 					text={t('sign_out')}
 					color={colors.less}
 					onPress={() => this.signOut()}

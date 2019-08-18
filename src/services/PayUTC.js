@@ -229,6 +229,17 @@ export class PayUTCApi extends Api {
 			Api.HEADERS_JSON
 		);
 	}
+
+	setPin(pin) {
+		return this.connectedCall(
+			ACCOUNT_SERVICE,
+			'setPin',
+			Api.POST,
+			AUTH_QUERIES,
+			{ pin: pin },
+			Api.HEADERS_JSON
+		);
+	}
 }
 
 export default new PayUTCApi();
