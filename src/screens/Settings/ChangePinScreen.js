@@ -55,10 +55,17 @@ class ChangePinScreen extends React.Component {
 						titleColor={colors.transfer}
 					/>
 				</View>
+<<<<<<< HEAD
 				<View style={{ padding: 15, paddingTop: 0 }}>
 					<PinForm pin={pin} onChange={this.handlePinChange} />
 				</View>
 				<View style={{ padding: 15, paddingTop: 0 }}>
+=======
+				<View style={{ padding: 15 }}>
+					<PinForm pin={pin} onChange={this.handlePinChange} />
+				</View>
+				<View style={{ padding: 15 }}>
+>>>>>>> c132fb7fb7325027de8d53c1aaeb3226a66d6dce
 					<Submit pin={pin} disabled={this.isButtonDisabled()} navigation={navigation} />
 				</View>
 			</ScrollView>
