@@ -12,7 +12,9 @@
     "test": "npm run lint",
     "install:clean": "rm -rf node_modules && npm i",
     "version:get": "node assets/scripts/get_version.js",
-    "version:set": "node assets/scripts/set_version.js"
+    "version:set": "node assets/scripts/set_version.js",
+    "version:description": "node assets/scripts/get_version_description.js",
+    "version:description:android": "node assets/scripts/get_android_description.js"
   },
   "dependencies": {
     "expo": "^34.0.1",
