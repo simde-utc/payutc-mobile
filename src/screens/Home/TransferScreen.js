@@ -253,6 +253,7 @@ class TransferScreen extends React.Component {
 						setRef={input => (this.amountInput = input)}
 						blurOnSubmit={false}
 						onSubmitEditing={() => this.messageInput.focus()}
+						tintColor={colors.transfer}
 					/>
 				</View>
 				<View style={{ padding: 15, paddingTop: 0 }}>
