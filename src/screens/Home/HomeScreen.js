@@ -155,8 +155,6 @@ class HomeScreen extends React.Component {
 						/>
 					}
 				/>
-
-				<BlockTemplate roundedBottom style={{ paddingVertical: 5 }} />
 			</View>
 		);
 	}

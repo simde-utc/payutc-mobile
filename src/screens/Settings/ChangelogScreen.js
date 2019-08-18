@@ -143,18 +143,24 @@ class ChangelogScreen extends React.Component {
 										items={data}
 										keyExtractor={item => `${version}.${item.title || item}`}
 										renderItem={item => ChangelogScreen.renderItem(item, 15)}
+										renderFooter={
+											<BlockTemplate
+												roundedBottom
+												onPress={onPress}
+												customBackground={colors.backgroundBlockAlt}
+											>
+												<Text
+													style={{
+														fontSize: 12,
+														fontWeight: 'bold',
+														color: colors.transfer,
+													}}
+												>
+													{versionUrl.replace(/http(s?):\/\//, '')}
+												</Text>
+											</BlockTemplate>
+										}
 									/>
-									<BlockTemplate roundedBottom onPress={onPress}>
-										<Text
-											style={{
-												fontSize: 12,
-												fontWeight: 'bold',
-												color: colors.transfer,
-											}}
-										>
-											{versionUrl.replace(/http(s?):\/\//, '')}
-										</Text>
-									</BlockTemplate>
 								</View>
 							);
 						})}
