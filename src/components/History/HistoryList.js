@@ -13,14 +13,14 @@ import List from '../List';
 import colors from '../../styles/colors';
 import { History as t } from '../../utils/i18n';
 
-const LOAD_TRANSACTIONS = 50;
+const DEFAULT_SLICE = 50;
 
 export default class HistoryList extends React.Component {
 	constructor(props) {
 		super(props);
 
 		this.state = {
-			maxTransactions: LOAD_TRANSACTIONS,
+			slice: DEFAULT_SLICE,
 		};
 
 		this.showMore = this.showMore.bind(this);
@@ -31,7 +31,7 @@ export default class HistoryList extends React.Component {
 		const { loading } = this.props;
 
 		if (!prevProps.loading && loading) {
-			this.setState({ maxTransactions: LOAD_TRANSACTIONS });
+			this.setState({ slice: DEFAULT_SLICE });
 		}
 	}
 
@@ -48,14 +48,31 @@ export default class HistoryList extends React.Component {
 	showMore() {
 		this.setState(prevState => ({
 			...prevState,
-			maxTransactions: prevState.maxTransactions + LOAD_TRANSACTIONS,
+			slice: prevState.slice + DEFAULT_SLICE,
 		}));
 	}
 
 	renderFooter() {
+		const { items, loading } = this.props;
+		const { slice } = this.state;
+		const disabled = loading || items.length <= slice;
+
+		if (!items.length) return null;
+
 		return (
-			<BlockTemplate roundedBottom onPress={this.showMore} style={{ paddingVertical: 5 }}>
-				<Text style={{ fontSize: 12, fontWeight: 'bold', color: colors.primary }}>
+			<BlockTemplate
+				roundedBottom
+				onPress={this.showMore}
+				style={{ paddingVertical: 5 }}
+				disabled={disabled}
+			>
+				<Text
+					style={{
+						fontSize: 12,
+						fontWeight: 'bold',
+						color: disabled ? colors.disabled : colors.primary,
+					}}
+				>
 					{t('show_more')}
 				</Text>
 			</BlockTemplate>
@@ -64,12 +81,12 @@ export default class HistoryList extends React.Component {
 
 	render() {
 		const { items, title, loading } = this.props;
-		const { maxTransactions } = this.state;
+		const { slice } = this.state;
 
 		return (
 			<List
 				title={title}
-				items={items.slice(0, maxTransactions)}
+				items={items.slice(0, slice)}
 				loading={loading}
 				renderItem={HistoryList.renderItem}
 				renderFooter={this.renderFooter}
