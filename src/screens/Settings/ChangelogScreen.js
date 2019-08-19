@@ -106,7 +106,7 @@ class ChangelogScreen extends React.Component {
 
 	render() {
 		const { lang, navigation } = this.props;
-		const changelog = CHANGELOGS[lang];
+		const changelog = CHANGELOGS[lang] || CHANGELOGS.en;
 		const appVersion = `v${VersionNumber.appVersion}`;
 		const titled = navigation.getParam('titled');
 
