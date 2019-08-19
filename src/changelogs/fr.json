@@ -1,0 +1,62 @@
+[
+	{
+		"version": "v0.1.0",
+		"data": [
+			{
+				"title": "Modifications",
+				"data": [
+					"L'historique ne s'affiche maintenant que par tranche de 50. Cliquer sur 'Voir plus...' en affiche 50 en plus",
+					"Affiche plus de transactions en cours de chargement"
+				]
+			},
+			{
+				"title": "Problèmes réglés",
+				"data": [
+					"Sauvegarde qu'une fois les données venues d'Internet",
+					"N'affiche plus des transactions en cours de chargement de manière exponentielle",
+					"Améliore la stabilité globale"
+				]
+			}
+		]
+	},
+	{
+		"version": "v0.0.1",
+		"data": [
+			"Première publication",
+			{
+				"title": "Nouveautés",
+				"data": [
+					"Auto connexion (avec lien de déconnexion)",
+					"Affiche la balance",
+					"Affiche la consommation hebdomadaire",
+					{
+						"title": "Affiche l'historique",
+						"data": [
+							"Recherche possible",
+							"Par période: 10 derniers, jour, semaine, mois, toujours",
+							"Par catégorie: tous, achats, rechargements, transferts"
+						]
+					},
+					{
+						"title": "Affiche des statistiques",
+						"data": [
+							"Nombre de transactions, total en €, reçus, envoyés, première transaction",
+							"Par période: 10 derniers, jour, semaine, mois, toujours",
+							"Par catégorie: tous, achats, rechargements, transferts"
+						]
+					},
+					"Support des langues: français et anglais dans un premier temps",
+					"Vérouiller/déverouiller le badge",
+					"Nous contacter",
+					"Termes légaux",
+					"Liste des dépendances",
+					"Licence",
+					"Affichage de l'équipe de développeurs",
+					"Lien problème",
+					"Lien GitHub",
+					"Vérification de la version"
+				]
+			}
+		]
+	}
+]

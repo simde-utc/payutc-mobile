@@ -11,7 +11,7 @@ import { RefreshControl, ScrollView, View } from 'react-native';
 import { connect } from 'react-redux';
 import colors from '../../styles/colors';
 import TitleParams from '../../components/TitleParams';
-import { PayUTC } from '../../redux/actions';
+import { Config, PayUTC } from '../../redux/actions';
 import StatsHorizontalScrollView from '../../components/Stats/StatsHorizontalScrollView';
 import RankedList from '../../components/Stats/RankedList';
 import { _, Stats as t } from '../../utils/i18n';
@@ -24,12 +24,13 @@ import {
 	mostSpentItems,
 } from '../../utils/stats';
 
-class StatsScreen extends React.PureComponent {
-	static navigationOptions = {
+class StatsScreen extends React.Component {
+	static navigationOptions = () => ({
 		title: t('title'),
 		header: null,
 		headerForceInset: { top: 'never' },
-	};
+		headerTruncatedBackTitle: _('back'),
+	});
 
 	constructor(props) {
 		super(props);
@@ -47,13 +48,15 @@ class StatsScreen extends React.PureComponent {
 
 		this.state = {
 			dates: [
-				{ title: _('ever'), date: ever },
-				{ title: _('month'), date: oneMonthAgo },
-				{ title: _('week'), date: oneWeekAgo },
-				{ title: _('yesterday'), date: yesterday },
+				{ lazyTitle: 'ever', date: ever },
+				{ lazyTitle: 'month', date: oneMonthAgo },
+				{ lazyTitle: 'week', date: oneWeekAgo },
+				{ lazyTitle: 'yesterday', date: yesterday },
 			],
-			selectedDate: 0,
 		};
+
+		this.onSelectedDateChange = this.onSelectedDateChange.bind(this);
+		this.onSelectedCategoryChange = this.onSelectedCategoryChange.bind(this);
 	}
 
 	componentDidMount() {
@@ -61,19 +64,31 @@ class StatsScreen extends React.PureComponent {
 	}
 
 	onRefresh() {
-		const { historyFetching, historyFetched, dispatch } = this.props;
+		const { historyFetching, dispatch } = this.props;
 
-		if (!historyFetching && !historyFetched) {
+		if (!historyFetching) {
 			dispatch(PayUTC.getHistory());
 		}
 	}
 
+	onSelectedDateChange(selectedDate) {
+		const { dispatch } = this.props;
+
+		dispatch(Config.preferences({ selectedDate }));
+	}
+
+	onSelectedCategoryChange(selectedStatCategory) {
+		const { dispatch } = this.props;
+
+		dispatch(Config.preferences({ selectedStatCategory }));
+	}
+
 	render() {
-		const { historyFetched, history } = this.props;
-		const { dates, selectedDate } = this.state;
+		const { historyFetched, history, preferences } = this.props;
+		const { dates } = this.state;
 
 		const filteredHistory = history.filter(
-			item => new Date(item.date) > new Date(dates[selectedDate].date)
+			item => new Date(item.date) > new Date(dates[preferences.selectedDate].date)
 		);
 
 		return (
@@ -90,14 +105,16 @@ class StatsScreen extends React.PureComponent {
 			>
 				<TitleParams
 					title={t('title')}
-					settingText={_('since_*', { since: dates[selectedDate].title.toLowerCase() })}
+					settingText={_('since_*', {
+						since: _(dates[preferences.selectedDate].lazyTitle).toLowerCase(),
+					})}
 				>
 					<TabsBlockTemplate
 						roundedBottom
 						text={_('show_since')}
 						tintColor={colors.secondary}
-						default={selectedDate}
-						onChange={index => this.setState({ selectedDate: index })}
+						value={preferences.selectedDate}
+						onChange={this.onSelectedDateChange}
 						style={{ marginHorizontal: 15, borderTopWidth: 0 }}
 						tabs={dates}
 					/>
@@ -106,20 +123,22 @@ class StatsScreen extends React.PureComponent {
 				<StatsHorizontalScrollView
 					history={history}
 					historyFetching={!historyFetched}
-					since={{ text: '', date: dates[selectedDate].date }}
+					since={{ text: '', date: dates[preferences.selectedDate].date }}
 				/>
 				<TabsBlockTemplate
 					style={{ margin: 15 }}
 					roundedTop
 					roundedBottom
 					tintColor={colors.primary}
+					value={preferences.selectedStatCategory}
+					onChange={this.onSelectedCategoryChange}
 					tabs={[
 						{
 							title: t('buy_ranking_title'),
-							children: () => (
+							children: (
 								<RankedList
 									title={t('buy_ranking')}
-									items={mostPurchasedItems(filteredHistory).splice(0, 10)}
+									items={mostPurchasedItems(filteredHistory).slice(0, 10)}
 									countTintColor={colors.less}
 									loading={!historyFetched}
 								/>
@@ -127,11 +146,11 @@ class StatsScreen extends React.PureComponent {
 						},
 						{
 							title: t('spend_ranking_title'),
-							children: () => (
+							children: (
 								<RankedList
 									title={t('spend_ranking')}
 									euro
-									items={mostSpentItems(filteredHistory).splice(0, 10)}
+									items={mostSpentItems(filteredHistory).slice(0, 10)}
 									countTintColor={colors.less}
 									loading={!historyFetched}
 								/>
@@ -139,13 +158,13 @@ class StatsScreen extends React.PureComponent {
 						},
 						{
 							title: t('transfer_ranking_title'),
-							children: () => (
+							children: (
 								<View>
 									<RankedList
 										title={t('receive_ranking')}
 										euro
 										noBottomBorder
-										items={mostReceivedFromPersons(filteredHistory).splice(0, 5)}
+										items={mostReceivedFromPersons(filteredHistory).slice(0, 5)}
 										countTintColor={colors.more}
 										loading={!historyFetched}
 									/>
@@ -153,8 +172,8 @@ class StatsScreen extends React.PureComponent {
 									<RankedList
 										title={t('give_ranking')}
 										euro
-										items={mostGivenToPeople(filteredHistory).splice(0, 5)}
-										countTintColor={colors.lightBlue}
+										items={mostGivenToPeople(filteredHistory).slice(0, 5)}
+										countTintColor={colors.transfer}
 										loading={!historyFetched}
 									/>
 								</View>
@@ -167,10 +186,11 @@ class StatsScreen extends React.PureComponent {
 	}
 }
 
-const mapStateToProps = ({ payutc }) => {
+const mapStateToProps = ({ payutc, config: { preferences } }) => {
 	const history = payutc.getHistory();
 
 	return {
+		preferences,
 		history: history.getData({ historique: [] }).historique,
 		historyFetching: history.isFetching(),
 		historyFetched: history.isFetched(),

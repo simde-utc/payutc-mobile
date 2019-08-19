@@ -1,31 +1,43 @@
 {
 	"screens": {
 		"AppLoader": {
+			"checking": "Vérification de l'application...",
 			"loading": "Chargement de l'application...",
 			"connect_cas": "Reconnexion au CAS-UTC...",
 			"reconnection": "Reconnexion...",
 			"reset_data": "Réinitialisation des données...",
+			"config_keys_error": "Le fichier de configuration n'est pas le même que celui d'exemple. Certaines clés sont manquantes.",
+			"config_values_error": "Certaines clés du fichier de configuration ne sont pas renseignées. Cela conduira a des erreurs.",
+			"need_update": "Mise à jour requise !",
+			"new_update": "Une nouvelle mise à jour est disponible (version %{version}). Cliquez pour l'installer.",
+			"need_terms": "Nouvelles CGUs !",
+			"new_terms": "De nouvelles CGUs ont été publiées. Pour pouvoir utiliser l'application, vous devez vous reconnecter et les accepter.",
 		},
 		"Home": {
 			"title": "Accueil",
 			"hi": "Salut",
 			"your_balance": "Salut %{name}, voici ton solde :",
-			"this_week": "dépensés cette semaine.",
 			"no_balance": "Impossible d'afficher le solde :(",
 			"refill": "Recharger",
 			"transfer": "Transférer",
 			"all_stats": "Toutes les statistiques...",
-			"recent_activity": "Activité récente :",
+			"recent_activity": "Activité récente",
 			"all_history": "Voir tout l'historique...",
-			"cannot_fetch_wallet": "Une erreur est survenue lors de la récupération des informations de votre compte."
+			"cannot_fetch_wallet": "Une erreur est survenue lors de la récupération des informations de votre compte.",
+			"week_negative": {
+				"one": "dépensé cette semaine.",
+				"other": "dépensés cette semaine.",
+				"zero": "dépensé cette semaine."
+			},
 		},
 		"Refill": {
 			"title": "Rechargement",
+			"back_button_title": "Montant",
 			"amount": "Montant du rechargement :",
 			"pay": "Accéder au paiement...",
-			"bad_amount": "Le montant doit être compris %{min} entre %{max}",
+			"bad_amount": "Le montant doit être compris %{min} entre %{max}.",
 			"amount_error": "Le montant est invalide.",
-			"refill_checks": "Vérfication avant rechargement...",
+			"refill_checks": "Vérification avant rechargement...",
 			"redirect_to_refill": "Redirection vers la page de paiement..."
 		},
 		"Payment": {
@@ -33,7 +45,7 @@
 			"paiement_canceled": "Aucun paiement effectué, rechargement annulé",
 			"paiement_confirmed": "Rechargement de %{amount} validé !",
 			"checking": "Vérification de la transaction",
-			"getting_refill": "Récupération de l'information de rechargement"
+			"getting_refill": "Récupération de l'information de rechargement",
 		},
 		"Transfer": {
 			"title": "Transfert",
@@ -43,10 +55,10 @@
 			"message": "Message : ",
 			"message_placeholder": "Un (gentil) message",
 			"transfer_button": "Transférer...",
-			"bad_amount": "Le montant doit être compris %{min} entre %{max}",
+			"bad_amount": "Le montant doit être compris %{min} entre %{max}.",
 			"recipient_not_found": "Aucun destinataire trouvé.",
 			"amount_error": "Le montant est invalide.",
-			"transfer_checks": "Vérfication avant transfert...",
+			"transfer_checks": "Vérification avant transfert...",
 			"transfering": "Transfert en cours...",
 			"transfer_confirmed": "Transfert de %{amount} confirmé vers %{name}",
 			"thanks": "Merci !",
@@ -54,6 +66,9 @@
 			"kiss": "😘",
 			"bg": "😎",
 			"random": "Aléatoire",
+			"confirm_title": "Confirmation",
+			"confirm_message": "Confirmez-vous le transfert de %{amount} à %{name} ?",
+			"confirm": "C'est parti !",
 			"message_suggestions": [
 				"T'es une belle personne !",
 				"Merci encore",
@@ -92,8 +107,9 @@
 			"password_placeholder": "Mot de passe de connexion",
 			"bad_login_password": "Mauvais identifiants",
 			"button": "C'est parti !",
-			"cas_connection": "Connexion au CAS-UTC",
-			"payutc_connection": "Connexion au service PayUTC",
+			"cas_connection": "Connexion au CAS-UTC...",
+			"payutc_connection": "Connexion au service PayUTC...",
+			"valid_terms": "En cliquant sur \"%{button}\" vous acceptez tous les termes",
 		},
 		"History": {
 			"title": "Historique",
@@ -111,15 +127,15 @@
 			"refills_desc": "Rechargements %{since}",
 			"transfers": "Transferts",
 			"transfers_desc": "Transferts %{since}",
-			"empty_list": "Aucune donnée à afficher :("
+			"search": "Rechercher",
+			"show_more": "Voir plus...",
 		},
 		"Stats": {
 			"title": "Statistiques",
 			"purchases_count": "achats effectués",
-			"purchases_amount": "dépensés",
+			"purchases_amount": "d'achats effectués",
 			"received_amount": "reçus",
 			"give_amount": "transférés",
-			"empty_list": "Aucune donnée à afficher :(",
 			"first_transaction": "Première transaction :",
 			"buy_ranking": "Produits les plus achetés",
 			"buy_ranking_title": "Par quantité",
@@ -131,6 +147,7 @@
 		},
 		"Settings": {
 			"title": "Paramètres",
+			"lang": "Langue de l'application :",
 			"lock": "Verrouiller le badge",
 			"locking": "Verrouillage en cours...",
 			"unlocking": "Déverrouillage en cours...",
@@ -139,24 +156,101 @@
 			"unlock_error": "Impossible de déverrouiller le badge.",
 			"sign_out": "Se déconnecter",
 			"about": "À propos",
-			"legal": "Mentions légales"
-		}
+			"contact_us": "Nous contacter",
+			"mail_body": "Salut ! \n\nAvant tout, merci pour cette magnifique application !\n\n",
+		},
+		"About": {
+			"title": "À propos",
+			"license": "Licence",
+			"terms": "Mentions légales",
+			"dependencies": "Paquets Open Source",
+			"contributors": "Équipe de développement",
+			"report_bug": "Signaler un problème",
+			"developed_github": "Code répertorié sur GitHub",
+			"developed_disc": "L'application et le code appartient au SiMDE-UTC (commission conventionnée par le BDE-UTC).\nChaque fichier appartient de même à ses auteurs.\n\nToute contribution est fortement appréciée.",
+			"dev_version": "Application en developpement !",
+			"in_development": "L'application ne peut être mise à jour lorsqu'elle est en développement sous Expo.",
+			"up_to_date": "Application à jour !",
+			"actual_version": "L'application est sous la version %{current}.",
+			"need_update": "L'application n'est pas à jour !",
+			"update_version": "L'application est sous la version %{current}. Cliquez pour mettre à jour vers la version %{next}.",
+		},
+		"License": {
+			"title": "Licence"
+		},
+		"Dependencies": {
+			"title": "Paquets Open Source",
+			"react_native_app": "Application développée avec React Native",
+			"license_info": "Cette application utilise différentes librairies Open Source listées ci-dessous.\nPubliée sur Google Play et sur l'App Store.",
+			"dependencies": "Toutes les dépendances",
+			"dev_dependencies": "Toutes les dépendances pour le développement",
+			"descriptions": {
+				"@fortawesome/free-solid-svg-core": "Ensemble d'icônes FontAwesome",
+				"@fortawesome/react-native-fontawesome": "Intégration de FontAwesome dans React Native",
+				"expo": "Permet le développement simple et rapide sur smartphone",
+				"i18n-js": "Gestion des traductions",
+				"react": "Framework NodeJS pour le frontend",
+				"react-native": "Framework pour le développement mobile Android et iOS",
+				"react-navigation": "Gestion de la navigation entre les différentes pages",
+				"redux": "Gestion harmonisé de la mémoire et des configurations",
+				"react-redux": "Implémentation de Redux dans React Native",
+				"eslint": "Standardisation du code",
+				"prettier": "Amélioration de la qualité du code",
+			},
+		},
+		"Contributors": {
+			"title": "Équipe de développement",
+			"developped": "Développé avec coeur par l'équipe du SiMDE-UTC & PayUTC",
+			"developped_desc": "Développement initié en Juillet 2019.",
+			"main_team": "Équipe chargée de l'application",
+			"design_team": "Équipe ayant développé le design",
+			"old_team": "Équipe ayant travaillé sur d'anciennes applications PayUTC",
+			"contributors": "Contributeurs",
+			"contributions": {
+				"one": "1 seule contribution",
+				"other": "%{count} contributions",
+				"zero": "Aucune contribution"
+			},
+			"project_chief": "Chef du projet",
+			"project_follower": "Suiveur du projet",
+			"principal_developer": "Principal développeur",
+			"principal_designer": "Principal designer",
+			"co_conceptor": "Co-concepteur",
+			"design_fixer": "Coordinateur design",
+			"ios_developer": "Développeur iOS",
+		},
+		"Changelog": {
+			"title": "Changements",
+			"lang": "Langue de l'application :",
+			"actual_version": "Version actuelle: %{version}",
+			"version": "Version %{version}",
+			"go_to_store": "Voir l'application sur le Store",
+			"update_store": "Mettre à jour vers la version %{version}",
+		},
+		"Terms": {
+			"title": "Mentions légales",
+			"accept": "J'accepte les CGUs",
+			"validated": "Accepté le %{date}"
+		},
 	},
 
 	"words": {
 		"optional": "facultatif",
-		"continue": "Continuer",
-		"error": "Une erreur est survenue",
+		"continue": "continuer",
+		"error": "une erreur est survenue",
 		"ok": "OK",
 		"loading_text_replacement": "•••",
 		"and": "et",
 		"at": "à",
-		"since_*": "Depuis %{since}",
-		"ever": "Toujours",
-		"month": "Un mois",
-		"week": "Une semaine",
-		"yesterday": "Hier",
-		"show_since": "Afficher les statistiques depuis :"
+		"since_*": "depuis %{since}",
+		"ever": "toujours",
+		"month": "un mois",
+		"week": "une semaine",
+		"yesterday": "hier",
+		"show_since": "afficher les statistiques depuis :",
+		"empty_list": "Aucune donnée à afficher :(",
+		"back": "Retour",
+		"cancel": "Annuler"
 	},
 
 	"navigation": {
@@ -164,5 +258,12 @@
 		"history": "Historique",
 		"stats": "Statistiques",
 		"settings": "Paramètres"
+	},
+
+	"api": {
+		"connection_issue": "Erreur de connexion",
+		"connection_retry": "L'application n'a pas pu se connecter à Internet. Souhaitez-vous réessayer ?",
+		"cancel": "Annuler",
+		"retry": "Réessayer",
 	}
 }

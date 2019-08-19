@@ -7,13 +7,14 @@
  */
 
 import React from 'react';
-import { FlatList, RefreshControl, Text, TextInput, View, TouchableOpacity } from 'react-native';
+import { Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import colors from '../../styles/colors';
 import BlockTemplate from '../BlockTemplate';
 import { Transfer as t } from '../../utils/i18n';
+import List from '../List';
 
-export default class RecipientForm extends React.PureComponent {
+export default class RecipientForm extends React.Component {
 	constructor(props) {
 		super(props);
 
@@ -29,7 +30,11 @@ export default class RecipientForm extends React.PureComponent {
 	}
 
 	handleRecipientSelected(recipient) {
-		const { onSelect } = this.props;
+		const { onSelect, onSubmitEditing } = this.props;
+
+		if (onSubmitEditing) {
+			onSubmitEditing();
+		}
 
 		onSelect(recipient);
 	}
@@ -52,52 +57,100 @@ export default class RecipientForm extends React.PureComponent {
 		) : null;
 	}
 
+	renderShortcuts() {
+		const { history } = this.props;
+
+		const people = history
+			.filter(transaction => transaction.type === 'VIROUT')
+			.map(transaction => {
+				return {
+					fullName: `${transaction.firstname} ${transaction.lastname}`,
+					shortName: `${transaction.firstname} ${transaction.lastname[0]}.`,
+				};
+			})
+			.filter((thing, index, self) => self.findIndex(t => t.fullName === thing.fullName) === index);
+
+		const shortcutsBlocks = [...new Set(people)].slice(0, 3).map(recipient => (
+			<BlockTemplate
+				roundedTop
+				roundedBottom
+				shadow
+				borderForAndroid
+				key={recipient.fullName}
+				onPress={() => this.onChange(recipient.fullName)}
+				style={{ marginRight: 10 }}
+			>
+				<Text style={{ fontSize: 14, fontWeight: 'bold', color: colors.secondary }}>
+					{recipient.shortName}
+				</Text>
+			</BlockTemplate>
+		));
+
+		return (
+			<View style={{ flexDirection: 'row', paddingTop: people.length > 0 ? 10 : 0 }}>
+				{shortcutsBlocks}
+			</View>
+		);
+	}
+
 	renderCancelRecipient() {
 		return (
-			<TouchableOpacity onPress={() => this.handleRecipientSelected(null)}>
-				<View style={{ padding: 10 }}>
-					<FontAwesomeIcon icon={['fas', 'times']} size={20} color={colors.error} />
-				</View>
+			<TouchableOpacity
+				onPress={() => {
+					this.handleRecipientSelected(null);
+					this.setState({ text: null });
+				}}
+			>
+				<FontAwesomeIcon icon={['fas', 'times']} size={18} color={colors.error} />
 			</TouchableOpacity>
 		);
 	}
 
 	renderRecipientSuggestions() {
 		const { suggestions, suggestionsFetching } = this.props;
+		const { text } = this.state;
+
+		if (!text) return null;
 
 		return (
-			<FlatList
-				data={suggestions}
-				keyExtractor={item => item.id.toString()}
-				renderItem={({ item, index }) => (
+			<List
+				items={suggestions}
+				loading={suggestionsFetching}
+				notRoundedTop
+				renderItem={(item, index) => (
 					<BlockTemplate
-						customBackground={index % 2 === 0 ? colors.backgroundBlockAlt : null}
 						onPress={() => this.handleRecipientSelected(item)}
+						customBackground={index % 2 === 0 ? colors.backgroundBlockAlt : colors.backgroundBlock}
 					>
-						<Text style={{ fontSize: 13, color: colors.secondary, marginBottom: 3 }}>
+						<Text style={{ fontSize: 13, fontWeight: 'bold', color: colors.secondary }}>
 							{item.name}
 						</Text>
 					</BlockTemplate>
 				)}
-				refreshControl={
-					<RefreshControl
-						refreshing={suggestionsFetching}
-						onRefresh={() => {}}
-						colors={[colors.secondary]}
-						tintColor={colors.secondary}
-					/>
-				}
+				noEmptyComponent
+				keyExtractor={item => item.id.toString()}
 			/>
 		);
 	}
 
 	render() {
+		const {
+			error,
+			recipient,
+			suggestionsFetching,
+			blurOnSubmit,
+			setRef,
+			onSubmitEditing,
+		} = this.props;
 		const { text } = this.state;
-		const { error, recipient } = this.props;
 
 		return (
 			<View>
-				<BlockTemplate style={{ paddingBottom: 5 }} roundedTop shadow>
+				<BlockTemplate
+					roundedTop
+					roundedBottom={(error && !suggestionsFetching) || !text || recipient}
+					shadow
+				>
 					<Text
 						style={{ fontSize: 14, fontWeight: 'bold', color: colors.secondary, marginBottom: 5 }}
 					>
@@ -108,24 +161,28 @@ export default class RecipientForm extends React.PureComponent {
 							style={{
 								flexGrow: 1,
 								fontSize: 18,
-								color: colors.lightBlue,
+								color: colors.transfer,
+								padding: 0,
+								margin: 0,
 							}}
 							keyboardType="default"
 							placeholder={t('recipient_placeholder')}
 							maxLength={this.maxLength}
-							selectionColor={error == null ? colors.lightBlue : colors.error}
 							textContentType="none"
 							autoCorrect={false}
 							onChangeText={text => this.onChange(text)}
 							value={recipient ? recipient.name : text}
 							editable={!recipient}
+							blurOnSubmit={blurOnSubmit}
+							ref={setRef}
+							onSubmitEditing={onSubmitEditing}
 						/>
 						{recipient ? this.renderCancelRecipient() : null}
 					</View>
-					{error ? this.renderErrorMessage() : null}
+					{this.renderErrorMessage()}
+					{text ? null : this.renderShortcuts()}
 				</BlockTemplate>
 				{recipient ? null : this.renderRecipientSuggestions()}
-				<BlockTemplate style={{ padding: 5 }} roundedBottom />
 			</View>
 		);
 	}

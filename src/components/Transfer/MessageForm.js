@@ -12,11 +12,11 @@ import colors from '../../styles/colors';
 import BlockTemplate from '../BlockTemplate';
 import { _, Transfer as t } from '../../utils/i18n';
 
-export default class MessageForm extends React.PureComponent {
+export default class MessageForm extends React.Component {
 	constructor(props) {
 		super(props);
 
-		this.state = { text: null };
+		this.state = { text: '' };
 		this.maxLength = 255;
 		this.messages = t('message_suggestions');
 
@@ -61,6 +61,7 @@ export default class MessageForm extends React.PureComponent {
 					roundedTop
 					roundedBottom
 					shadow
+					borderForAndroid
 					key={text}
 					onPress={() => this.onChange(getValue ? getValue() : text)}
 				>
@@ -68,7 +69,7 @@ export default class MessageForm extends React.PureComponent {
 						style={{
 							fontSize: 14,
 							fontWeight: 'bold',
-							color: getValue ? colors.lightBlue : colors.secondary,
+							color: getValue ? colors.transfer : colors.secondary,
 							fontStyle: getValue ? 'italic' : null,
 						}}
 					>
@@ -86,8 +87,8 @@ export default class MessageForm extends React.PureComponent {
 	}
 
 	render() {
+		const { blurOnSubmit, setRef, onSubmitEditing } = this.props;
 		const { text } = this.state;
-		const { error } = this.props;
 
 		return (
 			<BlockTemplate roundedTop roundedBottom shadow>
@@ -105,17 +106,20 @@ export default class MessageForm extends React.PureComponent {
 				<TextInput
 					style={{
 						fontSize: 18,
-						color: colors.lightBlue,
+						color: colors.transfer,
+						padding: 0,
+						margin: 0,
 					}}
 					keyboardType="default"
 					placeholder={t('message_placeholder')}
 					maxLength={this.maxLength}
 					multiline
-					selectionColor={error == null ? colors.lightBlue : colors.error}
 					textContentType="none"
-					autoCorrect={false}
 					onChangeText={text => this.onChange(text)}
 					value={text}
+					blurOnSubmit={blurOnSubmit}
+					ref={setRef}
+					onSubmitEditing={onSubmitEditing}
 				/>
 				{this.renderShortcuts()}
 			</BlockTemplate>

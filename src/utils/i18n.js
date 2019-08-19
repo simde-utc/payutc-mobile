@@ -8,14 +8,16 @@
 import i18nJs from 'i18n-js';
 
 import fr from '../locales/fr.json';
+import en from '../locales/en.json';
+import global from '../locales/global.json';
 
 i18nJs.defaultLocale = 'fr';
 i18nJs.fallbacks = true;
-i18nJs.translations = { fr };
+i18nJs.translations = { fr, en, global };
 
-export const getTranslationsFor = defaultPath => {
+export const getTranslationsFor = (defaultPath, defaultParams = {}) => {
 	return (path, params) => {
-		return i18nJs.t(`${defaultPath}.${path}`, params);
+		return i18nJs.t(`${defaultPath}${path}`, Object.assign(defaultParams, params));
 	};
 };
 
@@ -37,24 +39,26 @@ export const e = (path, params) => {
 };
 
 // Liste des screens avec des traductions.
-export const Words = getTranslationsFor('words');
-export const AppLoader = getTranslationsFor('screens.AppLoader');
-export const Home = getTranslationsFor('screens.Home');
-export const Refill = getTranslationsFor('screens.Refill');
-export const Payment = getTranslationsFor('screens.Payment');
-export const Transfer = getTranslationsFor('screens.Transfer');
-export const Auth = getTranslationsFor('screens.Auth');
-export const History = getTranslationsFor('screens.History');
-export const Stats = getTranslationsFor('screens.Stats');
-export const Settings = getTranslationsFor('screens.Settings');
-export const Navigation = getTranslationsFor('navigation');
+export const Words = getTranslationsFor('words.');
+export const Global = getTranslationsFor('', { locale: 'global' });
+export const Api = getTranslationsFor('api.');
+export const AppLoader = getTranslationsFor('screens.AppLoader.');
+export const Home = getTranslationsFor('screens.Home.');
+export const Refill = getTranslationsFor('screens.Refill.');
+export const Payment = getTranslationsFor('screens.Payment.');
+export const Transfer = getTranslationsFor('screens.Transfer.');
+export const Auth = getTranslationsFor('screens.Auth.');
+export const History = getTranslationsFor('screens.History.');
+export const Stats = getTranslationsFor('screens.Stats.');
+export const Settings = getTranslationsFor('screens.Settings.');
+export const About = getTranslationsFor('screens.About.');
+export const License = getTranslationsFor('screens.License.');
+export const Dependencies = getTranslationsFor('screens.Dependencies.');
+export const Contributors = getTranslationsFor('screens.Contributors.');
+export const Changelog = getTranslationsFor('screens.Changelog.');
+export const Terms = getTranslationsFor('screens.Terms.');
+export const Navigation = getTranslationsFor('navigation.');
 
-const i18n = {
-	...i18nJs,
-	getTranslationsFor,
-	T,
-	_,
-	e,
-};
+const i18n = i18nJs;
 
 export default i18n;

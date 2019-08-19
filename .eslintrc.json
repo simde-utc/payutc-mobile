@@ -45,7 +45,7 @@
     "semi": [1, "always"],
     "indent": [0, "tab"],
     "no-console": 0,
-    "no-case-declarations": 1,
+    "no-case-declarations": 0,
     "no-fallthrough": 0,
     "no-plusplus": 0,
     "no-unused-vars": [1,

@@ -7,30 +7,35 @@
  */
 
 import React from 'react';
-import { View, ScrollView } from 'react-native';
+import { View, ScrollView, Alert } from 'react-native';
 import { connect } from 'react-redux';
-import AmountForm from '../../components/Transfer/AmountForm';
+import LinkButton from '../../components/LinkButton';
+import AmountForm from '../../components/AmountForm';
 import MessageForm from '../../components/Transfer/MessageForm';
 import RecipientForm from '../../components/Transfer/RecipientForm';
-import Submit from '../../components/Transfer/Submit';
 import colors from '../../styles/colors';
-import { PayUTC } from '../../redux/actions';
-import { Transfer as t } from '../../utils/i18n';
-import { isAmountValid } from '../../utils';
+import { Config, PayUTC } from '../../redux/actions';
+import { _, Transfer as t } from '../../utils/i18n';
+import { isAmountValid, floatToEuro } from '../../utils';
 
-class TransferScreen extends React.PureComponent {
-	static navigationOptions = {
+const MIN_AMOUNT = 0.01;
+
+class TransferScreen extends React.Component {
+	static navigationOptions = () => ({
 		title: t('title'),
 		headerStyle: { borderBottomWidth: 0 },
-		headerTintColor: colors.lightBlue,
+		headerTintColor: colors.transfer,
 		headerForceInset: { top: 'never' },
-	};
+		headerTruncatedBackTitle: _('back'),
+	});
+
+	submiting = false;
 
 	constructor(props) {
 		super(props);
 
 		this.state = {
-			message: null,
+			message: '',
 			amount: '',
 			recipient: null,
 			suggestions: [],
@@ -38,7 +43,6 @@ class TransferScreen extends React.PureComponent {
 
 		this.handleMessageChange = this.handleMessageChange.bind(this);
 		this.handleAmountChange = this.handleAmountChange.bind(this);
-		this.handleAmountErrorChange = this.handleAmountErrorChange.bind(this);
 		this.handleRecipientChange = this.handleRecipientChange.bind(this);
 		this.handleRecipientSelected = this.handleRecipientSelected.bind(this);
 	}
@@ -54,6 +58,7 @@ class TransferScreen extends React.PureComponent {
 
 				case 1:
 					this.handleRecipientSelected(suggestions[0]);
+					this.amountInput.focus();
 
 				default:
 					this.setState({ recipientError: null, suggestions });
@@ -62,8 +67,8 @@ class TransferScreen extends React.PureComponent {
 		}
 	}
 
-	handleMessageChange(text) {
-		this.setState({ message: text });
+	handleMessageChange(message) {
+		this.setState({ message });
 	}
 
 	isButtonDisabled() {
@@ -75,6 +80,13 @@ class TransferScreen extends React.PureComponent {
 			!parseFloat(amount.replace(',', '.')) ||
 			!isAmountValid(amount)
 		);
+	}
+
+	isAmountValid(credit) {
+		const { amount } = this.state;
+		const amountAsFloat = parseFloat(amount.replace(',', '.'));
+
+		return amountAsFloat >= MIN_AMOUNT && amountAsFloat <= credit;
 	}
 
 	handleAmountChange(amount) {
@@ -109,10 +121,113 @@ class TransferScreen extends React.PureComponent {
 		this.setState({ recipientError: null, recipient });
 	}
 
+	accept(amountAsFloat, recipient, message) {
+		const { dispatch, navigation } = this.props;
+
+		dispatch(
+			Config.spinner({
+				visible: true,
+				textContent: t('transfering'),
+			})
+		);
+
+		const action = PayUTC.transfer(amountAsFloat * 100, recipient.id, message);
+		dispatch(action);
+
+		action.payload
+			.then(() => {
+				dispatch(
+					Config.spinner({
+						visible: false,
+					})
+				);
+
+				this.submiting = false;
+
+				dispatch(PayUTC.getWalletDetails());
+				dispatch(PayUTC.getHistory());
+
+				navigation.navigate('Home', {
+					message: t('transfer_confirmed', {
+						amount: floatToEuro(amountAsFloat),
+						name: recipient.name,
+					}),
+				});
+			})
+			.catch(() => this.refuse());
+	}
+
+	refuse() {
+		const { dispatch } = this.props;
+
+		dispatch(
+			Config.spinner({
+				visible: false,
+			})
+		);
+
+		this.submiting = false;
+	}
+
+	submit() {
+		const { dispatch } = this.props;
+
+		// Avoid multiple sumbits on laggy phones...
+		if (this.submiting) {
+			return;
+		}
+
+		this.submiting = true;
+
+		dispatch(
+			Config.spinner({
+				visible: true,
+				textContent: t('transfer_checks'),
+			})
+		);
+
+		const action = PayUTC.getWalletDetails();
+		dispatch(action);
+
+		action.payload.then(([data]) => {
+			const credit = data.credit / 100;
+
+			if (!this.isAmountValid(credit)) {
+				dispatch(
+					Config.spinner({
+						visible: false,
+					})
+				);
+
+				this.submiting = false;
+
+				return this.setState({
+					amountError: t('bad_amount', { min: floatToEuro(MIN_AMOUNT), max: floatToEuro(credit) }),
+				});
+			}
+
+			const { amount, recipient, message } = this.state;
+			const amountAsFloat = parseFloat(amount.replace(',', '.'));
+
+			Alert.alert(
+				t('confirm_title'),
+				t('confirm_message', { amount: floatToEuro(amountAsFloat), name: recipient.name }),
+				[
+					{ text: _('cancel'), onPress: () => this.refuse() },
+					{
+						text: t('confirm'),
+						onPress: () => this.accept(amountAsFloat, recipient, message),
+						style: 'destructive',
+					},
+				],
+				{ cancelable: false }
+			);
+		});
+	}
+
 	render() {
-		const minAmount = 0.01;
-		const { navigation, suggestionsFetching } = this.props;
-		const { message, amount, recipientError, amountError, recipient, suggestions } = this.state;
+		const { suggestionsFetching, history } = this.props;
+		const { amount, recipientError, amountError, recipient, suggestions } = this.state;
 
 		return (
 			<ScrollView style={{ backgroundColor: colors.backgroundLight }}>
@@ -124,23 +239,36 @@ class TransferScreen extends React.PureComponent {
 						suggestionsFetching={suggestionsFetching}
 						onChange={this.handleRecipientChange}
 						onSelect={this.handleRecipientSelected}
+						history={history}
+						blurOnSubmit={false}
+						onSubmitEditing={() => this.amountInput.focus()}
 					/>
 				</View>
 				<View style={{ padding: 15, paddingTop: 0 }}>
-					<AmountForm amount={amount} error={amountError} onChange={this.handleAmountChange} />
-				</View>
-				<View style={{ padding: 15, paddingTop: 0 }}>
-					<MessageForm onChange={this.handleMessageChange} />
-				</View>
-				<View style={{ padding: 15, paddingTop: 0 }}>
-					<Submit
-						recipient={recipient}
-						message={message}
+					<AmountForm
+						title={t('amount')}
 						amount={amount}
-						minAmount={minAmount}
-						onAmountErrorChange={this.handleAmountErrorChange}
+						error={amountError}
+						onChange={this.handleAmountChange}
+						setRef={input => (this.amountInput = input)}
+						blurOnSubmit={false}
+						onSubmitEditing={() => this.messageInput.focus()}
+						tintColor={colors.transfer}
+					/>
+				</View>
+				<View style={{ padding: 15, paddingTop: 0 }}>
+					<MessageForm
+						onChange={this.handleMessageChange}
+						setRef={input => (this.messageInput = input)}
+					/>
+				</View>
+				<View style={{ padding: 15, paddingTop: 0 }}>
+					<LinkButton
+						text={t('transfer_button')}
+						color={colors.backgroundLight}
+						backgroundColor={colors.transfer}
 						disabled={this.isButtonDisabled()}
-						navigation={navigation}
+						onPress={() => this.submit()}
 					/>
 				</View>
 			</ScrollView>
@@ -150,10 +278,13 @@ class TransferScreen extends React.PureComponent {
 
 const mapStateToProps = ({ payutc }) => {
 	const suggestions = payutc.getUserAutoComplete();
+	const history = payutc.getHistory();
 
 	return {
 		suggestions: suggestions.getData([]),
 		suggestionsFetching: suggestions.isFetching(),
+		history: history.getData({ historique: [] }).historique,
+		historyFetching: history.isFetching(),
 	};
 };
 

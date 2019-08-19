@@ -8,36 +8,16 @@
 import { combineReducers } from 'redux';
 import CASAuthService from '../services/CASAuth';
 import PayUTCService from '../services/PayUTC';
-import colors from '../styles/colors';
+import GitHubService from '../services/GitHub';
+import { configReducer } from './config';
 
 // Promise action types.
-const PENDING = '_PENDING';
-const SUCCEEDED = '_FULFILLED';
-const FAILED = '_REJECTED';
-
-const CONFIG = 'CONFIG';
-
-const configState = {
-	spinner: {
-		visible: false,
-		color: colors.white,
-		textStyle: {
-			color: colors.white,
-			textAlign: 'center',
-			paddingHorizontal: 15,
-		},
-	},
-};
+const PENDING = 'PENDING';
+const SUCCEEDED = 'FULFILLED';
+const FAILED = 'REJECTED';
 
 const reducers = {
-	config: (state = configState, action) => {
-		if (action.type.endsWith(CONFIG)) {
-			state = Object.assign({}, state);
-			state[action.config] = Object.assign(state[action.config], action.data);
-		}
-
-		return state;
-	},
+	config: configReducer,
 };
 
 // Generate a new store for a specific service resource.
@@ -65,47 +45,69 @@ const generateNewState = (newState = {}) => {
 
 			return state[method];
 		},
+		set: (state, method, value) => {
+			state[method] = value;
+		},
 	});
 };
 
-const generalReducer = (state, action) => {
-	let serviceMethod;
-	let methodState;
-	state = generateNewState(state.returnState());
+const generalReducer = type => (state, action) => {
+	const [service, method, status] = action ? action.type.split('_') : null;
 
-	if (action.type.endsWith(PENDING)) {
-		serviceMethod = action.type.substring(0, action.type.length - PENDING.length);
-
-		methodState = generateNewStore(state[serviceMethod]());
-		methodState.fetching = true;
-		methodState.fetched = false;
-		methodState.failed = false;
-		methodState.code = null;
-	} else if (action.type.endsWith(SUCCEEDED)) {
-		serviceMethod = action.type.substring(0, action.type.length - SUCCEEDED.length);
-		const [data, code] = action.payload;
-
-		methodState = generateNewStore(state[serviceMethod]());
-		methodState.data = data;
-		methodState.fetching = false;
-		methodState.fetched = true;
-		methodState.failed = false;
-		methodState.code = code;
-	} else if (action.type.endsWith(FAILED)) {
-		serviceMethod = action.type.substring(0, action.type.length - FAILED.length);
-		const [data, code] = action.payload;
-
-		methodState = generateNewStore(state[serviceMethod]());
-		methodState.data = data;
-		methodState.fetching = false;
-		methodState.fetched = false;
-		methodState.failed = true;
-		methodState.code = code;
+	if (service !== type) {
+		return state;
 	}
 
-	state[serviceMethod] = methodState;
+	const newState = generateNewState(state.returnState());
+	delete state.returnState();
+	const methodState = generateNewStore(newState[method]());
+	delete newState[method]();
+	let data;
+	let code;
 
-	return state;
+	switch (status) {
+		case PENDING:
+			methodState.fetching = true;
+			methodState.fetched = false;
+			methodState.failed = false;
+			methodState.code = null;
+
+			break;
+
+		case SUCCEEDED:
+		case FAILED:
+		default:
+			[data, code] = action.payload;
+
+			if (code === 523) {
+				methodState.fetching = false;
+				methodState.fetched = true;
+			} else {
+				if (method === 'getHistory' && methodState.data) {
+					for (
+						let i = data.historique.length - methodState.data.historique.length - 1;
+						i >= 0;
+						i--
+					) {
+						methodState.data.historique.splice(0, 0, data.historique[i]);
+					}
+				} else {
+					delete methodState.data;
+					methodState.data = data;
+				}
+
+				methodState.fetching = false;
+				methodState.fetched = status === SUCCEEDED;
+				methodState.failed = status === FAILED;
+				methodState.code = code;
+			}
+
+			break;
+	}
+
+	newState[method] = methodState;
+
+	return newState;
 };
 
 // Generate a reducer for each service.
@@ -113,10 +115,12 @@ const generateServiceReducer = service => {
 	const initialState = generateNewState();
 
 	// Generate a new state with a new store for each resource action.
-	reducers[service.TYPE] = (state = initialState, action) => generalReducer(state, action);
+	reducers[service.TYPE] = (state = initialState, action) =>
+		generalReducer(service.TYPE)(state, action);
 };
 
 generateServiceReducer(CASAuthService);
 generateServiceReducer(PayUTCService);
+generateServiceReducer(GitHubService);
 
 export default combineReducers(reducers);

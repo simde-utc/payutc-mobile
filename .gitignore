@@ -78,9 +78,16 @@ web-report/
 # macOs things
 .DS_Store
 
-config.js
+/config.js
 
-
+# Android
 android/.gradle
 android/app/build
 android/build
+android/local.properties
+android/app/release
+*.iml
+
+# Xcode
+xcuserdata/
+ios/Pods

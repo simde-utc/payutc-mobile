@@ -14,31 +14,29 @@ import { CAS_URL } from '../../config';
 import Api from './Api';
 
 class CASAuth extends Api {
+	TYPE = 'cas';
+
 	constructor(url = CAS_URL) {
 		super(url);
 	}
 
 	call(request, method, queries, body, headers, validStatus) {
-		return new Promise((resolve, reject) => {
-			return fetch(Api.urlWithQueries(this.baseUrl + request, queries), {
-				method: method || Api.GET,
-				headers: headers || {},
-				body: Api.serialize(body),
-			})
-				.then(response => {
-					if ((validStatus || Api.VALID_STATUS).includes(response.status)) {
-						return response.text().then(text => {
-							return resolve([text, response.status, response.url]);
-						});
-					}
+		const parameters = {
+			method: method || Api.GET,
+			headers: headers || {},
+			body: Api.serialize(body),
+		};
 
-					return response.text().then(text => {
-						return reject([text, response.status, response.url]);
-					});
-				})
-				.catch(e => {
-					return reject([e.message, 523, '']);
-				});
+		return new Promise((resolve, reject) => {
+			Api.fetch(
+				false,
+				resolve,
+				reject,
+				Api.urlWithQueries(this.baseUrl + request, queries),
+				parameters,
+				validStatus || Api.VALID_STATUS,
+				false
+			);
 		});
 	}
 
@@ -73,13 +71,11 @@ class CASAuth extends Api {
 			},
 			CASAuth.HEADERS_FORM_URLENCODED,
 			[201]
-		)
-			.then(([response, status, url]) => {
-				this.ticket = CASAuth.parseTgt(response);
+		).then(([response, status, url]) => {
+			this.ticket = CASAuth.parseTgt(response);
 
-				return [response, status, url];
-			})
-			.catch(CASAuth.error);
+			return [response, status, url];
+		});
 	}
 
 	getServiceTicket(service, queries) {
@@ -92,23 +88,7 @@ class CASAuth extends Api {
 			},
 			CASAuth.HEADERS_FORM_URLENCODED,
 			[200]
-		).catch(CASAuth.error);
-	}
-
-	static error(e) {
-		console.warn(e);
-
-		if (e instanceof TypeError) {
-			return [JSON.stringify(e), 523, ''];
-		}
-
-		if (Array.isArray(e) && e.length === 3) {
-			const [a, b, c] = e;
-
-			return [JSON.stringify(a), JSON.stringify(b), JSON.stringify(c)];
-		}
-
-		return ['Erreur réseau', 523, ''];
+		);
 	}
 
 	static parseTgt(content) {

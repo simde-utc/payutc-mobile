@@ -7,22 +7,25 @@
  */
 
 import React from 'react';
-import { RefreshControl, ScrollView } from 'react-native';
+import { RefreshControl, TextInput, ScrollView, View } from 'react-native';
 import { connect } from 'react-redux';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import colors from '../../styles/colors';
 import TitleParams from '../../components/TitleParams';
-import List from '../../components/History/List';
-import { PayUTC } from '../../redux/actions';
+import BlockTemplate from '../../components/BlockTemplate';
+import HistoryList from '../../components/History/HistoryList';
+import { Config, PayUTC } from '../../redux/actions';
 import TabsBlockTemplate from '../../components/TabsBlockTemplate';
 import { firstTransaction } from '../../utils/stats';
 import { _, History as t } from '../../utils/i18n';
 
-class HistoryScreen extends React.PureComponent {
-	static navigationOptions = {
+class HistoryScreen extends React.Component {
+	static navigationOptions = () => ({
 		title: t('title'),
 		header: null,
 		headerForceInset: { top: 'never' },
-	};
+		headerTruncatedBackTitle: _('back'),
+	});
 
 	constructor(props) {
 		super(props);
@@ -40,13 +43,17 @@ class HistoryScreen extends React.PureComponent {
 
 		this.state = {
 			dates: [
-				{ title: _('ever'), date: ever },
-				{ title: _('month'), date: oneMonthAgo },
-				{ title: _('week'), date: oneWeekAgo },
-				{ title: _('yesterday'), date: yesterday },
+				{ lazyTitle: 'ever', date: ever },
+				{ lazyTitle: 'month', date: oneMonthAgo },
+				{ lazyTitle: 'week', date: oneWeekAgo },
+				{ lazyTitle: 'yesterday', date: yesterday },
 			],
-			selectedDate: 0,
+			search: '',
 		};
+
+		this.onSearchChange = this.onSearchChange.bind(this);
+		this.onSelectedDateChange = this.onSelectedDateChange.bind(this);
+		this.onSelectedCategoryChange = this.onSelectedCategoryChange.bind(this);
 	}
 
 	componentDidMount() {
@@ -54,28 +61,63 @@ class HistoryScreen extends React.PureComponent {
 	}
 
 	onRefresh() {
-		const { historyFetching, historyFetched, dispatch } = this.props;
+		const { historyFetching, dispatch } = this.props;
 
-		if (!historyFetching && !historyFetched) {
+		if (!historyFetching) {
 			dispatch(PayUTC.getHistory());
 		}
 	}
 
+	onSearchChange(search) {
+		this.setState({ search });
+	}
+
+	onSelectedDateChange(selectedDate) {
+		const { dispatch } = this.props;
+
+		dispatch(Config.preferences({ selectedDate }));
+	}
+
+	onSelectedCategoryChange(selectedHistoryCategory) {
+		const { dispatch } = this.props;
+
+		dispatch(Config.preferences({ selectedHistoryCategory }));
+	}
+
 	getHistory(type) {
 		let { history } = this.props;
-		const { dates, selectedDate } = this.state;
+		const { preferences } = this.props;
+		let { search } = this.state;
+		const { dates } = this.state;
 
 		if (type) {
 			history = history.filter(transaction => transaction.type.startsWith(type));
 		}
 
-		return history.filter(item => new Date(item.date) > new Date(dates[selectedDate].date));
+		history = history.filter(
+			({ date }) => new Date(date) > new Date(dates[preferences.selectedDate].date)
+		);
+
+		if (search !== '') {
+			search = search.toLowerCase();
+
+			history = history.filter(
+				({ name, message, fun }) =>
+					(name && name.toLowerCase().includes(search)) ||
+					(message && message.toLowerCase().includes(search)) ||
+					(fun && fun.toLowerCase().includes(search))
+			);
+		}
+
+		return history;
 	}
 
 	render() {
-		const { historyFetching } = this.props;
-		const { dates, selectedDate } = this.state;
-		const since = _('since_*', { since: dates[selectedDate].title.toLowerCase() });
+		const { historyFetching, preferences } = this.props;
+		const { dates, search } = this.state;
+		const since = _('since_*', {
+			since: _(dates[preferences.selectedDate].lazyTitle).toLowerCase(),
+		});
 
 		return (
 			<ScrollView
@@ -90,27 +132,48 @@ class HistoryScreen extends React.PureComponent {
 				}
 			>
 				<TitleParams title={t('title')} settingText={since}>
+					<BlockTemplate shadow style={{ marginHorizontal: 15 }}>
+						<View style={{ flex: 1, flexDirection: 'row', paddingLeft: 5, alignItems: 'center' }}>
+							<FontAwesomeIcon icon={['fas', 'search']} size={20} color={colors.secondary} />
+							<TextInput
+								style={{
+									flexGrow: 1,
+									paddingLeft: 10,
+									fontSize: 18,
+									color: colors.primary,
+									padding: 0,
+									margin: 0,
+								}}
+								autoCapitalize="none"
+								placeholder={t('search')}
+								textContentType="none"
+								onChangeText={this.onSearchChange}
+								value={search}
+							/>
+						</View>
+					</BlockTemplate>
 					<TabsBlockTemplate
 						roundedBottom
 						text={_('show_since')}
 						tintColor={colors.secondary}
-						default={selectedDate}
-						onChange={index => this.setState({ selectedDate: index })}
+						value={preferences.selectedDate}
+						onChange={this.onSelectedDateChange}
 						style={{ marginHorizontal: 15, borderTopWidth: 0 }}
 						tabs={dates}
 					/>
 				</TitleParams>
-
 				<TabsBlockTemplate
 					style={{ margin: 15 }}
 					roundedTop
 					roundedBottom
+					value={preferences.selectedHistoryCategory}
+					onChange={this.onSelectedCategoryChange}
 					tintColor={colors.primary}
 					tabs={[
 						{
 							title: t('all'),
-							children: () => (
-								<List
+							children: (
+								<HistoryList
 									loading={historyFetching}
 									items={this.getHistory()}
 									title={t('all_desc', { since: since.toLowerCase() })}
@@ -119,8 +182,8 @@ class HistoryScreen extends React.PureComponent {
 						},
 						{
 							title: t('purchased'),
-							children: () => (
-								<List
+							children: (
+								<HistoryList
 									loading={historyFetching}
 									items={this.getHistory('PURCHASE')}
 									title={t('purchased_desc', { since: since.toLowerCase() })}
@@ -129,8 +192,8 @@ class HistoryScreen extends React.PureComponent {
 						},
 						{
 							title: t('refills'),
-							children: () => (
-								<List
+							children: (
+								<HistoryList
 									loading={historyFetching}
 									items={this.getHistory('RECHARGE')}
 									title={t('refills_desc', { since: since.toLowerCase() })}
@@ -139,8 +202,8 @@ class HistoryScreen extends React.PureComponent {
 						},
 						{
 							title: t('transfers'),
-							children: () => (
-								<List
+							children: (
+								<HistoryList
 									loading={historyFetching}
 									items={this.getHistory('VIR')}
 									title={t('transfers_desc', { since: since.toLowerCase() })}
@@ -154,10 +217,11 @@ class HistoryScreen extends React.PureComponent {
 	}
 }
 
-const mapStateToProps = ({ payutc }) => {
+const mapStateToProps = ({ payutc, config: { preferences } }) => {
 	const history = payutc.getHistory();
 
 	return {
+		preferences,
 		history: history.getData({ historique: [] }).historique,
 		historyFetching: history.isFetching(),
 		historyFetched: history.isFetched(),

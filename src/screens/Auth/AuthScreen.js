@@ -7,23 +7,26 @@
  */
 
 import React from 'react';
-import { Alert, Image, Text, TextInput, View } from 'react-native';
+import { Alert, Image, Text, TextInput, View, TouchableOpacity } from 'react-native';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { connect } from 'react-redux';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import colors from '../../styles/colors';
 import BlockTemplate from '../../components/BlockTemplate';
+import { TERMS_VERSION } from '../Settings/TermsScreen';
 import Logo from '../../images/payutc-logo.png';
 import CASAuth from '../../services/CASAuth';
 import PayUTC from '../../services/PayUTC';
 import { Config } from '../../redux/actions';
-import { Auth as t, _ } from '../../utils/i18n';
+import { _, Auth as t, Global as g } from '../../utils/i18n';
 
-class AuthScreen extends React.PureComponent {
-	static navigationOptions = {
+class AuthScreen extends React.Component {
+	static navigationOptions = () => ({
 		title: t('title'),
 		header: null,
 		headerVisible: false,
-	};
+		headerTruncatedBackTitle: _('back'),
+	});
 
 	constructor(props) {
 		super(props);
@@ -31,7 +34,21 @@ class AuthScreen extends React.PureComponent {
 		this.state = {
 			login: null,
 			password: null,
+			needValidation: false,
 		};
+
+		this.switchLang = this.switchLang.bind(this);
+		this.handleNavigationOnFocus = this.handleNavigationOnFocus.bind(this);
+	}
+
+	componentDidMount() {
+		const { navigation } = this.props;
+
+		this.subscriptions = [navigation.addListener('willFocus', this.handleNavigationOnFocus)];
+	}
+
+	componentWillUnmount() {
+		this.subscriptions.forEach(subscription => subscription.remove());
 	}
 
 	onLoginChange(login) {
@@ -42,10 +59,41 @@ class AuthScreen extends React.PureComponent {
 		this.setState({ password });
 	}
 
+	handleNavigationOnFocus({ action: { params } }) {
+		const { needValidation } = this.state;
+
+		if (needValidation && this.areTermsValidated() && !this.isButtonDisabled()) {
+			this.setState({ needValidation: false });
+
+			this.submit();
+		} else if (this.isButtonDisabled()) {
+			this.setState(prevState => ({
+				...prevState,
+				login: params ? params.login : prevState.login,
+			}));
+		}
+	}
+
+	switchLang() {
+		const { lang, dispatch } = this.props;
+
+		const langs = g('langs');
+		const langKeys = Object.keys(langs);
+		const currentIndex = langKeys.indexOf(lang);
+
+		dispatch(Config.setLang(langKeys[(currentIndex + 1) % langKeys.length]));
+	}
+
 	isButtonDisabled() {
 		const { login, password } = this.state;
 
 		return login == null || password == null;
+	}
+
+	areTermsValidated() {
+		const { terms } = this.props;
+
+		return terms.version === TERMS_VERSION;
 	}
 
 	connectWithCas() {
@@ -90,6 +138,12 @@ class AuthScreen extends React.PureComponent {
 		const { login } = this.state;
 		let promise;
 
+		if (!this.areTermsValidated()) {
+			this.setState({ needValidation: true });
+
+			return navigation.navigate('Terms', { quick: true });
+		}
+
 		if (login.includes('@')) {
 			promise = this.connectWithEmail();
 		} else {
@@ -122,13 +176,44 @@ class AuthScreen extends React.PureComponent {
 	}
 
 	render() {
+		const { lang, navigation } = this.props;
 		const { login, password } = this.state;
 
 		return (
 			<KeyboardAwareScrollView
-				style={{ flex: 1, backgroundColor: colors.backgroundLight, padding: 40 }}
+				style={{ flex: 1, backgroundColor: colors.backgroundLight, padding: 40, paddingTop: 20 }}
 			>
-				<View style={{ alignItems: 'center', marginVertical: 40 }}>
+				<View
+					style={{
+						flex: 1,
+						flexDirection: 'row',
+						justifyContent: 'flex-end',
+						paddingBottom: 20,
+					}}
+				>
+					<BlockTemplate
+						roundedTop
+						roundedBottom
+						shadow
+						style={{ paddingVertical: 5 }}
+						onPress={this.switchLang}
+					>
+						<View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
+							<Text
+								style={{
+									fontSize: 14,
+									fontWeight: 'bold',
+									color: colors.secondary,
+									marginRight: 5,
+								}}
+							>
+								{g(`langs.${lang}`)}
+							</Text>
+							<FontAwesomeIcon icon={['fas', 'globe']} size={14} color={colors.secondary} />
+						</View>
+					</BlockTemplate>
+				</View>
+				<View style={{ alignItems: 'center', marginBottom: 40 }}>
 					<Image source={Logo} resizeMode="contain" style={{ height: 180, width: 180 }} />
 				</View>
 				<BlockTemplate roundedTop roundedBottom shadow>
@@ -141,14 +226,17 @@ class AuthScreen extends React.PureComponent {
 						style={{
 							fontSize: 18,
 							color: colors.primary,
+							padding: 0,
+							margin: 0,
 						}}
 						keyboardType="email-address"
 						autoCapitalize="none"
 						placeholder={t('login_placeholder')}
-						selectionColor={colors.primary}
 						textContentType="none"
 						autoCorrect={false}
 						onChangeText={login => this.onLoginChange(login)}
+						onSubmitEditing={() => this.passwordInput.focus()}
+						blurOnSubmit={false}
 						value={login}
 					/>
 				</BlockTemplate>
@@ -163,15 +251,18 @@ class AuthScreen extends React.PureComponent {
 						style={{
 							fontSize: 18,
 							color: colors.primary,
+							padding: 0,
+							margin: 0,
 						}}
 						keyboardType="default"
 						autoCapitalize="none"
 						secureTextEntry
 						placeholder={t('password_placeholder')}
-						selectionColor={colors.primary}
 						textContentType="none"
 						autoCorrect={false}
+						ref={input => (this.passwordInput = input)}
 						onChangeText={pwd => this.onPasswordChange(pwd)}
+						onSubmitEditing={() => !this.isButtonDisabled() && this.submit()}
 						value={password}
 					/>
 				</BlockTemplate>
@@ -195,9 +286,18 @@ class AuthScreen extends React.PureComponent {
 						{t('button')}
 					</Text>
 				</BlockTemplate>
+				<TouchableOpacity onPress={() => navigation.navigate('About')}>
+					<Text
+						style={{ paddingTop: 3, color: colors.secondary, fontSize: 12, textAlign: 'center' }}
+					>
+						{t('valid_terms', { button: t('button') })}
+					</Text>
+				</TouchableOpacity>
 			</KeyboardAwareScrollView>
 		);
 	}
 }
 
-export default connect()(AuthScreen);
+const mapStateToProps = ({ config: { lang, terms } }) => ({ lang, terms });
+
+export default connect(mapStateToProps)(AuthScreen);
