@@ -219,6 +219,8 @@
 			"co_conceptor": "Co-concepteur",
 			"design_fixer": "Coordinateur design",
 			"ios_developer": "Développeur iOS",
+			"translation_team": "Equipe de traduction",
+			"chinese": "Chinois",
 		},
 		"Changelog": {
 			"title": "Changements",
