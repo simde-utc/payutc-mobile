@@ -11,11 +11,22 @@ The app is developed for both Android and iOS, thanks to React Native.
 
 The app is available in French, English and Chinese.
 
+### iOS version
+
 <p align="center">
    <img src="/assets/screenshots/ios/connect.jpg" alt="connect-screen-ios" width="200"/>
    <img src="/assets/screenshots/ios/home.jpg" alt="home-screen-ios" width="200"/>
    <img src="/assets/screenshots/ios/transfer.jpg" alt="transfer-screen-ios" width="200"/>
    <img src="/assets/screenshots/ios/stats.jpg" alt="stats-screen-ios" width="200"/>
+</p>
+
+### Android version
+
+<p align="center">
+   <img src="/assets/screenshots/android/connect.png" alt="connect-screen-android" width="200"/>
+   <img src="/assets/screenshots/android/home.png" alt="home-screen-android" width="200"/>
+   <img src="/assets/screenshots/android/transfer.png" alt="transfer-screen-android" width="200"/>
+   <img src="/assets/screenshots/android/stats.png" alt="stats-screen-android" width="200"/>
 </p>
 
 ## Installation
