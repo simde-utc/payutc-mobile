@@ -63,12 +63,12 @@ export default class HistoryList extends React.Component {
 			<BlockTemplate
 				roundedBottom
 				onPress={this.showMore}
-				style={{ paddingVertical: 5 }}
 				disabled={disabled}
+				customBackground={colors.backgroundBlockAlt}
 			>
 				<Text
 					style={{
-						fontSize: 12,
+						fontSize: 14,
 						fontWeight: 'bold',
 						color: disabled ? colors.disabled : colors.primary,
 					}}

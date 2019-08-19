@@ -128,7 +128,7 @@
 			"transfers": "Transferts",
 			"transfers_desc": "Transferts %{since}",
 			"search": "Rechercher",
-			"show_more": "Voir plus...",
+			"show_more": "Afficher plus..."
 		},
 		"Stats": {
 			"title": "Statistiques",
@@ -144,7 +144,7 @@
 			"receive_ranking": "Personnes qui vous transfèrent le plus",
 			"give_ranking": "Personnes à qui vous transférez le plus",
 			"transfer_ranking_title": "Transferts",
-			"show_more": "Voir plus...",
+			"show_more": "Afficher plus..."
 		},
 		"Settings": {
 			"title": "Paramètres",
