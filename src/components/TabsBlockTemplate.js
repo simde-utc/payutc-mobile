@@ -119,7 +119,7 @@ export default function TabsBlockTemplate({
 					borderBottomColor: colors.backgroundLight,
 				}}
 			/>
-			{tabs[value].children}
+			{tabs[value] ? tabs[value].children : null}
 		</BlockTemplate>
 	);
 }
