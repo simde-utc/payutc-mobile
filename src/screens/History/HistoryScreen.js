@@ -87,7 +87,8 @@ class HistoryScreen extends React.Component {
 	getHistory(type) {
 		let { history } = this.props;
 		const { preferences } = this.props;
-		const { dates, search } = this.state;
+		let { search } = this.state;
+		const { dates } = this.state;
 
 		if (type) {
 			history = history.filter(transaction => transaction.type.startsWith(type));
@@ -98,9 +99,13 @@ class HistoryScreen extends React.Component {
 		);
 
 		if (search !== '') {
+			search = search.toLowerCase();
+
 			history = history.filter(
-				({ name, message }) =>
-					(name && name.includes(search)) || (message && message.includes(search))
+				({ name, message, fun }) =>
+					(name && name.toLowerCase().includes(search)) ||
+					(message && message.toLowerCase().includes(search)) ||
+					(fun && fun.toLowerCase().includes(search))
 			);
 		}
 
