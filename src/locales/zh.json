@@ -5,12 +5,18 @@
 			"connect_cas": "正在登入CAS—UTC中",
 			"reconnection": "连接中",
 			"reset_data": "数据清零中."
+			"config_keys_error": "设定文件少了一些资料，请重试.",
+			"config_values_error": "设定文件少了一些资料， 会造成错误",
+			"need_update": "必须安装更新",
+			"new_update": " 新可用的更新 (%{version}版). 点击为安装更新",
+			"need_terms": "新条款及条件",
+			"new_terms": "为了使用你的PayUTC，请现重新登入，再接受新服务条款及条件",
 		},
 		"Home": {
 			"title": "主页",
 			"hi": "哈喽",
 			"your_balance": "哈喽 %{name}, 这就是你的PayUTC账户余额 :",
-			"this_week": "你这周花的钱",
+			"this_week": "这周花的钱",
 			"no_balance": "无法显示账户余额 :(",
 			"refill": "充值",
 			"transfer": "校内转账",
@@ -18,6 +24,10 @@
 			"recent_activity": "最近活动 :",
 			"all_history": "交易记录",
 			"cannot_fetch_wallet": "账户设定过程失败了，请重新登入"
+			"week_negative": {
+				"one": "这个星期花的钱",
+				"other": "这个星期花的钱",
+				"zero": "这个星期花的钱"
 		},
 		"Refill": {
 			"title": "充值",
@@ -31,7 +41,7 @@
 		"Payment": {
 			"title": "购买平台",
 			"paiement_canceled": "付款取消",
-			"paiement_confirmed": "付款成功，你已充值 %{amount} （欧元）",
+			"paiement_confirmed": "付款成功，你已充值 %{amount} ",
 			"checking": "资料检查中， 请等待",
 			"getting_refill": "正在记录交易中"
 		},
@@ -54,6 +64,9 @@
 			"kiss": "😘",
 			"bg": "😎",
 			"random": "随便说点什么",
+			"confirm_title": "证实版",
+			"confirm_message": "你是否确证要转 %{amount} 给 %{name} ?",
+			"confirm": "确证转账",
 			"message_suggestions": [
 				"好帅诶！",
 				"非常感谢， 真的，非常感谢",
@@ -87,31 +100,34 @@
 			"button": "马上登入",
 			"cas_connection": "登入CAS_UTC平台中",
 			"payutc_connection": "登入PayUTC平台中"
+			"valid_terms": "你点击 \"%{button}\" 的话就要赞同所有服务条款"
 		},
 		"History": {
 			"title": "交易记录",
-			"virout": "已送汇款",
-			"virin": "已接汇款",
+			"virout": "已送汇款给",
+			"virin": "已接汇款从",
 			"refill": "账户充值",
 			"refund": "退款",
 			"unsupported_transaction": "无法显示交易种类",
 			"good_job": "恭喜， 你查完了交易记录",
 			"all": "所有交易",
 			"all_desc": "所有交易 %{since}",
-			"purchased": "我买的",
-			"purchased_desc": "我买的 %{since}",
+			"purchased": "我购买的",
+			"purchased_desc": "我购买的 %{since}",
 			"refills": "充值交易",
 			"refills_desc": "充值交易 %{since}",
 			"transfers": "校内转账",
 			"transfers_desc": "校内转账 %{since}",
-			"empty_list": " 无法实现你的资料 :("
+			"search": "搜寻",
+			"show_more": "显示更多",
+			"empty_list": " 无法显示你的资料 :("
 		},
 		"Stats": {
 			"title": "账户统计",
 			"purchases_count": "至今购买的",
-			"purchases_amount": "至今花的钱",
-			"received_amount": "收钱数额",
-			"give_amount": "送钱数额",
+			"purchases_amount": "至今花",
+			"received_amount": "至今接收了",
+			"give_amount": "至今转过",
 			"empty_list": " 无法显示你的统计 :(",
 			"first_transaction": "你的第一个交易 :",
 			"buy_ranking": "我最多买的",
@@ -128,12 +144,87 @@
 			"lock": "锁定我的学生证",
 			"locking": "锁定中……",
 			"unlocking": "正在解锁学生证中",
-			"lock_info": "学生证锁定后无法购买校内服务",
+			"lock_info": "学生证锁定后，无法购买校内服务",
 			"lock_error": "无法锁定您的学生证",
 			"unlock_error": "无法解锁你的学生证",
 			"sign_out": "登出",
-			"about": "软件资料",
-			"legal": "法律信息"
+			"about": "软件资料"
+			"contact_us": "联络我们",
+			"mail_body": "哈喽 ! \n\n 跟我们说点什么吧 !\n\n",
+		
+		},
+		"About": {
+			"title": "软件资料",
+			"license": "授权合约（法文）",
+			"terms": "法律信息（法文）",
+			"dependencies": "开放源码",
+			"contributors": "SIMDE程序团队",
+			"report_bug": "报道问题",
+			"developed_github": "代码在GitHub上程序 ",
+			"developed_disc": "所有代码都属于PayUTC和SIMDE学生团身体。每位程序员都拥有自己编辑的文件",
+			"dev_version": "目前软件版： 开发版",
+			"in_development": "软件在开发中， 目前无法更新软件。",
+			"up_to_date": "软件最新版",
+			"actual_version": " 目前软件版： %{current} 版 ",
+			"need_update": "软件需要更新，请安装最新更新",
+			"update_version": " 目前软件版 %{current}.  为了安装 %{next}软件版，请这儿点击.",
+		},
+		"License": {
+			"title": "授权合约（法文）"
+		},
+		"Dependencies": {
+			"title": "开放源码",
+			"react_native_app": "PayUTC 手机APP 在 React Native软件开发的 ",
+			"license_info": "PayUTC的代码都是开放代码\n PayUTC开发为谷歌Playstore和苹果App商店",
+			"dependencies": "Toutes les dépendances",
+			"dev_dependencies": "Toutes les dépendances pour le développement",
+			"descriptions": {
+				"@fortawesome/free-solid-svg-core": "Ensemble d'icônes FontAwesome",
+				"@fortawesome/react-native-fontawesome": "Intégration de FontAwesome dans React Native",
+				"expo": "Permet le développement simple et rapide sur smartphone",
+				"i18n-js": "翻译管理",
+				"react": "Framework NodeJS pour le frontend",
+				"react-native": "Framework pour le développement mobile Android et iOS",
+				"react-navigation": "Gestion de la navigation entre les différentes pages",
+				"redux": "Gestion harmonisé de la mémoire et des configurations",
+				"react-redux": "Implémentation de Redux dans React Native",
+				"eslint": "Standardisation du code",
+				"prettier": "Amélioration de la qualité du code",
+			},
+		},
+		"Contributors": {
+			"title": "开发团队",
+			"developped": " 这个搜集软件被SIMDE和PayUTC程序团队开发的",
+			"developped_desc": "开发过程在2019的7月开始",
+			"main_team": "主要程序团队",
+			"design_team": "软件设计团队",
+			"old_team": "已程序过PayUTC的过去版本",
+			"contributors": "贡献者",
+			"contributions": {
+				"one": "一次贡献",
+				"other": "%{count} 次贡献",
+				"zero": "没贡献过"
+			},
+			"project_chief": "项目负责人",
+			"project_follower": "项目副负责人",
+			"principal_developer": "主要程序员",
+			"principal_designer": "主要设计者",
+			"co_conceptor": "程序员",
+			"design_fixer": "设计负责人",
+			"ios_developer": "苹果iOS程序员",
+		},
+		"Changelog": {
+			"title": "换语言",
+			"lang": " 语言 :",
+			"actual_version": " 目前软件版: %{version}",
+			"version": "%{version}版",
+			"go_to_store": "在App商店上显示PayUTC",
+			"update_store": "马上更新到 %{version}"软件版,
+		},
+		"Terms": {服务条款及条件（法文）
+			"title": "",
+			"accept": "我赞同服务条款及条件",
+			"validated": "在 %{date}被使用者赞同"
 		}
 	},
 
@@ -147,10 +238,13 @@
 		"at": "在",
 		"since_*": "从 %{since}",
 		"ever": "永远",
-		"month": "一个月",
-		"week": "一周",
+		"month": "这个月",
+		"week": "这周",
 		"yesterday": "昨天",
 		"show_since": "显示统计从："
+		"empty_list": " 无法显示你的资料 :("
+		"back": "回上一步",
+		"cancel": "取消"
 	},
 
 	"navigation": {
@@ -158,5 +252,12 @@
 		"history": "交易记录",
 		"stats": "账户统计",
 		"settings": "设定"
+	},
+
+	"api": {
+		"connection_issue": "无法连接互联网",
+		"connection_retry": "无法连接互联网. 想不想重试？",
+		"cancel": "取消",
+		"retry": "重试",
 	}
 }
