@@ -49,6 +49,11 @@ export const CONTRIBUTORS_DESIGN_TEAM = {
 	NastuzziSamy: 'design_fixer',
 };
 
+// Translation contributors.
+export const CONTRIBUTORS_TRANSLATION_TEAM = {
+	JulesPer: 'chinese',
+};
+
 // Old contributors of old apps.
 export const CONTRIBUTORS_OLD_TEAM = {
 	thomasriccioli: 'ios_developer',
@@ -72,6 +77,7 @@ export default {
 	PAYUTC_EMAIL,
 	CONTRIBUTORS_MAIN_TEAM,
 	CONTRIBUTORS_DESIGN_TEAM,
+	CONTRIBUTORS_TRANSLATION_TEAM,
 	CONTRIBUTORS_OLD_TEAM,
 	CONTRIBUTORS_BLACKLIST,
 };

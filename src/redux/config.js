@@ -12,7 +12,7 @@ import Storage from '../services/Storage';
 export const CONFIG = 'CONFIG';
 
 export const configState = {
-	lang: 'fr',
+	lang: 'en',
 	spinner: {
 		visible: false,
 		color: colors.backgroundBlock,

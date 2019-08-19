@@ -214,7 +214,7 @@ class AppLoaderScreen extends React.Component {
 	bootstrap() {
 		AppLoaderScreen.loadLibrairies();
 
-		i18n.locale = 'fr';
+		i18n.locale = 'en';
 
 		return Storage.getData('config')
 			.then(config => {
