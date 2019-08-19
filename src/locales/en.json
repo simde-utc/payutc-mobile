@@ -141,7 +141,8 @@
 			"spend_ranking_title": "By price",
 			"receive_ranking": "People who sent you the most money",
 			"give_ranking": "People to who you sent the most money",
-			"transfer_ranking_title": "Transfers"
+			"transfer_ranking_title": "Transfers",
+			"show_more": "Show more...",
 		},
 		"Settings": {
 			"title": "Settings",
