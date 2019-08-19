@@ -138,7 +138,7 @@ class StatsScreen extends React.Component {
 							children: (
 								<RankedList
 									title={t('buy_ranking')}
-									items={mostPurchasedItems(filteredHistory).slice(0, 10)}
+									items={mostPurchasedItems(filteredHistory)}
 									countTintColor={colors.less}
 									loading={!historyFetched}
 								/>
@@ -150,7 +150,7 @@ class StatsScreen extends React.Component {
 								<RankedList
 									title={t('spend_ranking')}
 									euro
-									items={mostSpentItems(filteredHistory).slice(0, 10)}
+									items={mostSpentItems(filteredHistory)}
 									countTintColor={colors.less}
 									loading={!historyFetched}
 								/>
@@ -164,7 +164,8 @@ class StatsScreen extends React.Component {
 										title={t('receive_ranking')}
 										euro
 										noBottomBorder
-										items={mostReceivedFromPersons(filteredHistory).slice(0, 5)}
+										items={mostReceivedFromPersons(filteredHistory)}
+										slice={5}
 										countTintColor={colors.more}
 										loading={!historyFetched}
 									/>
@@ -172,7 +173,8 @@ class StatsScreen extends React.Component {
 									<RankedList
 										title={t('give_ranking')}
 										euro
-										items={mostGivenToPeople(filteredHistory).slice(0, 5)}
+										items={mostGivenToPeople(filteredHistory)}
+										slice={5}
 										countTintColor={colors.transfer}
 										loading={!historyFetched}
 									/>
