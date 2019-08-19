@@ -7,34 +7,47 @@
  */
 
 import React from 'react';
-import { Text, TextInput, View } from 'react-native';
+import { Text, TextInput, View, Platform } from 'react-native';
 import colors from '../../styles/colors';
 
-export default function AmountInput({ value, error, maxLength, onChange, tintColor, autofocus }) {
+export default function AmountInput({
+	value,
+	error,
+	maxLength,
+	onChange,
+	tintColor,
+	autoFocus,
+	blurOnSubmit,
+	setRef,
+	onSubmitEditing,
+}) {
 	return (
 		<View style={{ flexDirection: 'row', justifyContent: 'center' }}>
 			<TextInput
 				style={{
-					fontSize: 70,
+					fontSize: 65,
 					fontWeight: 'bold',
 					color: error == null ? tintColor : colors.error,
 					alignSelf: 'center',
 					textAlign: 'right',
-					width: value ? 'auto' : 180,
+					width: Platform.OS === 'ios' || value ? 'auto' : 180,
 					padding: 0,
 					margin: 0,
 				}}
 				keyboardType="decimal-pad"
 				placeholder={value ? '' : '00,00'}
 				maxLength={maxLength}
-				autoFocus={autofocus}
+				autoFocus={autoFocus}
 				autoCorrect={false}
 				onChangeText={value => onChange(value)}
 				value={value}
+				blurOnSubmit={blurOnSubmit}
+				ref={setRef}
+				onSubmitEditing={onSubmitEditing}
 			/>
 			<Text
 				style={{
-					fontSize: 70,
+					fontSize: 65,
 					fontWeight: 'bold',
 					color: error == null ? tintColor : colors.error,
 				}}

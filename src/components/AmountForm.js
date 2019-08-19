@@ -8,18 +8,15 @@
 
 import React from 'react';
 import { Text, View } from 'react-native';
-import colors from '../../styles/colors';
-import BlockTemplate from '../BlockTemplate';
-import AmountInput from '../Home/AmountInput';
-import { Refill as t } from '../../utils/i18n';
+import colors from '../styles/colors';
+import BlockTemplate from './BlockTemplate';
+import AmountInput from './Home/AmountInput';
 
 export default class AmountForm extends React.Component {
 	constructor(props) {
 		super(props);
 
 		this.maxLength = 5;
-		this.amountShortcuts = [10, 15, 20, 50];
-
 		this.onChange = this.onChange.bind(this);
 	}
 
@@ -40,7 +37,13 @@ export default class AmountForm extends React.Component {
 	}
 
 	renderShortcuts() {
-		const shortcutsBlocks = this.amountShortcuts.map(shortcut => {
+		const { shortcuts } = this.props;
+
+		if (!shortcuts) {
+			return;
+		}
+
+		const shortcutsBlocks = shortcuts.map(shortcut => {
 			return (
 				<BlockTemplate
 					roundedTop
@@ -65,21 +68,18 @@ export default class AmountForm extends React.Component {
 	}
 
 	render() {
-		const { amount, error } = this.props;
+		const { title, amount } = this.props;
 
 		return (
 			<View>
 				<BlockTemplate roundedTop roundedBottom shadow>
-					<Text style={{ fontSize: 14, fontWeight: 'bold', color: colors.secondary }}>
-						{t('amount')}
-					</Text>
+					<Text style={{ fontSize: 14, fontWeight: 'bold', color: colors.secondary }}>{title}</Text>
 					<AmountInput
 						value={amount}
-						error={error}
 						maxLength={this.maxLength}
 						tintColor={colors.more}
-						autofocus
 						onChange={this.onChange}
+						{...this.props}
 					/>
 					{this.renderErrorMessage()}
 					{this.renderShortcuts()}

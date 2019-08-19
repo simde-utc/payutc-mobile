@@ -128,7 +128,7 @@
 			"transfers": "Transferts",
 			"transfers_desc": "Transferts %{since}",
 			"search": "Rechercher",
-			"show_more": "Voir plus...",
+			"show_more": "Afficher plus..."
 		},
 		"Stats": {
 			"title": "Statistiques",
@@ -143,7 +143,8 @@
 			"spend_ranking_title": "Par prix",
 			"receive_ranking": "Personnes qui vous transfèrent le plus",
 			"give_ranking": "Personnes à qui vous transférez le plus",
-			"transfer_ranking_title": "Transferts"
+			"transfer_ranking_title": "Transferts",
+			"show_more": "Afficher plus..."
 		},
 		"Settings": {
 			"title": "Paramètres",
@@ -218,6 +219,8 @@
 			"co_conceptor": "Co-concepteur",
 			"design_fixer": "Coordinateur design",
 			"ios_developer": "Développeur iOS",
+			"translation_team": "Equipe de traduction",
+			"chinese": "Chinois",
 		},
 		"Changelog": {
 			"title": "Changements",

@@ -235,6 +235,8 @@ class AuthScreen extends React.Component {
 						textContentType="none"
 						autoCorrect={false}
 						onChangeText={login => this.onLoginChange(login)}
+						onSubmitEditing={() => this.passwordInput.focus()}
+						blurOnSubmit={false}
 						value={login}
 					/>
 				</BlockTemplate>
@@ -258,6 +260,7 @@ class AuthScreen extends React.Component {
 						placeholder={t('password_placeholder')}
 						textContentType="none"
 						autoCorrect={false}
+						ref={input => (this.passwordInput = input)}
 						onChangeText={pwd => this.onPasswordChange(pwd)}
 						onSubmitEditing={() => !this.isButtonDisabled() && this.submit()}
 						value={password}
