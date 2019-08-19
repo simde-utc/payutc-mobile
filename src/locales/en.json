@@ -125,7 +125,8 @@
 			"refills_desc": "Refills %{since}",
 			"transfers": "Transfers",
 			"transfers_desc": "Transfers %{since}",
-			"search": "Search"
+			"search": "Search",
+			"show_more": "Show more...",
 		},
 		"Stats": {
 			"title": "Statistics",

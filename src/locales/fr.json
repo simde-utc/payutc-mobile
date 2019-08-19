@@ -127,7 +127,8 @@
 			"refills_desc": "Rechargements %{since}",
 			"transfers": "Transferts",
 			"transfers_desc": "Transferts %{since}",
-			"search": "Rechercher"
+			"search": "Rechercher",
+			"show_more": "Voir plus...",
 		},
 		"Stats": {
 			"title": "Statistiques",
