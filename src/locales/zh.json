@@ -221,7 +221,7 @@
 			"go_to_store": "在App商店上显示PayUTC",
 			"update_store": "马上更新到 %{version}"软件版,
 		},
-		"Terms": {服务条款及条件（法文）
+		"Terms": {"服务条款及条件（法文）"
 			"title": "",
 			"accept": "我赞同服务条款及条件",
 			"validated": "在 %{date}被使用者赞同"
