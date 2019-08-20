@@ -6,17 +6,16 @@
  */
 
 import React from 'react';
-import { Alert, ScrollView, View, Text, RefreshControl } from 'react-native';
+import { Alert, RefreshControl, ScrollView, Text, View } from 'react-native';
 import { connect } from 'react-redux';
 import colors from '../../styles/colors';
-import TitleParams from '../../components/TitleParams';
 import LinkButton from '../../components/LinkButton';
 import List from '../../components/List';
 import BlockTemplate from '../../components/BlockTemplate';
 import SwitchBlockTemplate from '../../components/SwitchBlockTemplate';
 import { beautifyDateTime } from '../../utils';
 import { _, Profile as t } from '../../utils/i18n';
-import { PayUTC, Config } from '../../redux/actions';
+import { Config, PayUTC } from '../../redux/actions';
 
 class ProfileScreen extends React.Component {
 	static navigationOptions = () => ({
@@ -161,7 +160,11 @@ class ProfileScreen extends React.Component {
 				<View style={{ margin: 15 }}>
 					<List
 						loading={detailsFetching}
-						title={ detailsFetching ? _('loading_text_replacement') : `${details.user.first_name} ${details.user.last_name}`}
+						title={
+							detailsFetching
+								? _('loading_text_replacement')
+								: `${details.user.first_name} ${details.user.last_name}`
+						}
 						renderItem={ProfileScreen.renderDetail}
 						items={this.getUserDetails()}
 						keyExtractor={item => item.title}

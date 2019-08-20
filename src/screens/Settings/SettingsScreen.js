@@ -46,7 +46,6 @@ class SettingsScreen extends React.Component {
 		dispatch(Config.setLang(lang));
 	}
 
-
 	render() {
 		const { details, detailsFetching, lang, navigation } = this.props;
 

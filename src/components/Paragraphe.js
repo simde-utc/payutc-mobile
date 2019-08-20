@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import { View, Text, Switch } from 'react-native';
+import { View, Text } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import BlockTemplate from './BlockTemplate';
 import colors from '../styles/colors';
