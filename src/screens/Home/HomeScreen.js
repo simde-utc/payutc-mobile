@@ -61,6 +61,12 @@ class HomeScreen extends React.Component {
 	}
 
 	handleNavigationOnFocus({ action: { params } }) {
+		const { detailsFetched, historyFetched } = this.props;
+
+		if (!detailsFetched || !historyFetched) {
+			this.onRefresh();
+		}
+
 		this.setState({
 			message: params || {},
 		});
