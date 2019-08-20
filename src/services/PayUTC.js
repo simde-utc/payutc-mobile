@@ -13,6 +13,7 @@ import Storage from './Storage';
 import { PAYUTC_API_URL, PAYUTC_KEY, PAYUTC_VERSION, PAYUTC_SYSTEM_ID } from '../../config';
 
 const ACCOUNT_SERVICE = 'services/MYACCOUNT';
+const RIGHTS_SERVICE = 'services/USERRIGHT';
 const TRANSFER_SERVICE = 'services/TRANSFER';
 const REFILL_SERVICE = 'services/RELOAD';
 const WALLET_RESOURCE = 'resources/wallets';
@@ -162,6 +163,17 @@ export class PayUTCApi extends Api {
 
 			return [wallets[0], status];
 		});
+	}
+
+	getUserRights() {
+		return this.resourceCall(
+			RIGHTS_SERVICE,
+			'getMyRights',
+			Api.POST,
+			AUTH_QUERIES,
+			{ check_user: true },
+			Api.HEADERS_JSON
+		);
 	}
 
 	getHistory() {
