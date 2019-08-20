@@ -38,10 +38,18 @@ class ProfileScreen extends React.Component {
 	}
 
 	onRefresh() {
-		const { detailsFetching, dispatch } = this.props;
+		const { rightsFetching, hasRightsFetching, detailsFetching, dispatch } = this.props;
 
 		if (!detailsFetching) {
 			dispatch(PayUTC.getWalletDetails());
+		}
+
+		if (!rightsFetching) {
+			dispatch(PayUTC.getUserRights());
+		}
+
+		if (!hasRightsFetching) {
+			dispatch(PayUTC.hasRights());
 		}
 	}
 
@@ -99,20 +107,31 @@ class ProfileScreen extends React.Component {
 	}
 
 	getUserDetails() {
-		const { details, detailsFetching } = this.props;
+		const { hasRights, rights, details, detailsFetching } = this.props;
+		const types = [];
 
 		if (detailsFetching) {
 			return [];
 		}
 
+		if (rights.includes('ADMINRIGHT')) {
+			types.push(_('admin'));
+		} else if (rights.length) {
+			types.push(_('manager'));
+		} else if (hasRights) {
+			types.push(_('staff'));
+		}
+
+		types.push(details.user.username.includes('@') ? _('ext') : _('cas'));
+
 		return [
-			{ title: 'Prénom', value: details.user.first_name },
-			{ title: 'Nom', value: details.user.last_name },
-			{ title: 'Email', value: details.user.email },
-			{ title: 'Login', value: details.user.username },
-			{ title: 'Type', value: 'Admin / Cotisant BDE / CAS-UTC' },
-			{ title: 'Statut', value: details.force_adult ? 'Adulte' : 'Considéré.e mineur.e' },
-			{ title: 'Date de création', value: beautifyDateTime(details.created) },
+			{ title: _('firstname'), value: details.user.first_name },
+			{ title: _('lastname'), value: details.user.last_name },
+			{ title: _('email'), value: details.user.email },
+			{ title: _('login'), value: details.user.username },
+			{ title: _('type'), value: types.join(' / ') },
+			{ title: _('status'), value: details.force_adult ? _('adult') : _('minor') },
+			{ title: _('creation_date'), value: beautifyDateTime(details.created) },
 		];
 	}
 
@@ -143,7 +162,7 @@ class ProfileScreen extends React.Component {
 					title={
 						detailsFetching ? t('title') : `${details.user.first_name} ${details.user.last_name}`
 					}
-					settingText="Détails"
+					settingText={_('details')}
 					icon="info"
 				>
 					<View style={{ marginHorizontal: 15 }}>
@@ -209,10 +228,17 @@ class ProfileScreen extends React.Component {
 }
 
 const mapStateToProps = ({ payutc, config: { lang } }) => {
+	const hasRights = payutc.hasRights();
+	const rights = payutc.getUserRights();
 	const details = payutc.getWalletDetails();
 
 	return {
 		lang,
+		hasRights: hasRights.getData([]),
+		hasRightsFetching: hasRights.isFetching(),
+		rights: rights.getData([]),
+		rightsFetching: rights.isFetching(),
+		rightsFetched: rights.isFetched(),
 		details: details.getData({}),
 		detailsFetching: details.isFetching(),
 		detailsFetched: details.isFetched(),
