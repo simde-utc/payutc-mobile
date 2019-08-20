@@ -118,6 +118,7 @@ class HomeScreen extends React.Component {
 				<BlockTemplate roundedTop roundedBottom shadow style={{ marginBottom: 15 }}>
 					<Balance
 						amount={amount}
+						isCreditConsistent={details.is_credit_consistent}
 						loading={detailsFetching}
 						name={details.name}
 						weekAmount={totalAmount(history, oneWeekAgo) / 100}
