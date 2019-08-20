@@ -137,9 +137,11 @@ class ProfileScreen extends React.Component {
 	signOut() {
 		const { navigation, dispatch } = this.props;
 
-		dispatch(Config.wipe());
+		PayUTC.forget().payload.then(() => {
+			navigation.navigate('Auth');
 
-		PayUTC.forget().payload.then(() => navigation.navigate('Auth'));
+			dispatch(Config.wipe());
+		});
 	}
 
 	render() {
