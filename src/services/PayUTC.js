@@ -187,10 +187,10 @@ export class PayUTCApi extends Api {
 		);
 	}
 
-	getLockStatus() {
+	hasRights() {
 		return this.connectedCall(
 			ACCOUNT_SERVICE,
-			'isBlockedMe',
+			'canChangePin',
 			Api.POST,
 			AUTH_QUERIES,
 			{},
