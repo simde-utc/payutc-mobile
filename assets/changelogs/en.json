@@ -1,5 +1,33 @@
 [
 	{
+		"version": "v1.0.0",
+		"data": [
+			"Official release of the application !",
+			{
+				"title": "News",
+				"data": [
+					"Add a profile screen to show all user data"
+				]
+			},
+			{
+				"title": "Changes",
+				"data": [
+					"Harmonize the Settings screen"
+				]
+			},
+			{
+				"title": "Fixed bugs",
+				"data": [
+					"It was impossible to build under iOS",
+					"The balance was available if equals to 0",
+					"The last transaction did not show",
+					"Persistant data after log out has been fixed",
+					"Documents could be shown in the wrong encoding"
+				]
+			}
+		]
+	},
+	{
 		"version": "v0.2.0",
 		"data": [
 			{
