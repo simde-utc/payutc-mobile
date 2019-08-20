@@ -6,9 +6,9 @@
  */
 
 import React from 'react';
-import { WebView } from 'react-native';
 import { connect } from 'react-redux';
 import ValidationScreen from '../../components/ValidationScreen';
+import Document from '../../components/Document';
 import { beautifyDateTime } from '../../utils';
 import { _, Terms as t } from '../../utils/i18n';
 import { Config } from '../../redux/actions';
@@ -59,12 +59,7 @@ class TermsScreen extends React.Component {
 				disabled={validated}
 				onPress={() => this.validate()}
 			>
-				<WebView
-					style={{ backgroundColor: 'transparent' }}
-					source={{
-						html: `<p style='font-family: sans-serif; text-align: justify; white-space: pre-wrap;'>${TERMS.fr}</p>`,
-					}}
-				/>
+				<Document lang="fr" document={TERMS.fr} />
 			</ValidationScreen>
 		);
 	}
