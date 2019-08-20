@@ -146,12 +146,12 @@
 		},
 		"Settings": {
 			"title": "Settings",
-			"cas_connection": "User connected with the CAS-UTC (%{username})",
-			"email_connection": "User connected by email (%{username})",
 			"lang": "Application language :",
 			"about": "About",
 			"contact_us": "Contact us",
 			"mail_body": "Hello ! \n\nFirst of all, thank you for this application !\n\n",
+			"profile": "My account",
+			"profile_desc": "Account information, badge locking and signing out."
 		},
 		"About": {
 			"title": "About",
@@ -229,7 +229,7 @@
 			"validated": "Accepted on %{date}",
 		},
 		"Profile": {
-			"title": "Profile",
+			"title": "My account",
 			"lock": "Lock the badge",
 			"locking": "Locking the badge...",
 			"unlocking": "Unlocking the badge...",
@@ -262,8 +262,8 @@
 		"staff": "staff",
 		"ext": "extern",
 		"cas": "CAS-UTC",
-		"firstname": "firstname",
-		"lastname": "lastname",
+		"firstname": "first name",
+		"lastname": "last name",
 		"email": "email",
 		"login": "login",
 		"type": "type",

@@ -148,12 +148,12 @@
 		},
 		"Settings": {
 			"title": "Paramètres",
-			"cas_connection": "Utilisateur connecté via le CAS-UTC (%{username})",
-			"email_connection": "Utilisateur connecté via l'adresse email (%{username})",
 			"lang": "Langue de l'application :",
 			"about": "À propos",
 			"contact_us": "Nous contacter",
 			"mail_body": "Salut ! \n\nAvant tout, merci pour cette magnifique application !\n\n",
+			"profile": "Mon compte",
+			"profile_desc": "Informations du compte, verrouillage du badge et déconnexion."
 		},
 		"About": {
 			"title": "À propos",
@@ -231,7 +231,7 @@
 			"validated": "Accepté le %{date}"
 		},
 		"Profile": {
-			"title": "Profil",
+			"title": "Mon compte",
 			"lock": "Verrouiller le badge",
 			"locking": "Verrouillage en cours...",
 			"unlocking": "Déverrouillage en cours...",

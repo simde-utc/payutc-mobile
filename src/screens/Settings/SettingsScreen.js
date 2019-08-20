@@ -46,17 +46,6 @@ class SettingsScreen extends React.Component {
 		dispatch(Config.setLang(lang));
 	}
 
-	getUserDescription() {
-		const { details, detailsFetching } = this.props;
-
-		if (detailsFetching) {
-			return _('loading_text_replacement');
-		}
-
-		const { username } = details.user;
-
-		return t(username.includes('@') ? 'email_connection' : 'cas_connection', { username });
-	}
 
 	render() {
 		const { details, detailsFetching, lang, navigation } = this.props;
@@ -73,13 +62,14 @@ class SettingsScreen extends React.Component {
 				}
 				style={{ backgroundColor: colors.backgroundLight }}
 			>
-				<BlockTemplate roundedTop shadow style={{ margin: 15, marginBottom: 0 }}>
+				<BlockTemplate roundedTop roundedBottom shadow style={{ margin: 15, marginBottom: 0 }}>
 					<Text style={{ fontSize: 22, fontWeight: 'bold', color: colors.primary }}>
 						{t('title')}
 					</Text>
 				</BlockTemplate>
 
 				<TabsBlockTemplate
+					roundedTop
 					roundedBottom
 					shadow
 					text={t('lang')}
@@ -88,7 +78,7 @@ class SettingsScreen extends React.Component {
 					onChange={this.setLang}
 					tabs={g('langs')}
 					justifyContent="flex-start"
-					style={{ margin: 15, marginTop: 0 }}
+					style={{ margin: 15 }}
 				/>
 
 				<Paragraphe
@@ -98,9 +88,9 @@ class SettingsScreen extends React.Component {
 							? _('loading_text_replacement')
 							: `${details.user.first_name} ${details.user.last_name}`
 					}
-					description={this.getUserDescription()}
+					description={t('profile_desc')}
 					onPress={() => navigation.navigate('Profile')}
-					titleColor={colors.transfer}
+					titleColor={colors.primary}
 					link
 				/>
 

@@ -158,32 +158,15 @@ class ProfileScreen extends React.Component {
 				}
 				style={{ backgroundColor: colors.backgroundLight }}
 			>
-				<TitleParams
-					title={
-						detailsFetching ? t('title') : `${details.user.first_name} ${details.user.last_name}`
-					}
-					settingText={_('details')}
-					icon="info"
-				>
-					<View style={{ marginHorizontal: 15 }}>
-						<List
-							notRoundedTop
-							loading={detailsFetching}
-							renderItem={ProfileScreen.renderDetail}
-							items={this.getUserDetails()}
-							keyExtractor={item => item.title}
-						/>
-					</View>
-				</TitleParams>
-
-				<View
-					style={{
-						marginTop: 15,
-						marginHorizontal: 50,
-						borderBottomWidth: 1,
-						borderBottomColor: colors.backgroundBlock,
-					}}
-				/>
+				<View style={{ margin: 15 }}>
+					<List
+						loading={detailsFetching}
+						title={ detailsFetching ? _('loading_text_replacement') : `${details.user.first_name} ${details.user.last_name}`}
+						renderItem={ProfileScreen.renderDetail}
+						items={this.getUserDetails()}
+						keyExtractor={item => item.title}
+					/>
+				</View>
 
 				<SwitchBlockTemplate
 					roundedTop
@@ -193,7 +176,7 @@ class ProfileScreen extends React.Component {
 					onValueChange={this.onLockChange}
 					tintColor={colors.less}
 					disabled={detailsFetching}
-					style={{ margin: 15 }}
+					style={{ margin: 15, marginTop: 0 }}
 				>
 					<View style={{ flex: 1, flexDirection: 'column' }}>
 						<Text
@@ -234,7 +217,7 @@ const mapStateToProps = ({ payutc, config: { lang } }) => {
 
 	return {
 		lang,
-		hasRights: hasRights.getData([]),
+		hasRights: hasRights.getData(false),
 		hasRightsFetching: hasRights.isFetching(),
 		rights: rights.getData([]),
 		rightsFetching: rights.isFetching(),

@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Switch } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import BlockTemplate from './BlockTemplate';
 import colors from '../styles/colors';
@@ -57,6 +57,7 @@ export default function Paragraphe({
 						icon={['fas', 'angle-right']}
 						size={20}
 						color={titleColor || colors.secondary}
+						style={{ marginLeft: 10 }}
 					/>
 				) : null}
 			</View>
