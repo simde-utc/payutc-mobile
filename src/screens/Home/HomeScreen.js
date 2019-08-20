@@ -61,6 +61,12 @@ class HomeScreen extends React.Component {
 	}
 
 	handleNavigationOnFocus({ action: { params } }) {
+		const { detailsFetched, historyFetched } = this.props;
+
+		if (!detailsFetched || !historyFetched) {
+			this.onRefresh();
+		}
+
 		this.setState({
 			message: params || {},
 		});
@@ -112,6 +118,7 @@ class HomeScreen extends React.Component {
 				<BlockTemplate roundedTop roundedBottom shadow style={{ marginBottom: 15 }}>
 					<Balance
 						amount={amount}
+						isCreditConsistent={details.is_credit_consistent}
 						loading={detailsFetching}
 						name={details.name}
 						weekAmount={totalAmount(history, oneWeekAgo) / 100}

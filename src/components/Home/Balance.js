@@ -36,6 +36,8 @@ export default class Balance extends React.Component {
 	}
 
 	renderDetails(loading, name, amount) {
+		const { isCreditConsistent } = this.props;
+
 		if (loading) {
 			return (
 				<View style={{ flex: 1 }}>
@@ -77,7 +79,7 @@ export default class Balance extends React.Component {
 				<Text style={{ fontSize: 14, fontWeight: 'bold', color: colors.secondary }}>
 					{t('your_balance', { name })}
 				</Text>
-				{amount ? (
+				{isCreditConsistent ? (
 					<Text style={{ fontSize: 65, fontWeight: 'bold', color: colors.primary, lineHeight: 70 }}>
 						{floatToEuro(amount)}
 					</Text>
