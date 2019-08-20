@@ -16,7 +16,6 @@ import BlockTemplate from '../../components/BlockTemplate';
 import HistoryList from '../../components/History/HistoryList';
 import { Config, PayUTC } from '../../redux/actions';
 import TabsBlockTemplate from '../../components/TabsBlockTemplate';
-import { firstTransaction } from '../../utils/stats';
 import { _, History as t } from '../../utils/i18n';
 
 class HistoryScreen extends React.Component {
@@ -30,8 +29,6 @@ class HistoryScreen extends React.Component {
 	constructor(props) {
 		super(props);
 
-		const ever = firstTransaction(props.history);
-
 		const oneMonthAgo = new Date();
 		oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
 
@@ -43,7 +40,7 @@ class HistoryScreen extends React.Component {
 
 		this.state = {
 			dates: [
-				{ lazyTitle: 'ever', date: ever },
+				{ lazyTitle: 'ever', date: null },
 				{ lazyTitle: 'month', date: oneMonthAgo },
 				{ lazyTitle: 'week', date: oneWeekAgo },
 				{ lazyTitle: 'yesterday', date: yesterday },
@@ -57,7 +54,11 @@ class HistoryScreen extends React.Component {
 	}
 
 	componentDidMount() {
-		this.onRefresh();
+		const { historyFetched } = this.props;
+
+		if (!historyFetched) {
+			this.onRefresh();
+		}
 	}
 
 	onRefresh() {
@@ -94,9 +95,10 @@ class HistoryScreen extends React.Component {
 			history = history.filter(transaction => transaction.type.startsWith(type));
 		}
 
-		history = history.filter(
-			({ date }) => new Date(date) > new Date(dates[preferences.selectedDate].date)
-		);
+		if (dates[preferences.selectedDate].date) {
+			const maxDate = new Date(dates[preferences.selectedDate].date);
+			history = history.filter(({ date }) => new Date(date) > maxDate);
+		}
 
 		if (search !== '') {
 			search = search.toLowerCase();

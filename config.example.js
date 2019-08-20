@@ -22,6 +22,9 @@ export const CAS_URL = '';
 // PayUTC API url.
 export const PAYUTC_API_URL = '';
 
+// PayUTC API version.
+export const PAYUTC_VERSION = '';
+
 // PayUTC refill callback url.
 export const PAYUTC_CALLBACK_URL = '';
 
@@ -71,6 +74,7 @@ export default {
 	GITHUB_API_URL,
 	CAS_URL,
 	PAYUTC_API_URL,
+	PAYUTC_VERSION,
 	PAYUTC_KEY,
 	PAYUTC_CALLBACK_URL,
 	PAYUTC_SYSTEM_ID,

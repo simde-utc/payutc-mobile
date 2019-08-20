@@ -17,7 +17,6 @@ import RankedList from '../../components/Stats/RankedList';
 import { _, Stats as t } from '../../utils/i18n';
 import TabsBlockTemplate from '../../components/TabsBlockTemplate';
 import {
-	firstTransaction,
 	mostGivenToPeople,
 	mostPurchasedItems,
 	mostReceivedFromPersons,
@@ -35,8 +34,6 @@ class StatsScreen extends React.Component {
 	constructor(props) {
 		super(props);
 
-		const ever = firstTransaction(props.history);
-
 		const oneMonthAgo = new Date();
 		oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
 
@@ -48,7 +45,7 @@ class StatsScreen extends React.Component {
 
 		this.state = {
 			dates: [
-				{ lazyTitle: 'ever', date: ever },
+				{ lazyTitle: 'ever', date: null },
 				{ lazyTitle: 'month', date: oneMonthAgo },
 				{ lazyTitle: 'week', date: oneWeekAgo },
 				{ lazyTitle: 'yesterday', date: yesterday },
@@ -60,7 +57,11 @@ class StatsScreen extends React.Component {
 	}
 
 	componentDidMount() {
-		this.onRefresh();
+		const { historyFetched } = this.props;
+
+		if (!historyFetched) {
+			this.onRefresh();
+		}
 	}
 
 	onRefresh() {
@@ -86,10 +87,12 @@ class StatsScreen extends React.Component {
 	render() {
 		const { historyFetched, history, preferences } = this.props;
 		const { dates } = this.state;
+		let filteredHistory = history;
 
-		const filteredHistory = history.filter(
-			item => new Date(item.date) > new Date(dates[preferences.selectedDate].date)
-		);
+		if (dates[preferences.selectedDate].date) {
+			const maxDate = new Date(dates[preferences.selectedDate].date);
+			filteredHistory = history.filter(({ date }) => new Date(date) > maxDate);
+		}
 
 		return (
 			<ScrollView

@@ -54,6 +54,10 @@ const generateNewState = (newState = {}) => {
 const generalReducer = type => (state, action) => {
 	const [service, method, status] = action ? action.type.split('_') : null;
 
+	if (method === 'wipe') {
+		return generateNewState();
+	}
+
 	if (service !== type) {
 		return state;
 	}
@@ -83,19 +87,8 @@ const generalReducer = type => (state, action) => {
 				methodState.fetching = false;
 				methodState.fetched = true;
 			} else {
-				if (method === 'getHistory' && methodState.data) {
-					for (
-						let i = data.historique.length - methodState.data.historique.length - 1;
-						i >= 0;
-						i--
-					) {
-						methodState.data.historique.splice(0, 0, data.historique[i]);
-					}
-				} else {
-					delete methodState.data;
-					methodState.data = data;
-				}
-
+				delete methodState.data;
+				methodState.data = data;
 				methodState.fetching = false;
 				methodState.fetched = status === SUCCEEDED;
 				methodState.failed = status === FAILED;

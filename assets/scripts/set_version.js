@@ -20,6 +20,12 @@ replace({
 		files: 'app.json',
 		from: /"versionName": "[0-9a-zA-Z._-]+"/,
 		to: `"versionName": "${newVersion}"`,
+	}).then(() => {
+		replace({
+			files: 'app.json',
+			from: /"version": \d+/,
+			to: `"version": ${currentVersionCode + 1}`,
+		});
 	});
 });
 
