@@ -113,7 +113,7 @@ class HomeScreen extends React.Component {
 					<Balance
 						amount={amount}
 						loading={detailsFetching}
-						name={details.first_name}
+						name={details.name}
 						weekAmount={totalAmount(history, oneWeekAgo) / 100}
 						onRefresh={() => this.onRefresh()}
 					/>

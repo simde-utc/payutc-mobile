@@ -60,7 +60,11 @@ class StatsScreen extends React.Component {
 	}
 
 	componentDidMount() {
-		this.onRefresh();
+		const { historyFetched } = this.props;
+
+		if (!historyFetched) {
+			this.onRefresh();
+		}
 	}
 
 	onRefresh() {

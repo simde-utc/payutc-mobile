@@ -58,6 +58,7 @@ export const Dependencies = getTranslationsFor('screens.Dependencies.');
 export const Contributors = getTranslationsFor('screens.Contributors.');
 export const Changelog = getTranslationsFor('screens.Changelog.');
 export const Terms = getTranslationsFor('screens.Terms.');
+export const Profile = getTranslationsFor('screens.Profile.');
 export const Navigation = getTranslationsFor('navigation.');
 
 const i18n = i18nJs;
