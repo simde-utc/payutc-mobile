@@ -10,11 +10,12 @@
 import Api from './Api';
 import CASAuth from './CASAuth';
 import Storage from './Storage';
-import { PAYUTC_API_URL, PAYUTC_KEY, PAYUTC_SYSTEM_ID } from '../../config';
+import { PAYUTC_API_URL, PAYUTC_KEY, PAYUTC_VERSION, PAYUTC_SYSTEM_ID } from '../../config';
 
-const ACCOUNT_SERVICE = 'MYACCOUNT';
-const TRANSFER_SERVICE = 'TRANSFER';
-const REFILL_SERVICE = 'RELOAD';
+const ACCOUNT_SERVICE = 'services/MYACCOUNT';
+const TRANSFER_SERVICE = 'services/TRANSFER';
+const REFILL_SERVICE = 'services/RELOAD';
+const WALLET_RESOURCE = 'resources/wallets';
 
 const LOGIN_APP_URI = 'loginApp';
 const LOGIN_URI = 'login2';
@@ -36,11 +37,32 @@ export class PayUTCApi extends Api {
 	}
 
 	call(service, request, method, queries, body, headers, validStatus, json = true) {
-		return super.call(`${service}/${request}`, method, queries, body, headers, validStatus, json);
+		return super.call(
+			request ? `${service}/${request}` : service,
+			method,
+			queries,
+			body,
+			headers,
+			validStatus,
+			json
+		);
 	}
 
 	mustCall(service, request, method, queries, body, headers, validStatus, json = true) {
 		return this.call(service, request, method, queries, body, headers, validStatus, json, false);
+	}
+
+	resourceCall(service, request, method, queries, body, headers, validStatus, json = true) {
+		return this.connectedCall(
+			service,
+			request,
+			method,
+			queries,
+			body,
+			Object.assign({ 'Nemopay-Version': PAYUTC_VERSION }, headers),
+			validStatus,
+			json
+		);
 	}
 
 	connectApp() {
@@ -60,7 +82,8 @@ export class PayUTCApi extends Api {
 					service: PAYUTC_API_URL,
 					ticket,
 				})
-					.then(() => {
+					.then(([{ username }]) => {
+						this.username = username;
 						this.connected = true;
 
 						return this.setData({
@@ -85,7 +108,8 @@ export class PayUTCApi extends Api {
 				login,
 				password,
 			})
-				.then(() => {
+				.then(([{ username }]) => {
+					this.username = username;
 					this.connected = true;
 
 					return this.setData({
@@ -121,26 +145,23 @@ export class PayUTCApi extends Api {
 		return this.connected;
 	}
 
-	getUserDetails() {
-		return this.connectedCall(
-			ACCOUNT_SERVICE,
-			'getUserDetails',
-			Api.GET,
-			AUTH_QUERIES,
-			{},
-			Api.HEADERS_JSON
-		);
+	getUsername() {
+		return this.username;
 	}
 
 	getWalletDetails() {
-		return this.connectedCall(
-			ACCOUNT_SERVICE,
-			'getWalletDetails',
-			Api.POST,
-			AUTH_QUERIES,
+		return this.resourceCall(
+			WALLET_RESOURCE,
+			null,
+			Api.GET,
+			Object.assign({ user__username: this.username, ordering: 'id' }, AUTH_QUERIES),
 			{},
 			Api.HEADERS_JSON
-		);
+		).then(([wallets, status]) => {
+			this.walletId = wallets[0].id;
+
+			return [wallets[0], status];
+		});
 	}
 
 	getHistory() {
