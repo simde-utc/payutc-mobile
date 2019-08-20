@@ -1,5 +1,33 @@
 [
 	{
+		"version": "v1.0.0",
+		"data": [
+			"Sortie officielle de l'application !",
+			{
+				"title": "Nouveautés",
+				"data": [
+					"Ajout d'une page profil pour afficher les données utilisateurs"
+				]
+			},
+			{
+				"title": "Modifications",
+				"data": [
+					"Harmonisation de la page Paramètres"
+				]
+			},
+			{
+				"title": "Problèmes réglés",
+				"data": [
+					"Il était impossible de générer l'application sous iOS",
+					"Le solde était indisponible si égal à 0",
+					"La dernière transaction ne s'affichait pas",
+					"Persistance des données à la déconnexion corrigée",
+					"Les documents pouvaient être affichés mal encodés"
+				]
+			}
+		]
+	},
+	{
 		"version": "v0.2.0",
 		"data": [
 			{
