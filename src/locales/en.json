@@ -150,6 +150,7 @@
 			"about": "About",
 			"contact_us": "Contact us",
 			"mail_body": "Hello ! \n\nFirst of all, thank you for this application !\n\n",
+			"profile_desc": "Account information, badge management and disconnection.",
 		},
 		"About": {
 			"title": "About",
@@ -166,15 +167,6 @@
 			"actual_version": "The application is under version %{current}.",
 			"need_update": "The application needs to be updated !",
 			"update_version": "The application is under version %{current}. Click to update to version %{next}.",
-		},
-		"ChangePin": {
-			"title": "Change the PIN code",
-			"new_pin": "New PIN code :",
-			"modify": "Change",
-			"modification_checks": "Changing ...",
-			"pin_description_title": "Utilité du code PIN :",
-			"pin_description": "Le code PIN est utile lorsque vous avez besoin d'utiliser les terminaux de paiement PayUTC en tant que vendeur.\nAttention : Le code PIN seul ne suffit pas pour s'identifier sur les terminaux. Vous devez aussi avoir des droits sur ces derniers. Pour cela veuillez contacter le responsable de votre association ou PayUTC. ",
-			"modification_confirmed": "Pin code changed"
 		},
 		"License": {
 			"title": "License"
@@ -243,9 +235,19 @@
 			"lock_info": "When the badge is locked, it can no more be used to pay.",
 			"lock_error": "Impossible to lock the badge.",
 			"unlock_error": "Impossible to unlock the badge.",
-			"change_pin": "Change the pin code",
+			"change_pin": "Change the PIN code",
+			"cant_change_pin": "PayUTC rights are required.",
 			"sign_out": "Disconnect",
-		}
+		},
+		"ChangePin": {
+			"title": "Change the PIN code",
+			"new_pin": "New PIN code :",
+			"modify": "Change",
+			"modification_checks": "Changing the PIN code...",
+			"pin_description_title": "PIN code usage :",
+			"pin_description": "The PIN code is useful when you need to use PayUTC terminals in order to sell.\nCaution : The PIN code only is not enough to identify yourself on the terminals.\nYou need to have rights also. For that reason, you need to contact your association representant or PayUTC.",
+			"modification_confirmed": "Pin code changed successfully.",
+		},
 	},
 
 	"words": {

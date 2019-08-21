@@ -18,6 +18,7 @@ export default function LinkButton({
 	children,
 	backgroundColor,
 	disabled,
+	disabledText,
 	onPress,
 	notRoundedTop,
 	notRoundedBottom,
@@ -44,15 +45,27 @@ export default function LinkButton({
 				}}
 			>
 				{children || (
-					<Text
-						style={{
-							fontSize: 16,
-							fontWeight: 'bold',
-							color: color || colors.secondary,
-						}}
-					>
-						{text}
-					</Text>
+					<View style={{ flex: 1, flexDirection: 'column' }}>
+						<Text
+							style={{
+								fontSize: 16,
+								fontWeight: 'bold',
+								color: color || colors.secondary,
+							}}
+						>
+							{text}
+						</Text>
+						{disabled && disabledText ? (
+							<Text
+								style={{
+									fontSize: 13,
+									color: colors.secondary,
+								}}
+							>
+								{disabledText}
+							</Text>
+						) : null}
+					</View>
 				)}
 				<FontAwesomeIcon
 					icon={['fas', 'angle-right']}

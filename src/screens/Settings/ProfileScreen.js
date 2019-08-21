@@ -145,7 +145,7 @@ class ProfileScreen extends React.Component {
 	}
 
 	render() {
-		const { details, detailsFetching, navigation } = this.props;
+		const { details, detailsFetching, hasRights, navigation } = this.props;
 
 		return (
 			<ScrollView
@@ -206,8 +206,10 @@ class ProfileScreen extends React.Component {
 
 				<LinkButton
 					text={t('change_pin')}
+					disabledText={t('cant_change_pin')}
 					onPress={() => navigation.navigate('ChangePin')}
 					style={{ margin: 15, marginTop: 0 }}
+					disabled={!hasRights}
 				/>
 
 				<LinkButton

@@ -152,8 +152,7 @@
 			"about": "À propos",
 			"contact_us": "Nous contacter",
 			"mail_body": "Salut ! \n\nAvant tout, merci pour cette magnifique application !\n\n",
-			"profile": "Mon compte",
-			"profile_desc": "Informations du compte, verrouillage du badge et déconnexion."
+			"profile_desc": "Informations du compte, gestion du badge et déconnexion.",
 		},
 		"About": {
 			"title": "À propos",
@@ -170,15 +169,6 @@
 			"actual_version": "L'application est sous la version %{current}.",
 			"need_update": "L'application n'est pas à jour !",
 			"update_version": "L'application est sous la version %{current}. Cliquez pour mettre à jour vers la version %{next}.",
-		},
-		"ChangePin": {
-			"title": "Modification du code PIN",
-			"new_pin": "Nouveau code :",
-			"modify": "Modifier",
-			"modification_checks": "Modification en cours ...",
-			"pin_description_title": "Utilité du code PIN :",
-			"pin_description": "Le code PIN est utile lorsque vous avez besoin d'utiliser les terminaux de paiement PayUTC en tant que vendeur.\nAttention : Le code PIN seul ne suffit pas pour s'identifier sur les terminaux. Vous devez aussi avoir des droits sur ces derniers. Pour cela veuillez contacter le responsable de votre association ou PayUTC. ",
-			"modification_confirmed": "Modification confirmée"
 		},
 		"License": {
 			"title": "Licence"
@@ -242,6 +232,7 @@
 		"Profile": {
 			"title": "Mon compte",
 			"change_pin": "Modifier le code PIN du badge",
+			"cant_change_pin": "Des droits sur PayUTC sont requis.",
 			"lock": "Verrouiller le badge",
 			"locking": "Verrouillage en cours...",
 			"unlocking": "Déverrouillage en cours...",
@@ -249,7 +240,16 @@
 			"lock_error": "Impossible de verrouiller le badge.",
 			"unlock_error": "Impossible de déverrouiller le badge.",
 			"sign_out": "Se déconnecter",
-		}
+		},
+		"ChangePin": {
+			"title": "Modification du code PIN",
+			"new_pin": "Nouveau code :",
+			"modify": "Modifier",
+			"modification_checks": "Modification en cours du code PIN...",
+			"pin_description_title": "Utilité du code PIN :",
+			"pin_description": "Le code PIN est utile lorsque vous avez besoin d'utiliser les terminaux de paiement PayUTC en tant que vendeur.\nAttention : Le code PIN seul ne suffit pas pour s'identifier sur les terminaux. Vous devez aussi avoir des droits sur ces derniers. Pour cela veuillez contacter le responsable de votre association ou PayUTC.",
+			"modification_confirmed": "Modification du code PIN réussite.",
+		},
 	},
 
 	"words": {
