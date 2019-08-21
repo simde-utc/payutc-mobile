@@ -92,10 +92,19 @@ class ProfileScreen extends React.Component {
 					[{ text: _('ok') }],
 					{}
 				);
+
 				return;
 			}
 
 			this.onRefresh();
+
+			this.srollView.scrollTo({ x: 0, y: 0, animated: true });
+
+			this.setState({
+				message: {
+					message: value ? t('lock_confirmed') : t('unlock_confirmed'),
+				},
+			});
 		});
 	}
 
@@ -178,7 +187,7 @@ class ProfileScreen extends React.Component {
 						tintColor={colors.secondary}
 					/>
 				}
-				ref={ref => this.srollView = ref}
+				ref={ref => (this.srollView = ref)}
 				style={{ backgroundColor: colors.backgroundLight }}
 			>
 				{message.message ? (

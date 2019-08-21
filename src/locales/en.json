@@ -232,6 +232,8 @@
 			"lock": "Lock the badge",
 			"locking": "Locking the badge...",
 			"unlocking": "Unlocking the badge...",
+			"lock_confirmed": "Badge locked successfully.",
+			"unlock_confirmed": "Badge unlocked successfully.",
 			"lock_info": "When the badge is locked, it can no more be used to pay.",
 			"lock_error": "Impossible to lock the badge.",
 			"unlock_error": "Impossible to unlock the badge.",
