@@ -7,13 +7,14 @@
  */
 import i18nJs from 'i18n-js';
 
-import fr from '../locales/fr.json';
 import en from '../locales/en.json';
+import fr from '../locales/fr.json';
+import zh from '../locales/zh.json';
 import global from '../locales/global.json';
 
-i18nJs.defaultLocale = 'fr';
+i18nJs.defaultLocale = 'en';
 i18nJs.fallbacks = true;
-i18nJs.translations = { fr, en, global };
+i18nJs.translations = { en, fr, zh, global };
 
 export const getTranslationsFor = (defaultPath, defaultParams = {}) => {
 	return (path, params) => {
@@ -57,6 +58,7 @@ export const Dependencies = getTranslationsFor('screens.Dependencies.');
 export const Contributors = getTranslationsFor('screens.Contributors.');
 export const Changelog = getTranslationsFor('screens.Changelog.');
 export const Terms = getTranslationsFor('screens.Terms.');
+export const Profile = getTranslationsFor('screens.Profile.');
 export const Navigation = getTranslationsFor('navigation.');
 export const ChangePin = getTranslationsFor('screens.ChangePin.');
 

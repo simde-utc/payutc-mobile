@@ -43,7 +43,7 @@ class ChangePinScreen extends React.Component {
 	}
 
 	render() {
-		const { navigation, suggestionsFetching, history, historyFetching } = this.props;
+		const { navigation } = this.props;
 		const { pin } = this.state;
 
 		return (

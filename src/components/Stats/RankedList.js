@@ -12,8 +12,35 @@ import BlockTemplate from '../BlockTemplate';
 import List from '../List';
 import colors from '../../styles/colors';
 import { floatToEuro } from '../../utils';
+import { Stats as t } from '../../utils/i18n';
+
+const DEFAULT_SLICE = 10;
 
 export default class RankedList extends React.Component {
+	constructor(props) {
+		super(props);
+
+		this.state = {
+			slice: this.getNbrSlice(),
+		};
+
+		this.showMore = this.showMore.bind(this);
+		this.renderFooter = this.renderFooter.bind(this);
+	}
+
+	getNbrSlice() {
+		const { slice } = this.props;
+
+		return slice || DEFAULT_SLICE;
+	}
+
+	showMore() {
+		this.setState(prevState => ({
+			...prevState,
+			slice: prevState.slice + this.getNbrSlice(),
+		}));
+	}
+
 	renderItem(item, index, roundedBottom = false) {
 		const { euro, countTintColor } = this.props;
 
@@ -49,16 +76,45 @@ export default class RankedList extends React.Component {
 		);
 	}
 
+	renderFooter() {
+		const { items, loading } = this.props;
+		const { slice } = this.state;
+		const disabled = loading || items.length <= slice;
+
+		if (!items.length) return null;
+
+		return (
+			<BlockTemplate
+				roundedBottom
+				onPress={this.showMore}
+				disabled={disabled}
+				customBackground={colors.backgroundBlockAlt}
+			>
+				<Text
+					style={{
+						fontSize: 14,
+						fontWeight: 'bold',
+						color: disabled ? colors.disabled : colors.primary,
+					}}
+				>
+					{t('show_more')}
+				</Text>
+			</BlockTemplate>
+		);
+	}
+
 	render() {
 		const { items, title, noBottomBorder, loading } = this.props;
+		const { slice } = this.state;
 
 		return (
 			<List
 				title={title}
-				items={items}
+				items={items.slice(0, slice)}
 				loading={loading}
 				noBottomBorder={noBottomBorder}
 				renderItem={this.renderItem.bind(this)}
+				renderFooter={this.renderFooter}
 				keyExtractor={item => item.name.toString()}
 			/>
 		);

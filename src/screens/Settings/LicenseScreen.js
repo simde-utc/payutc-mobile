@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import { WebView } from 'react-native';
+import Document from '../../components/Document';
 import { _, License as t } from '../../utils/i18n';
 import colors from '../../styles/colors';
 
@@ -247,13 +247,6 @@ export default class LicenseScreen extends React.Component {
 	});
 
 	render() {
-		return (
-			<WebView
-				style={{ backgroundColor: 'transparent' }}
-				source={{
-					html: `<p style='font-family: sans-serif; text-align: justify; white-space: pre-wrap;'>${LICENSE}</p>`,
-				}}
-			/>
-		);
+		return <Document lang="en" document={LICENSE} />;
 	}
 }

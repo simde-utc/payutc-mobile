@@ -22,6 +22,9 @@ export const CAS_URL = '';
 // PayUTC API url.
 export const PAYUTC_API_URL = '';
 
+// PayUTC API version.
+export const PAYUTC_VERSION = '';
+
 // PayUTC refill callback url.
 export const PAYUTC_CALLBACK_URL = '';
 
@@ -49,6 +52,11 @@ export const CONTRIBUTORS_DESIGN_TEAM = {
 	NastuzziSamy: 'design_fixer',
 };
 
+// Translation contributors.
+export const CONTRIBUTORS_TRANSLATION_TEAM = {
+	JulesPer: 'chinese',
+};
+
 // Old contributors of old apps.
 export const CONTRIBUTORS_OLD_TEAM = {
 	thomasriccioli: 'ios_developer',
@@ -66,12 +74,14 @@ export default {
 	GITHUB_API_URL,
 	CAS_URL,
 	PAYUTC_API_URL,
+	PAYUTC_VERSION,
 	PAYUTC_KEY,
 	PAYUTC_CALLBACK_URL,
 	PAYUTC_SYSTEM_ID,
 	PAYUTC_EMAIL,
 	CONTRIBUTORS_MAIN_TEAM,
 	CONTRIBUTORS_DESIGN_TEAM,
+	CONTRIBUTORS_TRANSLATION_TEAM,
 	CONTRIBUTORS_OLD_TEAM,
 	CONTRIBUTORS_BLACKLIST,
 };

@@ -1,5 +1,63 @@
 [
 	{
+		"version": "v1.0.0",
+		"data": [
+			"Sortie officielle de l'application !",
+			{
+				"title": "Nouveautés",
+				"data": [
+					"Ajout d'une page profil pour afficher les données utilisateurs"
+				]
+			},
+			{
+				"title": "Modifications",
+				"data": [
+					"Harmonisation de la page Paramètres"
+				]
+			},
+			{
+				"title": "Problèmes réglés",
+				"data": [
+					"Il était impossible de générer l'application sous iOS",
+					"Le solde était indisponible si égal à 0",
+					"La dernière transaction ne s'affichait pas",
+					"Persistance des données à la déconnexion corrigée",
+					"Les documents pouvaient être affichés mal encodés"
+				]
+			}
+		]
+	},
+	{
+		"version": "v0.2.0",
+		"data": [
+			{
+				"title": "Nouveautés",
+				"data": [
+					"Ajout de la langue Chinoise !",
+					"Auto-selection des champs suivants à remplir",
+					"Ajout d'une decription et des screenshots dans le README, sur le Play Store et l'Apple Store"
+				]
+			},
+			{
+				"title": "Modifications",
+				"data": [
+					"Amélioration globale de l'affichage",
+					"Meilleure gestion de l'affichage des statistiques",
+					"La recherche historique s'applique aussi sur les fondations"
+				]
+			},
+			{
+				"title": "Problèmes réglés",
+				"data": [
+					"L'application plantait sur les Samsung Galaxy S7",
+					"La vérification de mise à jour ne fonctionnait pas parfaitement",
+					"Ajustement du champ montant",
+					"Les dates étaient décallées de 2 heures"
+				]
+			}
+		]
+	},
+	{
 		"version": "v0.1.0",
 		"data": [
 			{

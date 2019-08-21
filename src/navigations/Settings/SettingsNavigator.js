@@ -14,6 +14,7 @@ import LicenseScreen from '../../screens/Settings/LicenseScreen';
 import DependenciesScreen from '../../screens/Settings/DependenciesScreen';
 import ContributorsScreen from '../../screens/Settings/ContributorsScreen';
 import ChangelogScreen from '../../screens/Settings/ChangelogScreen';
+import ProfileScreen from '../../screens/Settings/ProfileScreen';
 import ChangePinScreen from '../../screens/Settings/ChangePinScreen';
 
 const SettingsNavigator = createStackNavigator(
@@ -25,6 +26,7 @@ const SettingsNavigator = createStackNavigator(
 		Dependencies: DependenciesScreen,
 		Contributors: ContributorsScreen,
 		Changelog: ChangelogScreen,
+		Profile: ProfileScreen,
 		ChangePin: ChangePinScreen,
 	},
 	{}

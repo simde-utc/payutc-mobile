@@ -23,7 +23,7 @@ export default class TitleParams extends React.Component {
 	}
 
 	render() {
-		const { title, settingText, style, children } = this.props;
+		const { title, settingText, icon, style, children } = this.props;
 		const { show } = this.state;
 
 		return (
@@ -64,7 +64,11 @@ export default class TitleParams extends React.Component {
 							>
 								{settingText}
 							</Text>
-							<FontAwesomeIcon icon={['fas', 'sliders-h']} size={14} color={colors.secondary} />
+							<FontAwesomeIcon
+								icon={['fas', icon || 'sliders-h']}
+								size={14}
+								color={colors.secondary}
+							/>
 						</View>
 					</BlockTemplate>
 				</BlockTemplate>

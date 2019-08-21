@@ -1,5 +1,63 @@
 [
 	{
+		"version": "v1.0.0",
+		"data": [
+			"Official release of the application !",
+			{
+				"title": "News",
+				"data": [
+					"Add a profile screen to show all user data"
+				]
+			},
+			{
+				"title": "Changes",
+				"data": [
+					"Harmonize the Settings screen"
+				]
+			},
+			{
+				"title": "Fixed bugs",
+				"data": [
+					"It was impossible to build under iOS",
+					"The balance was available if equals to 0",
+					"The last transaction did not show",
+					"Persistant data after log out has been fixed",
+					"Documents could be shown in the wrong encoding"
+				]
+			}
+		]
+	},
+	{
+		"version": "v0.2.0",
+		"data": [
+			{
+				"title": "New features",
+				"data": [
+					"Add chinese translation !",
+					"Auto-selection of the next input",
+					"Add description and screenshots to the README, on the Play Store and the Apple Store"
+				]
+			},
+			{
+				"title": "Changes",
+				"data": [
+					"Improve global design",
+					"Best statistic management",
+					"Full search in history, now search also with fundations"
+				]
+			},
+			{
+				"title": "Fixed bugs",
+				"data": [
+					"The application crashed on Samsung Galaxy S7",
+					"The version checker did not work as expected",
+					"Ajustment of the amount input",
+					"All dates were 2 hours early"
+				]
+			}
+		]
+	},
+	{
 		"version": "v0.1.0",
 		"data": [
 			{
