@@ -12,6 +12,7 @@ import colors from '../../styles/colors';
 import LinkButton from '../../components/LinkButton';
 import List from '../../components/List';
 import BlockTemplate from '../../components/BlockTemplate';
+import Message from '../../components/Message';
 import SwitchBlockTemplate from '../../components/SwitchBlockTemplate';
 import { beautifyDateTime } from '../../utils';
 import { _, Profile as t } from '../../utils/i18n';
@@ -29,11 +30,22 @@ class ProfileScreen extends React.Component {
 	constructor(props) {
 		super(props);
 
+		this.state = { message: {} };
+
 		this.onLockChange = this.onLockChange.bind(this);
+		this.handleNavigationOnFocus = this.handleNavigationOnFocus.bind(this);
 	}
 
 	componentDidMount() {
+		const { navigation } = this.props;
+
 		this.onRefresh();
+
+		this.subscriptions = [navigation.addListener('willFocus', this.handleNavigationOnFocus)];
+	}
+
+	componentWillUnmount() {
+		this.subscriptions.forEach(subscription => subscription.remove());
 	}
 
 	onRefresh() {
@@ -134,6 +146,14 @@ class ProfileScreen extends React.Component {
 		];
 	}
 
+	handleNavigationOnFocus({ action: { params } }) {
+		this.setState({
+			message: params || {},
+		});
+
+		this.srollView.scrollTo({ x: 0, y: 0, animated: true });
+	}
+
 	signOut() {
 		const { navigation, dispatch } = this.props;
 
@@ -146,6 +166,7 @@ class ProfileScreen extends React.Component {
 
 	render() {
 		const { details, detailsFetching, hasRights, navigation } = this.props;
+		const { message } = this.state;
 
 		return (
 			<ScrollView
@@ -157,8 +178,24 @@ class ProfileScreen extends React.Component {
 						tintColor={colors.secondary}
 					/>
 				}
+				ref={ref => this.srollView = ref}
 				style={{ backgroundColor: colors.backgroundLight }}
 			>
+				{message.message ? (
+					<View style={{ margin: 15, marginBottom: 0 }}>
+						<Message
+							{...message}
+							onPress={() => {
+								if (message.onPress) {
+									message.onPress();
+								}
+
+								this.setState({ message: {} });
+							}}
+						/>
+					</View>
+				) : null}
+
 				<View style={{ margin: 15 }}>
 					<List
 						loading={detailsFetching}

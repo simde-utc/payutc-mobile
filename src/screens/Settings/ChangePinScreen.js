@@ -9,9 +9,10 @@ import React from 'react';
 import { View, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 import PinForm from '../../components/ChangePin/PinForm';
-import Submit from '../../components/ChangePin/Submit';
+import LinkButton from '../../components/LinkButton';
 import Paragraphe from '../../components/Paragraphe';
 import colors from '../../styles/colors';
+import { Config, PayUTC } from '../../redux/actions';
 import { _, ChangePin as t } from '../../utils/i18n';
 
 class ChangePinScreen extends React.Component {
@@ -22,6 +23,8 @@ class ChangePinScreen extends React.Component {
 		headerForceInset: { top: 'never' },
 		headerTruncatedBackTitle: _('back'),
 	});
+
+	submiting = false;
 
 	constructor(props) {
 		super(props);
@@ -39,11 +42,58 @@ class ChangePinScreen extends React.Component {
 
 	isButtonDisabled() {
 		const { pin } = this.state;
-		return !(pin.length === 4);
+
+		return pin.length !== 4;
+	}
+
+	refuse() {
+		const { dispatch } = this.props;
+
+		dispatch(
+			Config.spinner({
+				visible: false,
+			})
+		);
+
+		this.submiting = false;
+	}
+
+	submit() {
+		const { dispatch, navigation } = this.props;
+		const { pin } = this.state;
+
+		// Avoid multiple sumbits on laggy phones...
+		if (this.submiting) {
+			return;
+		}
+
+		this.submiting = true;
+
+		dispatch(
+			Config.spinner({
+				visible: true,
+				textContent: t('modification_checks'),
+			})
+		);
+
+		PayUTC.setPin(pin)
+			.payload.then(() => {
+				dispatch(
+					Config.spinner({
+						visible: false,
+					})
+				);
+
+				this.submiting = false;
+
+				navigation.navigate('Profile', {
+					message: t('modification_confirmed'),
+				});
+			})
+			.catch(() => this.refuse());
 	}
 
 	render() {
-		const { navigation } = this.props;
 		const { pin } = this.state;
 
 		return (
@@ -59,7 +109,13 @@ class ChangePinScreen extends React.Component {
 					<PinForm pin={pin} onChange={this.handlePinChange} />
 				</View>
 				<View style={{ padding: 15, paddingTop: 0 }}>
-					<Submit pin={pin} disabled={this.isButtonDisabled()} navigation={navigation} />
+					<LinkButton
+						text={t('modify')}
+						color={colors.backgroundLight}
+						backgroundColor={colors.transfer}
+						disabled={this.isButtonDisabled()}
+						onPress={() => this.submit()}
+					/>
 				</View>
 			</ScrollView>
 		);
