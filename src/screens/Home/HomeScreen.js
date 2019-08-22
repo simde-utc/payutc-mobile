@@ -110,7 +110,7 @@ class HomeScreen extends React.Component {
 						amount={amount}
 						isCreditConsistent={details.is_credit_consistent}
 						loading={detailsFetching}
-						name={details.name}
+						name={details.user ? details.user.first_name : null}
 						weekAmount={totalAmount(history, oneWeekAgo) / 100}
 						onRefresh={() => this.onRefresh()}
 					/>
