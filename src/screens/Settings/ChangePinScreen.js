@@ -6,11 +6,10 @@
  */
 
 import React from 'react';
-import { View, ScrollView } from 'react-native';
+import { ScrollView, View } from 'react-native';
 import { connect } from 'react-redux';
 import PinForm from '../../components/ChangePin/PinForm';
 import LinkButton from '../../components/LinkButton';
-import Paragraphe from '../../components/Paragraphe';
 import colors from '../../styles/colors';
 import { Config, PayUTC } from '../../redux/actions';
 import { _, ChangePin as t } from '../../utils/i18n';
@@ -19,7 +18,7 @@ class ChangePinScreen extends React.Component {
 	static navigationOptions = () => ({
 		title: t('title'),
 		headerStyle: { borderBottomWidth: 0 },
-		headerTintColor: colors.transfer,
+		headerTintColor: colors.primary,
 		headerForceInset: { top: 'never' },
 		headerTruncatedBackTitle: _('back'),
 	});
@@ -99,20 +98,13 @@ class ChangePinScreen extends React.Component {
 		return (
 			<ScrollView style={{ backgroundColor: colors.backgroundLight }}>
 				<View style={{ padding: 15 }}>
-					<Paragraphe
-						title={t('pin_description_title')}
-						description={t('pin_description')}
-						titleColor={colors.transfer}
-					/>
-				</View>
-				<View style={{ padding: 15, paddingTop: 0 }}>
 					<PinForm pin={pin} onChange={this.handlePinChange} />
 				</View>
 				<View style={{ padding: 15, paddingTop: 0 }}>
 					<LinkButton
 						text={t('modify')}
 						color={colors.backgroundLight}
-						backgroundColor={colors.transfer}
+						backgroundColor={colors.secondary}
 						disabled={this.isButtonDisabled()}
 						onPress={() => this.submit()}
 					/>
