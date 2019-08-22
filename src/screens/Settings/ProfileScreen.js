@@ -17,6 +17,7 @@ import SwitchBlockTemplate from '../../components/SwitchBlockTemplate';
 import { beautifyDateTime } from '../../utils';
 import { _, Profile as t } from '../../utils/i18n';
 import { Config, PayUTC } from '../../redux/actions';
+import Paragraphe from '../../components/Paragraphe';
 
 class ProfileScreen extends React.Component {
 	static navigationOptions = () => ({
@@ -250,12 +251,14 @@ class ProfileScreen extends React.Component {
 					</View>
 				</SwitchBlockTemplate>
 
-				<LinkButton
-					text={t('change_pin')}
-					disabledText={t('cant_change_pin')}
-					onPress={() => navigation.navigate('ChangePin')}
+				<Paragraphe
 					style={{ margin: 15, marginTop: 0 }}
+					title={t('change_pin')}
+					description={t('change_pin_desc')}
+					onPress={() => navigation.navigate('ChangePin')}
 					disabled={!hasRights}
+					disabledText={detailsFetching ? '' : t('cant_change_pin')}
+					link
 				/>
 
 				<LinkButton

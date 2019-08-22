@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import { TextInput, View } from 'react-native';
+import { Platform, TextInput, View } from 'react-native';
 import colors from '../../styles/colors';
 
 export default function PinInput({ value, error, maxLength, onChange, tintColor, autofocus }) {
@@ -14,18 +14,18 @@ export default function PinInput({ value, error, maxLength, onChange, tintColor,
 		<View style={{ flexDirection: 'row', justifyContent: 'center' }}>
 			<TextInput
 				style={{
-					fontSize: 70,
+					fontSize: 65,
 					fontWeight: 'bold',
 					color: error == null ? tintColor : colors.error,
 					alignSelf: 'center',
-					textAlign: 'center',
-					width: value ? 'auto' : 180,
+					textAlign: 'right',
+					width: Platform.OS === 'ios' || value ? 'auto' : 200,
 					padding: 0,
 					margin: 0,
 				}}
 				secureTextEntry
 				keyboardType="decimal-pad"
-				placeholder={value ? '' : '****'}
+				placeholder={value ? '' : '0000'}
 				maxLength={maxLength}
 				autoFocus={autofocus}
 				autoCorrect={false}

@@ -46,7 +46,7 @@ export default class PinForm extends React.Component {
 					value={pin}
 					error={error}
 					maxLength={this.maxLength}
-					tintColor={colors.transfer}
+					tintColor={colors.secondary}
 					autofocus={false}
 					onChange={this.onChange.bind(this)}
 				/>
