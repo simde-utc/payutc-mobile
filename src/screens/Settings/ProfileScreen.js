@@ -142,7 +142,7 @@ class ProfileScreen extends React.Component {
 			types.push(_('staff'));
 		}
 
-		types.push(details.user.username.includes('@') ? _('ext') : _('cas'));
+		types.push(this.isUserExt() ? _('ext') : _('cas'));
 
 		return [
 			{ title: _('firstname'), value: details.user.first_name },
@@ -153,6 +153,12 @@ class ProfileScreen extends React.Component {
 			{ title: _('status'), value: details.force_adult ? _('adult') : _('minor') },
 			{ title: _('creation_date'), value: beautifyDateTime(details.created) },
 		];
+	}
+
+	isUserExt() {
+		const { details } = this.props;
+
+		return !details.user || details.user.username.includes('@');
 	}
 
 	handleNavigationOnFocus({ action: { params } }) {
@@ -176,6 +182,7 @@ class ProfileScreen extends React.Component {
 	render() {
 		const { details, detailsFetching, hasRights, navigation } = this.props;
 		const { message } = this.state;
+		const isUserExt = this.isUserExt();
 
 		return (
 			<ScrollView
@@ -252,10 +259,18 @@ class ProfileScreen extends React.Component {
 
 				<LinkButton
 					text={t('change_pin')}
-					disabledText={t('cant_change_pin')}
+					description={t('cant_change_pin')}
 					onPress={() => navigation.navigate('ChangePin')}
 					style={{ margin: 15, marginTop: 0 }}
 					disabled={!hasRights}
+					descriptIfDisabled
+				/>
+
+				<LinkButton
+					text={t('change_password')}
+					description={isUserExt ? null : t('password_cas_desc')}
+					onPress={() => navigation.navigate('ChangePassword')}
+					style={{ margin: 15, marginTop: 0 }}
 				/>
 
 				<LinkButton

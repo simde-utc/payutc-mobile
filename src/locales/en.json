@@ -229,6 +229,8 @@
 		},
 		"Profile": {
 			"title": "My account",
+			"change_password": "Change the PayUTC password",
+			"password_cas_desc": "Changing the PayUTC password is changing the CAS-UTC one. You will need to reconnect manually after changing it.",
 			"lock": "Lock the badge",
 			"locking": "Locking the badge...",
 			"unlocking": "Unlocking the badge...",

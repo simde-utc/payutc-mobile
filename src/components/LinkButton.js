@@ -18,7 +18,8 @@ export default function LinkButton({
 	children,
 	backgroundColor,
 	disabled,
-	disabledText,
+	description,
+	descriptIfDisabled,
 	onPress,
 	notRoundedTop,
 	notRoundedBottom,
@@ -55,14 +56,14 @@ export default function LinkButton({
 						>
 							{text}
 						</Text>
-						{disabled && disabledText ? (
+						{(!descriptIfDisabled || disabled) && description ? (
 							<Text
 								style={{
 									fontSize: 13,
 									color: colors.secondary,
 								}}
 							>
-								{disabledText}
+								{description}
 							</Text>
 						) : null}
 					</View>

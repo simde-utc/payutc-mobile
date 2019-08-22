@@ -233,6 +233,8 @@
 			"title": "Mon compte",
 			"change_pin": "Modifier le code PIN du badge",
 			"cant_change_pin": "Des droits sur PayUTC sont requis.",
+			"change_password": "Modifier son mot de passe PayUTC",
+			"password_cas_desc": "Changer son mot de passe PayUTC revient à modifier celui du CAS-UTC. Par la suite, il faudra se reconnecter manuellement sur l'application.",
 			"lock": "Verrouiller le badge",
 			"locking": "Verrouillage en cours...",
 			"unlocking": "Déverrouillage en cours...",
