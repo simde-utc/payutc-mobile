@@ -29,60 +29,6 @@ class AuthScreen extends React.Component {
 		headerTruncatedBackTitle: _('back'),
 	});
 
-	// https://facebook.github.io/react-native/docs/alert.html#ios
-	static getAlertButtons() {
-		if (Platform.OS === 'ios') {
-			return [
-				{
-					text: _('ok'),
-				},
-			];
-		}
-
-		return [
-			{},
-			{
-				text: _('ok'),
-			},
-		];
-	}
-
-	static openWrongExt() {
-		Alert.alert(
-			t('bad_login_password'),
-			t('wrong_ext'),
-			[
-				{
-					text: t('i_am_cas'),
-					style: 'neutral',
-					onPress: () => AuthScreen.openWrongCas(),
-				},
-				...AuthScreen.getAlertButtons(),
-			],
-			{
-				cancelable: true,
-			}
-		);
-	}
-
-	static openWrongCas() {
-		Alert.alert(
-			t('bad_login_password'),
-			t('wrong_cas'),
-			[
-				{
-					text: t('i_am_ext'),
-					style: 'neutral',
-					onPress: () => AuthScreen.openWrongExt(),
-				},
-				...AuthScreen.getAlertButtons(),
-			],
-			{
-				cancelable: true,
-			}
-		);
-	}
-
 	constructor(props) {
 		super(props);
 
@@ -93,6 +39,7 @@ class AuthScreen extends React.Component {
 		};
 
 		this.switchLang = this.switchLang.bind(this);
+		this.dismissWrong = this.dismissWrong.bind(this);
 		this.handleNavigationOnFocus = this.handleNavigationOnFocus.bind(this);
 	}
 
@@ -112,6 +59,26 @@ class AuthScreen extends React.Component {
 
 	onPasswordChange(password) {
 		this.setState({ password });
+	}
+
+	// https://facebook.github.io/react-native/docs/alert.html#ios
+	getAlertButtons() {
+		if (Platform.OS === 'ios') {
+			return [
+				{
+					text: _('ok'),
+					onPress: this.dismissWrong,
+				},
+			];
+		}
+
+		return [
+			{},
+			{
+				text: _('ok'),
+				onPress: this.dismissWrong,
+			},
+		];
 	}
 
 	handleNavigationOnFocus({ action: { params } }) {
@@ -218,18 +185,60 @@ class AuthScreen extends React.Component {
 			.catch(e => {
 				console.log(e);
 
-				dispatch(
-					Config.spinner({
-						visible: false,
-					})
-				);
-
 				if (isUserExt(login)) {
-					AuthScreen.openWrongExt();
+					this.openWrongExt();
 				} else {
-					AuthScreen.openWrongCas();
+					this.openWrongCas();
 				}
 			});
+	}
+
+	openWrongExt() {
+		Alert.alert(
+			t('bad_login_password'),
+			t('wrong_ext'),
+			[
+				{
+					text: t('i_am_cas'),
+					style: 'neutral',
+					onPress: () => this.openWrongCas(),
+				},
+				...this.getAlertButtons(),
+			],
+			{
+				cancelable: true,
+				onDismiss: this.dismissWrong,
+			}
+		);
+	}
+
+	openWrongCas() {
+		Alert.alert(
+			t('bad_login_password'),
+			t('wrong_cas'),
+			[
+				{
+					text: t('i_am_ext'),
+					style: 'neutral',
+					onPress: () => this.openWrongExt(),
+				},
+				...this.getAlertButtons(),
+			],
+			{
+				cancelable: true,
+				onDismiss: this.dismissWrong,
+			}
+		);
+	}
+
+	dismissWrong() {
+		const { dispatch } = this.props;
+
+		dispatch(
+			Config.spinner({
+				visible: false,
+			})
+		);
 	}
 
 	render() {
