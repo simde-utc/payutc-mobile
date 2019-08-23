@@ -11,7 +11,7 @@ import { Text } from 'react-native';
 import colors from '../../styles/colors';
 import BlockTemplate from '../BlockTemplate';
 import { History as t } from '../../utils/i18n';
-import { beautifyDateTime } from '../../utils';
+import { beautifyDateTime } from '../../utils/date';
 import Transaction from './Transaction';
 
 export default class Item extends React.Component {

@@ -18,7 +18,7 @@ import {
 } from '../../utils/stats';
 import { _, Stats as t } from '../../utils/i18n';
 import colors from '../../styles/colors';
-import { beautifyDate } from '../../utils';
+import { beautifyDate } from '../../utils/date';
 
 export default function StatsHorizontalScrollView({ historyFetching, history, since }) {
 	const loadingText = _('loading_text_replacement');

@@ -16,7 +16,7 @@ import RecipientForm from '../../components/Transfer/RecipientForm';
 import colors from '../../styles/colors';
 import { Config, PayUTC } from '../../redux/actions';
 import { _, Transfer as t } from '../../utils/i18n';
-import { isAmountValid, floatToEuro } from '../../utils';
+import { isAmountValid, floatToEuro } from '../../utils/amount';
 
 const MIN_AMOUNT = 0.01;
 

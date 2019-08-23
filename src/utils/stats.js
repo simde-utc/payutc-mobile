@@ -6,7 +6,7 @@
  * @license GPL-3.0
  */
 
-import { floatToEuro } from './index';
+import { floatToEuro } from './amount';
 
 export const numberOfTransactions = history => {
 	return history.length;

@@ -14,7 +14,7 @@ import List from '../../components/List';
 import BlockTemplate from '../../components/BlockTemplate';
 import Message from '../../components/Message';
 import SwitchBlockTemplate from '../../components/SwitchBlockTemplate';
-import { beautifyDateTime } from '../../utils';
+import { beautifyDateTime } from '../../utils/date';
 import { _, Profile as t } from '../../utils/i18n';
 import { Config, PayUTC } from '../../redux/actions';
 import Paragraphe from '../../components/Paragraphe';
