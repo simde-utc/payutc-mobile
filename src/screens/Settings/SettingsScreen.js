@@ -85,7 +85,7 @@ class SettingsScreen extends React.Component {
 					title={
 						detailsFetching
 							? _('loading_text_replacement')
-							: `${details.user.first_name} ${details.user.last_name}`
+							: `${details.user.first_name} ${details.user.last_name.toUpperCase()}`
 					}
 					description={t('profile_desc')}
 					onPress={() => navigation.navigate('Profile')}

@@ -152,7 +152,7 @@ class ProfileScreen extends React.Component {
 
 		return [
 			{ title: _('firstname'), value: details.user.first_name },
-			{ title: _('lastname'), value: details.user.last_name },
+			{ title: _('lastname'), value: details.user.last_name.toUpperCase() },
 			{ title: _('email'), value: details.user.email },
 			{ title: _('login'), value: details.user.username },
 			{ title: _('type'), value: types.join(' / ') },
@@ -218,7 +218,7 @@ class ProfileScreen extends React.Component {
 						title={
 							detailsFetching
 								? _('loading_text_replacement')
-								: `${details.user.first_name} ${details.user.last_name}`
+								: `${details.user.first_name} ${details.user.last_name.toUpperCase()}`
 						}
 						renderItem={ProfileScreen.renderDetail}
 						items={this.getUserDetails()}
