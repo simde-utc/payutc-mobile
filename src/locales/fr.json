@@ -263,6 +263,7 @@
 		"at": "à",
 		"since_*": "depuis %{since}",
 		"ever": "toujours",
+		"semester": "ce semestre",
 		"month": "un mois",
 		"week": "une semaine",
 		"yesterday": "hier",
