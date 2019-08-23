@@ -229,6 +229,9 @@
 		},
 		"Profile": {
 			"title": "My account",
+			"change_password": "Change the PayUTC password",
+			"change_password_desc": "The password allows to connect on the PayUTC application and website.",
+			"cant_change_password": "Only changeable on the ENT-UTC website.",
 			"lock": "Lock the badge",
 			"locking": "Locking the badge...",
 			"unlocking": "Unlocking the badge...",

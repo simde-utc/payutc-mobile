@@ -84,6 +84,7 @@ export class PayUTCApi extends Api {
 					ticket,
 				})
 					.then(([{ username }]) => {
+						this.login = login;
 						this.username = username;
 						this.connected = true;
 
@@ -110,6 +111,7 @@ export class PayUTCApi extends Api {
 				password,
 			})
 				.then(([{ username }]) => {
+					this.login = login;
 					this.username = username;
 					this.connected = true;
 

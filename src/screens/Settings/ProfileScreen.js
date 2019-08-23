@@ -16,6 +16,7 @@ import Message from '../../components/Message';
 import SwitchBlockTemplate from '../../components/SwitchBlockTemplate';
 import { beautifyDateTime } from '../../utils';
 import { _, Profile as t } from '../../utils/i18n';
+import PayUTCService from '../../services/PayUTC';
 import { Config, PayUTC } from '../../redux/actions';
 import Paragraphe from '../../components/Paragraphe';
 
@@ -27,6 +28,10 @@ class ProfileScreen extends React.Component {
 		headerTintColor: colors.primary,
 		headerTruncatedBackTitle: _('back'),
 	});
+
+	static isUserExt() {
+		return PayUTCService.login.includes('@');
+	}
 
 	constructor(props) {
 		super(props);
@@ -143,7 +148,7 @@ class ProfileScreen extends React.Component {
 			types.push(_('staff'));
 		}
 
-		types.push(details.user.username.includes('@') ? _('ext') : _('cas'));
+		types.push(ProfileScreen.isUserExt() ? _('ext') : _('cas'));
 
 		return [
 			{ title: _('firstname'), value: details.user.first_name },
@@ -177,6 +182,7 @@ class ProfileScreen extends React.Component {
 	render() {
 		const { details, detailsFetching, hasRights, navigation } = this.props;
 		const { message } = this.state;
+		const isUserExt = ProfileScreen.isUserExt();
 
 		return (
 			<ScrollView
@@ -258,6 +264,16 @@ class ProfileScreen extends React.Component {
 					onPress={() => navigation.navigate('ChangePin')}
 					disabled={!hasRights}
 					disabledText={detailsFetching ? '' : t('cant_change_pin')}
+					link
+				/>
+
+				<Paragraphe
+					style={{ margin: 15, marginTop: 0 }}
+					title={t('change_password')}
+					description={t('change_password_desc')}
+					onPress={() => navigation.navigate('ChangePassword')}
+					disabled={!isUserExt}
+					disabledText={detailsFetching ? '' : t('cant_change_password')}
 					link
 				/>
 
