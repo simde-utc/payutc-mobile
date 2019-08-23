@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { Alert, Image, Text, TextInput, View, TouchableOpacity } from 'react-native';
+import { Alert, Image, Text, TextInput, View, TouchableOpacity, Platform } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { connect } from 'react-redux';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
@@ -19,6 +19,7 @@ import CASAuth from '../../services/CASAuth';
 import PayUTC from '../../services/PayUTC';
 import { Config } from '../../redux/actions';
 import { _, Auth as t, Global as g } from '../../utils/i18n';
+import { isUserExt } from '../../utils';
 
 class AuthScreen extends React.Component {
 	static navigationOptions = () => ({
@@ -27,6 +28,60 @@ class AuthScreen extends React.Component {
 		headerVisible: false,
 		headerTruncatedBackTitle: _('back'),
 	});
+
+	// https://facebook.github.io/react-native/docs/alert.html#ios
+	static getAlertButtons() {
+		if (Platform.OS === 'ios') {
+			return [
+				{
+					text: _('ok'),
+				},
+			];
+		}
+
+		return [
+			{},
+			{
+				text: _('ok'),
+			},
+		];
+	}
+
+	static openWrongExt() {
+		Alert.alert(
+			t('bad_login_password'),
+			t('wrong_ext'),
+			[
+				{
+					text: t('i_am_cas'),
+					style: 'neutral',
+					onPress: () => AuthScreen.openWrongCas(),
+				},
+				...AuthScreen.getAlertButtons(),
+			],
+			{
+				cancelable: true,
+			}
+		);
+	}
+
+	static openWrongCas() {
+		Alert.alert(
+			t('bad_login_password'),
+			t('wrong_cas'),
+			[
+				{
+					text: t('i_am_ext'),
+					style: 'neutral',
+					onPress: () => AuthScreen.openWrongExt(),
+				},
+				...AuthScreen.getAlertButtons(),
+			],
+			{
+				cancelable: true,
+			}
+		);
+	}
 
 	constructor(props) {
 		super(props);
@@ -144,7 +199,7 @@ class AuthScreen extends React.Component {
 			return navigation.navigate('Terms', { quick: true });
 		}
 
-		if (login.includes('@')) {
+		if (isUserExt(login)) {
 			promise = this.connectWithEmail();
 		} else {
 			promise = this.connectWithCas();
@@ -169,9 +224,11 @@ class AuthScreen extends React.Component {
 					})
 				);
 
-				Alert.alert(t('title'), t('bad_login_password'), [{ text: _('continue') }], {
-					cancelable: true,
-				});
+				if (isUserExt(login)) {
+					AuthScreen.openWrongExt();
+				} else {
+					AuthScreen.openWrongCas();
+				}
 			});
 	}
 
