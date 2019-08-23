@@ -31,7 +31,8 @@ export const beautifyDate = dateText => {
 	)}/${forceTextLength(date.getUTCFullYear())}`;
 };
 
-export const getDateFromPortail = portailDate => new Date(portailDate.replace(' ', 'T'));
+export const getDateFromPortail = portailDate =>
+	new Date(portailDate ? portailDate.replace(' ', 'T') : null);
 
 export default {
 	beautifyDate: beautifyDateTime,
