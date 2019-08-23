@@ -16,6 +16,9 @@ export const forceTextLength = (text, length = 2, remplacement = '0') => {
 	return text;
 };
 
+export const isUserExt = login => login.includes('@');
+
 export default {
 	forceTextLength,
+	isUserExt,
 };
