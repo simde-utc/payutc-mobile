@@ -43,12 +43,12 @@ replace({
 
 replace({
 	files: 'ios/PayUTC/Info.plist',
-	from: /<key>CFBundleVersion<\/key><string>\d+<\/string>/,
+	from: /<key>CFBundleVersion<\/key>(\n	)?<string>\d+<\/string>/,
 	to: `<key>CFBundleVersion</key><string>${currentVersionCode + 1}</string>`,
 }).then(() => {
 	replace({
 		files: 'ios/PayUTC/Info.plist',
-		from: /<key>CFBundleShortVersionString<\/key><string>[0-9a-zA-Z._-]+<\/string>/,
+		from: /<key>CFBundleShortVersionString<\/key>(\n	)?<string>[0-9a-zA-Z._-]+<\/string>/,
 		to: `<key>CFBundleShortVersionString</key><string>${newVersion}</string>`,
 	});
 });
