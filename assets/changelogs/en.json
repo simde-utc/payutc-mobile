@@ -1,5 +1,31 @@
 [
 	{
+		"version": "v1.1.0",
+		"data": [
+			{
+				"title": "News",
+				"data": [
+					"Add a PIN code management for PayUTC sellers",
+					"Add a semester filter"
+				]
+			},
+			{
+				"title": "Changes",
+				"data": [
+					"Show a message when (un)locking a badge"
+				]
+			},
+			{
+				"title": "Fixed bugs",
+				"data": [
+					"Show the right name in welcome screen",
+					"Fix statistics issues",
+					"Fix definitly the deprecated version protocol"
+				]
+			}
+		]
+	},
+	{
 		"version": "v1.0.0",
 		"data": [
 			"Official release of the application !",

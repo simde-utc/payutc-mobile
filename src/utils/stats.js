@@ -6,7 +6,7 @@
  * @license GPL-3.0
  */
 
-import { floatToEuro } from './index';
+import { floatToEuro } from './amount';
 
 export const numberOfTransactions = history => {
 	return history.length;
@@ -47,9 +47,8 @@ export const givenAmount = (history, since) => {
 	return floatToEuro(total(history, 'VIROUT', 'amount', since) / 100);
 };
 
-const sortedItems = (history, type, displayedAttributes, countAttribute) => {
+const getCounts = (history, type, displayedAttributes, countAttribute, positive = true) => {
 	const counts = {};
-	const sortableCounts = [];
 
 	history
 		.filter(transaction => transaction.type === type)
@@ -62,21 +61,26 @@ const sortedItems = (history, type, displayedAttributes, countAttribute) => {
 						: transaction[countAttribute],
 			};
 		})
-		.forEach(key => {
-			if (!counts[key.name]) counts[key.name] = 0;
-			counts[key.name] += key.count;
+		.forEach(({ name, count }) => {
+			if (count > 0 === positive) {
+				counts[name] = (counts[name] || 0) + count;
+			}
 		});
 
-	let item;
-	for (item in counts) sortableCounts.push([item, counts[item]]);
+	return counts;
+};
 
-	return sortableCounts
-		.sort((a, b) => a[1] - b[1])
+const sortCounts = counts => {
+	return Object.keys(counts)
+		.sort((a, b) => counts[a] - counts[b])
 		.reverse()
-		.map(item => {
-			return { name: item[0], count: item[1] };
+		.map(name => {
+			return { name, count: counts[name] };
 		});
 };
+
+const sortedItems = (history, type, displayedAttributes, countAttribute) =>
+	sortCounts(getCounts(history, type, displayedAttributes, countAttribute));
 
 export const mostPurchasedItems = history => {
 	return sortedItems(history, 'PURCHASE', ['name'], 'quantity');
@@ -87,11 +91,25 @@ export const mostSpentItems = history => {
 };
 
 export const mostReceivedFromPersons = history => {
-	return sortedItems(history, 'VIRIN', ['firstname', 'lastname'], 'amount');
+	const counts = getCounts(history, 'VIRIN', ['firstname', 'lastname'], 'amount');
+	const negativeCounts = getCounts(history, 'VIROUT', ['firstname', 'lastname'], 'amount', false);
+
+	Object.keys(negativeCounts).forEach(name => {
+		counts[name] = (counts[name] || 0) - negativeCounts[name];
+	});
+
+	return sortCounts(counts);
 };
 
 export const mostGivenToPeople = history => {
-	return sortedItems(history, 'VIROUT', ['firstname', 'lastname'], 'amount');
+	const counts = getCounts(history, 'VIROUT', ['firstname', 'lastname'], 'amount');
+	const negativeCounts = getCounts(history, 'VIRIN', ['firstname', 'lastname'], 'amount', false);
+
+	Object.keys(negativeCounts).forEach(name => {
+		counts[name] = (counts[name] || 0) - negativeCounts[name];
+	});
+
+	return sortCounts(counts);
 };
 
 export const totalAmount = (history, since) => {

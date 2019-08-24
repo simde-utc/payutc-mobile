@@ -9,7 +9,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import ValidationScreen from '../../components/ValidationScreen';
 import Document from '../../components/Document';
-import { beautifyDateTime } from '../../utils';
+import { beautifyDateTime } from '../../utils/date';
 import { _, Terms as t } from '../../utils/i18n';
 import { Config } from '../../redux/actions';
 import colors from '../../styles/colors';

@@ -13,7 +13,7 @@ import { Fade, Placeholder, PlaceholderLine } from 'rn-placeholder';
 import BlockTemplate from '../BlockTemplate';
 import { Home as t } from '../../utils/i18n';
 import colors from '../../styles/colors';
-import { floatToEuro } from '../../utils';
+import { floatToEuro } from '../../utils/amount';
 
 export default class Balance extends React.Component {
 	getWeekAmount() {

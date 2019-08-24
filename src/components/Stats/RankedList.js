@@ -11,7 +11,7 @@ import { Text, View } from 'react-native';
 import BlockTemplate from '../BlockTemplate';
 import List from '../List';
 import colors from '../../styles/colors';
-import { floatToEuro } from '../../utils';
+import { floatToEuro } from '../../utils/amount';
 import { Stats as t } from '../../utils/i18n';
 
 const DEFAULT_SLICE = 10;

@@ -60,6 +60,7 @@ export const Changelog = getTranslationsFor('screens.Changelog.');
 export const Terms = getTranslationsFor('screens.Terms.');
 export const Profile = getTranslationsFor('screens.Profile.');
 export const Navigation = getTranslationsFor('navigation.');
+export const ChangePin = getTranslationsFor('screens.ChangePin.');
 
 const i18n = i18nJs;
 

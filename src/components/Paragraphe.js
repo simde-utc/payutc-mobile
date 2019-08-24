@@ -17,12 +17,20 @@ export default function Paragraphe({
 	description,
 	descriptionColor,
 	style,
+	disabled,
+	disabledText,
 	onPress,
 	link,
 	children,
 }) {
 	return (
-		<BlockTemplate roundedTop roundedBottom shadow onPress={onPress} style={style}>
+		<BlockTemplate
+			roundedTop
+			roundedBottom
+			shadow
+			onPress={disabled ? null : onPress}
+			style={style}
+		>
 			<View
 				style={{
 					flex: 1,
@@ -37,7 +45,7 @@ export default function Paragraphe({
 						style={{
 							fontSize: 16,
 							fontWeight: 'bold',
-							color: titleColor || colors.secondary,
+							color: disabled ? colors.disabled : titleColor || colors.secondary,
 						}}
 					>
 						{title}
@@ -45,18 +53,23 @@ export default function Paragraphe({
 					<Text
 						style={{
 							fontSize: 13,
-							color: descriptionColor || colors.secondary,
+							color: disabled ? colors.disabled : descriptionColor || colors.secondary,
 						}}
 					>
 						{description}
 					</Text>
+					{disabled && disabledText ? (
+						<Text style={{ fontSize: 13, color: colors.secondary, marginTop: 3 }}>
+							{disabledText}
+						</Text>
+					) : null}
 					{children}
 				</View>
 				{link ? (
 					<FontAwesomeIcon
 						icon={['fas', 'angle-right']}
 						size={20}
-						color={titleColor || colors.secondary}
+						color={disabled ? colors.disabled : titleColor || colors.secondary}
 						style={{ marginLeft: 10 }}
 					/>
 				) : null}

@@ -51,11 +51,11 @@ class AppLoaderScreen extends React.Component {
 		}
 	}
 
-	static isVersionDeprecated(appVersion, maxVersion) {
+	static isVersionValid(appVersion, maxVersion) {
 		const [x1, y1, z1] = appVersion.match(REGEX_VERSION).slice(1);
 		const [x2, y2, z2] = maxVersion.match(REGEX_VERSION).slice(1);
 
-		return x1 < x2 || y1 < y2 || z1 < z2;
+		return x1 > x2 || (x1 === x2 && (y1 > y2 || (y1 === y2 && z1 >= z2)));
 	}
 
 	constructor(props) {
@@ -93,7 +93,7 @@ class AppLoaderScreen extends React.Component {
 				if (
 					matches &&
 					matches.length === 2 &&
-					AppLoaderScreen.isVersionDeprecated(appVersion, matches[1])
+					!AppLoaderScreen.isVersionValid(appVersion, matches[1])
 				) {
 					Alert.alert(
 						t('need_update'),

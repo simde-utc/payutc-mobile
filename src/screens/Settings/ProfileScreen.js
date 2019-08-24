@@ -12,10 +12,12 @@ import colors from '../../styles/colors';
 import LinkButton from '../../components/LinkButton';
 import List from '../../components/List';
 import BlockTemplate from '../../components/BlockTemplate';
+import Message from '../../components/Message';
 import SwitchBlockTemplate from '../../components/SwitchBlockTemplate';
-import { beautifyDateTime } from '../../utils';
+import { beautifyDateTime } from '../../utils/date';
 import { _, Profile as t } from '../../utils/i18n';
 import { Config, PayUTC } from '../../redux/actions';
+import Paragraphe from '../../components/Paragraphe';
 
 class ProfileScreen extends React.Component {
 	static navigationOptions = () => ({
@@ -29,11 +31,22 @@ class ProfileScreen extends React.Component {
 	constructor(props) {
 		super(props);
 
+		this.state = { message: {} };
+
 		this.onLockChange = this.onLockChange.bind(this);
+		this.handleNavigationOnFocus = this.handleNavigationOnFocus.bind(this);
 	}
 
 	componentDidMount() {
+		const { navigation } = this.props;
+
 		this.onRefresh();
+
+		this.subscriptions = [navigation.addListener('willFocus', this.handleNavigationOnFocus)];
+	}
+
+	componentWillUnmount() {
+		this.subscriptions.forEach(subscription => subscription.remove());
 	}
 
 	onRefresh() {
@@ -80,10 +93,19 @@ class ProfileScreen extends React.Component {
 					[{ text: _('ok') }],
 					{}
 				);
+
 				return;
 			}
 
 			this.onRefresh();
+
+			this.srollView.scrollTo({ x: 0, y: 0, animated: true });
+
+			this.setState({
+				message: {
+					message: value ? t('lock_confirmed') : t('unlock_confirmed'),
+				},
+			});
 		});
 	}
 
@@ -134,6 +156,14 @@ class ProfileScreen extends React.Component {
 		];
 	}
 
+	handleNavigationOnFocus({ action: { params } }) {
+		this.setState({
+			message: params || {},
+		});
+
+		this.srollView.scrollTo({ x: 0, y: 0, animated: true });
+	}
+
 	signOut() {
 		const { navigation, dispatch } = this.props;
 
@@ -145,7 +175,8 @@ class ProfileScreen extends React.Component {
 	}
 
 	render() {
-		const { details, detailsFetching } = this.props;
+		const { details, detailsFetching, hasRights, navigation } = this.props;
+		const { message } = this.state;
 
 		return (
 			<ScrollView
@@ -157,8 +188,24 @@ class ProfileScreen extends React.Component {
 						tintColor={colors.secondary}
 					/>
 				}
+				ref={ref => (this.srollView = ref)}
 				style={{ backgroundColor: colors.backgroundLight }}
 			>
+				{message.message ? (
+					<View style={{ margin: 15, marginBottom: 0 }}>
+						<Message
+							{...message}
+							onPress={() => {
+								if (message.onPress) {
+									message.onPress();
+								}
+
+								this.setState({ message: {} });
+							}}
+						/>
+					</View>
+				) : null}
+
 				<View style={{ margin: 15 }}>
 					<List
 						loading={detailsFetching}
@@ -203,6 +250,16 @@ class ProfileScreen extends React.Component {
 						</Text>
 					</View>
 				</SwitchBlockTemplate>
+
+				<Paragraphe
+					style={{ margin: 15, marginTop: 0 }}
+					title={t('change_pin')}
+					description={t('change_pin_desc')}
+					onPress={() => navigation.navigate('ChangePin')}
+					disabled={!hasRights}
+					disabledText={detailsFetching ? '' : t('cant_change_pin')}
+					link
+				/>
 
 				<LinkButton
 					text={t('sign_out')}

@@ -14,6 +14,7 @@ import colors from '../../styles/colors';
 import Balance from '../../components/Home/Balance';
 import Shortcuts from '../../components/Home/Shortcuts';
 import BlockTemplate from '../../components/BlockTemplate';
+import Message from '../../components/Message';
 import Item from '../../components/History/Item';
 import { PayUTC } from '../../redux/actions';
 import { _, Home as t } from '../../utils/i18n';
@@ -90,29 +91,18 @@ class HomeScreen extends React.Component {
 				}}
 			>
 				{message.message ? (
-					<BlockTemplate
-						roundedTop
-						roundedBottom
-						shadow
-						style={{ marginBottom: 15, backgroundColor: message.backgroundColor || colors.more }}
-						onPress={() => {
-							if (message.onPress) {
-								message.onPress();
-							}
+					<View style={{ marginBottom: 15 }}>
+						<Message
+							{...message}
+							onPress={() => {
+								if (message.onPress) {
+									message.onPress();
+								}
 
-							this.setState({ message: {} });
-						}}
-					>
-						<Text
-							style={{
-								fontSize: 16,
-								fontWeight: 'bold',
-								color: message.color || colors.backgroundBlock,
+								this.setState({ message: {} });
 							}}
-						>
-							{message.message}
-						</Text>
-					</BlockTemplate>
+						/>
+					</View>
 				) : null}
 
 				<BlockTemplate roundedTop roundedBottom shadow style={{ marginBottom: 15 }}>
@@ -120,7 +110,7 @@ class HomeScreen extends React.Component {
 						amount={amount}
 						isCreditConsistent={details.is_credit_consistent}
 						loading={detailsFetching}
-						name={details.name}
+						name={details.user ? details.user.first_name : null}
 						weekAmount={totalAmount(history, oneWeekAgo) / 100}
 						onRefresh={() => this.onRefresh()}
 					/>

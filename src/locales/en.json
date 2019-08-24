@@ -103,7 +103,11 @@
 			"login_placeholder": "CAS-UTC or email",
 			"password_label": "Password :",
 			"password_placeholder": "Connection password",
-			"bad_login_password": "Wrong identifiants",
+			"bad_login_password": "Wrong credentials",
+			"i_am_ext": "I am extern",
+			"i_am_cas": "I am CAS-UTC",
+			"wrong_ext": "Check that you gave the right email adress you gave for your external contribution.",
+			"wrong_cas": "Check that you correctly wrote down your CAS-UTC login and password.",
 			"button": "Let's go !",
 			"cas_connection": "CAS-UTC connection...",
 			"payutc_connection": "Connexion to the PayUTC service...",
@@ -150,8 +154,7 @@
 			"about": "About",
 			"contact_us": "Contact us",
 			"mail_body": "Hello ! \n\nFirst of all, thank you for this application !\n\n",
-			"profile": "My account",
-			"profile_desc": "Account information, badge locking and signing out."
+			"profile_desc": "Account information, badge management and disconnection.",
 		},
 		"About": {
 			"title": "About",
@@ -233,10 +236,22 @@
 			"lock": "Lock the badge",
 			"locking": "Locking the badge...",
 			"unlocking": "Unlocking the badge...",
+			"lock_confirmed": "Badge locked successfully.",
+			"unlock_confirmed": "Badge unlocked successfully.",
 			"lock_info": "When the badge is locked, it can no more be used to pay.",
 			"lock_error": "Impossible to lock the badge.",
 			"unlock_error": "Impossible to unlock the badge.",
+			"change_pin": "Update the PIN code",
+			"change_pin_desc": "The PIN code is for the sellers in order to use PayUTC payment terminals.",
+			"cant_change_pin": "You don't have the right to do this.",
 			"sign_out": "Disconnect",
+		},
+		"ChangePin": {
+			"title": "Update the PIN code",
+			"new_pin": "New PIN code:",
+			"modify": "Update...",
+			"modification_checks": "Updating the PIN code...",
+			"modification_confirmed": "PIN code updated successfully."
 		}
 	},
 
@@ -250,6 +265,7 @@
 		"at": "at",
 		"since_*": "since %{since}",
 		"ever": "ever",
+		"semester": "this semester",
 		"month": "a month",
 		"week": "a week",
 		"yesterday": "yesterday",
