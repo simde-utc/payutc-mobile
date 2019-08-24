@@ -14,7 +14,7 @@ import AmountForm from '../../components/AmountForm';
 import LinkButton from '../../components/LinkButton';
 import { Config, PayUTC } from '../../redux/actions';
 import { _, Refill as t } from '../../utils/i18n';
-import { isAmountValid, floatToEuro } from '../../utils';
+import { isAmountValid, floatToEuro } from '../../utils/amount';
 import { PAYUTC_CALLBACK_URL } from '../../../config';
 
 const AMOUNT_SHORTCUTS = [10, 15, 20, 50];

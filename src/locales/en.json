@@ -265,6 +265,7 @@
 		"at": "at",
 		"since_*": "since %{since}",
 		"ever": "ever",
+		"semester": "this semester",
 		"month": "a month",
 		"week": "a week",
 		"yesterday": "yesterday",

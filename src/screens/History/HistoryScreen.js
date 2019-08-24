@@ -14,9 +14,10 @@ import colors from '../../styles/colors';
 import TitleParams from '../../components/TitleParams';
 import BlockTemplate from '../../components/BlockTemplate';
 import HistoryList from '../../components/History/HistoryList';
-import { Config, PayUTC } from '../../redux/actions';
+import { Config, PayUTC, Portail } from '../../redux/actions';
 import TabsBlockTemplate from '../../components/TabsBlockTemplate';
 import { _, History as t } from '../../utils/i18n';
+import { getDateFromPortail } from '../../utils/date';
 
 class HistoryScreen extends React.Component {
 	static navigationOptions = () => ({
@@ -41,6 +42,7 @@ class HistoryScreen extends React.Component {
 		this.state = {
 			dates: [
 				{ lazyTitle: 'ever', date: null },
+				{ lazyTitle: 'semester', date: null },
 				{ lazyTitle: 'month', date: oneMonthAgo },
 				{ lazyTitle: 'week', date: oneWeekAgo },
 				{ lazyTitle: 'yesterday', date: yesterday },
@@ -54,18 +56,36 @@ class HistoryScreen extends React.Component {
 	}
 
 	componentDidMount() {
-		const { historyFetched } = this.props;
+		const { historyFetched, currentSemesterFetched, dispatch } = this.props;
 
 		if (!historyFetched) {
 			this.onRefresh();
 		}
+
+		if (!currentSemesterFetched) {
+			dispatch(Portail.getCurrentSemester());
+		} else {
+			this.setCurrentSemester();
+		}
+	}
+
+	componentDidUpdate({ currentSemesterFetching: wasFetching }) {
+		const { currentSemesterFetching } = this.props;
+
+		if (wasFetching && !currentSemesterFetching) {
+			this.setCurrentSemester();
+		}
 	}
 
 	onRefresh() {
-		const { historyFetching, dispatch } = this.props;
+		const { historyFetching, currentSemesterFetching, dispatch } = this.props;
 
 		if (!historyFetching) {
 			dispatch(PayUTC.getHistory());
+		}
+
+		if (!currentSemesterFetching) {
+			dispatch(Portail.getCurrentSemester());
 		}
 	}
 
@@ -85,6 +105,22 @@ class HistoryScreen extends React.Component {
 		dispatch(Config.preferences({ selectedHistoryCategory }));
 	}
 
+	setCurrentSemester() {
+		const { currentSemester } = this.props;
+
+		this.setState(prevState => {
+			for (const key in prevState.dates) {
+				if (prevState.dates[key].lazyTitle === 'semester') {
+					prevState.dates[key].date = getDateFromPortail(currentSemester.begin_at);
+
+					break;
+				}
+			}
+
+			return prevState;
+		});
+	}
+
 	getHistory(type) {
 		let { history } = this.props;
 		const { preferences } = this.props;
@@ -96,7 +132,8 @@ class HistoryScreen extends React.Component {
 		}
 
 		if (dates[preferences.selectedDate].date) {
-			const maxDate = new Date(dates[preferences.selectedDate].date);
+			const maxDate = dates[preferences.selectedDate].date;
+
 			history = history.filter(({ date }) => new Date(date) > maxDate);
 		}
 
@@ -219,14 +256,18 @@ class HistoryScreen extends React.Component {
 	}
 }
 
-const mapStateToProps = ({ payutc, config: { preferences } }) => {
+const mapStateToProps = ({ payutc, portail, config: { preferences } }) => {
 	const history = payutc.getHistory();
+	const currentSemester = portail.getCurrentSemester();
 
 	return {
 		preferences,
 		history: history.getData({ historique: [] }).historique,
 		historyFetching: history.isFetching(),
 		historyFetched: history.isFetched(),
+		currentSemester: currentSemester.getData({}),
+		currentSemesterFetching: currentSemester.isFetching(),
+		currentSemesterFetched: currentSemester.isFetched(),
 	};
 };
 

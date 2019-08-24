@@ -11,7 +11,7 @@ import { RefreshControl, ScrollView, View } from 'react-native';
 import { connect } from 'react-redux';
 import colors from '../../styles/colors';
 import TitleParams from '../../components/TitleParams';
-import { Config, PayUTC } from '../../redux/actions';
+import { Config, PayUTC, Portail } from '../../redux/actions';
 import StatsHorizontalScrollView from '../../components/Stats/StatsHorizontalScrollView';
 import RankedList from '../../components/Stats/RankedList';
 import { _, Stats as t } from '../../utils/i18n';
@@ -22,6 +22,7 @@ import {
 	mostReceivedFromPersons,
 	mostSpentItems,
 } from '../../utils/stats';
+import { getDateFromPortail } from '../../utils/date';
 
 class StatsScreen extends React.Component {
 	static navigationOptions = () => ({
@@ -46,6 +47,7 @@ class StatsScreen extends React.Component {
 		this.state = {
 			dates: [
 				{ lazyTitle: 'ever', date: null },
+				{ lazyTitle: 'semester', date: null },
 				{ lazyTitle: 'month', date: oneMonthAgo },
 				{ lazyTitle: 'week', date: oneWeekAgo },
 				{ lazyTitle: 'yesterday', date: yesterday },
@@ -57,18 +59,36 @@ class StatsScreen extends React.Component {
 	}
 
 	componentDidMount() {
-		const { historyFetched } = this.props;
+		const { historyFetched, currentSemesterFetched, dispatch } = this.props;
 
 		if (!historyFetched) {
 			this.onRefresh();
 		}
+
+		if (!currentSemesterFetched) {
+			dispatch(Portail.getCurrentSemester());
+		} else {
+			this.setCurrentSemester();
+		}
+	}
+
+	componentDidUpdate({ currentSemesterFetching: wasFetching }) {
+		const { currentSemesterFetching } = this.props;
+
+		if (wasFetching && !currentSemesterFetching) {
+			this.setCurrentSemester();
+		}
 	}
 
 	onRefresh() {
-		const { historyFetching, dispatch } = this.props;
+		const { historyFetching, currentSemesterFetching, dispatch } = this.props;
 
 		if (!historyFetching) {
 			dispatch(PayUTC.getHistory());
+		}
+
+		if (!currentSemesterFetching) {
+			dispatch(Portail.getCurrentSemester());
 		}
 	}
 
@@ -84,13 +104,30 @@ class StatsScreen extends React.Component {
 		dispatch(Config.preferences({ selectedStatCategory }));
 	}
 
+	setCurrentSemester() {
+		const { currentSemester } = this.props;
+
+		this.setState(prevState => {
+			for (const key in prevState.dates) {
+				if (prevState.dates[key].lazyTitle === 'semester') {
+					prevState.dates[key].date = getDateFromPortail(currentSemester.begin_at);
+
+					break;
+				}
+			}
+
+			return prevState;
+		});
+	}
+
 	render() {
 		const { historyFetched, history, preferences } = this.props;
 		const { dates } = this.state;
 		let filteredHistory = history;
 
 		if (dates[preferences.selectedDate].date) {
-			const maxDate = new Date(dates[preferences.selectedDate].date);
+			const maxDate = dates[preferences.selectedDate].date;
+
 			filteredHistory = history.filter(({ date }) => new Date(date) > maxDate);
 		}
 
@@ -191,14 +228,18 @@ class StatsScreen extends React.Component {
 	}
 }
 
-const mapStateToProps = ({ payutc, config: { preferences } }) => {
+const mapStateToProps = ({ payutc, portail, config: { preferences } }) => {
 	const history = payutc.getHistory();
+	const currentSemester = portail.getCurrentSemester();
 
 	return {
 		preferences,
 		history: history.getData({ historique: [] }).historique,
 		historyFetching: history.isFetching(),
 		historyFetched: history.isFetched(),
+		currentSemester: currentSemester.getData({}),
+		currentSemesterFetching: currentSemester.isFetching(),
+		currentSemesterFetched: currentSemester.isFetched(),
 	};
 };
 

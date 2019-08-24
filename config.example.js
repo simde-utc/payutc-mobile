@@ -10,6 +10,9 @@ export const IOS_STORE_URL = '';
 // Android Store url of our app.
 export const ANDROID_STORE_URL = '';
 
+// Portail url.
+export const PORTAIL_URL = 'https://assos.utc.fr/';
+
 // GitHub url.
 export const GITHUB_URL = '';
 
@@ -70,6 +73,7 @@ export default {
 	APP_REPO_NAME,
 	IOS_STORE_URL,
 	ANDROID_STORE_URL,
+	PORTAIL_URL,
 	GITHUB_URL,
 	GITHUB_API_URL,
 	CAS_URL,

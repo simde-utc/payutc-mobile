@@ -9,7 +9,7 @@
 import React from 'react';
 import { Text, View } from 'react-native';
 import colors from '../../styles/colors';
-import { floatToEuro } from '../../utils';
+import { floatToEuro } from '../../utils/amount';
 
 export default function Transaction({ name, amount, quantity, message, sign, signTintColor }) {
 	return (
