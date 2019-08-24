@@ -1,5 +1,31 @@
 [
 	{
+		"version": "v1.1.0",
+		"data": [
+			{
+				"title": "Nouveautés",
+				"data": [
+					"Ajout de la gestion du code PIN pour les vendeurs PayUTC",
+					"Ajout du filtre par semestre"
+				]
+			},
+			{
+				"title": "Modifications",
+				"data": [
+					"Affichage d'un message au (dé)vérouillage du badge"
+				]
+			},
+			{
+				"title": "Problèmes réglés",
+				"data": [
+					"Montre le bon nom à l'accueil",
+					"Correction des statistiques",
+					"Correction définitive de la dépréciation des versions"
+				]
+			}
+		]
+	},
+	{
 		"version": "v1.0.0",
 		"data": [
 			"Sortie officielle de l'application !",
