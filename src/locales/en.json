@@ -112,6 +112,8 @@
 			"cas_connection": "CAS-UTC connection...",
 			"payutc_connection": "Connexion to the PayUTC service...",
 			"valid_terms": "By clicking \"%{button}\" you accept all the terms",
+			"hey_nouvo": "Hey Nouvô !",
+			"wrong_nouvo": "To use the application, you need to finish your registration to the UTC.",
 		},
 		"History": {
 			"title": "Historic",

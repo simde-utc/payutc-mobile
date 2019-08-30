@@ -17,6 +17,7 @@ import { TERMS_VERSION } from '../Settings/TermsScreen';
 import Logo from '../../images/payutc-logo.png';
 import CASAuth from '../../services/CASAuth';
 import PayUTC from '../../services/PayUTC';
+import Ginger from '../../services/Ginger';
 import { Config } from '../../redux/actions';
 import { _, Auth as t, Global as g } from '../../utils/i18n';
 import { isUserExt } from '../../utils';
@@ -118,6 +119,12 @@ class AuthScreen extends React.Component {
 		return terms.version === TERMS_VERSION;
 	}
 
+	checkGingerStatus(login) {
+		Ginger.getInformation(login)
+			.catch(() => this.openWrongCas())
+			.then(() => this.openNouvoPopup());
+	}
+
 	connectWithCas() {
 		const { dispatch } = this.props;
 		const { login, password } = this.state;
@@ -129,16 +136,20 @@ class AuthScreen extends React.Component {
 			})
 		);
 
-		return CASAuth.login(login, password).then(() => {
-			dispatch(
-				Config.spinner({
-					visible: true,
-					textContent: t('payutc_connection'),
-				})
-			);
+		return CASAuth.login(login, password)
+			.then(() => {
+				dispatch(
+					Config.spinner({
+						visible: true,
+						textContent: t('payutc_connection'),
+					})
+				);
 
-			return PayUTC.connectWithCas(login, password);
-		});
+				return PayUTC.connectWithCas(login, password)
+					.then(() => this.goHome())
+					.catch(() => this.checkGingerStatus(login));
+			})
+			.catch(() => this.openWrongCas());
 	}
 
 	connectWithEmail() {
@@ -152,13 +163,14 @@ class AuthScreen extends React.Component {
 			})
 		);
 
-		return PayUTC.connectWithEmail(login, password);
+		PayUTC.connectWithEmail(login, password)
+			.then(() => this.goHome())
+			.catch(() => this.openWrongExt());
 	}
 
 	submit() {
-		const { navigation, dispatch } = this.props;
+		const { navigation } = this.props;
 		const { login } = this.state;
-		let promise;
 
 		if (!this.areTermsValidated()) {
 			this.setState({ needValidation: true });
@@ -167,30 +179,22 @@ class AuthScreen extends React.Component {
 		}
 
 		if (isUserExt(login)) {
-			promise = this.connectWithEmail();
+			this.connectWithEmail();
 		} else {
-			promise = this.connectWithCas();
+			this.connectWithCas();
 		}
+	}
 
-		promise
-			.then(() => {
-				dispatch(
-					Config.spinner({
-						visible: false,
-					})
-				);
+	goHome() {
+		const { navigation, dispatch } = this.props;
 
-				navigation.navigate('Home');
+		dispatch(
+			Config.spinner({
+				visible: false,
 			})
-			.catch(e => {
-				console.log(e);
+		);
 
-				if (isUserExt(login)) {
-					this.openWrongExt();
-				} else {
-					this.openWrongCas();
-				}
-			});
+		navigation.navigate('Home');
 	}
 
 	openWrongExt() {
@@ -229,6 +233,13 @@ class AuthScreen extends React.Component {
 				onDismiss: this.dismissWrong,
 			}
 		);
+	}
+
+	openNouvoPopup() {
+		Alert.alert(t('hey_nouvo'), t('wrong_nouvo'), this.getAlertButtons(), {
+			cancelable: true,
+			onDismiss: this.dismissWrong,
+		});
 	}
 
 	dismissWrong() {
