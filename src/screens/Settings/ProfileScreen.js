@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import { Alert, RefreshControl, ScrollView, Text, View } from 'react-native';
+import { Alert, RefreshControl, ScrollView, Text, View, Linking } from 'react-native';
 import { connect } from 'react-redux';
 import colors from '../../styles/colors';
 import LinkButton from '../../components/LinkButton';
@@ -16,6 +16,7 @@ import Message from '../../components/Message';
 import SwitchBlockTemplate from '../../components/SwitchBlockTemplate';
 import { beautifyDateTime } from '../../utils/date';
 import { _, Profile as t } from '../../utils/i18n';
+import PortailService from '../../services/Portail';
 import { Config, PayUTC, Ginger } from '../../redux/actions';
 import Paragraphe from '../../components/Paragraphe';
 
@@ -237,6 +238,10 @@ class ProfileScreen extends React.Component {
 					})}
 					description={t('contributor_dssc')}
 					titleColor={isContributor ? colors.transfer : colors.error}
+					onPress={
+						isContributor ? () => {} : () => Linking.openURL(PortailService.getContributeUrl())
+					}
+					link={!isContributor}
 				/>
 
 				<SwitchBlockTemplate
