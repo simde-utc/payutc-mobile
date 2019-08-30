@@ -245,6 +245,10 @@
 			"change_pin_desc": "The PIN code is for the sellers in order to use PayUTC payment terminals.",
 			"cant_change_pin": "You don't have the right to do this.",
 			"sign_out": "Disconnect",
+			"contributor": "Contributor status: %{status}",
+			"is_contributor": "validated.",
+			"is_not_contributor": "not payed !",
+			"contributor_dssc": "Contribute to the BDE-UTC allows you to access to any BDE-UTC events, access to the MDE-UTC, and the Picasso and give a lot of advantages with Compiègne commercants.",
 		},
 		"ChangePin": {
 			"title": "Update the PIN code",

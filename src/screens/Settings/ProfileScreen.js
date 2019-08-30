@@ -16,7 +16,7 @@ import Message from '../../components/Message';
 import SwitchBlockTemplate from '../../components/SwitchBlockTemplate';
 import { beautifyDateTime } from '../../utils/date';
 import { _, Profile as t } from '../../utils/i18n';
-import { Config, PayUTC } from '../../redux/actions';
+import { Config, PayUTC, Ginger } from '../../redux/actions';
 import Paragraphe from '../../components/Paragraphe';
 
 class ProfileScreen extends React.Component {
@@ -50,7 +50,13 @@ class ProfileScreen extends React.Component {
 	}
 
 	onRefresh() {
-		const { rightsFetching, hasRightsFetching, detailsFetching, dispatch } = this.props;
+		const {
+			rightsFetching,
+			hasRightsFetching,
+			detailsFetching,
+			isContributorFetching,
+			dispatch,
+		} = this.props;
 
 		if (!detailsFetching) {
 			dispatch(PayUTC.getWalletDetails());
@@ -62,6 +68,10 @@ class ProfileScreen extends React.Component {
 
 		if (!hasRightsFetching) {
 			dispatch(PayUTC.hasRights());
+		}
+
+		if (!isContributorFetching) {
+			dispatch(Ginger.getInformation());
 		}
 	}
 
@@ -175,7 +185,7 @@ class ProfileScreen extends React.Component {
 	}
 
 	render() {
-		const { details, detailsFetching, hasRights, navigation } = this.props;
+		const { details, detailsFetching, hasRights, isContributor, navigation } = this.props;
 		const { message } = this.state;
 
 		return (
@@ -219,6 +229,15 @@ class ProfileScreen extends React.Component {
 						keyExtractor={item => item.title}
 					/>
 				</View>
+
+				<Paragraphe
+					style={{ margin: 15, marginTop: 0 }}
+					title={t('contributor', {
+						status: t(isContributor ? 'is_contributor' : 'is_not_contributor'),
+					})}
+					description={t('contributor_dssc')}
+					titleColor={isContributor ? colors.transfer : colors.error}
+				/>
 
 				<SwitchBlockTemplate
 					roundedTop
@@ -272,10 +291,11 @@ class ProfileScreen extends React.Component {
 	}
 }
 
-const mapStateToProps = ({ payutc, config: { lang } }) => {
+const mapStateToProps = ({ payutc, ginger, config: { lang } }) => {
 	const hasRights = payutc.hasRights();
 	const rights = payutc.getUserRights();
 	const details = payutc.getWalletDetails();
+	const information = ginger.getInformation();
 
 	return {
 		lang,
@@ -287,6 +307,8 @@ const mapStateToProps = ({ payutc, config: { lang } }) => {
 		details: details.getData({}),
 		detailsFetching: details.isFetching(),
 		detailsFetched: details.isFetched(),
+		isContributor: information.getData({ is_cotisant: false }).is_cotisant,
+		isContributorFetching: information.isFetching(),
 	};
 };
 
