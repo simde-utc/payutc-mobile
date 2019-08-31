@@ -9,6 +9,7 @@ import { combineReducers } from 'redux';
 import CASAuthService from '../services/CASAuth';
 import PayUTCService from '../services/PayUTC';
 import GitHubService from '../services/GitHub';
+import GingerService from '../services/Ginger';
 import PortailService from '../services/Portail';
 import { configReducer } from './config';
 
@@ -116,6 +117,7 @@ const generateServiceReducer = service => {
 generateServiceReducer(CASAuthService);
 generateServiceReducer(PayUTCService);
 generateServiceReducer(GitHubService);
+generateServiceReducer(GingerService);
 generateServiceReducer(PortailService);
 
 export default combineReducers(reducers);

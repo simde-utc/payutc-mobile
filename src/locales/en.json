@@ -112,6 +112,8 @@
 			"cas_connection": "CAS-UTC connection...",
 			"payutc_connection": "Connexion to the PayUTC service...",
 			"valid_terms": "By clicking \"%{button}\" you accept all the terms",
+			"hey_nouvo": "Hey Nouvô !",
+			"wrong_nouvo": "To use the application, you need to finish your registration to the UTC.",
 		},
 		"History": {
 			"title": "Historic",
@@ -246,6 +248,10 @@
 			"change_pin_desc": "The PIN code is for the sellers in order to use PayUTC payment terminals.",
 			"cant_change_pin": "You don't have the right to do this.",
 			"sign_out": "Disconnect",
+			"contributor": "Contributor status: %{status}",
+			"is_contributor": "validated.",
+			"is_not_contributor": "not payed !",
+			"contributor_dssc": "Contribute to the BDE-UTC allows you to access to any BDE-UTC events, access to the MDE-UTC, and the Picasso and give a lot of advantages with Compiègne commercants.",
 		},
 		"ChangePin": {
 			"title": "Update the PIN code",

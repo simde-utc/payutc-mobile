@@ -40,6 +40,12 @@ export const PAYUTC_SYSTEM_ID = '';
 // PayUTC email adress.
 export const PAYUTC_EMAIL = '';
 
+// Ginger api url.
+export const GINGER_API_URL = '';
+
+// Ginger API key.
+export const GINGER_KEY = '';
+
 // Main team contributors.
 export const CONTRIBUTORS_MAIN_TEAM = {
 	NastuzziSamy: 'project_chief',
@@ -83,6 +89,8 @@ export default {
 	PAYUTC_CALLBACK_URL,
 	PAYUTC_SYSTEM_ID,
 	PAYUTC_EMAIL,
+	GINGER_API_URL,
+	GINGER_KEY,
 	CONTRIBUTORS_MAIN_TEAM,
 	CONTRIBUTORS_DESIGN_TEAM,
 	CONTRIBUTORS_TRANSLATION_TEAM,
