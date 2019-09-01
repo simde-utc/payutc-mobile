@@ -233,14 +233,10 @@ class ProfileScreen extends React.Component {
 
 				<Paragraphe
 					style={{ margin: 15, marginTop: 0 }}
-					title={t('contributor', {
-						status: t(isContributor ? 'is_contributor' : 'is_not_contributor'),
-					})}
-					description={t('contributor_dssc')}
-					titleColor={isContributor ? colors.transfer : colors.error}
-					onPress={
-						isContributor ? () => {} : () => Linking.openURL(PortailService.getContributeUrl())
-					}
+					title={t(isContributor ? 'is_contributor' : 'is_not_contributor')}
+					description={t('contributor_desc')}
+					titleColor={isContributor ? colors.success : colors.error}
+					onPress={isContributor ? null : () => Linking.openURL(PortailService.getContributeUrl())}
 					link={!isContributor}
 				/>
 
