@@ -15,6 +15,7 @@ const colors = {
 	backgroundSuccess: '#BBE0AB',
 	backgroundBlock: '#FFFFFF',
 	backgroundBlockAlt: '#fbfbfb',
+	success: '#00AD14',
 	error: '#BC0000',
 	disabled: '#D1D1D1',
 	transfer: '#007d94',

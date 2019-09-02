@@ -8,6 +8,7 @@
 import CASAuthService from '../services/CASAuth';
 import PayUTCService from '../services/PayUTC';
 import GitHubService from '../services/GitHub';
+import GingerService from '../services/Ginger';
 import PortailService from '../services/Portail';
 
 // Generate actions for services. Each call, is a service method call.
@@ -28,6 +29,7 @@ export const generateActions = service => {
 export const CASAuth = generateActions(CASAuthService);
 export const PayUTC = generateActions(PayUTCService);
 export const GitHub = generateActions(GitHubService);
+export const Ginger = generateActions(GingerService);
 export const Portail = generateActions(PortailService);
 export const Config = new Proxy(
 	{},
@@ -46,6 +48,7 @@ export default {
 	CASAuth,
 	PayUTC,
 	GitHub,
+	Ginger,
 	Portail,
 	Config,
 };

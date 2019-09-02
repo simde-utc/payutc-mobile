@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import { Alert, RefreshControl, ScrollView, Text, View } from 'react-native';
+import { Alert, Linking, RefreshControl, ScrollView, Text, View } from 'react-native';
 import { connect } from 'react-redux';
 import colors from '../../styles/colors';
 import LinkButton from '../../components/LinkButton';
@@ -16,7 +16,8 @@ import Message from '../../components/Message';
 import SwitchBlockTemplate from '../../components/SwitchBlockTemplate';
 import { beautifyDateTime } from '../../utils/date';
 import { _, Profile as t } from '../../utils/i18n';
-import { Config, PayUTC } from '../../redux/actions';
+import PortailService from '../../services/Portail';
+import { Config, Ginger, PayUTC } from '../../redux/actions';
 import Paragraphe from '../../components/Paragraphe';
 
 class ProfileScreen extends React.Component {
@@ -50,7 +51,13 @@ class ProfileScreen extends React.Component {
 	}
 
 	onRefresh() {
-		const { rightsFetching, hasRightsFetching, detailsFetching, dispatch } = this.props;
+		const {
+			rightsFetching,
+			hasRightsFetching,
+			detailsFetching,
+			isContributorFetching,
+			dispatch,
+		} = this.props;
 
 		if (!detailsFetching) {
 			dispatch(PayUTC.getWalletDetails());
@@ -62,6 +69,10 @@ class ProfileScreen extends React.Component {
 
 		if (!hasRightsFetching) {
 			dispatch(PayUTC.hasRights());
+		}
+
+		if (!isContributorFetching) {
+			dispatch(Ginger.getInformation());
 		}
 	}
 
@@ -109,26 +120,32 @@ class ProfileScreen extends React.Component {
 		});
 	}
 
-	static renderDetail({ title, value }, index, roundedBottom = false) {
+	static renderDetail(
+		{ title, titleColor, subtitle, value, onPress },
+		index,
+		roundedBottom = false
+	) {
 		return (
 			<BlockTemplate
 				customBackground={index % 2 === 0 ? colors.backgroundBlockAlt : colors.backgroundBlock}
-				style={{
-					flex: 1,
-					flexDirection: 'row',
-					alignItems: 'center',
-					justifyContent: 'space-between',
-				}}
 				roundedBottom={roundedBottom}
+				onPress={onPress}
 			>
-				<Text style={{ fontSize: 14, fontWeight: 'bold', color: colors.secondary }}>{title}</Text>
-				<Text style={{ fontSize: 12, color: colors.secondary }}>{value}</Text>
+				<View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
+					<Text style={{ fontSize: 14, fontWeight: 'bold', color: titleColor || colors.secondary }}>
+						{title}
+					</Text>
+					<Text style={{ fontSize: 12, color: colors.secondary, marginLeft: 10 }}>{value}</Text>
+				</View>
+				{subtitle ? (
+					<Text style={{ fontSize: 11, color: colors.secondary, marginTop: 3 }}>{subtitle}</Text>
+				) : null}
 			</BlockTemplate>
 		);
 	}
 
 	getUserDetails() {
-		const { hasRights, rights, details, detailsFetching } = this.props;
+		const { hasRights, rights, details, detailsFetching, isContributor } = this.props;
 		const types = [];
 
 		if (detailsFetching) {
@@ -153,6 +170,12 @@ class ProfileScreen extends React.Component {
 			{ title: _('type'), value: types.join(' / ') },
 			{ title: _('status'), value: details.force_adult ? _('adult') : _('minor') },
 			{ title: _('creation_date'), value: beautifyDateTime(details.created) },
+			{
+				title: t(isContributor ? 'is_contributor' : 'is_not_contributor'),
+				titleColor: isContributor ? colors.secondary : colors.error,
+				subtitle: t('contributor_desc'),
+				onPress: isContributor ? null : () => Linking.openURL(PortailService.getContributeUrl()),
+			},
 		];
 	}
 
@@ -272,10 +295,11 @@ class ProfileScreen extends React.Component {
 	}
 }
 
-const mapStateToProps = ({ payutc, config: { lang } }) => {
+const mapStateToProps = ({ payutc, ginger, config: { lang } }) => {
 	const hasRights = payutc.hasRights();
 	const rights = payutc.getUserRights();
 	const details = payutc.getWalletDetails();
+	const information = ginger.getInformation();
 
 	return {
 		lang,
@@ -287,6 +311,8 @@ const mapStateToProps = ({ payutc, config: { lang } }) => {
 		details: details.getData({}),
 		detailsFetching: details.isFetching(),
 		detailsFetched: details.isFetched(),
+		isContributor: information.getData({ is_cotisant: false }).is_cotisant,
+		isContributorFetching: information.isFetching(),
 	};
 };
 

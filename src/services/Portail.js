@@ -32,6 +32,11 @@ export class Portail extends Api {
 		super(url);
 	}
 
+	// eslint-disable-next-line class-methods-use-this
+	getContributeUrl() {
+		return `${PORTAIL_URL}bde/bdecotiz`;
+	}
+
 	getCurrentSemester() {
 		return this.call(API_V1, 'semesters/current');
 	}

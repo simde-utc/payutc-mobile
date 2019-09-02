@@ -113,7 +113,10 @@
 			"button": "C'est parti !",
 			"cas_connection": "Connexion au CAS-UTC...",
 			"payutc_connection": "Connexion au service PayUTC...",
+			"ginger_verification": "Vérification du compte...",
 			"valid_terms": "En cliquant sur \"%{button}\" vous acceptez tous les termes",
+			"hey_nouvo": "Salut Nouvô !",
+			"wrong_nouvo": "Pour pouvoir utiliser l'application, il faut terminer son inscription administrative auprès de l'UTC.",
 		},
 		"History": {
 			"title": "Historique",
@@ -155,6 +158,7 @@
 			"lang": "Langue de l'application :",
 			"about": "À propos",
 			"contact_us": "Nous contacter",
+			"opinion": "Donner son avis",
 			"mail_body": "Salut ! \n\nAvant tout, merci pour cette magnifique application !\n\n",
 			"profile_desc": "Informations du compte, gestion du badge et déconnexion.",
 		},
@@ -247,6 +251,9 @@
 			"lock_error": "Impossible de verrouiller le badge.",
 			"unlock_error": "Impossible de déverrouiller le badge.",
 			"sign_out": "Se déconnecter",
+			"is_contributor": "Vous êtes cotisant BDE-UTC !",
+			"is_not_contributor": "Vous n'êtes pas cotisant BDE-UTC",
+			"contributor_desc": "Être cotisant permet d'accéder à la MDE, au Picasso et aux évenements organisés par le BDE. Cela apporte également des avantages auprès des commerçants Compiègnois."
 		},
 		"ChangePin": {
 			"title": "Modification du code PIN",
