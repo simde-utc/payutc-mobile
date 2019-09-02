@@ -120,6 +120,15 @@ class AuthScreen extends React.Component {
 	}
 
 	checkGingerStatus(login) {
+		const { dispatch } = this.props;
+
+		dispatch(
+			Config.spinner({
+				visible: true,
+				textContent: t('ginger_verification'),
+			})
+		);
+
 		Ginger.getInformation(login)
 			.catch(() => this.openWrongCas())
 			.then(() => this.openNouvoPopup());
