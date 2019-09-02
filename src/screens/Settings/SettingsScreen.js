@@ -117,7 +117,7 @@ class SettingsScreen extends React.Component {
 
 				<LinkButton
 					text={t('opinion')}
-					color={colors.transfer}
+					color={colors.primary}
 					onPress={() => Linking.openURL(Platform.OS === 'ios' ? IOS_STORE_URL : ANDROID_STORE_URL)}
 					style={{ margin: 15, marginTop: 0 }}
 				/>
