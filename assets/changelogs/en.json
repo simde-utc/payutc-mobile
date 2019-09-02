@@ -1,5 +1,29 @@
 [
 	{
+		"version": "v1.1.1",
+		"data": [
+			{
+				"title": "News",
+				"data": [
+					"Handle BDE-UTC contribution",
+					"Add a link to review the application"
+				]
+			},
+			{
+				"title": "Changes",
+				"data": [
+					"Handle new students during connection"
+				]
+			},
+			{
+				"title": "Fixed bugs",
+				"data": [
+					"Fix the refill end page"
+				]
+			}
+		]
+	},
+	{
 		"version": "v1.1.0",
 		"data": [
 			{
