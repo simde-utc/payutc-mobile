@@ -89,11 +89,64 @@ class RefillScreen extends React.Component {
 		const action = PayUTC.getRefillLimits();
 		dispatch(action);
 
-		action.payload.then(([{ min, max_reload }]) => {
-			const minAmount = min / 100;
-			const maxAmount = max_reload / 100;
+		action.payload
+			.then(([{ min, max_reload }]) => {
+				const minAmount = min / 100;
+				const maxAmount = max_reload / 100;
 
-			if (!this.isAmountValid(minAmount, maxAmount)) {
+				if (!this.isAmountValid(minAmount, maxAmount)) {
+					dispatch(
+						Config.spinner({
+							visible: false,
+						})
+					);
+
+					this.submiting = false;
+
+					return this.setState({
+						amountError: t('bad_amount', {
+							min: floatToEuro(minAmount),
+							max: floatToEuro(maxAmount),
+						}),
+					});
+				}
+
+				const { amount } = this.state;
+				const amountAsFloat = parseFloat(amount.replace(',', '.'));
+
+				dispatch(
+					Config.spinner({
+						visible: true,
+						textContent: t('redirect_to_refill'),
+					})
+				);
+
+				const action = PayUTC.getRefillUrl(amountAsFloat * 100, PAYUTC_CALLBACK_URL);
+				dispatch(action);
+
+				action.payload
+					.then(([url]) => {
+						dispatch(
+							Config.spinner({
+								visible: false,
+							})
+						);
+
+						this.submiting = false;
+
+						navigation.navigate('Payment', { url, amount: amountAsFloat });
+					})
+					.catch(() => {
+						dispatch(
+							Config.spinner({
+								visible: false,
+							})
+						);
+
+						this.submiting = false;
+					});
+			})
+			.catch(() => {
 				dispatch(
 					Config.spinner({
 						visible: false,
@@ -101,50 +154,7 @@ class RefillScreen extends React.Component {
 				);
 
 				this.submiting = false;
-
-				return this.setState({
-					amountError: t('bad_amount', {
-						min: floatToEuro(minAmount),
-						max: floatToEuro(maxAmount),
-					}),
-				});
-			}
-
-			const { amount } = this.state;
-			const amountAsFloat = parseFloat(amount.replace(',', '.'));
-
-			dispatch(
-				Config.spinner({
-					visible: true,
-					textContent: t('redirect_to_refill'),
-				})
-			);
-
-			const action = PayUTC.getRefillUrl(amountAsFloat * 100, PAYUTC_CALLBACK_URL);
-			dispatch(action);
-
-			action.payload
-				.then(([url]) => {
-					dispatch(
-						Config.spinner({
-							visible: false,
-						})
-					);
-
-					this.submiting = false;
-
-					navigation.navigate('Payment', { url, amount: amountAsFloat });
-				})
-				.catch(() => {
-					dispatch(
-						Config.spinner({
-							visible: false,
-						})
-					);
-
-					this.submiting = false;
-				});
-		});
+			});
 	}
 
 	render() {
