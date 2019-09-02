@@ -33,7 +33,6 @@ target 'PayUTC' do
 
   pod 'RNSVG', :path => '../node_modules/react-native-svg'
 
-  pod 'react-native-version-number', :path => '../node_modules/react-native-version-number'
 
   pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
 
