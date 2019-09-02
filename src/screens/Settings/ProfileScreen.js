@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import { Alert, RefreshControl, ScrollView, Text, View, Linking } from 'react-native';
+import { Alert, Linking, RefreshControl, ScrollView, Text, View } from 'react-native';
 import { connect } from 'react-redux';
 import colors from '../../styles/colors';
 import LinkButton from '../../components/LinkButton';
@@ -17,7 +17,7 @@ import SwitchBlockTemplate from '../../components/SwitchBlockTemplate';
 import { beautifyDateTime } from '../../utils/date';
 import { _, Profile as t } from '../../utils/i18n';
 import PortailService from '../../services/Portail';
-import { Config, PayUTC, Ginger } from '../../redux/actions';
+import { Config, Ginger, PayUTC } from '../../redux/actions';
 import Paragraphe from '../../components/Paragraphe';
 
 class ProfileScreen extends React.Component {
@@ -120,26 +120,32 @@ class ProfileScreen extends React.Component {
 		});
 	}
 
-	static renderDetail({ title, value }, index, roundedBottom = false) {
+	static renderDetail(
+		{ title, titleColor, subtitle, value, onPress },
+		index,
+		roundedBottom = false
+	) {
 		return (
 			<BlockTemplate
 				customBackground={index % 2 === 0 ? colors.backgroundBlockAlt : colors.backgroundBlock}
-				style={{
-					flex: 1,
-					flexDirection: 'row',
-					alignItems: 'center',
-					justifyContent: 'space-between',
-				}}
 				roundedBottom={roundedBottom}
+				onPress={onPress}
 			>
-				<Text style={{ fontSize: 14, fontWeight: 'bold', color: colors.secondary }}>{title}</Text>
-				<Text style={{ fontSize: 12, color: colors.secondary }}>{value}</Text>
+				<View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-between' }}>
+					<Text style={{ fontSize: 14, fontWeight: 'bold', color: titleColor || colors.secondary }}>
+						{title}
+					</Text>
+					<Text style={{ fontSize: 12, color: colors.secondary, marginLeft: 10 }}>{value}</Text>
+				</View>
+				{subtitle ? (
+					<Text style={{ fontSize: 11, color: colors.secondary, marginTop: 3 }}>{subtitle}</Text>
+				) : null}
 			</BlockTemplate>
 		);
 	}
 
 	getUserDetails() {
-		const { hasRights, rights, details, detailsFetching } = this.props;
+		const { hasRights, rights, details, detailsFetching, isContributor } = this.props;
 		const types = [];
 
 		if (detailsFetching) {
@@ -164,6 +170,12 @@ class ProfileScreen extends React.Component {
 			{ title: _('type'), value: types.join(' / ') },
 			{ title: _('status'), value: details.force_adult ? _('adult') : _('minor') },
 			{ title: _('creation_date'), value: beautifyDateTime(details.created) },
+			{
+				title: t(isContributor ? 'is_contributor' : 'is_not_contributor'),
+				titleColor: isContributor ? colors.secondary : colors.error,
+				subtitle: t('contributor_desc'),
+				onPress: isContributor ? null : () => Linking.openURL(PortailService.getContributeUrl()),
+			},
 		];
 	}
 
@@ -186,7 +198,7 @@ class ProfileScreen extends React.Component {
 	}
 
 	render() {
-		const { details, detailsFetching, hasRights, isContributor, navigation } = this.props;
+		const { details, detailsFetching, hasRights, navigation } = this.props;
 		const { message } = this.state;
 
 		return (
@@ -230,15 +242,6 @@ class ProfileScreen extends React.Component {
 						keyExtractor={item => item.title}
 					/>
 				</View>
-
-				<Paragraphe
-					style={{ margin: 15, marginTop: 0 }}
-					title={t(isContributor ? 'is_contributor' : 'is_not_contributor')}
-					description={t('contributor_desc')}
-					titleColor={isContributor ? colors.success : colors.error}
-					onPress={isContributor ? null : () => Linking.openURL(PortailService.getContributeUrl())}
-					link={!isContributor}
-				/>
 
 				<SwitchBlockTemplate
 					roundedTop

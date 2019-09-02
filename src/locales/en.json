@@ -248,7 +248,7 @@
 			"cant_change_pin": "You don't have the right to do this.",
 			"sign_out": "Disconnect",
 			"is_contributor": "You are a BDE-UTC contributor!",
-			"is_not_contributor": "You are not a BDE-UTC contributor.",
+			"is_not_contributor": "You are not a BDE-UTC contributor",
 			"contributor_desc": "Being a contributor allows you to access the MDE, the Picasso and any event organized by the BDE. It also gives you a lot of advantages in Compiègne shops.",
 		},
 		"ChangePin": {

@@ -250,7 +250,7 @@
 			"unlock_error": "Impossible de déverrouiller le badge.",
 			"sign_out": "Se déconnecter",
 			"is_contributor": "Vous êtes cotisant BDE-UTC !",
-			"is_not_contributor": "Vous n'êtes pas cotisant BDE-UTC.",
+			"is_not_contributor": "Vous n'êtes pas cotisant BDE-UTC",
 			"contributor_desc": "Être cotisant permet d'accéder à la MDE, au Picasso et aux évenements organisés par le BDE. Cela apporte également des avantages auprès des commerçants Compiègnois."
 		},
 		"ChangePin": {
