@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { Linking, RefreshControl, ScrollView, Text, View } from 'react-native';
+import { Linking, RefreshControl, ScrollView, Text, View, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import colors from '../../styles/colors';
 import TabsBlockTemplate from '../../components/TabsBlockTemplate';
@@ -15,7 +15,7 @@ import Paragraphe from '../../components/Paragraphe';
 import LinkButton from '../../components/LinkButton';
 import { _, Global as g, Settings as t } from '../../utils/i18n';
 import { Config, PayUTC } from '../../redux/actions';
-import { PAYUTC_EMAIL } from '../../../config';
+import { PAYUTC_EMAIL, IOS_STORE_URL, ANDROID_STORE_URL } from '../../../config';
 import BlockTemplate from '../../components/BlockTemplate';
 
 class SettingsScreen extends React.Component {
@@ -112,6 +112,13 @@ class SettingsScreen extends React.Component {
 					onPress={() =>
 						Linking.openURL(`mailto:${PAYUTC_EMAIL}?subject=[App] &body=${t('mail_body')}`)
 					}
+					style={{ margin: 15, marginTop: 0 }}
+				/>
+
+				<LinkButton
+					text={t('opinion')}
+					color={colors.primary}
+					onPress={() => Linking.openURL(Platform.OS === 'ios' ? IOS_STORE_URL : ANDROID_STORE_URL)}
 					style={{ margin: 15, marginTop: 0 }}
 				/>
 			</ScrollView>
