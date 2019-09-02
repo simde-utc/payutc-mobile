@@ -8,7 +8,6 @@
 import React from 'react';
 import { Linking, ScrollView, Text, View, Platform } from 'react-native';
 import { connect } from 'react-redux';
-import VersionNumber from 'react-native-version-number';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import ValidationScreen from '../../components/ValidationScreen';
 import BlockTemplate from '../../components/BlockTemplate';
@@ -20,6 +19,7 @@ import GitHubService from '../../services/GitHub';
 import colors from '../../styles/colors';
 import { Changelog as t, Global as g } from '../../utils/i18n';
 import { IOS_STORE_URL, ANDROID_STORE_URL } from '../../../config';
+import appJson from '../../../app.json';
 import fr from '../../../assets/changelogs/fr';
 import en from '../../../assets/changelogs/en';
 
@@ -89,9 +89,9 @@ class ChangelogScreen extends React.Component {
 		const {
 			release: { tag_name: tagName },
 		} = this.props;
-		const { appVersion } = VersionNumber;
+		const { versionName } = appJson;
 
-		if (!appVersion || !tagName || `v${appVersion}` === tagName) {
+		if (!versionName || !tagName || `v${versionName}` === tagName) {
 			return t('go_to_store');
 		}
 
@@ -107,7 +107,7 @@ class ChangelogScreen extends React.Component {
 	render() {
 		const { lang, navigation } = this.props;
 		const changelog = CHANGELOGS[lang] || CHANGELOGS.en;
-		const appVersion = `v${VersionNumber.appVersion}`;
+		const appVersion = `v${appJson.versionName}`;
 		const titled = navigation.getParam('titled');
 
 		return (
