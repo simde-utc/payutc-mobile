@@ -14,11 +14,11 @@ import colors from '../../styles/colors';
 import Balance from '../../components/Home/Balance';
 import Shortcuts from '../../components/Home/Shortcuts';
 import BlockTemplate from '../../components/BlockTemplate';
-import Message from '../../components/Message';
 import Item from '../../components/History/Item';
 import { PayUTC } from '../../redux/actions';
 import { _, Home as t } from '../../utils/i18n';
 import { totalAmount } from '../../utils/stats';
+import ConfirmationModal from '../../components/ConfirmationModal';
 
 class HomeScreen extends React.Component {
 	static navigationOptions = () => ({
@@ -91,18 +91,12 @@ class HomeScreen extends React.Component {
 				}}
 			>
 				{message.message ? (
-					<View style={{ marginBottom: 15 }}>
-						<Message
-							{...message}
-							onPress={() => {
-								if (message.onPress) {
-									message.onPress();
-								}
-
-								this.setState({ message: {} });
-							}}
-						/>
-					</View>
+					<ConfirmationModal
+						title={message.message.title}
+						subtitle={message.message.subtitle}
+						amount={message.message.amount}
+						amountColor={message.message.amountColor}
+					/>
 				) : null}
 
 				<BlockTemplate roundedTop roundedBottom shadow style={{ marginBottom: 15 }}>

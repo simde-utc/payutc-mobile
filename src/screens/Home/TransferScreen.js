@@ -148,10 +148,12 @@ class TransferScreen extends React.Component {
 				dispatch(PayUTC.getHistory());
 
 				navigation.navigate('Home', {
-					message: t('transfer_confirmed', {
-						amount: floatToEuro(amountAsFloat),
-						name: recipient.name,
-					}),
+					message: {
+						title: t('transfer_confirmed'),
+						subtitle: recipient.name,
+						amount: amountAsFloat,
+						amountColor: colors.transfer,
+					},
 				});
 			})
 			.catch(() => this.refuse());

@@ -43,7 +43,8 @@
 		"Payment": {
 			"title": "Paiement",
 			"paiement_canceled": "Aucun paiement effectué, rechargement annulé",
-			"paiement_confirmed": "Rechargement de %{amount} validé !",
+			"paiement_confirmed": "Rechargement confirmé",
+			"paiement_confirmed_subtitle": "C'est le début de la richesse !",
 			"checking": "Vérification de la transaction",
 			"getting_refill": "Récupération de l'information de rechargement",
 		},
@@ -60,7 +61,7 @@
 			"amount_error": "Le montant est invalide.",
 			"transfer_checks": "Vérification avant transfert...",
 			"transfering": "Transfert en cours...",
-			"transfer_confirmed": "Transfert de %{amount} confirmé vers %{name}",
+			"transfer_confirmed": "Transfert confirmé",
 			"thanks": "Merci !",
 			"happy": "😊",
 			"kiss": "😘",
