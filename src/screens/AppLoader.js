@@ -108,14 +108,6 @@ class AppLoaderScreen extends React.Component {
 
 					return this.setState({ screen: 'Changelog', data: { titled: true } });
 				}
-
-				this.setState({
-					data: {
-						message: t('new_update', { version: tagName }),
-						backgroundColor: colors.transfer,
-						onPress: () => navigation.navigate('Changelog'),
-					},
-				});
 			}
 
 			return this.loadData();
