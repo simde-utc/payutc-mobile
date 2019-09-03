@@ -4,7 +4,6 @@ import android.app.Application;
 
 import com.facebook.react.ReactApplication;
 import com.oblador.vectoricons.VectorIconsPackage;
-import com.apsl.versionnumber.RNVersionNumberPackage;
 import com.horcrux.svg.SvgPackage;
 import com.swmansion.reanimated.ReanimatedPackage;
 import com.facebook.react.ReactNativeHost;
@@ -43,7 +42,6 @@ public class MainApplication extends Application implements ReactApplication {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
             new VectorIconsPackage(),
-            new RNVersionNumberPackage(),
             new SvgPackage(),
           new ReanimatedPackage(),
           new RNGestureHandlerPackage(),

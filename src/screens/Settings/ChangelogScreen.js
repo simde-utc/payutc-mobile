@@ -8,7 +8,6 @@
 import React from 'react';
 import { Linking, ScrollView, Text, View, Platform } from 'react-native';
 import { connect } from 'react-redux';
-import VersionNumber from 'react-native-version-number';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import ValidationScreen from '../../components/ValidationScreen';
 import BlockTemplate from '../../components/BlockTemplate';
@@ -18,15 +17,9 @@ import List from '../../components/List';
 import { GitHub, Config } from '../../redux/actions';
 import GitHubService from '../../services/GitHub';
 import colors from '../../styles/colors';
-import { Changelog as t, Global as g } from '../../utils/i18n';
+import { _, Changelog as t, Global as g } from '../../utils/i18n';
 import { IOS_STORE_URL, ANDROID_STORE_URL } from '../../../config';
-import fr from '../../../assets/changelogs/fr';
-import en from '../../../assets/changelogs/en';
-
-const CHANGELOGS = {
-	fr,
-	en,
-};
+import appJson from '../../../app.json';
 
 class ChangelogScreen extends React.Component {
 	static navigationOptions = () => ({
@@ -37,9 +30,18 @@ class ChangelogScreen extends React.Component {
 	});
 
 	componentDidMount() {
-		const { dispatch } = this.props;
+		const { lang, dispatch } = this.props;
 
 		dispatch(GitHub.getLastestRelease());
+		dispatch(GitHub.getChangelog(lang));
+	}
+
+	componentDidUpdate({ lang: prevLang }) {
+		const { lang, dispatch } = this.props;
+
+		if (lang !== prevLang) {
+			dispatch(GitHub.getChangelog(lang));
+		}
 	}
 
 	static renderItem(item, fontSize) {
@@ -89,9 +91,9 @@ class ChangelogScreen extends React.Component {
 		const {
 			release: { tag_name: tagName },
 		} = this.props;
-		const { appVersion } = VersionNumber;
+		const { versionName } = appJson;
 
-		if (!appVersion || !tagName || `v${appVersion}` === tagName) {
+		if (!versionName || !tagName || `v${versionName}` === tagName) {
 			return t('go_to_store');
 		}
 
@@ -104,10 +106,86 @@ class ChangelogScreen extends React.Component {
 		dispatch(Config.setLang(lang));
 	}
 
+	renderLoading() {
+		const { changelogFetching } = this.props;
+
+		return (
+			<View style={{ paddingBottom: 15 }}>
+				<List
+					title={_('loading_text_replacement')}
+					loading={changelogFetching}
+					renderFooter={
+						<BlockTemplate roundedBottom customBackground={colors.backgroundBlockAlt}>
+							<Text
+								style={{
+									fontSize: 12,
+									fontWeight: 'bold',
+									color: colors.transfer,
+								}}
+							>
+								{_('loading_text_replacement')}
+							</Text>
+						</BlockTemplate>
+					}
+				/>
+			</View>
+		);
+	}
+
+	renderChangelog() {
+		const { changelog, changelogFetching } = this.props;
+		const appVersion = `v${appJson.versionName}`;
+
+		if (changelogFetching) {
+			return (
+				<View style={{ padding: 15, paddingBottom: 0 }}>
+					{this.renderLoading()}
+					{this.renderLoading()}
+				</View>
+			);
+		}
+
+		return (
+			<View style={{ padding: 15, paddingBottom: 0 }}>
+				{changelog.map(({ version, data }) => {
+					const versionUrl = GitHubService.getVersionUrl(version);
+					const onPress = () => Linking.openURL(versionUrl);
+
+					return (
+						<View style={{ paddingBottom: 15 }} key={version}>
+							<List
+								title={t(appVersion === version ? 'actual_version' : 'version', { version })}
+								onPress={onPress}
+								items={data}
+								keyExtractor={item => `${version}.${item.title || item}`}
+								renderItem={item => ChangelogScreen.renderItem(item, 15)}
+								renderFooter={
+									<BlockTemplate
+										roundedBottom
+										onPress={onPress}
+										customBackground={colors.backgroundBlockAlt}
+									>
+										<Text
+											style={{
+												fontSize: 12,
+												fontWeight: 'bold',
+												color: colors.transfer,
+											}}
+										>
+											{versionUrl.replace(/http(s?):\/\//, '')}
+										</Text>
+									</BlockTemplate>
+								}
+							/>
+						</View>
+					);
+				})}
+			</View>
+		);
+	}
+
 	render() {
 		const { lang, navigation } = this.props;
-		const changelog = CHANGELOGS[lang] || CHANGELOGS.en;
-		const appVersion = `v${VersionNumber.appVersion}`;
 		const titled = navigation.getParam('titled');
 
 		return (
@@ -130,41 +208,7 @@ class ChangelogScreen extends React.Component {
 							/>
 						</TitleParams>
 					) : null}
-					<View style={{ padding: 15, paddingBottom: 0 }}>
-						{changelog.map(({ version, data }) => {
-							const versionUrl = GitHubService.getVersionUrl(version);
-							const onPress = () => Linking.openURL(versionUrl);
-
-							return (
-								<View style={{ paddingBottom: 15 }} key={version}>
-									<List
-										title={t(appVersion === version ? 'actual_version' : 'version', { version })}
-										onPress={onPress}
-										items={data}
-										keyExtractor={item => `${version}.${item.title || item}`}
-										renderItem={item => ChangelogScreen.renderItem(item, 15)}
-										renderFooter={
-											<BlockTemplate
-												roundedBottom
-												onPress={onPress}
-												customBackground={colors.backgroundBlockAlt}
-											>
-												<Text
-													style={{
-														fontSize: 12,
-														fontWeight: 'bold',
-														color: colors.transfer,
-													}}
-												>
-													{versionUrl.replace(/http(s?):\/\//, '')}
-												</Text>
-											</BlockTemplate>
-										}
-									/>
-								</View>
-							);
-						})}
-					</View>
+					{this.renderChangelog()}
 				</ScrollView>
 			</ValidationScreen>
 		);
@@ -173,10 +217,13 @@ class ChangelogScreen extends React.Component {
 
 const mapStateToProps = ({ github, config: { lang } }) => {
 	const release = github.getLastestRelease();
+	const changelog = github.getChangelog();
 
 	return {
 		lang,
 		release: release.getData({}),
+		changelog: changelog.getData([]),
+		changelogFetching: changelog.isFetching(),
 	};
 };
 
