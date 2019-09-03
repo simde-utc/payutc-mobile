@@ -1,5 +1,16 @@
 [
 	{
+		"version": "v1.1.3",
+		"data": [
+			{
+				"title": "Problèmes réglés",
+				"data": [
+					"Correction du gestionnaire de version"
+				]
+			}
+		]
+	},
+	{
 		"version": "v1.1.2",
 		"data": [
 			{
