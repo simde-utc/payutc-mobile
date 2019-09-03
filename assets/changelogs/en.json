@@ -1,5 +1,16 @@
 [
 	{
+		"version": "v1.1.2",
+		"data": [
+			{
+				"title": "Changes",
+				"data": [
+					"Load news directly in application"
+				]
+			},
+		]
+	},
+	{
 		"version": "v1.1.1",
 		"data": [
 			{
