@@ -19,6 +19,9 @@ export const GITHUB_URL = '';
 // GitHub API url.
 export const GITHUB_API_URL = '';
 
+// GitHub changelogs url.
+export const GITHUB_CHANGELOG_URL = '';
+
 // Cas ticket resolution url.
 export const CAS_URL = '';
 
@@ -82,6 +85,7 @@ export default {
 	PORTAIL_URL,
 	GITHUB_URL,
 	GITHUB_API_URL,
+	GITHUB_CHANGELOG_URL,
 	CAS_URL,
 	PAYUTC_API_URL,
 	PAYUTC_VERSION,
