@@ -86,7 +86,8 @@ class ChangePinScreen extends React.Component {
 				this.submiting = false;
 
 				navigation.navigate('Profile', {
-					message: t('modification_confirmed'),
+					title: t('modification_confirmed'),
+					tintColor: colors.secondary,
 				});
 			})
 			.catch(() => this.refuse());

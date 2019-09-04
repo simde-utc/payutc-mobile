@@ -7,7 +7,7 @@
  * @license GPL-3.0
  */
 
-import { APP_REPO_NAME, GITHUB_URL, GITHUB_API_URL } from '../../config';
+import { APP_REPO_NAME, GITHUB_URL, GITHUB_API_URL, GITHUB_CHANGELOG_URL } from '../../config';
 
 import Api from './Api';
 
@@ -43,6 +43,27 @@ class GitHub extends Api {
 
 	getLastestRelease() {
 		return this.call(`repos/${APP_REPO_NAME}/releases/latest`);
+	}
+
+	// eslint-disable-next-line class-methods-use-this
+	getChangelog(lang) {
+		const parameters = {
+			credentials: 'same-origin',
+			method: Api.GET,
+			headers: Api.HEADERS_JSON,
+		};
+
+		return new Promise((resolve, reject) => {
+			Api.fetch(
+				true,
+				resolve,
+				reject,
+				`${GITHUB_CHANGELOG_URL}${lang}.json`,
+				parameters,
+				Api.VALID_STATUS,
+				true
+			);
+		});
 	}
 }
 

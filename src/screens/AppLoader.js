@@ -9,7 +9,6 @@
 
 import React from 'react';
 import { View, Text, Image, Platform, NativeModules, Alert, ActivityIndicator } from 'react-native';
-import VersionNumber from 'react-native-version-number';
 import { connect } from 'react-redux';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
@@ -23,10 +22,11 @@ import colors from '../styles/colors';
 import { GitHub, Config } from '../redux/actions';
 import i18n, { _, AppLoader as t } from '../utils/i18n';
 import config from '../../config';
+import appJson from '../../app.json';
 import configExemple from '../../config.example';
 
 const REGEX_VERSION = /^([0-9])+\.([0-9])+\.([0-9])-*.*$/;
-const REGEX_DEPRECATED_VERSION = /# Deprecated versions: < v(.*)$/;
+const REGEX_DEPRECATED_VERSION = /# Deprecated versions: < v(.*)/;
 
 class AppLoaderScreen extends React.Component {
 	static loadLibrairies() {
@@ -85,15 +85,15 @@ class AppLoaderScreen extends React.Component {
 		dispatch(action);
 
 		return action.payload.then(([{ body, tag_name: tagName }]) => {
-			const { appVersion } = VersionNumber;
+			const { versionName } = appJson;
 
-			if (appVersion && tagName && `v${appVersion}` !== tagName) {
+			if (versionName && tagName && `v${versionName}` !== tagName) {
 				const matches = body.match(REGEX_DEPRECATED_VERSION);
 
 				if (
 					matches &&
 					matches.length === 2 &&
-					!AppLoaderScreen.isVersionValid(appVersion, matches[1])
+					!AppLoaderScreen.isVersionValid(versionName, matches[1])
 				) {
 					Alert.alert(
 						t('need_update'),
@@ -108,14 +108,6 @@ class AppLoaderScreen extends React.Component {
 
 					return this.setState({ screen: 'Changelog', data: { titled: true } });
 				}
-
-				this.setState({
-					data: {
-						message: t('new_update', { version: tagName }),
-						backgroundColor: colors.transfer,
-						onPress: () => navigation.navigate('Changelog'),
-					},
-				});
 			}
 
 			return this.loadData();

@@ -8,11 +8,11 @@
 import React from 'react';
 import { ScrollView, View, Linking, Text } from 'react-native';
 import { connect } from 'react-redux';
-import VersionNumber from 'react-native-version-number';
 import colors from '../../styles/colors';
 import LinkButton from '../../components/LinkButton';
 import Paragraphe from '../../components/Paragraphe';
 import { _, About as t } from '../../utils/i18n';
+import appJson from '../../../app.json';
 import { GitHub } from '../../redux/actions';
 import GitHubService from '../../services/GitHub';
 
@@ -39,13 +39,13 @@ class AboutScreen extends React.Component {
 			releaseFetching,
 			navigation,
 		} = this.props;
-		let { appVersion } = VersionNumber;
+		let { versionName } = appJson;
 
 		if (releaseFetching) {
 			return [_('loading_text_replacement'), null, _('loading_text_replacement'), () => {}];
 		}
 
-		if (!tagName || !appVersion) {
+		if (!tagName || !versionName) {
 			return [
 				t('dev_version'),
 				colors.more,
@@ -54,13 +54,13 @@ class AboutScreen extends React.Component {
 			];
 		}
 
-		appVersion = `v${appVersion}`;
+		versionName = `v${versionName}`;
 
-		if (tagName === appVersion) {
+		if (tagName === versionName) {
 			return [
 				t('up_to_date'),
 				colors.more,
-				t('actual_version', { current: appVersion }),
+				t('actual_version', { current: versionName }),
 				() => navigation.navigate('Changelog'),
 			];
 		}
@@ -68,7 +68,7 @@ class AboutScreen extends React.Component {
 		return [
 			t('need_update'),
 			colors.less,
-			t('update_version', { current: appVersion, next: tagName }),
+			t('update_version', { current: versionName, next: tagName }),
 			() => navigation.navigate('Changelog'),
 		];
 	}

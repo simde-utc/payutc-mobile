@@ -68,7 +68,7 @@ class PaymentScreen extends React.Component {
 										title: t('paiement_confirmed'),
 										subtitle: t('paiement_confirmed_subtitle'),
 										amount: refillAmount,
-										amountColor: colors.more,
+										tintColor: colors.more,
 									},
 								});
 							}

@@ -151,8 +151,8 @@ class TransferScreen extends React.Component {
 					message: {
 						title: t('transfer_confirmed'),
 						subtitle: recipient.name,
-						amount: amountAsFloat,
-						amountColor: colors.transfer,
+						amount: -amountAsFloat,
+						tintColor: colors.transfer,
 					},
 				});
 			})

@@ -95,7 +95,8 @@ class HomeScreen extends React.Component {
 						title={message.message.title}
 						subtitle={message.message.subtitle}
 						amount={message.message.amount}
-						amountColor={message.message.amountColor}
+						tintColor={message.message.tintColor}
+						onClose={() => this.setState({ message: {} })}
 					/>
 				) : null}
 
