@@ -120,7 +120,7 @@ class AuthScreen extends React.Component {
 	}
 
 	checkGingerStatus(login) {
-		const { dispatch } = this.props;
+		const { dispatch, navigation } = this.props;
 
 		dispatch(
 			Config.spinner({
@@ -130,8 +130,18 @@ class AuthScreen extends React.Component {
 		);
 
 		Ginger.getInformation(login)
-			.catch(() => this.openWrongCas())
-			.then(() => this.openNouvoPopup());
+			.then(() => {
+				dispatch(
+					Config.spinner({
+						visible: false,
+					})
+				);
+
+				this.setState({ needValidation: true });
+
+				return navigation.navigate('PayutcTerms', { quick: true });
+			})
+			.catch(() => this.openNouvoPopup());
 	}
 
 	connectWithCas() {
