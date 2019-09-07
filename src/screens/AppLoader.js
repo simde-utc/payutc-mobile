@@ -75,7 +75,7 @@ class AppLoaderScreen extends React.Component {
 	}
 
 	checkApp() {
-		const { dispatch, navigation } = this.props;
+		const { dispatch } = this.props;
 
 		this.setState({
 			lazyText: 'checking',
