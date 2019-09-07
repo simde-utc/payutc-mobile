@@ -13,7 +13,7 @@ import { beautifyDateTime } from '../../utils/date';
 import { _, Terms as t } from '../../utils/i18n';
 import { Config } from '../../redux/actions';
 import colors from '../../styles/colors';
-import fr from '../../../assets/terms/fr';
+import fr from '../../../assets/terms/app/fr';
 
 const TERMS = {
 	fr,
