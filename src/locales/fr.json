@@ -236,7 +236,8 @@
 		"Terms": {
 			"title": "Mentions légales",
 			"accept": "J'accepte les CGUs",
-			"validated": "Accepté le %{date}"
+			"validated": "Accepté le %{date}",
+			"payutc_registration": "Création du compte PayUTC...",
 		},
 		"Profile": {
 			"title": "Mon compte",

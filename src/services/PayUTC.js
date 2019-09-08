@@ -127,6 +127,10 @@ export class PayUTCApi extends Api {
 		});
 	}
 
+	register() {
+		return this.mustCall(ACCOUNT_SERVICE, 'register', Api.POST);
+	}
+
 	// eslint-disable-next-line class-methods-use-this
 	setData(data) {
 		return Storage.setData('auth', data);

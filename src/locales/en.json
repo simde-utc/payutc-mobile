@@ -235,6 +235,7 @@
 			"title": "Legal terms (in French)",
 			"accept": "I accept the terms",
 			"validated": "Accepted on %{date}",
+			"payutc_registration": "Creation of the PayUTC account...",
 		},
 		"Profile": {
 			"title": "My account",
