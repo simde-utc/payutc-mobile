@@ -11,7 +11,6 @@ import { connect } from 'react-redux';
 import colors from '../../styles/colors';
 import { _, Payment as t } from '../../utils/i18n';
 import { Config, PayUTC } from '../../redux/actions';
-import { floatToEuro } from '../../utils/amount';
 import { PAYUTC_CALLBACK_URL } from '../../../config';
 
 class PaymentScreen extends React.Component {
@@ -65,9 +64,12 @@ class PaymentScreen extends React.Component {
 								);
 
 								return navigation.navigate('Home', {
-									message: t('paiement_confirmed', {
-										amount: floatToEuro(refillAmount),
-									}),
+									message: {
+										title: t('paiement_confirmed'),
+										subtitle: t('paiement_confirmed_subtitle'),
+										amount: refillAmount,
+										tintColor: colors.more,
+									},
 								});
 							}
 						}
