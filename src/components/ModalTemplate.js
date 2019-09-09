@@ -11,7 +11,7 @@ import Modal from 'react-native-modalbox';
 import colors from '../styles/colors';
 import { floatToEuro } from '../utils/amount';
 
-export default class ConfirmationModal extends React.Component {
+export default class ModalTemplate extends React.Component {
 	constructor(props) {
 		super(props);
 		this.modal = React.createRef();
@@ -22,12 +22,12 @@ export default class ConfirmationModal extends React.Component {
 	}
 
 	render() {
-		const { title, subtitle, amount, tintColor, onClose } = this.props;
+		const { title, subtitle, amount, tintColor, onClose, height, footer } = this.props;
 
 		return (
 			<Modal
 				style={{
-					height: amount ? 150 : 100,
+					height: height || (amount ? 180 : 100),
 					width: 300,
 					flexDirection: 'column',
 					borderRadius: 20,
@@ -62,15 +62,13 @@ export default class ConfirmationModal extends React.Component {
 								fontSize: 18,
 								fontWeight: 'bold',
 								textAlign: 'center',
-								color: tintColor || colors.secondary,
+								color: colors.secondary,
 							}}
 						>
 							{title}
 						</Text>
 						{subtitle ? (
-							<Text
-								style={{ fontSize: 14, textAlign: 'center', color: tintColor || colors.secondary }}
-							>
+							<Text style={{ fontSize: 14, textAlign: 'center', color: colors.secondary }}>
 								{subtitle}
 							</Text>
 						) : null}
@@ -86,8 +84,16 @@ export default class ConfirmationModal extends React.Component {
 									color: tintColor || colors.secondary,
 								}}
 							>
+								{amount >= 0 ? '+ ' : ''}
 								{floatToEuro(amount)}
 							</Text>
+						</View>
+					) : null}
+					{footer ? (
+						<View
+							style={{ padding: 15, borderTopWidth: 1, borderTopColor: colors.backgroundLight }}
+						>
+							{footer}
 						</View>
 					) : null}
 				</View>

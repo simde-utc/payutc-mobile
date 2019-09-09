@@ -18,7 +18,7 @@ import { _, Profile as t } from '../../utils/i18n';
 import PortailService from '../../services/Portail';
 import { Config, Ginger, PayUTC } from '../../redux/actions';
 import Paragraphe from '../../components/Paragraphe';
-import ConfirmationModal from '../../components/ConfirmationModal';
+import ModalTemplate from '../../components/ModalTemplate';
 
 class ProfileScreen extends React.Component {
 	static navigationOptions = () => ({
@@ -217,7 +217,7 @@ class ProfileScreen extends React.Component {
 				style={{ backgroundColor: colors.backgroundLight }}
 			>
 				{message.title ? (
-					<ConfirmationModal
+					<ModalTemplate
 						title={message.title}
 						subtitle={message.subtitle}
 						amount={message.amount}
