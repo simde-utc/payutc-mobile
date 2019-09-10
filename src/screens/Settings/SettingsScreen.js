@@ -10,6 +10,7 @@ import React from 'react';
 import { Linking, RefreshControl, ScrollView, Text, View, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import colors from '../../styles/colors';
+import themes from '../../../assets/themes.json';
 import TabsBlockTemplate from '../../components/TabsBlockTemplate';
 import Paragraphe from '../../components/Paragraphe';
 import LinkButton from '../../components/LinkButton';
@@ -26,10 +27,23 @@ class SettingsScreen extends React.Component {
 		headerTruncatedBackTitle: _('back'),
 	});
 
+	static getThemes() {
+		const tabs = {};
+		const keys = Object.keys(themes);
+
+		for (const key in keys) {
+			const name = keys[key];
+			tabs[name] = t(`themes.${name}`);
+		}
+
+		return tabs;
+	}
+
 	constructor(props) {
 		super(props);
 
 		this.setLang = this.setLang.bind(this);
+		this.setTheme = this.setTheme.bind(this);
 	}
 
 	onRefresh() {
@@ -46,8 +60,14 @@ class SettingsScreen extends React.Component {
 		dispatch(Config.setLang(lang));
 	}
 
+	setTheme(theme) {
+		const { dispatch } = this.props;
+
+		dispatch(Config.setTheme(theme));
+	}
+
 	render() {
-		const { details, detailsFetching, lang, navigation } = this.props;
+		const { details, detailsFetching, lang, theme, navigation } = this.props;
 
 		return (
 			<ScrollView
@@ -78,6 +98,19 @@ class SettingsScreen extends React.Component {
 					tabs={g('langs')}
 					justifyContent="flex-start"
 					style={{ margin: 15 }}
+				/>
+
+				<TabsBlockTemplate
+					roundedTop
+					roundedBottom
+					shadow
+					text={t('theme')}
+					tintColor={colors.secondary}
+					value={theme}
+					onChange={this.setTheme}
+					tabs={SettingsScreen.getThemes()}
+					justifyContent="flex-start"
+					style={{ margin: 15, marginTop: 0 }}
 				/>
 
 				<Paragraphe
@@ -126,11 +159,12 @@ class SettingsScreen extends React.Component {
 	}
 }
 
-const mapStateToProps = ({ payutc, config: { lang } }) => {
+const mapStateToProps = ({ payutc, config: { lang, theme } }) => {
 	const details = payutc.getWalletDetails();
 
 	return {
 		lang,
+		theme,
 		details: details.getData({}),
 		detailsFetching: details.isFetching(),
 		detailsFetched: details.isFetched(),

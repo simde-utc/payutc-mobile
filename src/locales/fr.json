@@ -162,6 +162,11 @@
 			"opinion": "Donner son avis",
 			"mail_body": "Salut ! \n\nAvant tout, merci pour cette magnifique application !\n\n",
 			"profile_desc": "Informations du compte, gestion du badge et déconnexion.",
+			"theme": "Thème de l'application :",
+			"themes": {
+				"light": "Classique",
+				"dark": "Sombre",
+			},
 		},
 		"About": {
 			"title": "À propos",
