@@ -16,14 +16,14 @@
 	"dark": {
 		"primary": "#FAC50D",
 		"secondary": "#CFCFCF",
-		"more": "#00FD04",
+		"more": "#009D04",
 		"less": "#BC0000",
 		"transfer": "#007D94",
 		"borderLight": "#777777",
 		"backgroundLight": "#000000",
 		"backgroundBlock": "#222222",
 		"backgroundBlockAlt": "#060606",
-		"success": "#00FD04",
+		"success": "#009D04",
 		"error": "#BC0000",
 		"disabled": "#D1D1D1"
   	}

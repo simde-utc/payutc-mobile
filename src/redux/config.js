@@ -16,9 +16,9 @@ export const configState = {
 	lang: 'en',
 	spinner: {
 		visible: false,
-		color: colors.backgroundBlock,
+		color: colors.secondary,
 		textStyle: {
-			color: colors.backgroundBlock,
+			color: colors.secondary,
 			textAlign: 'center',
 			paddingHorizontal: 15,
 		},
@@ -62,8 +62,8 @@ export const configReducer = (state = configState, { type, config, data }) => {
 					colors[name] = theme[name];
 				}
 
-				state.spinner.color = theme.backgroundBlock;
-				state.spinner.textStyle.color = theme.backgroundBlock;
+				state.spinner.color = theme.secondary;
+				state.spinner.textStyle.color = theme.secondary;
 
 				break;
 

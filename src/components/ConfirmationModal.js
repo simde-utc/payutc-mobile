@@ -31,6 +31,8 @@ export default class ConfirmationModal extends React.Component {
 					width: 300,
 					flexDirection: 'column',
 					borderRadius: 20,
+					borderWidth: 20,
+					borderColor: colors.backgroundBlock,
 					shadowColor: '#000',
 					shadowOffset: { width: 0, height: 1 },
 					shadowOpacity: 0.1,
@@ -46,6 +48,7 @@ export default class ConfirmationModal extends React.Component {
 				<View
 					style={{
 						flex: 1,
+						backgroundColor: colors.backgroundBlock,
 						flexDirection: 'column',
 						justifyContent: amount ? 'flex-start' : 'space-around',
 					}}
@@ -54,7 +57,7 @@ export default class ConfirmationModal extends React.Component {
 						style={{
 							padding: 15,
 							borderBottomWidth: amount ? 1 : 0,
-							borderBottomColor: colors.backgroundLight,
+							borderBottomColor: colors.borderLight,
 						}}
 					>
 						<Text
