@@ -1,0 +1,30 @@
+{
+	"light": {
+		"primary": "#FAC50D",
+		"secondary": "#808080",
+		"more": "#00AD14",
+		"less": "#BC0000",
+		"transfer": "#007D94",
+		"borderLight": "#F1F1F1",
+		"backgroundLight": "#F1F1F1",
+		"backgroundBlock": "#FFFFFF",
+		"backgroundBlockAlt": "#FBFBFB",
+		"success": "#00AD14",
+		"error": "#BC0000",
+		"disabled": "#D1D1D1"
+  	},
+	"dark": {
+		"primary": "#FAC50D",
+		"secondary": "#CFCFCF",
+		"more": "#00FD04",
+		"less": "#BC0000",
+		"transfer": "#007D94",
+		"borderLight": "#777777",
+		"backgroundLight": "#000000",
+		"backgroundBlock": "#222222",
+		"backgroundBlockAlt": "#060606",
+		"success": "#00FD04",
+		"error": "#BC0000",
+		"disabled": "#D1D1D1"
+  	}
+}
