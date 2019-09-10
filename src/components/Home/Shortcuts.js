@@ -17,13 +17,13 @@ const shortcuts = [
 		screen: 'Refill',
 		lazyTitle: 'refill',
 		icon: ['fas', 'plus-circle'],
-		color: colors.more,
+		color: 'more',
 	},
 	{
 		screen: 'Transfer',
 		lazyTitle: 'transfer',
 		icon: ['fas', 'share'],
-		color: colors.transfer,
+		color: 'transfer',
 	},
 ];
 
@@ -40,13 +40,13 @@ export default function Shortcuts({ amount, navigation }) {
 					onPress={() => navigation.navigate(screen, { credit: amount })}
 				>
 					<View style={{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: 10 }}>
-						<FontAwesomeIcon icon={icon} size={15} style={{ color }} />
+						<FontAwesomeIcon icon={icon} size={15} style={{ color: colors[color] }} />
 						<Text
 							style={{
 								paddingLeft: 5,
 								fontSize: 15,
 								fontWeight: 'bold',
-								color,
+								color: colors[color],
 							}}
 						>
 							{t(lazyTitle)}

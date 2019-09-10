@@ -90,7 +90,7 @@ export default function TabsBlockTemplate({
 								style={{
 									marginRight: 10,
 									borderWidth: value === key ? 0 : 1,
-									borderColor: colors.backgroundLight,
+									borderColor: colors.borderLight,
 								}}
 								onPress={() => onChange(key)}
 							>
