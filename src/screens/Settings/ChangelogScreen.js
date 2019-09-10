@@ -24,7 +24,10 @@ import appJson from '../../../app.json';
 class ChangelogScreen extends React.Component {
 	static navigationOptions = () => ({
 		title: t('title'),
-		headerStyle: { borderBottomWidth: 0 },
+		headerStyle: {
+			borderBottomWidth: 0,
+			backgroundColor: colors.backgroundBlock,
+		},
 		headerForceInset: { top: 'never' },
 		headerTintColor: colors.primary,
 	});

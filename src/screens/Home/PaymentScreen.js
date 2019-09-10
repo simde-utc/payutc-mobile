@@ -16,7 +16,10 @@ import { PAYUTC_CALLBACK_URL } from '../../../config';
 class PaymentScreen extends React.Component {
 	static navigationOptions = () => ({
 		title: t('title'),
-		headerStyle: { borderBottomWidth: 0 },
+		headerStyle: {
+			borderBottomWidth: 0,
+			backgroundColor: colors.backgroundBlock,
+		},
 		headerTintColor: colors.more,
 		headerForceInset: { top: 'never' },
 		headerTruncatedBackTitle: _('back'),

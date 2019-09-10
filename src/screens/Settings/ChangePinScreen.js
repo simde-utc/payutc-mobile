@@ -17,7 +17,10 @@ import { _, ChangePin as t } from '../../utils/i18n';
 class ChangePinScreen extends React.Component {
 	static navigationOptions = () => ({
 		title: t('title'),
-		headerStyle: { borderBottomWidth: 0 },
+		headerStyle: {
+			borderBottomWidth: 0,
+			backgroundColor: colors.backgroundBlock,
+		},
 		headerTintColor: colors.primary,
 		headerForceInset: { top: 'never' },
 		headerTruncatedBackTitle: _('back'),

@@ -22,7 +22,10 @@ const AMOUNT_SHORTCUTS = [10, 15, 20, 50];
 class RefillScreen extends React.Component {
 	static navigationOptions = () => ({
 		title: t('title'),
-		headerStyle: { borderBottomWidth: 0 },
+		headerStyle: {
+			borderBottomWidth: 0,
+			backgroundColor: colors.backgroundBlock,
+		},
 		headerTintColor: colors.more,
 		headerForceInset: { top: 'never' },
 		headerBackTitle: t('back_button_title'),
