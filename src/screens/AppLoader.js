@@ -251,7 +251,14 @@ class AppLoaderScreen extends React.Component {
 		const { lazyText } = this.state;
 
 		return (
-			<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center', backgroundColor: colors.backgroundLight || themes[DEFAULT_THEME].backgroundLight }}>
+			<View
+				style={{
+					flex: 1,
+					alignItems: 'center',
+					justifyContent: 'center',
+					backgroundColor: colors.backgroundLight || themes[DEFAULT_THEME].backgroundLight,
+				}}
+			>
 				<Image
 					source={payutcLogo}
 					style={{ height: '15%', width: '82%', marginBottom: 35 }}

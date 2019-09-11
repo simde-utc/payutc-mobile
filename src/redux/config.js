@@ -63,7 +63,10 @@ export const configReducer = (state = configState, { type, config, data }) => {
 				}
 
 				state.spinner.color = theme.secondary;
-				state.spinner.textStyle.color = theme.secondary;
+				state.spinner.textStyle = {
+					...state.spinner.textStyle,
+					color: theme.secondary,
+				};
 
 				break;
 
