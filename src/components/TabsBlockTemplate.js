@@ -24,6 +24,7 @@ export default function TabsBlockTemplate({
 	onChange,
 	value,
 	justifyContent,
+	children,
 }) {
 	const tabValues = Object.values(tabs);
 	const tabKeys = Object.keys(tabs);
@@ -119,6 +120,7 @@ export default function TabsBlockTemplate({
 					borderBottomColor: colors.backgroundLight,
 				}}
 			/>
+			{children}
 			{tabs[value] ? tabs[value].children : null}
 		</BlockTemplate>
 	);
