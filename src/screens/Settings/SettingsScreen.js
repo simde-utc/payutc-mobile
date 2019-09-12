@@ -59,7 +59,7 @@ class SettingsScreen extends React.Component {
 	render() {
 		const { details, detailsFetching, lang, navigation } = this.props;
 
-		const repoUrl = `${GitHubService.getRepoUrl()}/tree/develop/src/locales`;
+		const repoUrl = GitHubService.getLocalesUrl();
 
 		return (
 			<ScrollView
