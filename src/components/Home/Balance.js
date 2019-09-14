@@ -10,6 +10,7 @@ import React from 'react';
 import { Text, View } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { Fade, Placeholder, PlaceholderLine } from 'rn-placeholder';
+import * as Haptics from 'expo-haptics';
 import BlockTemplate from '../BlockTemplate';
 import { Home as t } from '../../utils/i18n';
 import colors from '../../styles/colors';
@@ -111,7 +112,10 @@ export default class Balance extends React.Component {
 					roundedBottom
 					shadow
 					borderForAndroid
-					onPress={onRefresh}
+					onPress={() => {
+						Haptics.selectionAsync().catch();
+						onRefresh();
+					}}
 					disabled={loading}
 				>
 					<FontAwesomeIcon
