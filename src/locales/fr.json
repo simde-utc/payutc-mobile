@@ -162,6 +162,7 @@
 			"opinion": "Donner son avis",
 			"mail_body": "Salut ! \n\nAvant tout, merci pour cette magnifique application !\n\n",
 			"profile_desc": "Informations du compte, gestion du badge et déconnexion.",
+			"translate": "Aidez-nous à traduire PayUTC !"
 		},
 		"About": {
 			"title": "À propos",
@@ -236,7 +237,8 @@
 		"Terms": {
 			"title": "Mentions légales",
 			"accept": "J'accepte les CGUs",
-			"validated": "Accepté le %{date}"
+			"validated": "Accepté le %{date}",
+			"payutc_registration": "Création du compte PayUTC...",
 		},
 		"Profile": {
 			"title": "Mon compte",

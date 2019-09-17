@@ -27,7 +27,7 @@ class Ginger extends Api {
 		return super.call(
 			request,
 			method,
-			Object.assign({}, QUERIES),
+			Object.assign(queries || {}, QUERIES),
 			body,
 			headers,
 			validStatus,

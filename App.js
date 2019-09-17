@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { StatusBar, YellowBox } from 'react-native';
+import { StatusBar, YellowBox, StyleSheet, Text, Platform } from 'react-native';
 import { createAppContainer, createSwitchNavigator, SafeAreaView } from 'react-navigation';
 import { Provider, connect } from 'react-redux';
 import SpinnerOverlay from 'react-native-loading-spinner-overlay';
@@ -17,6 +17,23 @@ import MainNavigator from './src/navigations/MainNavigator';
 import AuthNavigator from './src/navigations/Auth/AuthNavigator';
 import store from './src/redux/store';
 import colors from './src/styles/colors';
+
+const styles = StyleSheet.create({
+	defaultFontFamily: {
+		fontFamily: 'Roboto',
+	},
+});
+
+// Bug: https://github.com/simde-utc/payutc-mobile/issues/226
+if (Platform.OS === 'android') {
+	const oldRender = Text.render;
+	Text.render = function render(...args) {
+		const origin = oldRender.call(this, ...args);
+		return React.cloneElement(origin, {
+			style: [styles.defaultFontFamily, origin.props.style],
+		});
+	};
+}
 
 const AppNavigator = createSwitchNavigator(
 	{
