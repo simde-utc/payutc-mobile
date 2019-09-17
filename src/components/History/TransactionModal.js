@@ -29,20 +29,7 @@ export default function TransactionModal({
 			amount={positive ? amount / 100 : -amount / 100}
 			tintColor={positive ? colors.more : colors.less}
 			height={message ? 220 : 180}
-			footer={
-				message ? (
-					<Text
-						style={{
-							fontSize: 16,
-							textAlign: 'center',
-							fontStyle: 'italic',
-							color: colors.secondary,
-						}}
-					>
-						{message}
-					</Text>
-				) : null
-			}
+			message={message}
 			onClose={onClose}
 		/>
 	);

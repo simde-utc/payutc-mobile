@@ -22,7 +22,7 @@ export default class ModalTemplate extends React.Component {
 	}
 
 	render() {
-		const { title, subtitle, amount, tintColor, onClose, height, footer } = this.props;
+		const { title, subtitle, message, amount, tintColor, onClose, height } = this.props;
 
 		return (
 			<Modal
@@ -67,9 +67,14 @@ export default class ModalTemplate extends React.Component {
 						>
 							{title}
 						</Text>
-						{subtitle ? (
+						{ subtitle ? (
 							<Text style={{ fontSize: 14, textAlign: 'center', color: colors.secondary }}>
 								{subtitle}
+							</Text>
+						) : null}
+						{ message ? (
+							<Text style={{ fontSize: 16, textAlign: 'center', color: colors.secondary, marginTop: 10 }}>
+								{message}
 							</Text>
 						) : null}
 					</View>
@@ -87,13 +92,6 @@ export default class ModalTemplate extends React.Component {
 								{amount >= 0 ? '+ ' : ''}
 								{floatToEuro(amount)}
 							</Text>
-						</View>
-					) : null}
-					{footer ? (
-						<View
-							style={{ padding: 15, borderTopWidth: 1, borderTopColor: colors.backgroundLight }}
-						>
-							{footer}
 						</View>
 					) : null}
 				</View>
