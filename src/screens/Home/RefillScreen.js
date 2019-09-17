@@ -7,14 +7,14 @@
  */
 
 import React from 'react';
-import { ScrollView, View } from 'react-native';
+import { Alert, ScrollView, View } from 'react-native';
 import { connect } from 'react-redux';
 import colors from '../../styles/colors';
 import AmountForm from '../../components/AmountForm';
 import LinkButton from '../../components/LinkButton';
-import { Config, PayUTC } from '../../redux/actions';
+import { Config, Ginger, PayUTC } from '../../redux/actions';
 import { _, Refill as t } from '../../utils/i18n';
-import { isAmountValid, floatToEuro } from '../../utils/amount';
+import { floatToEuro, isAmountValid } from '../../utils/amount';
 import { PAYUTC_CALLBACK_URL } from '../../../config';
 
 const AMOUNT_SHORTCUTS = [10, 15, 20, 50];
@@ -40,6 +40,14 @@ class RefillScreen extends React.Component {
 		};
 
 		this.handleAmountChange = this.handleAmountChange.bind(this);
+	}
+
+	componentDidMount() {
+		const { isContributorFetching, dispatch } = this.props;
+
+		if (!isContributorFetching) {
+			dispatch(Ginger.getInformation());
+		}
 	}
 
 	isButtonDisabled() {
@@ -121,20 +129,51 @@ class RefillScreen extends React.Component {
 					})
 				);
 
-				const action = PayUTC.getRefillUrl(amountAsFloat * 100, PAYUTC_CALLBACK_URL);
+				const action = Ginger.getInformation();
 				dispatch(action);
 
 				action.payload
-					.then(([url]) => {
-						dispatch(
-							Config.spinner({
-								visible: false,
+					.then(([{ is_cotisant }]) => {
+						if (!is_cotisant) {
+							dispatch(
+								Config.spinner({
+									visible: false,
+								})
+							);
+
+							this.submiting = false;
+
+							Alert.alert(_('error'), t('not_contributor'), [_('ok')], {
+								cancelable: false,
+							});
+
+							return;
+						}
+
+						const action = PayUTC.getRefillUrl(amountAsFloat * 100, PAYUTC_CALLBACK_URL);
+						dispatch(action);
+
+						action.payload
+							.then(([url]) => {
+								dispatch(
+									Config.spinner({
+										visible: false,
+									})
+								);
+
+								this.submiting = false;
+
+								navigation.navigate('Payment', { url, amount: amountAsFloat });
 							})
-						);
+							.catch(() => {
+								dispatch(
+									Config.spinner({
+										visible: false,
+									})
+								);
 
-						this.submiting = false;
-
-						navigation.navigate('Payment', { url, amount: amountAsFloat });
+								this.submiting = false;
+							});
 					})
 					.catch(() => {
 						dispatch(
@@ -144,6 +183,11 @@ class RefillScreen extends React.Component {
 						);
 
 						this.submiting = false;
+
+						Alert.alert(_('error'), t('cannot_verify_contribution'), [_('ok')], {
+							cancelable: false,
+							onDismiss: this.dismissWrong,
+						});
 					});
 			})
 			.catch(() => {
@@ -187,4 +231,13 @@ class RefillScreen extends React.Component {
 	}
 }
 
-export default connect()(RefillScreen);
+const mapStateToProps = ({ ginger }) => {
+	const information = ginger.getInformation();
+
+	return {
+		isContributor: information.getData({ is_cotisant: false }).is_cotisant,
+		isContributorFetching: information.isFetching(),
+	};
+};
+
+export default connect(mapStateToProps)(RefillScreen);

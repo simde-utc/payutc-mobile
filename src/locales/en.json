@@ -36,7 +36,9 @@
 			"bad_amount": "The amount must be between %{min} and %{max}.",
 			"amount_error": "The amount is incorrect.",
 			"refill_checks": "Verification before refilling...",
-			"redirect_to_refill": "Redirecting to the payment page..."
+			"redirect_to_refill": "Redirecting to the payment page...",
+			"not_contributor": "You must be a BDE-UTC contributor to refill your account.",
+			"cannot_verify_contribution": "An error has happened during your BDE-UTC contribution verification."
 		},
 		"Payment": {
 			"title": "Payment",
@@ -68,6 +70,8 @@
 			"confirm_title": "Confirm",
 			"confirm_message": "Do you confirm your transfer of %{amount} to %{name}?",
 			"confirm": "Let's go!",
+			"not_contributor": "You must be a BDE-UTC contributor to make transfers.",
+			"cannot_verify_contribution": "An error has happened during your BDE-UTC contribution verification.",
 			"message_suggestions": [
 				"You are a beautiful person!",
 				"Thanks again",

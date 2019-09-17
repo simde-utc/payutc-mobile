@@ -38,7 +38,9 @@
 			"bad_amount": "Le montant doit être compris %{min} entre %{max}.",
 			"amount_error": "Le montant est invalide.",
 			"refill_checks": "Vérification avant rechargement...",
-			"redirect_to_refill": "Redirection vers la page de paiement..."
+			"redirect_to_refill": "Redirection vers la page de paiement...",
+			"not_contributor": "Les rechargements sont réservés aux cotisants BDE-UTF.",
+			"cannot_verify_contribution": "Impossible de vérifier votre statut de cotisant BDE-UTC."
 		},
 		"Payment": {
 			"title": "Paiement",
@@ -70,6 +72,8 @@
 			"confirm_title": "Confirmation",
 			"confirm_message": "Confirmez-vous le transfert de %{amount} à %{name} ?",
 			"confirm": "C'est parti !",
+			"not_contributor": "Les transferts sont réservés aux cotisants BDE-UTC.",
+			"cannot_verify_contribution": "Impossible de vérifier votre statut de cotisant BDE-UTC.",
 			"message_suggestions": [
 				"T'es une belle personne !",
 				"Merci encore",

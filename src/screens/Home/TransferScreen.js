@@ -7,16 +7,16 @@
  */
 
 import React from 'react';
-import { View, ScrollView, Alert } from 'react-native';
+import { Alert, ScrollView, View } from 'react-native';
 import { connect } from 'react-redux';
 import LinkButton from '../../components/LinkButton';
 import AmountForm from '../../components/AmountForm';
 import MessageForm from '../../components/Transfer/MessageForm';
 import RecipientForm from '../../components/Transfer/RecipientForm';
 import colors from '../../styles/colors';
-import { Config, PayUTC } from '../../redux/actions';
+import { Config, Ginger, PayUTC } from '../../redux/actions';
 import { _, Transfer as t } from '../../utils/i18n';
-import { isAmountValid, floatToEuro } from '../../utils/amount';
+import { floatToEuro, isAmountValid } from '../../utils/amount';
 
 const MIN_AMOUNT = 0.01;
 
@@ -208,22 +208,59 @@ class TransferScreen extends React.Component {
 				});
 			}
 
-			const { amount, recipient, message } = this.state;
-			const amountAsFloat = parseFloat(amount.replace(',', '.'));
+			const action = Ginger.getInformation();
+			dispatch(action);
 
-			Alert.alert(
-				t('confirm_title'),
-				t('confirm_message', { amount: floatToEuro(amountAsFloat), name: recipient.name }),
-				[
-					{ text: _('cancel'), onPress: () => this.refuse() },
-					{
-						text: t('confirm'),
-						onPress: () => this.accept(amountAsFloat, recipient, message),
-						style: 'destructive',
-					},
-				],
-				{ cancelable: false }
-			);
+			action.payload
+				.then(([{ is_cotisant }]) => {
+					is_cotisant = false;
+					if (!is_cotisant) {
+						dispatch(
+							Config.spinner({
+								visible: false,
+							})
+						);
+
+						this.submiting = false;
+
+						Alert.alert(_('error'), t('not_contributor'), [_('ok')], {
+							cancelable: false,
+						});
+
+						return;
+					}
+
+					const { amount, recipient, message } = this.state;
+					const amountAsFloat = parseFloat(amount.replace(',', '.'));
+
+					Alert.alert(
+						t('confirm_title'),
+						t('confirm_message', { amount: floatToEuro(amountAsFloat), name: recipient.name }),
+						[
+							{ text: _('cancel'), onPress: () => this.refuse() },
+							{
+								text: t('confirm'),
+								onPress: () => this.accept(amountAsFloat, recipient, message),
+								style: 'destructive',
+							},
+						],
+						{ cancelable: false }
+					);
+				})
+				.catch(() => {
+					dispatch(
+						Config.spinner({
+							visible: false,
+						})
+					);
+
+					this.submiting = false;
+
+					Alert.alert(_('error'), t('cannot_verify_contribution'), [_('ok')], {
+						cancelable: false,
+						onDismiss: this.dismissWrong,
+					});
+				});
 		});
 	}
 
