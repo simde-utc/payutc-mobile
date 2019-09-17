@@ -96,7 +96,6 @@ class HomeScreen extends React.Component {
 						subtitle={message.message.subtitle}
 						amount={message.message.amount}
 						tintColor={message.message.tintColor}
-						height={message.message.message ? 220 : null}
 						footer={
 							message.message.message ? ( // Yes
 								<Text

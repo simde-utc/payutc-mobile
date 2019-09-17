@@ -11,6 +11,7 @@ import BlockTemplate from '../BlockTemplate';
 import { History as t } from '../../utils/i18n';
 import Transaction from './Transaction';
 import TransactionModal from './TransactionModal';
+import { removeUselessEOL } from '../../utils';
 
 export default class Item extends React.Component {
 	static getTransaction(transaction) {
@@ -30,7 +31,7 @@ export default class Item extends React.Component {
 					title: `${t('virout')} ${transaction.firstname} ${transaction.lastname}`,
 					amount: transaction.amount,
 					quantity: transaction.quantity,
-					message: transaction.name.trim('\n'),
+					message: removeUselessEOL(transaction.name),
 					positive: false,
 					location: transaction.fun,
 					date: transaction.date,
@@ -41,7 +42,7 @@ export default class Item extends React.Component {
 					title: `${t('virin')} ${transaction.firstname} ${transaction.lastname}`,
 					amount: transaction.amount,
 					quantity: transaction.quantity,
-					message: transaction.name.trim('\n'),
+					message: removeUselessEOL(transaction.name),
 					positive: true,
 					location: transaction.fun,
 					date: transaction.date,

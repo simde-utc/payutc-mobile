@@ -7,7 +7,6 @@
  */
 
 import React from 'react';
-import { Text } from 'react-native';
 import colors from '../../styles/colors';
 import { beautifyDateTime } from '../../utils/date';
 import ModalTemplate from '../ModalTemplate';
@@ -28,7 +27,6 @@ export default function TransactionModal({
 			subtitle={`${beautifyDateTime(date)} ${location ? `\n${location}` : ''}`}
 			amount={positive ? amount / 100 : -amount / 100}
 			tintColor={positive ? colors.more : colors.less}
-			height={message ? 220 : 180}
 			message={message}
 			onClose={onClose}
 		/>

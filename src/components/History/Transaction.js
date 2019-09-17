@@ -40,7 +40,9 @@ export default function Transaction({
 							{title} {quantity && quantity > 1 ? `x${quantity}` : null}
 						</Text>
 						{message ? (
-							<Text style={{ fontSize: 12, color: colors.secondary }}>{message}</Text>
+							<Text numberOfLines={2} style={{ fontSize: 12, color: colors.secondary }}>
+								{message}
+							</Text>
 						) : null}
 					</View>
 					<Text
