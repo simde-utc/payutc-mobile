@@ -19,6 +19,8 @@ const colors = {
 	error: '#BC0000',
 	disabled: '#D1D1D1',
 	transfer: '#007d94',
+	visa: '#1a1f71',
+	mastercard: '#ff5f01',
 };
 
 export default colors;

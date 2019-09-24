@@ -134,7 +134,7 @@ class RefillScreen extends React.Component {
 
 						this.submiting = false;
 
-						navigation.navigate('Payment', { url, amount: amountAsFloat });
+						navigation.push('Payment', { url, amount: amountAsFloat });
 					})
 					.catch(() => {
 						dispatch(

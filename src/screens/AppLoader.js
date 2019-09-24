@@ -12,6 +12,7 @@ import { View, Text, Image, Platform, NativeModules, Alert, ActivityIndicator } 
 import { connect } from 'react-redux';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
+import { fab } from '@fortawesome/free-brands-svg-icons';
 
 import { TERMS_VERSION } from './Settings/TermsScreen';
 import PayUTC from '../services/PayUTC';
@@ -31,6 +32,7 @@ const REGEX_DEPRECATED_VERSION = /# Deprecated versions: < v(.*)/;
 class AppLoaderScreen extends React.Component {
 	static loadLibrairies() {
 		library.add(fas);
+		library.add(fab);
 	}
 
 	static handleError(error) {
