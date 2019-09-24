@@ -39,8 +39,8 @@
 			"amount_error": "Le montant est invalide.",
 			"refill_checks": "Vérification avant rechargement...",
 			"redirect_to_refill": "Redirection vers la page de paiement...",
-			"not_contributor": "Les rechargements sont réservés aux cotisants BDE-UTF.",
-			"cannot_verify_contribution": "Impossible de vérifier votre statut de cotisant BDE-UTC."
+			"not_contributor": "Rechargement non-cotisant",
+			"not_contributor_desc": "Il est impossible pour les non-cotisants du BDE-UTC de transférer de l'argent ou de consommer à certains endroits comme le Picasso. L'argent rechargé ne sera pas remboursé.",
 		},
 		"Payment": {
 			"title": "Paiement",
@@ -72,8 +72,8 @@
 			"confirm_title": "Confirmation",
 			"confirm_message": "Confirmez-vous le transfert de %{amount} à %{name} ?",
 			"confirm": "C'est parti !",
-			"not_contributor": "Les transferts sont réservés aux cotisants BDE-UTC.",
-			"cannot_verify_contribution": "Impossible de vérifier votre statut de cotisant BDE-UTC.",
+			"not_contributor": "Transfert non cotisant",
+			"not_contributor_desc": "Les transferts sont réservés aux cotisants BDE-UTC.",
 			"message_suggestions": [
 				"T'es une belle personne !",
 				"Merci encore",

@@ -78,7 +78,7 @@ class RefillScreen extends React.Component {
 	}
 
 	submit() {
-		const { dispatch, navigation } = this.props;
+		const { dispatch } = this.props;
 
 		// Avoid multiple sumbits on laggy phones...
 		if (this.submiting) {
@@ -119,6 +119,7 @@ class RefillScreen extends React.Component {
 					});
 				}
 
+				const { isContributor } = this.props;
 				const { amount } = this.state;
 				const amountAsFloat = parseFloat(amount.replace(',', '.'));
 
@@ -129,66 +130,73 @@ class RefillScreen extends React.Component {
 					})
 				);
 
-				const action = Ginger.getInformation();
-				dispatch(action);
+				if (!isContributor) {
+					dispatch(
+						Config.spinner({
+							visible: false,
+						})
+					);
 
-				action.payload
-					.then(([{ is_cotisant }]) => {
-						if (!is_cotisant) {
-							dispatch(
-								Config.spinner({
-									visible: false,
-								})
-							);
+					this.submiting = false;
 
-							this.submiting = false;
+					Alert.alert(
+						t('not_contributor'),
+						t('not_contributor_desc'),
+						[
+							{ text: _('back'), style: 'cancel' },
+							{
+								text: _('continue'),
+								onPress: () => {
+									this.submiting = true;
 
-							Alert.alert(_('error'), t('not_contributor'), [_('ok')], {
-								cancelable: false,
-							});
+									dispatch(
+										Config.spinner({
+											visible: true,
+											textContent: t('redirect_to_refill'),
+										})
+									);
 
-							return;
+									this.pay(amountAsFloat);
+								},
+							},
+						],
+						{
+							cancelable: true,
 						}
+					);
 
-						const action = PayUTC.getRefillUrl(amountAsFloat * 100, PAYUTC_CALLBACK_URL);
-						dispatch(action);
+					return;
+				}
 
-						action.payload
-							.then(([url]) => {
-								dispatch(
-									Config.spinner({
-										visible: false,
-									})
-								);
-
-								this.submiting = false;
-
-								navigation.navigate('Payment', { url, amount: amountAsFloat });
-							})
-							.catch(() => {
-								dispatch(
-									Config.spinner({
-										visible: false,
-									})
-								);
-
-								this.submiting = false;
-							});
+				this.pay(amountAsFloat);
+			})
+			.catch(() => {
+				dispatch(
+					Config.spinner({
+						visible: false,
 					})
-					.catch(() => {
-						dispatch(
-							Config.spinner({
-								visible: false,
-							})
-						);
+				);
 
-						this.submiting = false;
+				this.submiting = false;
+			});
+	}
 
-						Alert.alert(_('error'), t('cannot_verify_contribution'), [_('ok')], {
-							cancelable: false,
-							onDismiss: this.dismissWrong,
-						});
-					});
+	pay(amountAsFloat) {
+		const { dispatch, navigation } = this.props;
+		const action = PayUTC.getRefillUrl(amountAsFloat * 100, PAYUTC_CALLBACK_URL);
+		dispatch(action);
+
+		action.payload
+			.then(([url]) => {
+				dispatch(
+					Config.spinner({
+						visible: false,
+					})
+				);
+
+				this.submiting = false;
+
+				navigation.navigate('Payment', { url, amount: amountAsFloat });
 			})
 			.catch(() => {
 				dispatch(
