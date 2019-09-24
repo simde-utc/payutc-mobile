@@ -8,6 +8,7 @@
 
 import React from 'react';
 import { Text, View } from 'react-native';
+import * as Haptics from 'expo-haptics';
 import colors from '../styles/colors';
 import BlockTemplate from './BlockTemplate';
 import AmountInput from './Home/AmountInput';
@@ -51,7 +52,10 @@ export default class AmountForm extends React.Component {
 					shadow
 					borderForAndroid
 					key={shortcut}
-					onPress={() => this.onChange(shortcut.toString())}
+					onPress={() => {
+						Haptics.selectionAsync().catch();
+						this.onChange(shortcut.toString());
+					}}
 				>
 					<Text style={{ fontSize: 16, fontWeight: 'bold', color: colors.secondary }}>
 						{shortcut} €

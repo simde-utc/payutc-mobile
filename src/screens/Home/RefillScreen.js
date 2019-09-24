@@ -9,6 +9,7 @@
 import React from 'react';
 import { Alert, ScrollView, View } from 'react-native';
 import { connect } from 'react-redux';
+import * as Haptics from 'expo-haptics';
 import colors from '../../styles/colors';
 import AmountForm from '../../components/AmountForm';
 import LinkButton from '../../components/LinkButton';
@@ -110,6 +111,8 @@ class RefillScreen extends React.Component {
 					);
 
 					this.submiting = false;
+
+					Haptics.notificationAsync('error').catch();
 
 					return this.setState({
 						amountError: t('bad_amount', {
