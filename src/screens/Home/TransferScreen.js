@@ -162,6 +162,7 @@ class TransferScreen extends React.Component {
 						subtitle: recipient.name,
 						amount: -amountAsFloat,
 						tintColor: colors.transfer,
+						message,
 					},
 				});
 			})
