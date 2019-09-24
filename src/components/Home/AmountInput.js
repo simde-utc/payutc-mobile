@@ -8,6 +8,7 @@
 
 import React from 'react';
 import { Text, TextInput, View, Platform } from 'react-native';
+import * as Haptics from 'expo-haptics';
 import colors from '../../styles/colors';
 
 export default function AmountInput({
@@ -39,7 +40,10 @@ export default function AmountInput({
 				maxLength={maxLength}
 				autoFocus={autoFocus}
 				autoCorrect={false}
-				onChangeText={value => onChange(value)}
+				onChangeText={value => {
+					Haptics.selectionAsync().catch();
+					onChange(value);
+				}}
 				value={value}
 				blurOnSubmit={blurOnSubmit}
 				ref={setRef}

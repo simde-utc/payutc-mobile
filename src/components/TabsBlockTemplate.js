@@ -8,6 +8,7 @@
 
 import React from 'react';
 import { ScrollView, Text, View } from 'react-native';
+import * as Haptics from 'expo-haptics';
 import BlockTemplate from './BlockTemplate';
 import colors from '../styles/colors';
 import { _ } from '../utils/i18n';
@@ -93,7 +94,10 @@ export default function TabsBlockTemplate({
 									borderWidth: value === key ? 0 : 1,
 									borderColor: colors.backgroundLight,
 								}}
-								onPress={() => onChange(key)}
+								onPress={() => {
+									Haptics.selectionAsync().catch();
+									onChange(key);
+								}}
 							>
 								<Text
 									style={{
