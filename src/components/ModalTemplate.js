@@ -8,6 +8,7 @@
 import React from 'react';
 import { Text, View } from 'react-native';
 import Modal from 'react-native-modalbox';
+import * as Haptics from 'expo-haptics';
 import colors from '../styles/colors';
 import { floatToEuro } from '../utils/amount';
 
@@ -21,6 +22,7 @@ export default class ModalTemplate extends React.Component {
 
 	componentDidMount() {
 		this.modal.open();
+		Haptics.notificationAsync('success').catch();
 	}
 
 	onTextLayout(e) {

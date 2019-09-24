@@ -9,6 +9,7 @@
 import React from 'react';
 import { Text, TextInput, TouchableOpacity, View } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import * as Haptics from 'expo-haptics';
 import colors from '../../styles/colors';
 import BlockTemplate from '../BlockTemplate';
 import { Transfer as t } from '../../utils/i18n';
@@ -77,7 +78,10 @@ export default class RecipientForm extends React.Component {
 				shadow
 				borderForAndroid
 				key={recipient.fullName}
-				onPress={() => this.onChange(recipient.fullName)}
+				onPress={() => {
+					Haptics.selectionAsync().catch();
+					this.onChange(recipient.fullName);
+				}}
 				style={{ marginRight: 10 }}
 			>
 				<Text style={{ fontSize: 14, fontWeight: 'bold', color: colors.secondary }}>

@@ -7,8 +7,9 @@
  */
 
 import React from 'react';
-import { View, ScrollView, Alert } from 'react-native';
+import { Alert, ScrollView, View } from 'react-native';
 import { connect } from 'react-redux';
+import * as Haptics from 'expo-haptics';
 import LinkButton from '../../components/LinkButton';
 import AmountForm from '../../components/AmountForm';
 import MessageForm from '../../components/Transfer/MessageForm';
@@ -16,7 +17,7 @@ import RecipientForm from '../../components/Transfer/RecipientForm';
 import colors from '../../styles/colors';
 import { Config, PayUTC } from '../../redux/actions';
 import { _, Transfer as t } from '../../utils/i18n';
-import { isAmountValid, floatToEuro } from '../../utils/amount';
+import { floatToEuro, isAmountValid } from '../../utils/amount';
 
 const MIN_AMOUNT = 0.01;
 
@@ -203,6 +204,8 @@ class TransferScreen extends React.Component {
 				);
 
 				this.submiting = false;
+
+				Haptics.notificationAsync('error').catch();
 
 				return this.setState({
 					amountError: t('bad_amount', { min: floatToEuro(MIN_AMOUNT), max: floatToEuro(credit) }),
