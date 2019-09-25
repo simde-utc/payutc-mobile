@@ -100,6 +100,7 @@ class PaymentScreen extends React.Component {
 		return (
 			<WebView
 				source={{ uri }}
+				useWebKit
 				onNavigationStateChange={this.handleOnNavigationStateChange.bind(this)}
 			/>
 		);
