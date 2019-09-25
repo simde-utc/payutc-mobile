@@ -114,6 +114,12 @@ class RefillScreen extends React.Component {
 
 					Haptics.notificationAsync('error').catch();
 
+					if (Number.isNaN(minAmount) || Number.isNaN(maxAmount)) {
+						Alert.alert(_('error'), _('retry_with_connection'));
+
+						return;
+					}
+
 					return this.setState({
 						amountError: t('bad_amount', {
 							min: floatToEuro(minAmount),
