@@ -276,6 +276,7 @@
 		"optional": "optional",
 		"continue": "continue",
 		"error": "an error occured",
+		"retry_with_connection": "retry with a better connection.",
 		"ok": "OK",
 		"loading_text_replacement": "•••",
 		"and": "and",
