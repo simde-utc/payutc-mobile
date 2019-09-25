@@ -221,15 +221,7 @@ class TransferScreen extends React.Component {
 				});
 			}
 
-			if (!isContributor) {
-				dispatch(
-					Config.spinner({
-						visible: false,
-					})
-				);
-
-				this.submiting = false;
-
+			if (true) {
 				Alert.alert(
 					t('not_contributor'),
 					t('not_contributor_desc'),
@@ -238,6 +230,14 @@ class TransferScreen extends React.Component {
 						cancelable: true,
 					}
 				);
+
+				dispatch(
+					Config.spinner({
+						visible: false,
+					})
+				);
+
+				this.submiting = false;
 
 				return;
 			}
