@@ -7,14 +7,15 @@
  */
 
 import React from 'react';
-import { ScrollView, View } from 'react-native';
+import { Alert, ScrollView, View } from 'react-native';
 import { connect } from 'react-redux';
+import * as Haptics from 'expo-haptics';
 import colors from '../../styles/colors';
 import AmountForm from '../../components/AmountForm';
 import LinkButton from '../../components/LinkButton';
-import { Config, PayUTC } from '../../redux/actions';
+import { Config, Ginger, PayUTC } from '../../redux/actions';
 import { _, Refill as t } from '../../utils/i18n';
-import { isAmountValid, floatToEuro } from '../../utils/amount';
+import { floatToEuro, isAmountValid } from '../../utils/amount';
 import { PAYUTC_CALLBACK_URL } from '../../../config';
 
 const AMOUNT_SHORTCUTS = [10, 15, 20, 50];
@@ -45,6 +46,14 @@ class RefillScreen extends React.Component {
 		this.handleAmountChange = this.handleAmountChange.bind(this);
 	}
 
+	componentDidMount() {
+		const { isContributorFetching, dispatch } = this.props;
+
+		if (!isContributorFetching) {
+			dispatch(Ginger.getInformation());
+		}
+	}
+
 	isButtonDisabled() {
 		const { amount, amountError } = this.state;
 
@@ -73,7 +82,7 @@ class RefillScreen extends React.Component {
 	}
 
 	submit() {
-		const { dispatch, navigation } = this.props;
+		const { dispatch } = this.props;
 
 		// Avoid multiple sumbits on laggy phones...
 		if (this.submiting) {
@@ -106,6 +115,14 @@ class RefillScreen extends React.Component {
 
 					this.submiting = false;
 
+					Haptics.notificationAsync('error').catch();
+
+					if (Number.isNaN(minAmount) || Number.isNaN(maxAmount)) {
+						Alert.alert(_('error'), _('retry_with_connection'));
+
+						return;
+					}
+
 					return this.setState({
 						amountError: t('bad_amount', {
 							min: floatToEuro(minAmount),
@@ -114,6 +131,7 @@ class RefillScreen extends React.Component {
 					});
 				}
 
+				const { isContributor } = this.props;
 				const { amount } = this.state;
 				const amountAsFloat = parseFloat(amount.replace(',', '.'));
 
@@ -124,30 +142,73 @@ class RefillScreen extends React.Component {
 					})
 				);
 
-				const action = PayUTC.getRefillUrl(amountAsFloat * 100, PAYUTC_CALLBACK_URL);
-				dispatch(action);
+				if (!isContributor) {
+					dispatch(
+						Config.spinner({
+							visible: false,
+						})
+					);
 
-				action.payload
-					.then(([url]) => {
-						dispatch(
-							Config.spinner({
-								visible: false,
-							})
-						);
+					this.submiting = false;
 
-						this.submiting = false;
+					Alert.alert(
+						t('not_contributor'),
+						t('not_contributor_desc'),
+						[
+							{ text: _('back'), style: 'cancel' },
+							{
+								text: _('continue'),
+								onPress: () => {
+									this.submiting = true;
 
-						navigation.navigate('Payment', { url, amount: amountAsFloat });
+									dispatch(
+										Config.spinner({
+											visible: true,
+											textContent: t('redirect_to_refill'),
+										})
+									);
+
+									this.pay(amountAsFloat);
+								},
+							},
+						],
+						{
+							cancelable: true,
+						}
+					);
+
+					return;
+				}
+
+				this.pay(amountAsFloat);
+			})
+			.catch(() => {
+				dispatch(
+					Config.spinner({
+						visible: false,
 					})
-					.catch(() => {
-						dispatch(
-							Config.spinner({
-								visible: false,
-							})
-						);
+				);
 
-						this.submiting = false;
-					});
+				this.submiting = false;
+			});
+	}
+
+	pay(amountAsFloat) {
+		const { dispatch, navigation } = this.props;
+		const action = PayUTC.getRefillUrl(amountAsFloat * 100, PAYUTC_CALLBACK_URL);
+		dispatch(action);
+
+		action.payload
+			.then(([url]) => {
+				dispatch(
+					Config.spinner({
+						visible: false,
+					})
+				);
+
+				this.submiting = false;
+
+				navigation.navigate('Payment', { url, amount: amountAsFloat });
 			})
 			.catch(() => {
 				dispatch(
@@ -190,4 +251,13 @@ class RefillScreen extends React.Component {
 	}
 }
 
-export default connect()(RefillScreen);
+const mapStateToProps = ({ ginger }) => {
+	const information = ginger.getInformation();
+
+	return {
+		isContributor: information.getData({ is_cotisant: false }).is_cotisant,
+		isContributorFetching: information.isFetching(),
+	};
+};
+
+export default connect(mapStateToProps)(RefillScreen);

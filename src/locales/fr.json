@@ -38,7 +38,9 @@
 			"bad_amount": "Le montant doit être compris %{min} entre %{max}.",
 			"amount_error": "Le montant est invalide.",
 			"refill_checks": "Vérification avant rechargement...",
-			"redirect_to_refill": "Redirection vers la page de paiement..."
+			"redirect_to_refill": "Redirection vers la page de paiement...",
+			"not_contributor": "Rechargement non-cotisant",
+			"not_contributor_desc": "Il est impossible pour les non-cotisants du BDE-UTC de transférer de l'argent ou de consommer à certains endroits comme le Picasso. L'argent rechargé ne sera pas remboursé.",
 		},
 		"Payment": {
 			"title": "Paiement",
@@ -70,6 +72,8 @@
 			"confirm_title": "Confirmation",
 			"confirm_message": "Confirmez-vous le transfert de %{amount} à %{name} ?",
 			"confirm": "C'est parti !",
+			"not_contributor": "Transfert non cotisant",
+			"not_contributor_desc": "Les transferts sont réservés aux cotisants BDE-UTC.",
 			"message_suggestions": [
 				"T'es une belle personne !",
 				"Merci encore",
@@ -167,6 +171,7 @@
 				"light": "Classique",
 				"dark": "Sombre",
 			},
+			"translate": "Aidez-nous à traduire PayUTC !"
 		},
 		"About": {
 			"title": "À propos",
@@ -277,6 +282,7 @@
 		"optional": "facultatif",
 		"continue": "continuer",
 		"error": "une erreur est survenue",
+		"retry_with_connection": "réessayez avec une meilleure connexion.",
 		"ok": "d'accord",
 		"loading_text_replacement": "•••",
 		"and": "et",

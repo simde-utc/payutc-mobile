@@ -16,6 +16,10 @@ export const forceTextLength = (text, length = 2, remplacement = '0') => {
 	return text;
 };
 
+export const removeUselessEOL = text => {
+	return text.trim('\n').replace(/\n+/g, '\n');
+};
+
 export const isUserExt = login => login.includes('@');
 
 export default {

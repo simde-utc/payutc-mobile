@@ -27,7 +27,7 @@ const shortcuts = [
 	},
 ];
 
-export default function Shortcuts({ amount, navigation }) {
+export default function Shortcuts({ amount, navigation, disabled }) {
 	return (
 		<View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
 			{shortcuts.map(({ screen, lazyTitle, icon, color }) => (
@@ -38,15 +38,20 @@ export default function Shortcuts({ amount, navigation }) {
 					key={lazyTitle}
 					style={{ width: `${90 / shortcuts.length}%`, alignItems: 'center' }}
 					onPress={() => navigation.navigate(screen, { credit: amount })}
+					disabled={disabled}
 				>
 					<View style={{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: 10 }}>
-						<FontAwesomeIcon icon={icon} size={15} style={{ color: colors[color] }} />
+						<FontAwesomeIcon
+							icon={icon}
+							size={15}
+							style={{ color: disabled ? colors.disabled : colors[color] }}
+						/>
 						<Text
 							style={{
 								paddingLeft: 5,
 								fontSize: 15,
 								fontWeight: 'bold',
-								color: colors[color],
+								color: disabled ? colors.disabled : colors[color],
 							}}
 						>
 							{t(lazyTitle)}
