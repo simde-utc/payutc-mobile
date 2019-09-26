@@ -19,7 +19,7 @@ export default class BlockTemplate extends React.Component {
 
 		if (shadow && Platform.OS === 'ios') {
 			return {
-				shadowColor: '#000',
+				shadowColor: colors.shadow,
 				shadowOffset: { width: 0, height: 1 },
 				shadowOpacity: shadow ? 0.1 : 0,
 				shadowRadius: 10,

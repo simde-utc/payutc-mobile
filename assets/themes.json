@@ -11,7 +11,8 @@
 		"backgroundBlockAlt": "#FBFBFB",
 		"success": "#00AD14",
 		"error": "#BC0000",
-		"disabled": "#D1D1D1"
+		"disabled": "#D1D1D1",
+		"shadow": "#000000"
   	},
 	"dark": {
 		"primary": "#FAC50D",
@@ -25,6 +26,7 @@
 		"backgroundBlockAlt": "#060606",
 		"success": "#009D04",
 		"error": "#BC0000",
-		"disabled": "#D1D1D1"
-  	}
+		"disabled": "#D1D1D1",
+		"shadow": "#FFFFFF"
+	}
 }
