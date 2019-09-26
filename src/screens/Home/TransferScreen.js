@@ -304,7 +304,7 @@ class TransferScreen extends React.Component {
 				<View style={{ padding: 15, paddingTop: 0 }}>
 					<LinkButton
 						text={t('transfer_button')}
-						color={colors.background}
+						color={colors.backgroundBlock}
 						backgroundColor={colors.transfer}
 						disabled={this.isButtonDisabled()}
 						onPress={() => this.submit()}

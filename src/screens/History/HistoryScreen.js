@@ -186,6 +186,7 @@ class HistoryScreen extends React.Component {
 								keyboardAppearance={colors.generalAspect}
 								autoCapitalize="none"
 								placeholder={t('search')}
+								placeholderTextColor={colors.disabled}
 								textContentType="none"
 								onChangeText={this.onSearchChange}
 								value={search}

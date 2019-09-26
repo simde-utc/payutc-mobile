@@ -107,7 +107,7 @@ class ChangePinScreen extends React.Component {
 				<View style={{ padding: 15, paddingTop: 0 }}>
 					<LinkButton
 						text={t('modify')}
-						color={colors.background}
+						color={colors.backgroundBlock}
 						backgroundColor={colors.primary}
 						disabled={this.isButtonDisabled()}
 						onPress={() => this.submit()}

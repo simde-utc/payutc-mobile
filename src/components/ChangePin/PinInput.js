@@ -41,6 +41,7 @@ export default class PinInput extends React.Component {
 					keyboardType="decimal-pad"
 					keyboardAppearance={colors.generalAspect}
 					placeholder={value ? '' : '0000'}
+					placeholderTextColor={colors.disabled}
 					maxLength={maxLength}
 					autoFocus={autofocus}
 					autoCorrect={false}

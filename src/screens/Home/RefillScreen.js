@@ -240,7 +240,7 @@ class RefillScreen extends React.Component {
 				<View style={{ paddingBottom: 15 }}>
 					<LinkButton
 						text={t('pay')}
-						color={colors.background}
+						color={colors.backgroundBlock}
 						backgroundColor={colors.more}
 						disabled={this.isButtonDisabled()}
 						onPress={() => this.submit()}

@@ -27,7 +27,7 @@
 		"backgroundBlockAlt": "#333333",
 		"success": "#009D04",
 		"error": "#BC0000",
-		"disabled": "#D1D1D1",
+		"disabled": "#121212",
 		"shadow": "#9c9c9c",
 		"generalAspect": "dark"
 	}

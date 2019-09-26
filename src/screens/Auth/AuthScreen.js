@@ -329,6 +329,7 @@ class AuthScreen extends React.Component {
 						keyboardAppearance={colors.generalAspect}
 						autoCapitalize="none"
 						placeholder={t('login_placeholder')}
+						placeholderTextColor={colors.disabled}
 						textContentType="none"
 						autoCorrect={false}
 						onChangeText={login => this.onLoginChange(login)}
@@ -356,6 +357,7 @@ class AuthScreen extends React.Component {
 						autoCapitalize="none"
 						secureTextEntry
 						placeholder={t('password_placeholder')}
+						placeholderTextColor={colors.disabled}
 						textContentType="none"
 						autoCorrect={false}
 						ref={input => (this.passwordInput = input)}

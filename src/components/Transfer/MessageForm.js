@@ -117,6 +117,7 @@ export default class MessageForm extends React.Component {
 					keyboardType="default"
 					keyboardAppearance={colors.generalAspect}
 					placeholder={t('message_placeholder')}
+					placeholderTextColor={colors.disabled}
 					maxLength={this.maxLength}
 					multiline
 					textContentType="none"
