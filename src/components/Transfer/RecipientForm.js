@@ -170,6 +170,7 @@ export default class RecipientForm extends React.Component {
 								margin: 0,
 							}}
 							keyboardType="default"
+							keyboardAppearance={colors.generalAspect}
 							placeholder={t('recipient_placeholder')}
 							maxLength={this.maxLength}
 							textContentType="none"

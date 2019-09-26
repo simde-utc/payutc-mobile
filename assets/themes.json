@@ -12,21 +12,23 @@
 		"success": "#00AD14",
 		"error": "#BC0000",
 		"disabled": "#D1D1D1",
-		"shadow": "#000000"
-  	},
+		"shadow": "#000000",
+		"generalAspect": "light"
+	},
 	"dark": {
 		"primary": "#FAC50D",
 		"secondary": "#CFCFCF",
 		"more": "#009D04",
 		"less": "#BC0000",
 		"transfer": "#007D94",
-		"border": "#777777",
-		"background": "#000000",
-		"backgroundBlock": "#222222",
-		"backgroundBlockAlt": "#060606",
+		"border": "#121212",
+		"background": "#121212",
+		"backgroundBlock": "#2b2b2b",
+		"backgroundBlockAlt": "#333333",
 		"success": "#009D04",
 		"error": "#BC0000",
 		"disabled": "#D1D1D1",
-		"shadow": "#FFFFFF"
+		"shadow": "#9c9c9c",
+		"generalAspect": "dark"
 	}
 }

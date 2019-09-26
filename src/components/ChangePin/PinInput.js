@@ -39,6 +39,7 @@ export default class PinInput extends React.Component {
 					}}
 					secureTextEntry
 					keyboardType="decimal-pad"
+					keyboardAppearance={colors.generalAspect}
 					placeholder={value ? '' : '0000'}
 					maxLength={maxLength}
 					autoFocus={autofocus}

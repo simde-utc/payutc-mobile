@@ -8,18 +8,17 @@
  */
 
 import React from 'react';
-import { View, Text, Image, Platform, NativeModules, Alert, ActivityIndicator } from 'react-native';
+import { ActivityIndicator, Alert, Image, NativeModules, Platform, Text, View } from 'react-native';
 import { connect } from 'react-redux';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
-
 import { TERMS_VERSION } from './Settings/TermsScreen';
 import PayUTC from '../services/PayUTC';
 import CASAuth from '../services/CASAuth';
 import Storage from '../services/Storage';
 import payutcLogo from '../images/payutc-logo.png';
 import colors from '../styles/colors';
-import { GitHub, Config } from '../redux/actions';
+import { Config, GitHub } from '../redux/actions';
 import i18n, { _, AppLoader as t } from '../utils/i18n';
 import themes from '../../assets/themes';
 import config from '../../config';

@@ -183,6 +183,7 @@ class HistoryScreen extends React.Component {
 									padding: 0,
 									margin: 0,
 								}}
+								keyboardAppearance={colors.generalAspect}
 								autoCapitalize="none"
 								placeholder={t('search')}
 								textContentType="none"

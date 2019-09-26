@@ -62,7 +62,7 @@ export default class ModalTemplate extends React.Component {
 						backgroundColor: colors.backgroundBlock,
 						borderRadius: 20,
 						borderColor: colors.backgroundBlock,
-						borderWidth: 2
+						borderWidth: 2,
 					}}
 				>
 					<View

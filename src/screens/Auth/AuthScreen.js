@@ -326,6 +326,7 @@ class AuthScreen extends React.Component {
 							margin: 0,
 						}}
 						keyboardType="email-address"
+						keyboardAppearance={colors.generalAspect}
 						autoCapitalize="none"
 						placeholder={t('login_placeholder')}
 						textContentType="none"
@@ -351,6 +352,7 @@ class AuthScreen extends React.Component {
 							margin: 0,
 						}}
 						keyboardType="default"
+						keyboardAppearance={colors.generalAspect}
 						autoCapitalize="none"
 						secureTextEntry
 						placeholder={t('password_placeholder')}
