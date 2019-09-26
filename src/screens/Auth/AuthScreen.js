@@ -277,7 +277,7 @@ class AuthScreen extends React.Component {
 
 		return (
 			<KeyboardAwareScrollView
-				style={{ flex: 1, backgroundColor: colors.backgroundLight, padding: 40, paddingTop: 20 }}
+				style={{ flex: 1, backgroundColor: colors.background, padding: 40, paddingTop: 20 }}
 			>
 				<View
 					style={{

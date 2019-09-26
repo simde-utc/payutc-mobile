@@ -91,7 +91,7 @@ class SettingsScreen extends React.Component {
 						tintColor={colors.secondary}
 					/>
 				}
-				style={{ backgroundColor: colors.backgroundLight }}
+				style={{ backgroundColor: colors.background }}
 			>
 				<BlockTemplate roundedTop roundedBottom shadow style={{ margin: 15, marginBottom: 0 }}>
 					<Text style={{ fontSize: 22, fontWeight: 'bold', color: colors.primary }}>

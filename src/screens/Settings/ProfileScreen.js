@@ -217,7 +217,7 @@ class ProfileScreen extends React.Component {
 					/>
 				}
 				ref={ref => (this.srollView = ref)}
-				style={{ backgroundColor: colors.backgroundLight }}
+				style={{ backgroundColor: colors.background }}
 			>
 				{message.title ? (
 					<ModalTemplate

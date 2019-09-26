@@ -87,7 +87,7 @@ class HomeScreen extends React.Component {
 					flex: 1,
 					flexDirection: 'column',
 					padding: 15,
-					backgroundColor: colors.backgroundLight,
+					backgroundColor: colors.background,
 				}}
 			>
 				{message.message ? (

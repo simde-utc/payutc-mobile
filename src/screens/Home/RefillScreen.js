@@ -225,7 +225,7 @@ class RefillScreen extends React.Component {
 		const { amount, amountError } = this.state;
 
 		return (
-			<ScrollView style={{ backgroundColor: colors.backgroundLight, padding: 15 }}>
+			<ScrollView style={{ backgroundColor: colors.background, padding: 15 }}>
 				<View style={{ paddingBottom: 15 }}>
 					<AmountForm
 						title={t('amount')}
@@ -240,7 +240,7 @@ class RefillScreen extends React.Component {
 				<View style={{ paddingBottom: 15 }}>
 					<LinkButton
 						text={t('pay')}
-						color={colors.backgroundLight}
+						color={colors.background}
 						backgroundColor={colors.more}
 						disabled={this.isButtonDisabled()}
 						onPress={() => this.submit()}

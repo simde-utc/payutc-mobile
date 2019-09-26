@@ -72,7 +72,7 @@ const MainNavigator = createBottomTabNavigator(
 				activeBackgroundColor: colors.backgroundBlock,
 				inactiveBackgroundColor: colors.backgroundBlock,
 				style: {
-					borderTopColor: colors.borderLight,
+					borderTopColor: colors.border,
 				},
 			};
 

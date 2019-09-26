@@ -27,7 +27,7 @@ class TermsScreen extends React.Component {
 		headerStyle: {
 			borderBottomWidth: 0,
 			backgroundColor: colors.backgroundBlock,
-			borderBottomColor: colors.backgroundLight,
+			borderBottomColor: colors.background,
 		},
 		headerForceInset: { top: 'never' },
 		headerTintColor: colors.primary,

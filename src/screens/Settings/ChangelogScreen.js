@@ -197,7 +197,7 @@ class ChangelogScreen extends React.Component {
 				text={this.getStoreText()}
 				onPress={() => Linking.openURL(Platform.OS === 'ios' ? IOS_STORE_URL : ANDROID_STORE_URL)}
 			>
-				<ScrollView style={{ backgroundColor: colors.backgroundLight }}>
+				<ScrollView style={{ backgroundColor: colors.background }}>
 					{titled ? (
 						<TitleParams title={t('title')} settingText={g(`langs.${lang}`)}>
 							<TabsBlockTemplate

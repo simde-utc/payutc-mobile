@@ -82,7 +82,7 @@ class AboutScreen extends React.Component {
 		const [titleStatus, titleColor, descriptionStatus, onPressStatus] = this.getApplicationStatus();
 
 		return (
-			<ScrollView style={{ backgroundColor: colors.backgroundLight }}>
+			<ScrollView style={{ backgroundColor: colors.background }}>
 				<View style={{ paddingHorizontal: 15 }}>
 					{buttons.map(button => (
 						<View key={button}>

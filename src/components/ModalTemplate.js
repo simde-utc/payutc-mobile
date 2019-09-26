@@ -69,7 +69,7 @@ export default class ModalTemplate extends React.Component {
 						style={{
 							padding: 15,
 							borderBottomWidth: amount ? 1 : 0,
-							borderBottomColor: colors.borderLight,
+							borderBottomColor: colors.border,
 						}}
 					>
 						<Text

@@ -30,7 +30,7 @@ export default class BlockTemplate extends React.Component {
 		if (borderForAndroid && Platform.OS === 'android') {
 			return {
 				borderWidth: 1,
-				borderColor: colors.borderLight,
+				borderColor: colors.border,
 			};
 		}
 

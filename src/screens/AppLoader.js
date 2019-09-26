@@ -256,7 +256,7 @@ class AppLoaderScreen extends React.Component {
 					flex: 1,
 					alignItems: 'center',
 					justifyContent: 'center',
-					backgroundColor: colors.backgroundLight || themes[DEFAULT_THEME].backgroundLight,
+					backgroundColor: colors.background || themes[DEFAULT_THEME].backgroundLight,
 				}}
 			>
 				<Image

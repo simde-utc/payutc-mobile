@@ -100,14 +100,14 @@ class ChangePinScreen extends React.Component {
 		const { pin } = this.state;
 
 		return (
-			<ScrollView style={{ backgroundColor: colors.backgroundLight }}>
+			<ScrollView style={{ backgroundColor: colors.background }}>
 				<View style={{ padding: 15 }}>
 					<PinForm pin={pin} onChange={this.handlePinChange} />
 				</View>
 				<View style={{ padding: 15, paddingTop: 0 }}>
 					<LinkButton
 						text={t('modify')}
-						color={colors.backgroundLight}
+						color={colors.background}
 						backgroundColor={colors.primary}
 						disabled={this.isButtonDisabled()}
 						onPress={() => this.submit()}

@@ -160,7 +160,7 @@ class HistoryScreen extends React.Component {
 
 		return (
 			<ScrollView
-				style={{ backgroundColor: colors.backgroundLight }}
+				style={{ backgroundColor: colors.background }}
 				refreshControl={
 					<RefreshControl
 						refreshing={historyFetching}

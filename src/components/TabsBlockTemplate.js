@@ -92,7 +92,7 @@ export default function TabsBlockTemplate({
 								style={{
 									marginRight: 10,
 									borderWidth: value === key ? 0 : 1,
-									borderColor: colors.borderLight,
+									borderColor: colors.border,
 								}}
 								onPress={() => {
 									Haptics.selectionAsync().catch();
@@ -121,7 +121,7 @@ export default function TabsBlockTemplate({
 				style={{
 					backgroundColor: colors.backgroundBlock,
 					borderBottomWidth: tabValues.filter(tab => tab.children).length ? 1 : 0,
-					borderBottomColor: colors.backgroundLight,
+					borderBottomColor: colors.background,
 				}}
 			/>
 			{children}
