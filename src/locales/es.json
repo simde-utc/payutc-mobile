@@ -220,7 +220,8 @@
 			"design_fixer": "Coordinador de diseño",
 			"ios_developer": "desarrollador iOS",
 			"translation_team": "Equipo de traducción",
-			"chinese": "Chino"
+			"chinese": "Chino",
+			"spanish": "Español",
 		},
 		"Changelog": {
 			"title": "Registro de cambios",
