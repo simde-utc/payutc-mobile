@@ -12,13 +12,13 @@ import colors from '../../styles/colors';
 import LinkButton from '../../components/LinkButton';
 import List from '../../components/List';
 import BlockTemplate from '../../components/BlockTemplate';
-import Message from '../../components/Message';
 import SwitchBlockTemplate from '../../components/SwitchBlockTemplate';
 import { beautifyDateTime } from '../../utils/date';
 import { _, Profile as t } from '../../utils/i18n';
 import PortailService from '../../services/Portail';
 import { Config, Ginger, PayUTC } from '../../redux/actions';
 import Paragraphe from '../../components/Paragraphe';
+import ModalTemplate from '../../components/ModalTemplate';
 
 class ProfileScreen extends React.Component {
 	static navigationOptions = () => ({
@@ -114,7 +114,9 @@ class ProfileScreen extends React.Component {
 
 			this.setState({
 				message: {
-					message: value ? t('lock_confirmed') : t('unlock_confirmed'),
+					title: value ? t('lock_confirmed') : t('unlock_confirmed'),
+					subtitle: value ? t('lock_confirmed_desc') : t('unlock_confirmed_desc'),
+					tintColor: colors.secondary,
 				},
 			});
 		});
@@ -214,19 +216,14 @@ class ProfileScreen extends React.Component {
 				ref={ref => (this.srollView = ref)}
 				style={{ backgroundColor: colors.backgroundLight }}
 			>
-				{message.message ? (
-					<View style={{ margin: 15, marginBottom: 0 }}>
-						<Message
-							{...message}
-							onPress={() => {
-								if (message.onPress) {
-									message.onPress();
-								}
-
-								this.setState({ message: {} });
-							}}
-						/>
-					</View>
+				{message.title ? (
+					<ModalTemplate
+						title={message.title}
+						subtitle={message.subtitle}
+						amount={message.amount}
+						tintColor={message.tintColor}
+						onClose={() => this.setState({ message: {} })}
+					/>
 				) : null}
 
 				<View style={{ margin: 15 }}>

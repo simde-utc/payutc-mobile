@@ -14,11 +14,11 @@ import colors from '../../styles/colors';
 import Balance from '../../components/Home/Balance';
 import Shortcuts from '../../components/Home/Shortcuts';
 import BlockTemplate from '../../components/BlockTemplate';
-import Message from '../../components/Message';
 import Item from '../../components/History/Item';
 import { PayUTC } from '../../redux/actions';
 import { _, Home as t } from '../../utils/i18n';
 import { totalAmount } from '../../utils/stats';
+import ModalTemplate from '../../components/ModalTemplate';
 
 class HomeScreen extends React.Component {
 	static navigationOptions = () => ({
@@ -91,18 +91,27 @@ class HomeScreen extends React.Component {
 				}}
 			>
 				{message.message ? (
-					<View style={{ marginBottom: 15 }}>
-						<Message
-							{...message}
-							onPress={() => {
-								if (message.onPress) {
-									message.onPress();
-								}
-
-								this.setState({ message: {} });
-							}}
-						/>
-					</View>
+					<ModalTemplate
+						title={message.message.title}
+						subtitle={message.message.subtitle}
+						amount={message.message.amount}
+						tintColor={message.message.tintColor}
+						footer={
+							message.message.message ? ( // Yes
+								<Text
+									style={{
+										fontSize: 16,
+										textAlign: 'center',
+										fontStyle: 'italic',
+										color: colors.secondary,
+									}}
+								>
+									{message.message.message}
+								</Text>
+							) : null
+						}
+						onClose={() => this.setState({ message: {} })}
+					/>
 				) : null}
 
 				<BlockTemplate roundedTop roundedBottom shadow style={{ marginBottom: 15 }}>

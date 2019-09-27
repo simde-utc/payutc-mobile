@@ -8,6 +8,7 @@
 
 import React from 'react';
 import { Text, TextInput, View } from 'react-native';
+import * as Haptics from 'expo-haptics';
 import colors from '../../styles/colors';
 import BlockTemplate from '../BlockTemplate';
 import { _, Transfer as t } from '../../utils/i18n';
@@ -63,7 +64,10 @@ export default class MessageForm extends React.Component {
 					shadow
 					borderForAndroid
 					key={text}
-					onPress={() => this.onChange(getValue ? getValue() : text)}
+					onPress={() => {
+						Haptics.selectionAsync().catch();
+						this.onChange(getValue ? getValue() : text);
+					}}
 				>
 					<Text
 						style={{

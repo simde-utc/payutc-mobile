@@ -7,16 +7,17 @@
  */
 
 import React from 'react';
-import { View, ScrollView, Alert } from 'react-native';
+import { Alert, ScrollView, View } from 'react-native';
 import { connect } from 'react-redux';
+import * as Haptics from 'expo-haptics';
 import LinkButton from '../../components/LinkButton';
 import AmountForm from '../../components/AmountForm';
 import MessageForm from '../../components/Transfer/MessageForm';
 import RecipientForm from '../../components/Transfer/RecipientForm';
 import colors from '../../styles/colors';
-import { Config, PayUTC } from '../../redux/actions';
+import { Config, Ginger, PayUTC } from '../../redux/actions';
 import { _, Transfer as t } from '../../utils/i18n';
-import { isAmountValid, floatToEuro } from '../../utils/amount';
+import { floatToEuro, isAmountValid } from '../../utils/amount';
 
 const MIN_AMOUNT = 0.01;
 
@@ -45,6 +46,14 @@ class TransferScreen extends React.Component {
 		this.handleAmountChange = this.handleAmountChange.bind(this);
 		this.handleRecipientChange = this.handleRecipientChange.bind(this);
 		this.handleRecipientSelected = this.handleRecipientSelected.bind(this);
+	}
+
+	componentDidMount() {
+		const { isContributorFetching, dispatch } = this.props;
+
+		if (!isContributorFetching) {
+			dispatch(Ginger.getInformation());
+		}
 	}
 
 	componentDidUpdate(prevProps) {
@@ -148,10 +157,13 @@ class TransferScreen extends React.Component {
 				dispatch(PayUTC.getHistory());
 
 				navigation.navigate('Home', {
-					message: t('transfer_confirmed', {
-						amount: floatToEuro(amountAsFloat),
-						name: recipient.name,
-					}),
+					message: {
+						title: t('transfer_confirmed'),
+						subtitle: recipient.name,
+						amount: -amountAsFloat,
+						tintColor: colors.transfer,
+						message,
+					},
 				});
 			})
 			.catch(() => this.refuse());
@@ -190,6 +202,7 @@ class TransferScreen extends React.Component {
 		dispatch(action);
 
 		action.payload.then(([data]) => {
+			const { isContributor } = this.props;
 			const credit = data.credit / 100;
 
 			if (!this.isAmountValid(credit)) {
@@ -201,9 +214,32 @@ class TransferScreen extends React.Component {
 
 				this.submiting = false;
 
+				Haptics.notificationAsync('error').catch();
+
 				return this.setState({
 					amountError: t('bad_amount', { min: floatToEuro(MIN_AMOUNT), max: floatToEuro(credit) }),
 				});
+			}
+
+			if (!isContributor) {
+				dispatch(
+					Config.spinner({
+						visible: false,
+					})
+				);
+
+				this.submiting = false;
+
+				Alert.alert(
+					t('not_contributor'),
+					t('not_contributor_desc'),
+					[{ text: _('back'), style: 'cancel' }],
+					{
+						cancelable: true,
+					}
+				);
+
+				return;
 			}
 
 			const { amount, recipient, message } = this.state;
@@ -276,11 +312,14 @@ class TransferScreen extends React.Component {
 	}
 }
 
-const mapStateToProps = ({ payutc }) => {
+const mapStateToProps = ({ payutc, ginger }) => {
+	const information = ginger.getInformation();
 	const suggestions = payutc.getUserAutoComplete();
 	const history = payutc.getHistory();
 
 	return {
+		isContributor: information.getData({ is_cotisant: false }).is_cotisant,
+		isContributorFetching: information.isFetching(),
 		suggestions: suggestions.getData([]),
 		suggestionsFetching: suggestions.isFetching(),
 		history: history.getData({ historique: [] }).historique,

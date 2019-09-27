@@ -33,6 +33,11 @@ class GitHub extends Api {
 		return `${GITHUB_URL}${APP_REPO_NAME}/releases/tag/${version}`;
 	}
 
+	// eslint-disable-next-line class-methods-use-this
+	getLocalesUrl() {
+		return `${GITHUB_URL}${APP_REPO_NAME}/tree/develop/src/locales`;
+	}
+
 	getContributors() {
 		return this.call(`repos/${APP_REPO_NAME}/contributors`);
 	}
