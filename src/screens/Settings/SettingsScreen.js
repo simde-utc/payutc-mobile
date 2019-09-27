@@ -43,7 +43,7 @@ class SettingsScreen extends React.Component {
 
 		for (const key in keys) {
 			const name = keys[key];
-			tabs[name] = t(`themes.${name}`);
+			if (!themes[name].hidden) tabs[name] = t(`themes.${name}`);
 		}
 
 		return tabs;

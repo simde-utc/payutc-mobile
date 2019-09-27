@@ -168,7 +168,7 @@
 			"profile_desc": "Informations du compte, gestion du badge et déconnexion.",
 			"theme": "Thème de l'application :",
 			"themes": {
-				"light": "Classique",
+				"light": "Clair",
 				"dark": "Sombre",
 			},
 			"translate": "Aidez-nous à traduire PayUTC !"

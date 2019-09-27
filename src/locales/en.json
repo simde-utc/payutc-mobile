@@ -165,6 +165,10 @@
 			"opinion": "Give its opinion",
 			"mail_body": "Hello ! \n\nFirst of all, thank you for this application !\n\n",
 			"profile_desc": "Account information, badge management and disconnection.",
+			"themes": {
+				"light": "Light",
+				"dark": "Dark"
+			},
 			"translate": "Help us to translate PayUTC!"
 		},
 		"About": {
