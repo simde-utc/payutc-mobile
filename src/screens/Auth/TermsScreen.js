@@ -9,17 +9,15 @@ import React from 'react';
 import { connect } from 'react-redux';
 import ValidationScreen from '../../components/ValidationScreen';
 import Document from '../../components/Document';
-import { beautifyDateTime } from '../../utils/date';
 import { _, Terms as t } from '../../utils/i18n';
+import PayUTC from '../../services/PayUTC';
 import { Config } from '../../redux/actions';
 import colors from '../../styles/colors';
-import fr from '../../../assets/terms/app/fr';
+import fr from '../../../assets/terms/payutc/fr';
 
 const TERMS = {
 	fr,
 };
-
-export const TERMS_VERSION = 1;
 
 class TermsScreen extends React.Component {
 	static navigationOptions = () => ({
@@ -31,32 +29,38 @@ class TermsScreen extends React.Component {
 	});
 
 	validate() {
-		const { navigation, dispatch } = this.props;
+		const { dispatch, navigation } = this.props;
 
 		dispatch(
-			Config.terms({
-				version: TERMS_VERSION,
-				date: Date.now(),
+			Config.spinner({
+				visible: true,
+				textContent: t('payutc_registration'),
 			})
 		);
 
-		if (navigation.getParam('quick')) {
-			navigation.goBack();
-		}
+		const next = () => {
+			dispatch(
+				Config.spinner({
+					visible: false,
+				})
+			);
+
+			if (navigation.getParam('quick')) {
+				navigation.goBack();
+			}
+		};
+
+		PayUTC.register()
+			.then(next)
+			.catch(next);
 	}
 
 	render() {
-		const {
-			terms: { version, date },
-		} = this.props;
-		const validated = version === TERMS_VERSION;
-
 		return (
 			<ValidationScreen
-				buttonColor={validated ? colors.more : colors.primary}
+				buttonColor={colors.primary}
 				backgroundColor={colors.backgroundBlock}
-				text={validated ? t('validated', { date: beautifyDateTime(date) }) : t('accept')}
-				disabled={validated}
+				text={t('accept')}
 				onPress={() => this.validate()}
 			>
 				<Document lang="fr" document={TERMS.fr} />
@@ -65,6 +69,4 @@ class TermsScreen extends React.Component {
 	}
 }
 
-const mapStateToProps = ({ config: { terms } }) => ({ terms });
-
-export default connect(mapStateToProps)(TermsScreen);
+export default connect()(TermsScreen);

@@ -8,6 +8,7 @@
 
 import React from 'react';
 import { ScrollView, Text, View } from 'react-native';
+import * as Haptics from 'expo-haptics';
 import BlockTemplate from './BlockTemplate';
 import colors from '../styles/colors';
 import { _ } from '../utils/i18n';
@@ -24,6 +25,7 @@ export default function TabsBlockTemplate({
 	onChange,
 	value,
 	justifyContent,
+	children,
 }) {
 	const tabValues = Object.values(tabs);
 	const tabKeys = Object.keys(tabs);
@@ -92,7 +94,10 @@ export default function TabsBlockTemplate({
 									borderWidth: value === key ? 0 : 1,
 									borderColor: colors.backgroundLight,
 								}}
-								onPress={() => onChange(key)}
+								onPress={() => {
+									Haptics.selectionAsync().catch();
+									onChange(key);
+								}}
 							>
 								<Text
 									style={{
@@ -119,6 +124,7 @@ export default function TabsBlockTemplate({
 					borderBottomColor: colors.backgroundLight,
 				}}
 			/>
+			{children}
 			{tabs[value] ? tabs[value].children : null}
 		</BlockTemplate>
 	);

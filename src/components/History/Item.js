@@ -7,77 +7,102 @@
  */
 
 import React from 'react';
-import { Text } from 'react-native';
-import colors from '../../styles/colors';
 import BlockTemplate from '../BlockTemplate';
 import { History as t } from '../../utils/i18n';
-import { beautifyDateTime } from '../../utils/date';
 import Transaction from './Transaction';
+import TransactionModal from './TransactionModal';
+import { removeUselessEOL } from '../../utils';
 
 export default class Item extends React.Component {
-	static renderTransaction(transaction) {
+	static getTransaction(transaction) {
 		switch (transaction.type) {
 			case 'PURCHASE': {
-				if (transaction.quantity > 0)
-					return (
-						<Transaction
-							name={transaction.name}
-							amount={transaction.amount}
-							quantity={transaction.quantity}
-							sign="-"
-							signTintColor={colors.less}
-						/>
-					);
-				if (transaction.quantity < 0)
-					return (
-						<Transaction
-							name={`${t('refund')} ${transaction.name}`}
-							amount={Math.abs(transaction.amount)}
-							quantity={transaction.quantity}
-							sign="+"
-							signTintColor={colors.more}
-						/>
-					);
+				return {
+					title: `${transaction.quantity < 0 ? `${t('refund')} ` : ''}${transaction.name}`,
+					amount: Math.abs(transaction.amount),
+					quantity: transaction.quantity,
+					positive: transaction.quantity < 0,
+					location: transaction.fun,
+					date: transaction.date,
+				};
 			}
 			case 'VIROUT': {
-				return (
-					<Transaction
-						name={`${t('virout')} ${transaction.firstname} ${transaction.lastname}`}
-						amount={transaction.amount}
-						message={transaction.name}
-						sign="-"
-						signTintColor={colors.less}
-					/>
-				);
+				return {
+					title: `${t('virout')} ${transaction.firstname} ${transaction.lastname}`,
+					amount: transaction.amount,
+					quantity: transaction.quantity,
+					message: removeUselessEOL(transaction.name),
+					positive: false,
+					location: transaction.fun,
+					date: transaction.date,
+				};
 			}
 			case 'VIRIN': {
-				return (
-					<Transaction
-						name={`${t('virin')} ${transaction.firstname} ${transaction.lastname}`}
-						amount={transaction.amount}
-						message={transaction.name}
-						sign="+"
-						signTintColor={colors.more}
-					/>
-				);
+				return {
+					title: `${t('virin')} ${transaction.firstname} ${transaction.lastname}`,
+					amount: transaction.amount,
+					quantity: transaction.quantity,
+					message: removeUselessEOL(transaction.name),
+					positive: true,
+					location: transaction.fun,
+					date: transaction.date,
+				};
 			}
 			case 'RECHARGE': {
-				return (
-					<Transaction
-						name={t('refill')}
-						amount={transaction.amount}
-						sign="+"
-						signTintColor={colors.more}
-					/>
-				);
+				return {
+					title: t('refill'),
+					amount: transaction.amount,
+					positive: true,
+					location: transaction.fun,
+					date: transaction.date,
+				};
 			}
 			default:
-				return <Text>{t('unsupported_transaction')}</Text>;
+				return null;
 		}
+	}
+
+	static renderTransaction(formattedTransaction) {
+		return (
+			<Transaction
+				title={formattedTransaction.title}
+				amount={formattedTransaction.amount}
+				quantity={formattedTransaction.quantity}
+				message={formattedTransaction.message}
+				date={formattedTransaction.date}
+				location={formattedTransaction.location}
+				positive={formattedTransaction.positive}
+			/>
+		);
+	}
+
+	constructor(props) {
+		super(props);
+		this.state = {
+			showModal: false,
+		};
+	}
+
+	renderModalTransaction(formattedTransaction) {
+		return (
+			<TransactionModal
+				title={formattedTransaction.title}
+				amount={formattedTransaction.amount}
+				quantity={formattedTransaction.quantity}
+				message={formattedTransaction.message}
+				date={formattedTransaction.date}
+				location={formattedTransaction.location}
+				positive={formattedTransaction.positive}
+				onClose={() => this.setState({ showModal: false })}
+			/>
+		);
 	}
 
 	render() {
 		const { transaction, customBackground, roundedTop, roundedBottom, shadow } = this.props;
+		const { showModal } = this.state;
+
+		const formattedTransaction = Item.getTransaction(transaction);
 
 		return (
 			<BlockTemplate
@@ -85,11 +110,10 @@ export default class Item extends React.Component {
 				roundedTop={roundedTop}
 				roundedBottom={roundedBottom}
 				shadow={shadow}
+				onPress={() => this.setState({ showModal: true })}
 			>
-				<Text style={{ fontSize: 10, color: colors.secondary, marginBottom: 3 }}>
-					{beautifyDateTime(transaction.date)} {transaction.fun ? `• ${transaction.fun}` : null}
-				</Text>
-				{Item.renderTransaction(transaction)}
+				{showModal ? this.renderModalTransaction(formattedTransaction) : null}
+				{Item.renderTransaction(formattedTransaction)}
 			</BlockTemplate>
 		);
 	}

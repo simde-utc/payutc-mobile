@@ -7,8 +7,17 @@
  */
 
 import React from 'react';
-import { Linking, RefreshControl, ScrollView, Text, View, Platform } from 'react-native';
+import {
+	Linking,
+	RefreshControl,
+	ScrollView,
+	Text,
+	View,
+	Platform,
+	TouchableOpacity,
+} from 'react-native';
 import { connect } from 'react-redux';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import colors from '../../styles/colors';
 import TabsBlockTemplate from '../../components/TabsBlockTemplate';
 import Paragraphe from '../../components/Paragraphe';
@@ -17,6 +26,7 @@ import { _, Global as g, Settings as t } from '../../utils/i18n';
 import { Config, PayUTC } from '../../redux/actions';
 import { PAYUTC_EMAIL, IOS_STORE_URL, ANDROID_STORE_URL } from '../../../config';
 import BlockTemplate from '../../components/BlockTemplate';
+import GitHubService from '../../services/GitHub';
 
 class SettingsScreen extends React.Component {
 	static navigationOptions = () => ({
@@ -49,6 +59,8 @@ class SettingsScreen extends React.Component {
 	render() {
 		const { details, detailsFetching, lang, navigation } = this.props;
 
+		const repoUrl = GitHubService.getLocalesUrl();
+
 		return (
 			<ScrollView
 				refreshControl={
@@ -78,7 +90,35 @@ class SettingsScreen extends React.Component {
 					tabs={g('langs')}
 					justifyContent="flex-start"
 					style={{ margin: 15 }}
-				/>
+				>
+					<TouchableOpacity
+						style={{
+							margin: 10,
+							marginTop: 0,
+							flex: 1,
+							flexDirection: 'row',
+							justifyContent: 'flex-start',
+						}}
+						onPress={() => Linking.openURL(repoUrl)}
+					>
+						<Text
+							style={{
+								fontSize: 13,
+								fontWeight: 'bold',
+								textDecorationLine: 'underline',
+								color: colors.secondary,
+								marginRight: 5,
+							}}
+						>
+							{t('translate')}
+						</Text>
+						<FontAwesomeIcon
+							icon={['fas', 'external-link-alt' || 'sliders-h']}
+							size={13}
+							color={colors.secondary}
+						/>
+					</TouchableOpacity>
+				</TabsBlockTemplate>
 
 				<Paragraphe
 					style={{ margin: 15, marginTop: 0 }}
