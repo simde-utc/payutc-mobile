@@ -69,6 +69,7 @@
 		90F895B4F1254612BCB9F961 /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
 		BD821FA6AD5EA36B9594A2CE /* Pods-PayUTCTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PayUTCTests.release.xcconfig"; path = "Target Support Files/Pods-PayUTCTests/Pods-PayUTCTests.release.xcconfig"; sourceTree = "<group>"; };
 		C3FC2AA9B0E84D83A688C2AA /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
+		CD2B0178233E13D7002CFAAD /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		CD9725F5230EF47C004FAA3F /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		CD9725F6230EF495004FAA3F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		CD9725F7230EF548004FAA3F /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
@@ -279,10 +280,12 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				Base,
 				fr,
 				en,
 				"zh-Hans",
+				es,
 			);
 			mainGroup = 83CBB9F61A601CBA00E9B192;
 			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
@@ -494,6 +497,7 @@
 				CD9725F5230EF47C004FAA3F /* fr */,
 				CD9725F6230EF495004FAA3F /* en */,
 				CD9725F7230EF548004FAA3F /* zh-Hans */,
+				CD2B0178233E13D7002CFAAD /* es */,
 			);
 			name = LaunchScreen.xib;
 			path = PayUTC;
