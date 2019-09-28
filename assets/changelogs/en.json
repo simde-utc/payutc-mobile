@@ -1,5 +1,36 @@
 [
 	{
+		"version": "v1.2.0",
+		"data": [
+			{
+				"title": "News",
+				"data": [
+					"Add spanish translation",
+					"Add modal for information",
+					"Add PayUTC terms for new users",
+					"Add haptic feedbacks",
+					"Ask for participation for translation"
+				]
+			},
+			{
+				"title": "Changes",
+				"data": [
+					"Change confirmation popup"
+				]
+			},
+			{
+				"title": "Fixed bugs",
+				"data": [
+					"Indicate to non-contributors all limitations",
+					"Fix NaN issue during refills",
+					"Fix Android permissions",
+					"Fix Oppo/One Plus text issue",
+					"Use iOS Webkit"
+				]
+			}
+		]
+	},
+	{
 		"version": "v1.1.3",
 		"data": [
 			{

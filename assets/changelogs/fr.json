@@ -1,5 +1,36 @@
 [
 	{
+		"version": "v1.2.0",
+		"data": [
+			{
+				"title": "Nouveautés",
+				"data": [
+					"Ajout de la traduction espagnol",
+					"Ajout de popups d'information",
+					"Ajout des termes PayUTC pour les nouvös",
+					"Ajout des retours haptiques",
+					"Propose la participation à la traduction de l'app"
+				]
+			},
+			{
+				"title": "Modifications",
+				"data": [
+					"Changement du popup de notification"
+				]
+			},
+			{
+				"title": "Problèmes réglés",
+				"data": [
+					"Indique aux non cotisants les contraintes",
+					"Corrige le bug de rechargements 'NaN'",
+					"Corrige les permissions Android",
+					"Corrige le texte sur Oppo/One Plus",
+					"Utilise le Webkit iOS"
+				]
+			}
+		]
+	},
+	{
 		"version": "v1.1.3",
 		"data": [
 			{
