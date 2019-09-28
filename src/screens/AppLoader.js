@@ -8,23 +8,24 @@
  */
 
 import React from 'react';
-import { View, Text, Image, Platform, NativeModules, Alert, ActivityIndicator } from 'react-native';
+import { ActivityIndicator, Alert, Image, NativeModules, Platform, Text, View } from 'react-native';
 import { connect } from 'react-redux';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { fas } from '@fortawesome/free-solid-svg-icons';
-
 import { TERMS_VERSION } from './Settings/TermsScreen';
 import PayUTC from '../services/PayUTC';
 import CASAuth from '../services/CASAuth';
 import Storage from '../services/Storage';
 import payutcLogo from '../images/payutc-logo.png';
 import colors from '../styles/colors';
-import { GitHub, Config } from '../redux/actions';
+import { Config, GitHub } from '../redux/actions';
 import i18n, { _, AppLoader as t } from '../utils/i18n';
+import themes from '../../assets/themes';
 import config from '../../config';
 import appJson from '../../app.json';
 import configExemple from '../../config.example';
 
+const DEFAULT_THEME = 'light';
 const REGEX_VERSION = /^([0-9])+\.([0-9])+\.([0-9])-*.*$/;
 const REGEX_DEPRECATED_VERSION = /# Deprecated versions: < v(.*)/;
 
@@ -66,6 +67,8 @@ class AppLoaderScreen extends React.Component {
 			screen: 'Auth',
 			data: {},
 		};
+
+		props.dispatch(Config.setTheme(DEFAULT_THEME));
 	}
 
 	componentDidMount() {
@@ -216,6 +219,7 @@ class AppLoaderScreen extends React.Component {
 					config.spinner.visible = false;
 
 					dispatch(Config.set(config));
+					dispatch(Config.setTheme(config.theme));
 				} else {
 					let lang;
 
@@ -246,7 +250,14 @@ class AppLoaderScreen extends React.Component {
 		const { lazyText } = this.state;
 
 		return (
-			<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+			<View
+				style={{
+					flex: 1,
+					alignItems: 'center',
+					justifyContent: 'center',
+					backgroundColor: colors.background || themes[DEFAULT_THEME].backgroundLight,
+				}}
+			>
 				<Image
 					source={payutcLogo}
 					style={{ height: '15%', width: '82%', marginBottom: 35 }}

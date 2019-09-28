@@ -12,7 +12,7 @@ import colors from '../styles/colors';
 
 export default function ValidationScreen({ text, children, buttonColor, disabled, onPress }) {
 	return (
-		<View style={{ flex: 1, backgroundColor: colors.backgroundLight }}>
+		<View style={{ flex: 1, backgroundColor: colors.background }}>
 			{children}
 			<BlockTemplate
 				roundedTop

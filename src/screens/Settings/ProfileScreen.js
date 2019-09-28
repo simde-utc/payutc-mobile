@@ -23,7 +23,10 @@ import ModalTemplate from '../../components/ModalTemplate';
 class ProfileScreen extends React.Component {
 	static navigationOptions = () => ({
 		title: t('title'),
-		headerStyle: { borderBottomWidth: 0 },
+		headerStyle: {
+			borderBottomWidth: 0,
+			backgroundColor: colors.backgroundBlock,
+		},
 		headerForceInset: { top: 'never' },
 		headerTintColor: colors.primary,
 		headerTruncatedBackTitle: _('back'),
@@ -214,7 +217,7 @@ class ProfileScreen extends React.Component {
 					/>
 				}
 				ref={ref => (this.srollView = ref)}
-				style={{ backgroundColor: colors.backgroundLight }}
+				style={{ backgroundColor: colors.background }}
 			>
 				{message.title ? (
 					<ModalTemplate

@@ -17,7 +17,10 @@ import PackageJson from '../../../package.json';
 export default class DependenciesScreen extends React.Component {
 	static navigationOptions = () => ({
 		title: t('title'),
-		headerStyle: { borderBottomWidth: 0 },
+		headerStyle: {
+			borderBottomWidth: 0,
+			backgroundColor: colors.backgroundBlock,
+		},
 		headerForceInset: { top: 'never' },
 		headerTintColor: colors.primary,
 		headerTruncatedBackTitle: _('back'),
@@ -35,7 +38,7 @@ export default class DependenciesScreen extends React.Component {
 
 	render() {
 		return (
-			<ScrollView style={{ backgroundColor: colors.backgroundLight, padding: 15 }}>
+			<ScrollView style={{ backgroundColor: colors.background, padding: 15 }}>
 				<Paragraphe
 					title={t('react_native_app')}
 					description={t('license_info')}

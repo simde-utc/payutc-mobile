@@ -24,7 +24,10 @@ const MIN_AMOUNT = 0.01;
 class TransferScreen extends React.Component {
 	static navigationOptions = () => ({
 		title: t('title'),
-		headerStyle: { borderBottomWidth: 0 },
+		headerStyle: {
+			borderBottomWidth: 0,
+			backgroundColor: colors.backgroundBlock,
+		},
 		headerTintColor: colors.transfer,
 		headerForceInset: { top: 'never' },
 		headerTruncatedBackTitle: _('back'),
@@ -266,7 +269,7 @@ class TransferScreen extends React.Component {
 		const { amount, recipientError, amountError, recipient, suggestions } = this.state;
 
 		return (
-			<ScrollView style={{ backgroundColor: colors.backgroundLight }}>
+			<ScrollView style={{ backgroundColor: colors.background }}>
 				<View style={{ padding: 15 }}>
 					<RecipientForm
 						error={recipientError}
@@ -301,7 +304,7 @@ class TransferScreen extends React.Component {
 				<View style={{ padding: 15, paddingTop: 0 }}>
 					<LinkButton
 						text={t('transfer_button')}
-						color={colors.backgroundLight}
+						color={colors.backgroundBlock}
 						backgroundColor={colors.transfer}
 						disabled={this.isButtonDisabled()}
 						onPress={() => this.submit()}

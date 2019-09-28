@@ -17,13 +17,13 @@ const shortcuts = [
 		screen: 'Refill',
 		lazyTitle: 'refill',
 		icon: ['fas', 'plus-circle'],
-		color: colors.more,
+		color: 'more',
 	},
 	{
 		screen: 'Transfer',
 		lazyTitle: 'transfer',
 		icon: ['fas', 'share'],
-		color: colors.transfer,
+		color: 'transfer',
 	},
 ];
 
@@ -44,14 +44,14 @@ export default function Shortcuts({ amount, navigation, disabled }) {
 						<FontAwesomeIcon
 							icon={icon}
 							size={15}
-							style={{ color: disabled ? colors.disabled : color }}
+							style={{ color: disabled ? colors.disabled : colors[color] }}
 						/>
 						<Text
 							style={{
 								paddingLeft: 5,
 								fontSize: 15,
 								fontWeight: 'bold',
-								color: disabled ? colors.disabled : color,
+								color: disabled ? colors.disabled : colors[color],
 							}}
 						>
 							{t(lazyTitle)}

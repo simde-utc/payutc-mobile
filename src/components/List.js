@@ -20,12 +20,12 @@ function LoadingItem({ backgroundColor }) {
 				<PlaceholderLine
 					width={70}
 					height={14}
-					style={{ backgroundColor: colors.backgroundBlockAlt, marginBottom: 7, borderRadius: 10 }}
+					style={{ backgroundColor: colors.background, marginBottom: 7, borderRadius: 10 }}
 				/>
 				<PlaceholderLine
 					width={60}
 					height={13}
-					style={{ backgroundColor: colors.backgroundBlockAlt, marginBottom: 0, borderRadius: 10 }}
+					style={{ backgroundColor: colors.background, marginBottom: 0, borderRadius: 10 }}
 				/>
 			</Placeholder>
 		</BlockTemplate>

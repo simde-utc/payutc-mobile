@@ -19,6 +19,7 @@ import {
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import colors from '../../styles/colors';
+import themes from '../../../assets/themes.json';
 import TabsBlockTemplate from '../../components/TabsBlockTemplate';
 import Paragraphe from '../../components/Paragraphe';
 import LinkButton from '../../components/LinkButton';
@@ -36,10 +37,23 @@ class SettingsScreen extends React.Component {
 		headerTruncatedBackTitle: _('back'),
 	});
 
+	static getThemes() {
+		const tabs = {};
+		const keys = Object.keys(themes);
+
+		for (const key in keys) {
+			const name = keys[key];
+			if (!themes[name].hidden) tabs[name] = t(`themes.${name}`);
+		}
+
+		return tabs;
+	}
+
 	constructor(props) {
 		super(props);
 
 		this.setLang = this.setLang.bind(this);
+		this.setTheme = this.setTheme.bind(this);
 	}
 
 	onRefresh() {
@@ -56,8 +70,14 @@ class SettingsScreen extends React.Component {
 		dispatch(Config.setLang(lang));
 	}
 
+	setTheme(theme) {
+		const { dispatch } = this.props;
+
+		dispatch(Config.setTheme(theme));
+	}
+
 	render() {
-		const { details, detailsFetching, lang, navigation } = this.props;
+		const { details, detailsFetching, lang, theme, navigation } = this.props;
 
 		const repoUrl = GitHubService.getLocalesUrl();
 
@@ -71,7 +91,7 @@ class SettingsScreen extends React.Component {
 						tintColor={colors.secondary}
 					/>
 				}
-				style={{ backgroundColor: colors.backgroundLight }}
+				style={{ backgroundColor: colors.background }}
 			>
 				<BlockTemplate roundedTop roundedBottom shadow style={{ margin: 15, marginBottom: 0 }}>
 					<Text style={{ fontSize: 22, fontWeight: 'bold', color: colors.primary }}>
@@ -120,6 +140,19 @@ class SettingsScreen extends React.Component {
 					</TouchableOpacity>
 				</TabsBlockTemplate>
 
+				<TabsBlockTemplate
+					roundedTop
+					roundedBottom
+					shadow
+					text={t('theme')}
+					tintColor={colors.secondary}
+					value={theme}
+					onChange={this.setTheme}
+					tabs={SettingsScreen.getThemes()}
+					justifyContent="flex-start"
+					style={{ margin: 15, marginTop: 0 }}
+				/>
+
 				<Paragraphe
 					style={{ margin: 15, marginTop: 0 }}
 					title={
@@ -166,11 +199,12 @@ class SettingsScreen extends React.Component {
 	}
 }
 
-const mapStateToProps = ({ payutc, config: { lang } }) => {
+const mapStateToProps = ({ payutc, config: { lang, theme } }) => {
 	const details = payutc.getWalletDetails();
 
 	return {
 		lang,
+		theme,
 		details: details.getData({}),
 		detailsFetching: details.isFetching(),
 		detailsFetched: details.isFetched(),

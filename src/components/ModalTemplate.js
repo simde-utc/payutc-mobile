@@ -41,15 +41,16 @@ export default class ModalTemplate extends React.Component {
 					width: 300,
 					flexDirection: 'column',
 					borderRadius: 20,
-					shadowColor: '#000',
+					shadowColor: colors.shadow,
 					shadowOffset: { width: 0, height: 1 },
 					shadowOpacity: 0.1,
 					shadowRadius: 20,
-					elevation: 1,
+					elevation: 2,
 				}}
 				position="center"
 				ref={ref => (this.modal = ref)}
 				backdropOpacity={0.3}
+				backdropColor={colors.shadow}
 				coverScreen
 				onClosed={onClose}
 			>
@@ -58,13 +59,17 @@ export default class ModalTemplate extends React.Component {
 						flex: 1,
 						flexDirection: 'column',
 						justifyContent: amount ? 'flex-start' : 'space-around',
+						backgroundColor: colors.backgroundBlock,
+						borderRadius: 20,
+						borderColor: colors.backgroundBlock,
+						borderWidth: 2,
 					}}
 				>
 					<View
 						style={{
 							padding: 15,
 							borderBottomWidth: amount ? 1 : 0,
-							borderBottomColor: colors.backgroundLight,
+							borderBottomColor: colors.border,
 						}}
 					>
 						<Text
