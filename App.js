@@ -56,10 +56,7 @@ const paddingTop = StatusBar.currentHeight || 20;
 const mapStateToProps = ({ config }) => ({ config });
 
 const ConnectedApp = connect(mapStateToProps)(({ config }) => (
-	<SafeAreaView
-		style={{ flex: 1, paddingTop, backgroundColor: colors.backgroundBlock }}
-		forceInset={{ bottom: 'never' }}
-	>
+	<SafeAreaView style={{ flex: 1, paddingTop, backgroundColor: colors.backgroundBlock }}>
 		<StatusBar backgroundColor={colors.primary} translucent />
 		<SpinnerOverlay {...config.spinner} />
 		<AppContainer screenProps={{ config }} />
