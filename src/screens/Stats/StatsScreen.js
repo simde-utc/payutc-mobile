@@ -43,7 +43,11 @@ class StatsScreen extends React.Component {
 		lastMonday.setUTCHours(0, 0, 0);
 
 		const thisMorning = new Date();
-		thisMorning.setUTCHours(6, 0, 0);
+		const START_DAY_AT = 6;
+		if (thisMorning.getUTCHours() < START_DAY_AT) thisMorning.setUTCDate(thisMorning.getUTCDate() - 1);
+		thisMorning.setUTCHours(START_DAY_AT, 0, 0);
+
+		console.warn(thisMorning);
 
 		this.state = {
 			dates: [
