@@ -78,8 +78,9 @@ class HomeScreen extends React.Component {
 		const { message } = this.state;
 		const amount = details.credit ? details.credit / 100 : null;
 
-		const oneWeekAgo = new Date();
-		oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+		const lastMonday = new Date();
+		lastMonday.setUTCDate(lastMonday.getUTCDate() - ((lastMonday.getUTCDay() + 6) % 7));
+		lastMonday.setUTCHours(0, 0, 0);
 
 		return (
 			<View
@@ -120,7 +121,7 @@ class HomeScreen extends React.Component {
 						isCreditConsistent={details.is_credit_consistent}
 						loading={detailsFetching}
 						name={details.user ? details.user.first_name : null}
-						weekAmount={totalAmount(history, oneWeekAgo) / 100}
+						weekAmount={totalAmount(history, lastMonday) / 100}
 						onRefresh={() => this.onRefresh()}
 					/>
 				</BlockTemplate>

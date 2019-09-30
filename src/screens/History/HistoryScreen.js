@@ -31,21 +31,21 @@ class HistoryScreen extends React.Component {
 		super(props);
 
 		const oneMonthAgo = new Date();
-		oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
+		oneMonthAgo.setUTCMonth(oneMonthAgo.getMonth() - 1);
 
-		const oneWeekAgo = new Date();
-		oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
+		const lastMonday = new Date();
+		lastMonday.setUTCDate(lastMonday.getUTCDate() - ((lastMonday.getUTCDay() + 6) % 7));
+		lastMonday.setUTCHours(0, 0, 0);
 
-		const yesterday = new Date();
-		yesterday.setDate(yesterday.getDate() - 1);
+		const thisMorning = new Date();
+		thisMorning.setUTCHours(6, 0, 0);
 
 		this.state = {
 			dates: [
-				{ lazyTitle: 'ever', date: null },
+				{ lazyTitle: 'this_morning', date: thisMorning },
+				{ lazyTitle: 'monday', date: lastMonday },
 				{ lazyTitle: 'semester', date: null },
-				{ lazyTitle: 'month', date: oneMonthAgo },
-				{ lazyTitle: 'week', date: oneWeekAgo },
-				{ lazyTitle: 'yesterday', date: yesterday },
+				{ lazyTitle: 'ever', date: null },
 			],
 			search: '',
 		};
