@@ -22,7 +22,7 @@ import {
 	mostReceivedFromPersons,
 	mostSpentItems,
 } from '../../utils/stats';
-import { getDateFromPortail } from '../../utils/date';
+import { getDateFromPortail, lastMonday, oneMonthAgo, thisMorning } from '../../utils/date';
 
 class StatsScreen extends React.Component {
 	static navigationOptions = () => ({
@@ -35,24 +35,11 @@ class StatsScreen extends React.Component {
 	constructor(props) {
 		super(props);
 
-		const oneMonthAgo = new Date();
-		oneMonthAgo.setUTCMonth(oneMonthAgo.getMonth() - 1);
-
-		const lastMonday = new Date();
-		lastMonday.setUTCDate(lastMonday.getUTCDate() - ((lastMonday.getUTCDay() + 6) % 7));
-		lastMonday.setUTCHours(0, 0, 0);
-
-		const thisMorning = new Date();
-		const START_DAY_AT = 6;
-		if (thisMorning.getUTCHours() < START_DAY_AT) thisMorning.setUTCDate(thisMorning.getUTCDate() - 1);
-		thisMorning.setUTCHours(START_DAY_AT, 0, 0);
-
-		console.warn(thisMorning);
-
 		this.state = {
 			dates: [
-				{ lazyTitle: 'this_morning', date: thisMorning },
+				{ lazyTitle: 'this_morning', date: thisMorning(6) },
 				{ lazyTitle: 'monday', date: lastMonday },
+				{ lazyTitle: 'month', date: oneMonthAgo },
 				{ lazyTitle: 'semester', date: null },
 				{ lazyTitle: 'ever', date: null },
 			],

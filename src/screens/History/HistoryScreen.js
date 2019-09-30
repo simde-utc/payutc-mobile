@@ -17,7 +17,7 @@ import HistoryList from '../../components/History/HistoryList';
 import { Config, PayUTC, Portail } from '../../redux/actions';
 import TabsBlockTemplate from '../../components/TabsBlockTemplate';
 import { _, History as t } from '../../utils/i18n';
-import { getDateFromPortail } from '../../utils/date';
+import { getDateFromPortail, lastMonday, oneMonthAgo, thisMorning } from '../../utils/date';
 
 class HistoryScreen extends React.Component {
 	static navigationOptions = () => ({
@@ -30,22 +30,11 @@ class HistoryScreen extends React.Component {
 	constructor(props) {
 		super(props);
 
-		const oneMonthAgo = new Date();
-		oneMonthAgo.setUTCMonth(oneMonthAgo.getMonth() - 1);
-
-		const lastMonday = new Date();
-		lastMonday.setUTCDate(lastMonday.getUTCDate() - ((lastMonday.getUTCDay() + 6) % 7));
-		lastMonday.setUTCHours(0, 0, 0);
-
-		const thisMorning = new Date();
-		const START_DAY_AT = 6;
-		if (thisMorning.getUTCHours() < START_DAY_AT) thisMorning.setUTCDate(thisMorning.getUTCDate() - 1);
-		thisMorning.setUTCHours(START_DAY_AT, 0, 0);
-
 		this.state = {
 			dates: [
-				{ lazyTitle: 'this_morning', date: thisMorning },
+				{ lazyTitle: 'this_morning', date: thisMorning(6) },
 				{ lazyTitle: 'monday', date: lastMonday },
+				{ lazyTitle: 'month', date: oneMonthAgo },
 				{ lazyTitle: 'semester', date: null },
 				{ lazyTitle: 'ever', date: null },
 			],

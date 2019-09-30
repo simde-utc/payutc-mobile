@@ -19,6 +19,7 @@ import { PayUTC } from '../../redux/actions';
 import { _, Home as t } from '../../utils/i18n';
 import { totalAmount } from '../../utils/stats';
 import ModalTemplate from '../../components/ModalTemplate';
+import { lastMonday } from '../../utils/date';
 
 class HomeScreen extends React.Component {
 	static navigationOptions = () => ({
@@ -77,10 +78,6 @@ class HomeScreen extends React.Component {
 		const { details, detailsFetching, history, historyFetching, navigation } = this.props;
 		const { message } = this.state;
 		const amount = details.credit ? details.credit / 100 : null;
-
-		const lastMonday = new Date();
-		lastMonday.setUTCDate(lastMonday.getUTCDate() - ((lastMonday.getUTCDay() + 6) % 7));
-		lastMonday.setUTCHours(0, 0, 0);
 
 		return (
 			<View
