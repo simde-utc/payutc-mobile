@@ -118,7 +118,7 @@ class HomeScreen extends React.Component {
 						isCreditConsistent={details.is_credit_consistent}
 						loading={detailsFetching}
 						name={details.user ? details.user.first_name : null}
-						weekAmount={totalAmount(history, lastMonday) / 100}
+						weekAmount={totalAmount(history, lastMonday()) / 100}
 						onRefresh={() => this.onRefresh()}
 					/>
 				</BlockTemplate>

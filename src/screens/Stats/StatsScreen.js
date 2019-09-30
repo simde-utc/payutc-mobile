@@ -37,11 +37,11 @@ class StatsScreen extends React.Component {
 
 		this.state = {
 			dates: [
-				{ lazyTitle: 'this_morning', date: thisMorning(6) },
-				{ lazyTitle: 'monday', date: lastMonday },
-				{ lazyTitle: 'month', date: oneMonthAgo },
-				{ lazyTitle: 'semester', date: null },
 				{ lazyTitle: 'ever', date: null },
+				{ lazyTitle: 'semester', date: null },
+				{ lazyTitle: 'month', date: oneMonthAgo() },
+				{ lazyTitle: 'monday', date: lastMonday() },
+				{ lazyTitle: 'this_morning', date: thisMorning(6) },
 			],
 		};
 

@@ -11,6 +11,7 @@ import { forceTextLength } from './index';
 
 export const oneMonthAgo = () => {
 	const oneMonthAgo = new Date();
+
 	oneMonthAgo.setUTCMonth(oneMonthAgo.getMonth() - 1);
 
 	return oneMonthAgo;
@@ -18,6 +19,7 @@ export const oneMonthAgo = () => {
 
 export const lastMonday = () => {
 	const lastMonday = new Date();
+
 	lastMonday.setUTCDate(lastMonday.getUTCDate() - ((lastMonday.getUTCDay() + 6) % 7));
 	lastMonday.setUTCHours(0, 0, 0);
 
