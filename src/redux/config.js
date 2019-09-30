@@ -5,6 +5,7 @@
  * @license GPL-3.0
  */
 
+import themes from '../../assets/themes.json';
 import colors from '../styles/colors';
 import i18n from '../utils/i18n';
 import Storage from '../services/Storage';
@@ -15,9 +16,9 @@ export const configState = {
 	lang: 'en',
 	spinner: {
 		visible: false,
-		color: colors.backgroundBlock,
+		color: colors.secondary,
 		textStyle: {
-			color: colors.backgroundBlock,
+			color: colors.secondary,
 			textAlign: 'center',
 			paddingHorizontal: 15,
 		},
@@ -27,6 +28,7 @@ export const configState = {
 		selectedHistoryCategory: '0',
 		selectedStatCategory: '0',
 	},
+	theme: 'light',
 	terms: {
 		version: 0,
 		date: '',
@@ -46,6 +48,25 @@ export const configReducer = (state = configState, { type, config, data }) => {
 			case 'setLang':
 				i18n.locale = data;
 				state.lang = data;
+
+				break;
+
+			case 'setTheme':
+				state.theme = data;
+				const theme = themes[data];
+				const keys = Object.keys(theme);
+
+				for (const key in keys) {
+					const name = keys[key];
+
+					colors[name] = theme[name];
+				}
+
+				state.spinner.color = theme.secondary;
+				state.spinner.textStyle = {
+					...state.spinner.textStyle,
+					color: theme.secondary,
+				};
 
 				break;
 

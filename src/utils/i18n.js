@@ -9,12 +9,13 @@ import i18nJs from 'i18n-js';
 
 import en from '../locales/en.json';
 import fr from '../locales/fr.json';
+import es from '../locales/es.json';
 import zh from '../locales/zh.json';
 import global from '../locales/global.json';
 
 i18nJs.defaultLocale = 'en';
 i18nJs.fallbacks = true;
-i18nJs.translations = { en, fr, zh, global };
+i18nJs.translations = { en, fr, es, zh, global };
 
 export const getTranslationsFor = (defaultPath, defaultParams = {}) => {
 	return (path, params) => {

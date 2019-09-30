@@ -24,7 +24,10 @@ import appJson from '../../../app.json';
 class ChangelogScreen extends React.Component {
 	static navigationOptions = () => ({
 		title: t('title'),
-		headerStyle: { borderBottomWidth: 0 },
+		headerStyle: {
+			borderBottomWidth: 0,
+			backgroundColor: colors.backgroundBlock,
+		},
 		headerForceInset: { top: 'never' },
 		headerTintColor: colors.primary,
 	});
@@ -194,7 +197,7 @@ class ChangelogScreen extends React.Component {
 				text={this.getStoreText()}
 				onPress={() => Linking.openURL(Platform.OS === 'ios' ? IOS_STORE_URL : ANDROID_STORE_URL)}
 			>
-				<ScrollView style={{ backgroundColor: colors.backgroundLight }}>
+				<ScrollView style={{ backgroundColor: colors.background }}>
 					{titled ? (
 						<TitleParams title={t('title')} settingText={g(`langs.${lang}`)}>
 							<TabsBlockTemplate

@@ -277,7 +277,7 @@ class AuthScreen extends React.Component {
 
 		return (
 			<KeyboardAwareScrollView
-				style={{ flex: 1, backgroundColor: colors.backgroundLight, padding: 40, paddingTop: 20 }}
+				style={{ flex: 1, backgroundColor: colors.background, padding: 40, paddingTop: 20 }}
 			>
 				<View
 					style={{
@@ -326,8 +326,10 @@ class AuthScreen extends React.Component {
 							margin: 0,
 						}}
 						keyboardType="email-address"
+						keyboardAppearance={colors.generalAspect}
 						autoCapitalize="none"
 						placeholder={t('login_placeholder')}
+						placeholderTextColor={colors.disabled}
 						textContentType="none"
 						autoCorrect={false}
 						onChangeText={login => this.onLoginChange(login)}
@@ -351,9 +353,11 @@ class AuthScreen extends React.Component {
 							margin: 0,
 						}}
 						keyboardType="default"
+						keyboardAppearance={colors.generalAspect}
 						autoCapitalize="none"
 						secureTextEntry
 						placeholder={t('password_placeholder')}
+						placeholderTextColor={colors.disabled}
 						textContentType="none"
 						autoCorrect={false}
 						ref={input => (this.passwordInput = input)}

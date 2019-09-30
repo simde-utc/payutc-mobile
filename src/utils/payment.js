@@ -21,4 +21,9 @@ export const getCardType = code => {
 	return null;
 };
 
+export const cardColors = {
+	visa: '#1a1f71',
+	mastercard: '#ff5f01',
+};
+
 export default getCardType;

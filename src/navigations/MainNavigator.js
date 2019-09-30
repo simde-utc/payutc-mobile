@@ -7,7 +7,7 @@
 
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { createBottomTabNavigator } from 'react-navigation';
+import { createBottomTabNavigator, BottomTabBar } from 'react-navigation';
 import HomeNavigator from './Home/HomeNavigator';
 import colors from '../styles/colors';
 import { Navigation as t } from '../utils/i18n';
@@ -23,6 +23,7 @@ const focusableIoniconFactory = icon => {
 			icon={icon}
 			size={ICON_SIZE}
 			color={focused ? colors.primary : colors.secondary}
+			style={{ paddingTop: 3 }}
 		/>
 	);
 
@@ -64,13 +65,18 @@ const MainNavigator = createBottomTabNavigator(
 		},
 	},
 	{
-		tabBarOptions: {
-			showLabel: true,
-			activeTintColor: colors.primary,
-			inactiveTintColor: colors.secondary,
-			style: {
-				borderTopColor: colors.backgroundLight,
-			},
+		tabBarComponent: props => {
+			const customProps = {
+				activeTintColor: colors.primary,
+				inactiveTintColor: colors.secondary,
+				activeBackgroundColor: colors.backgroundBlock,
+				inactiveBackgroundColor: colors.backgroundBlock,
+				style: {
+					borderTopColor: colors.border,
+				},
+			};
+
+			return <BottomTabBar {...props} {...customProps} showLabel />;
 		},
 	}
 );

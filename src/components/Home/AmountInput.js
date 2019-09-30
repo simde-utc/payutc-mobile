@@ -8,6 +8,7 @@
 
 import React from 'react';
 import { Text, TextInput, View, Platform } from 'react-native';
+import * as Haptics from 'expo-haptics';
 import colors from '../../styles/colors';
 
 export default function AmountInput({
@@ -35,11 +36,16 @@ export default function AmountInput({
 					margin: 0,
 				}}
 				keyboardType="decimal-pad"
+				keyboardAppearance={colors.generalAspect}
 				placeholder={value ? '' : '00,00'}
+				placeholderTextColor={colors.disabled}
 				maxLength={maxLength}
 				autoFocus={autoFocus}
 				autoCorrect={false}
-				onChangeText={value => onChange(value)}
+				onChangeText={value => {
+					Haptics.selectionAsync().catch();
+					onChange(value);
+				}}
 				value={value}
 				blurOnSubmit={blurOnSubmit}
 				ref={setRef}

@@ -18,7 +18,7 @@ import Item from '../../components/History/Item';
 import { PayUTC } from '../../redux/actions';
 import { _, Home as t } from '../../utils/i18n';
 import { totalAmount } from '../../utils/stats';
-import ConfirmationModal from '../../components/ConfirmationModal';
+import ModalTemplate from '../../components/ModalTemplate';
 
 class HomeScreen extends React.Component {
 	static navigationOptions = () => ({
@@ -87,15 +87,29 @@ class HomeScreen extends React.Component {
 					flex: 1,
 					flexDirection: 'column',
 					padding: 15,
-					backgroundColor: colors.backgroundLight,
+					backgroundColor: colors.background,
 				}}
 			>
 				{message.message ? (
-					<ConfirmationModal
+					<ModalTemplate
 						title={message.message.title}
 						subtitle={message.message.subtitle}
 						amount={message.message.amount}
 						tintColor={message.message.tintColor}
+						footer={
+							message.message.message ? ( // Yes
+								<Text
+									style={{
+										fontSize: 16,
+										textAlign: 'center',
+										fontStyle: 'italic',
+										color: colors.secondary,
+									}}
+								>
+									{message.message.message}
+								</Text>
+							) : null
+						}
 						onClose={() => this.setState({ message: {} })}
 					/>
 				) : null}

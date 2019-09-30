@@ -36,7 +36,10 @@
 			"bad_amount": "The amount must be between %{min} and %{max}.",
 			"amount_error": "The amount is incorrect.",
 			"refill_checks": "Verification before refilling...",
-			"redirect_to_refill": "Redirecting to the payment page..."
+			"redirect_to_refill": "Redirecting to the payment page...",
+			"not_contributor": "Non-contributor refill",
+			"not_contributor_desc": "It is impossible for non-BDE-UTC-cotributors to transfer money or buy stuff in places like Picasso. The money refilled will not be refunded.",
+			"cannot_verify_contribution": "An error has happened during your BDE-UTC contribution verification.",
 		},
 		"Payment": {
 			"title": "Payment",
@@ -68,6 +71,8 @@
 			"confirm_title": "Confirm",
 			"confirm_message": "Do you confirm your transfer of %{amount} to %{name}?",
 			"confirm": "Let's go!",
+			"not_contributor": "Non-contributor transfer",
+			"not_contributor_desc": "Transfers are reserved to BDE-UTC contributors.",
 			"message_suggestions": [
 				"You are a beautiful person!",
 				"Thanks again",
@@ -160,6 +165,10 @@
 			"opinion": "Give its opinion",
 			"mail_body": "Hello ! \n\nFirst of all, thank you for this application !\n\n",
 			"profile_desc": "Account information, badge management and disconnection.",
+			"themes": {
+				"light": "Light",
+				"dark": "Dark"
+			},
 			"translate": "Help us to translate PayUTC!"
 		},
 		"About": {
@@ -223,6 +232,7 @@
 			"ios_developer": "iOS developer",
 			"translation_team": "Translation team",
 			"chinese": "Chinese",
+			"spanish": "Spanish",
 		},
 		"Changelog": {
 			"title": "Changelog",
@@ -271,6 +281,7 @@
 		"optional": "optional",
 		"continue": "continue",
 		"error": "an error occured",
+		"retry_with_connection": "retry with a better connection.",
 		"ok": "OK",
 		"loading_text_replacement": "•••",
 		"and": "and",

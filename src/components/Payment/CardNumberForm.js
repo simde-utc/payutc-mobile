@@ -10,7 +10,7 @@ import { Text, TextInput, View } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import colors from '../../styles/colors';
 import BlockTemplate from '../BlockTemplate';
-import { getCardType } from '../../utils/payment';
+import { cardColors, getCardType } from '../../utils/payment';
 
 export default class CardNumberForm extends React.PureComponent {
 	static formatCode(code) {
@@ -41,10 +41,10 @@ export default class CardNumberForm extends React.PureComponent {
 
 		switch (type) {
 			case 'Visa':
-				return <FontAwesomeIcon icon={['fab', 'cc-visa']} size={22} color={colors.visa} />;
+				return <FontAwesomeIcon icon={['fab', 'cc-visa']} size={22} color={cardColors.visa} />;
 			case 'Mastercard':
 				return (
-					<FontAwesomeIcon icon={['fab', 'cc-mastercard']} size={22} color={colors.mastercard} />
+					<FontAwesomeIcon icon={['fab', 'cc-mastercard']} size={22} color={cardColors.mastercard} />
 				);
 			default:
 				return (
@@ -90,7 +90,7 @@ export default class CardNumberForm extends React.PureComponent {
 						onChangeText={code => this.onChange(code)}
 						textContentType="creditCardNumber"
 						autoCorrect={false}
-						value={this.formatCode(code)}
+						value={CardNumberForm.formatCode(code)}
 					/>
 					{this.renderCardIcon()}
 				</View>

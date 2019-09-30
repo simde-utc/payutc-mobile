@@ -160,7 +160,7 @@ class HistoryScreen extends React.Component {
 
 		return (
 			<ScrollView
-				style={{ backgroundColor: colors.backgroundLight }}
+				style={{ backgroundColor: colors.background }}
 				refreshControl={
 					<RefreshControl
 						refreshing={historyFetching}
@@ -183,8 +183,10 @@ class HistoryScreen extends React.Component {
 									padding: 0,
 									margin: 0,
 								}}
+								keyboardAppearance={colors.generalAspect}
 								autoCapitalize="none"
 								placeholder={t('search')}
+								placeholderTextColor={colors.disabled}
 								textContentType="none"
 								onChangeText={this.onSearchChange}
 								value={search}

@@ -21,7 +21,10 @@ import LinkButton from '../../components/LinkButton';
 class PaymentScreen extends React.Component {
 	static navigationOptions = () => ({
 		title: t('title'),
-		headerStyle: { borderBottomWidth: 0 },
+		headerStyle: {
+			borderBottomWidth: 0,
+			backgroundColor: colors.backgroundBlock,
+		},
 		headerTintColor: colors.more,
 		headerForceInset: { top: 'never' },
 		headerTruncatedBackTitle: _('back'),
@@ -90,7 +93,7 @@ class PaymentScreen extends React.Component {
 		const amount = navigation.getParam('amount');
 
 		return (
-			<ScrollView style={{ backgroundColor: colors.backgroundLight }}>
+			<ScrollView style={{ backgroundColor: colors.background }}>
 				<View style={{ padding: 15 }}>
 					<View style={{ flex: 1, flexDirection: 'row' }}>
 						<View style={{ flex: 1, flexDirection: 'column' }}>
@@ -163,7 +166,7 @@ class PaymentScreen extends React.Component {
 
 					<LinkButton
 						text="Payer"
-						color={colors.backgroundLight}
+						color={colors.background}
 						style={{ marginTop: 15 }}
 						backgroundColor={colors.more}
 						disabled={this.isSubmitDisabled()}

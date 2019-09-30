@@ -51,7 +51,7 @@ export default class TitleParams extends React.Component {
 						borderForAndroid={!show}
 						style={{ paddingVertical: 5 }}
 						onPress={() => this.setState({ show: !show })}
-						customBackground={show ? colors.backgroundLight : null}
+						customBackground={show ? colors.background : null}
 					>
 						<View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
 							<Text
