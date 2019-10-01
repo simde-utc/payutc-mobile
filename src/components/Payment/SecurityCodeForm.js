@@ -49,7 +49,9 @@ export default class SecurityCodeForm extends React.PureComponent {
 						margin: 0,
 					}}
 					keyboardType="number-pad"
+					keyboardAppearance={colors.generalAspect}
 					placeholder="000"
+					placeholderTextColor={colors.disabled}
 					clearButtonMode="always"
 					secureTextEntry
 					maxLength={this.maxLength}

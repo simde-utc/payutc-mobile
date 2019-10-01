@@ -91,7 +91,9 @@ export default class CardNumberForm extends React.PureComponent {
 							marginRight: 5,
 						}}
 						keyboardType="number-pad"
+						keyboardAppearance={colors.generalAspect}
 						placeholder="0000 0000 0000 0000"
+						placeholderTextColor={colors.disabled}
 						clearButtonMode="always"
 						maxLength={this.maxLength}
 						onChangeText={code => this.onChange(code)}

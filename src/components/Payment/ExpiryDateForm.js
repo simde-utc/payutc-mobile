@@ -11,6 +11,16 @@ import colors from '../../styles/colors';
 import BlockTemplate from '../BlockTemplate';
 
 export default class ExpiryDateForm extends React.PureComponent {
+	static formatDate(date) {
+		if (!date) return null;
+
+		const dateStr = date.toString();
+
+		if (dateStr.length <= 2) return dateStr;
+
+		return dateStr.replace(/\D*/g, '').replace(/(\d{2})\/?(\d{0,2})/, '$1/$2');
+	}
+
 	constructor(props) {
 		super(props);
 		this.maxLength = 5; // 4 digits and 1 slash
@@ -26,20 +36,9 @@ export default class ExpiryDateForm extends React.PureComponent {
 		this.setState({ date });
 	}
 
-	formatDate() {
-		const { date } = this.state;
-
-		if (!date) return null;
-
-		const dateStr = date.toString();
-
-		if (dateStr.length <= 2) return dateStr;
-
-		return dateStr.replace(/\D*/g, '').replace(/(\d{2})\/?(\d{0,2})/, '$1/$2');
-	}
-
 	render() {
 		const { error } = this.props;
+		const { date } = this.state;
 
 		return (
 			<BlockTemplate roundedTop roundedBottom shadow style={{ flex: 4 }}>
@@ -62,12 +61,14 @@ export default class ExpiryDateForm extends React.PureComponent {
 						margin: 0,
 					}}
 					keyboardType="number-pad"
+					keyboardAppearance={colors.generalAspect}
 					placeholder="09/20"
+					placeholderTextColor={colors.disabled}
 					clearButtonMode="always"
 					maxLength={this.maxLength}
 					onChangeText={code => this.onChange(code)}
 					autoCorrect={false}
-					value={this.formatDate()}
+					value={ExpiryDateForm.formatDate(date)}
 				/>
 			</BlockTemplate>
 		);
