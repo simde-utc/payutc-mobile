@@ -18,7 +18,10 @@ export default class CardNumberForm extends React.PureComponent {
 
 		const codeStr = code.toString();
 
-		return codeStr.replace(/(\d{4})\s*(\d{4})\s*(\d{4})\s*(\d{4})/, '$1 $2 $3 $4');
+		return codeStr
+			.replace(/\D*/g, '')
+			.replace(/^(\d{4})(\d{0,4})?(\d{0,4})?(\d{0,4})?$/, '$1 $2 $3 $4')
+			.trim();
 	}
 
 	constructor(props) {
@@ -44,7 +47,11 @@ export default class CardNumberForm extends React.PureComponent {
 				return <FontAwesomeIcon icon={['fab', 'cc-visa']} size={22} color={cardColors.visa} />;
 			case 'Mastercard':
 				return (
-					<FontAwesomeIcon icon={['fab', 'cc-mastercard']} size={22} color={cardColors.mastercard} />
+					<FontAwesomeIcon
+						icon={['fab', 'cc-mastercard']}
+						size={22}
+						color={cardColors.mastercard}
+					/>
 				);
 			default:
 				return (

@@ -9,6 +9,7 @@ import React from 'react';
 import { ScrollView, Text, View } from 'react-native';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import * as Haptics from 'expo-haptics';
 import colors from '../../styles/colors';
 import { _, Payment as t } from '../../utils/i18n';
 import BlockTemplate from '../../components/BlockTemplate';
@@ -17,6 +18,7 @@ import CardNumberForm from '../../components/Payment/CardNumberForm';
 import ExpiryDateForm from '../../components/Payment/ExpiryDateForm';
 import SecurityCodeForm from '../../components/Payment/SecurityCodeForm';
 import LinkButton from '../../components/LinkButton';
+import { getCardType } from '../../utils/payment';
 
 class PaymentScreen extends React.Component {
 	static navigationOptions = () => ({
@@ -69,7 +71,11 @@ class PaymentScreen extends React.Component {
 	submit() {
 		const { cardNumber, expiryDate, securityCode } = this.state;
 
-		if (!cardNumber || !cardNumber.match(/\d{16}/)) {
+		if (
+			!cardNumber ||
+			!getCardType(cardNumber) ||
+			!cardNumber.replace(/\D*/g, '').match(/\d{16}/)
+		) {
 			this.setState({ cardNumberError: 'Numéro de carte invalide' });
 		}
 
@@ -79,6 +85,10 @@ class PaymentScreen extends React.Component {
 
 		if (!securityCode || !securityCode.match(/\d{3}/)) {
 			this.setState({ expiryDateError: 'Code de sécurité invalide' });
+		}
+
+		if (this.isSubmitDisabled()) {
+			Haptics.notificationAsync('error').catch();
 		}
 
 		console.warn(cardNumber);

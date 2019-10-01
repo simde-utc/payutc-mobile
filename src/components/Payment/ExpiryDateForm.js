@@ -14,7 +14,6 @@ export default class ExpiryDateForm extends React.PureComponent {
 	constructor(props) {
 		super(props);
 		this.maxLength = 5; // 4 digits and 1 slash
-		this.format = /(\d{2})\/?(\d{0,2})/; // Date format must be MM/YY - The slash is auto added with formatDate()
 		this.state = {
 			date: null,
 		};
@@ -27,18 +26,20 @@ export default class ExpiryDateForm extends React.PureComponent {
 		this.setState({ date });
 	}
 
-	formatDate(date) {
+	formatDate() {
+		const { date } = this.state;
+
 		if (!date) return null;
 
 		const dateStr = date.toString();
+
 		if (dateStr.length <= 2) return dateStr;
 
-		return dateStr.replace(this.format, '$1/$2');
+		return dateStr.replace(/\D*/g, '').replace(/(\d{2})\/?(\d{0,2})/, '$1/$2');
 	}
 
 	render() {
 		const { error } = this.props;
-		const { date } = this.state;
 
 		return (
 			<BlockTemplate roundedTop roundedBottom shadow style={{ flex: 4 }}>
@@ -66,7 +67,7 @@ export default class ExpiryDateForm extends React.PureComponent {
 					maxLength={this.maxLength}
 					onChangeText={code => this.onChange(code)}
 					autoCorrect={false}
-					value={this.formatDate(date)}
+					value={this.formatDate()}
 				/>
 			</BlockTemplate>
 		);
