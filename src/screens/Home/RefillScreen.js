@@ -47,7 +47,11 @@ class RefillScreen extends React.Component {
 	}
 
 	componentDidMount() {
-		const { isContributorFetching, dispatch } = this.props;
+		const { detailsFetching, isContributorFetching, dispatch } = this.props;
+
+		if (!detailsFetching) {
+			dispatch(PayUTC.getWalletDetails());
+		}
 
 		if (!isContributorFetching) {
 			dispatch(Ginger.getInformation());
@@ -194,7 +198,7 @@ class RefillScreen extends React.Component {
 	}
 
 	pay(amountAsFloat) {
-		const { dispatch, navigation } = this.props;
+		const { dispatch, navigation, details } = this.props;
 		const action = PayUTC.getRefillUrl(amountAsFloat * 100, PAYUTC_CALLBACK_URL);
 		dispatch(action);
 
@@ -208,7 +212,10 @@ class RefillScreen extends React.Component {
 
 				this.submiting = false;
 
-				navigation.push('Payment', { url, amount: amountAsFloat });
+				navigation.push('Payment', {
+					name: `${details.user.first_name} ${details.user.last_name}`,
+					amount: amountAsFloat,
+				});
 			})
 			.catch(() => {
 				dispatch(
@@ -251,10 +258,13 @@ class RefillScreen extends React.Component {
 	}
 }
 
-const mapStateToProps = ({ ginger }) => {
+const mapStateToProps = ({ payutc, ginger }) => {
+	const details = payutc.getWalletDetails();
 	const information = ginger.getInformation();
 
 	return {
+		details: details.getData({}),
+		detailsFetching: details.isFetching(),
 		isContributor: information.getData({ is_cotisant: false }).is_cotisant,
 		isContributorFetching: information.isFetching(),
 	};

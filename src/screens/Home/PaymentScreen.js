@@ -9,7 +9,6 @@ import React from 'react';
 import { ScrollView, Text, View } from 'react-native';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import * as Haptics from 'expo-haptics';
 import colors from '../../styles/colors';
 import { _, Payment as t } from '../../utils/i18n';
 import BlockTemplate from '../../components/BlockTemplate';
@@ -19,6 +18,7 @@ import ExpiryDateForm from '../../components/Payment/ExpiryDateForm';
 import SecurityCodeForm from '../../components/Payment/SecurityCodeForm';
 import LinkButton from '../../components/LinkButton';
 import { getCardType } from '../../utils/payment';
+import NameOnCardForm from '../../components/Payment/NameOnCardForm';
 
 class PaymentScreen extends React.Component {
 	static navigationOptions = () => ({
@@ -38,22 +38,29 @@ class PaymentScreen extends React.Component {
 			cardNumber: null,
 			expiryDate: null,
 			securityCode: null,
+			nameOnCard: null,
 		};
 		this.handleCardNumberChange = this.handleCardNumberChange.bind(this);
 		this.handleExpiryDateChange = this.handleExpiryDateChange.bind(this);
 		this.handleSecurityCodeChange = this.handleSecurityCodeChange.bind(this);
+		this.handleNameOnCardChange = this.handleNameOnCardChange.bind(this);
 	}
 
 	isOnError() {
-		const { cardNumberError, expiryDateError, securityCodeError } = this.state;
+		const { cardNumberError, expiryDateError, securityCodeError, nameOnCardError } = this.state;
 
-		return cardNumberError != null || expiryDateError != null || securityCodeError != null;
+		return (
+			cardNumberError != null ||
+			expiryDateError != null ||
+			securityCodeError != null ||
+			nameOnCardError != null
+		);
 	}
 
 	isSubmitDisabled() {
-		const { cardNumber, expiryDate, securityCode } = this.state;
+		const { cardNumber, expiryDate, securityCode, nameOnCard } = this.state;
 
-		return this.isOnError() || !cardNumber || !expiryDate || !securityCode;
+		return this.isOnError() || !cardNumber || !expiryDate || !securityCode || !nameOnCard;
 	}
 
 	handleCardNumberChange(cardNumber) {
@@ -68,37 +75,42 @@ class PaymentScreen extends React.Component {
 		this.setState({ securityCode, securityCodeError: null });
 	}
 
+	handleNameOnCardChange(nameOnCard) {
+		this.setState({ nameOnCard, nameOnCardError: null });
+	}
+
 	submit() {
-		const { cardNumber, expiryDate, securityCode } = this.state;
+		const { cardNumber, expiryDate, securityCode, nameOnCard } = this.state;
 
 		if (
 			!cardNumber ||
 			!getCardType(cardNumber) ||
-			!cardNumber.replace(/\D*/g, '').match(/\d{16}/)
+			!cardNumber.replace(/\D*/g, '').match(/^\d{16}$/)
 		) {
 			this.setState({ cardNumberError: 'Numéro de carte invalide' });
 		}
 
-		if (!expiryDate || !expiryDate.match(/(0[1-9]|10|11|12)\/[0-9]{2}/)) {
+		if (!expiryDate || !expiryDate.match(/^(0[1-9]|10|11|12)\/[0-9]{2}$/)) {
 			this.setState({ expiryDateError: "Date d'expiration invalide" });
 		}
 
-		if (!securityCode || !securityCode.match(/\d{3}/)) {
-			this.setState({ expiryDateError: 'Code de sécurité invalide' });
+		if (!securityCode || !securityCode.match(/^\d{3}$/)) {
+			this.setState({ securityCodeError: 'Code de sécurité invalide' });
 		}
 
-		if (this.isSubmitDisabled()) {
-			Haptics.notificationAsync('error').catch();
+		if (!nameOnCard || !nameOnCard.match(/^\D+$/)) {
+			this.setState({ nameOnCardError: 'Titulaire invalide' });
 		}
 
 		console.warn(cardNumber);
 		console.warn(expiryDate);
 		console.warn(securityCode);
+		console.warn(nameOnCard);
 	}
 
 	render() {
 		const { navigation } = this.props;
-		const { cardNumberError, expiryDateError, securityCodeError } = this.state;
+		const { cardNumberError, expiryDateError, securityCodeError, nameOnCardError } = this.state;
 
 		const amount = navigation.getParam('amount');
 
@@ -168,11 +180,17 @@ class PaymentScreen extends React.Component {
 
 					<CardNumberForm onChange={this.handleCardNumberChange} error={cardNumberError} />
 
-					<View style={{ flex: 1, flexDirection: 'row', marginTop: 15 }}>
+					<View style={{ flex: 1, flexDirection: 'row', marginVertical: 15 }}>
 						<ExpiryDateForm onChange={this.handleExpiryDateChange} error={expiryDateError} />
 						<View style={{ width: 15 }} />
 						<SecurityCodeForm onChange={this.handleSecurityCodeChange} error={securityCodeError} />
 					</View>
+
+					<NameOnCardForm
+						onChange={this.handleNameOnCardChange}
+						error={nameOnCardError}
+						defaultValue={navigation.getParam('name')}
+					/>
 
 					<LinkButton
 						text="Payer"
