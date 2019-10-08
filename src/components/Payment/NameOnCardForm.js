@@ -7,6 +7,7 @@
 
 import React from 'react';
 import { Text, TextInput } from 'react-native';
+import { findNodeHandle } from 'react-native-web';
 import colors from '../../styles/colors';
 import BlockTemplate from '../BlockTemplate';
 
@@ -30,7 +31,7 @@ export default class NameOnCardForm extends React.PureComponent {
 	}
 
 	render() {
-		const { error } = this.props;
+		const { error, scrollViewRef } = this.props;
 		const { name } = this.state;
 
 		return (
@@ -63,6 +64,7 @@ export default class NameOnCardForm extends React.PureComponent {
 					textContentType="name"
 					autoCorrect={false}
 					value={name}
+					onFocus={event => scrollViewRef.props.scrollToFocusedInput(findNodeHandle(event.target))}
 				/>
 			</BlockTemplate>
 		);

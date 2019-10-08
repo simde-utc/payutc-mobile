@@ -6,9 +6,10 @@
  */
 
 import React from 'react';
-import { ScrollView, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import colors from '../../styles/colors';
 import { _, Payment as t } from '../../utils/i18n';
 import BlockTemplate from '../../components/BlockTemplate';
@@ -34,12 +35,14 @@ class PaymentScreen extends React.Component {
 
 	constructor(props) {
 		super(props);
+
 		this.state = {
 			cardNumber: null,
 			expiryDate: null,
 			securityCode: null,
 			nameOnCard: null,
 		};
+
 		this.handleCardNumberChange = this.handleCardNumberChange.bind(this);
 		this.handleExpiryDateChange = this.handleExpiryDateChange.bind(this);
 		this.handleSecurityCodeChange = this.handleSecurityCodeChange.bind(this);
@@ -115,7 +118,10 @@ class PaymentScreen extends React.Component {
 		const amount = navigation.getParam('amount');
 
 		return (
-			<ScrollView style={{ backgroundColor: colors.background }}>
+			<KeyboardAwareScrollView
+				style={{ backgroundColor: colors.background }}
+				innerRef={ref => (this.scrollView = ref)}
+			>
 				<View style={{ padding: 15 }}>
 					<View style={{ flex: 1, flexDirection: 'row' }}>
 						<View style={{ flex: 1, flexDirection: 'column' }}>
@@ -178,18 +184,31 @@ class PaymentScreen extends React.Component {
 						}}
 					/>
 
-					<CardNumberForm onChange={this.handleCardNumberChange} error={cardNumberError} />
+					<CardNumberForm
+						onChange={this.handleCardNumberChange}
+						error={cardNumberError}
+						scrollViewRef={this.scrollView}
+					/>
 
 					<View style={{ flex: 1, flexDirection: 'row', marginVertical: 15 }}>
-						<ExpiryDateForm onChange={this.handleExpiryDateChange} error={expiryDateError} />
+						<ExpiryDateForm
+							onChange={this.handleExpiryDateChange}
+							error={expiryDateError}
+							scrollViewRef={this.scrollView}
+						/>
 						<View style={{ width: 15 }} />
-						<SecurityCodeForm onChange={this.handleSecurityCodeChange} error={securityCodeError} />
+						<SecurityCodeForm
+							onChange={this.handleSecurityCodeChange}
+							error={securityCodeError}
+							scrollViewRef={this.scrollView}
+						/>
 					</View>
 
 					<NameOnCardForm
 						onChange={this.handleNameOnCardChange}
 						error={nameOnCardError}
 						defaultValue={navigation.getParam('name')}
+						scrollViewRef={this.scrollView}
 					/>
 
 					<LinkButton
@@ -201,7 +220,7 @@ class PaymentScreen extends React.Component {
 						onPress={() => this.submit()}
 					/>
 				</View>
-			</ScrollView>
+			</KeyboardAwareScrollView>
 		);
 	}
 }

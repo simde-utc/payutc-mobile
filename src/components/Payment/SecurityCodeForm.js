@@ -7,6 +7,7 @@
 
 import React from 'react';
 import { Text, TextInput } from 'react-native';
+import { findNodeHandle } from 'react-native-web';
 import colors from '../../styles/colors';
 import BlockTemplate from '../BlockTemplate';
 
@@ -25,7 +26,7 @@ export default class SecurityCodeForm extends React.PureComponent {
 	}
 
 	render() {
-		const { error } = this.props;
+		const { error, scrollViewRef } = this.props;
 		const { code } = this.state;
 
 		return (
@@ -58,6 +59,7 @@ export default class SecurityCodeForm extends React.PureComponent {
 					onChangeText={code => this.onChange(code)}
 					autoCorrect={false}
 					value={code}
+					onFocus={event => scrollViewRef.props.scrollToFocusedInput(findNodeHandle(event.target))}
 				/>
 			</BlockTemplate>
 		);

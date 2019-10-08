@@ -8,6 +8,7 @@
 import React from 'react';
 import { Text, TextInput, View } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { findNodeHandle } from 'react-native-web';
 import colors from '../../styles/colors';
 import BlockTemplate from '../BlockTemplate';
 import { cardColors, getCardType } from '../../utils/payment';
@@ -65,7 +66,7 @@ export default class CardNumberForm extends React.PureComponent {
 	}
 
 	render() {
-		const { error } = this.props;
+		const { error, scrollViewRef } = this.props;
 		const { code } = this.state;
 
 		return (
@@ -100,6 +101,9 @@ export default class CardNumberForm extends React.PureComponent {
 						textContentType="creditCardNumber"
 						autoCorrect={false}
 						value={CardNumberForm.formatCode(code)}
+						onFocus={event =>
+							scrollViewRef.props.scrollToFocusedInput(findNodeHandle(event.target))
+						}
 					/>
 					{this.renderCardIcon()}
 				</View>
