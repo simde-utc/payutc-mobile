@@ -47,7 +47,18 @@
 			"paiement_confirmed": "Refill confirmed",
 			"paiement_confirmed_subtitle": "You're now a bit richer!",
 			"checking": "Vérification of the transaction",
-			"getting_refill": "Fetching the refill information"
+			"getting_refill": "Fetching the refill information",
+			"amount": "Total à payer",
+			"recipient": "Bénéficiaire",
+			"card_number": "Card number",
+			"invalid_card_number": "Invalid card number",
+			"expiry_date": "Expiration date",
+			"invalid_expiration_date": "Invalid expiration date",
+			"security_code": "Security code",
+			"invalid_security_code": "Invalid security code",
+			"holder": "Owner",
+			"invalid_card_holder": "Invalid owner name",
+			"pay": "Pay..."
 		},
 		"Transfer": {
 			"title": "Transfer",

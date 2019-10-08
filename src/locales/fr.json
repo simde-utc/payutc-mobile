@@ -49,6 +49,17 @@
 			"paiement_confirmed_subtitle": "C'est le début de la richesse !",
 			"checking": "Vérification de la transaction",
 			"getting_refill": "Récupération de l'information de rechargement",
+			"amount": "Total à payer",
+			"recipient": "Bénéficiaire",
+			"card_number": "Numéro de carte",
+			"invalid_card_number": "Numéro de carte invalide",
+			"expiry_date": "Date d'expiration",
+			"invalid_expiration_date": "Date d'expiration invalide",
+			"security_code": "Code de sécurité",
+			"invalid_security_code": "Code de sécurité invalide",
+			"holder": "Titulaire",
+			"invalid_card_holder": "Nom de titulaire invalide",
+			"pay": "Payer..."
 		},
 		"Transfer": {
 			"title": "Transfert",

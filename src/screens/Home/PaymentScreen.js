@@ -43,6 +43,11 @@ class PaymentScreen extends React.Component {
 			nameOnCard: null,
 		};
 
+		this.recipient = {
+			name: 'BDE-UTC PayUTC',
+			address: 'Maison des Étudiants\nRue Roger Couttolenc\n60200 Compiègne',
+		};
+
 		this.handleCardNumberChange = this.handleCardNumberChange.bind(this);
 		this.handleExpiryDateChange = this.handleExpiryDateChange.bind(this);
 		this.handleSecurityCodeChange = this.handleSecurityCodeChange.bind(this);
@@ -90,19 +95,19 @@ class PaymentScreen extends React.Component {
 			!getCardType(cardNumber) ||
 			!cardNumber.replace(/\D*/g, '').match(/^\d{16}$/)
 		) {
-			this.setState({ cardNumberError: 'Numéro de carte invalide' });
+			this.setState({ cardNumberError: t('invalid_card_number') });
 		}
 
 		if (!expiryDate || !expiryDate.match(/^(0[1-9]|10|11|12)\/[0-9]{2}$/)) {
-			this.setState({ expiryDateError: "Date d'expiration invalide" });
+			this.setState({ expiryDateError: t('invalid_expiration_date') });
 		}
 
 		if (!securityCode || !securityCode.match(/^\d{3}$/)) {
-			this.setState({ securityCodeError: 'Code de sécurité invalide' });
+			this.setState({ securityCodeError: t('invalid_security_code') });
 		}
 
 		if (!nameOnCard || !nameOnCard.match(/^\D+$/)) {
-			this.setState({ nameOnCardError: 'Titulaire invalide' });
+			this.setState({ nameOnCardError: t('invalid_card_holder') });
 		}
 
 		console.warn(cardNumber);
@@ -127,7 +132,7 @@ class PaymentScreen extends React.Component {
 						<View style={{ flex: 1, flexDirection: 'column' }}>
 							<BlockTemplate roundedTop roundedBottom shadow style={{ flex: 1 }}>
 								<Text style={{ fontSize: 14, fontWeight: 'bold', color: colors.secondary }}>
-									Total à payer
+									{t('amount')}
 								</Text>
 								<Text style={{ fontSize: 26, fontWeight: 'bold', color: colors.more }}>
 									{floatToEuro(amount)}
@@ -164,13 +169,13 @@ class PaymentScreen extends React.Component {
 									marginBottom: 3,
 								}}
 							>
-								Bénéficiaire
+								{t('recipient')}
 							</Text>
 							<Text style={{ fontSize: 14, fontWeight: 'bold', color: colors.more }}>
-								BDE-UTC PayUTC
+								{this.recipient.name}
 							</Text>
 							<Text style={{ fontSize: 12, color: colors.secondary }}>
-								{'Maison des Étudiants\nRue Roger Couttolenc\n60200 Compiègne'}
+								{this.recipient.address}
 							</Text>
 						</BlockTemplate>
 					</View>
@@ -212,7 +217,7 @@ class PaymentScreen extends React.Component {
 					/>
 
 					<LinkButton
-						text="Payer"
+						text={t('pay')}
 						color={colors.background}
 						style={{ marginTop: 15 }}
 						backgroundColor={colors.more}

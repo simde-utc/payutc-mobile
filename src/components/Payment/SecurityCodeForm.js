@@ -10,6 +10,7 @@ import { Text, TextInput } from 'react-native';
 import { findNodeHandle } from 'react-native-web';
 import colors from '../../styles/colors';
 import BlockTemplate from '../BlockTemplate';
+import { Payment as t } from '../../utils/i18n';
 
 export default class SecurityCodeForm extends React.PureComponent {
 	constructor(props) {
@@ -39,7 +40,7 @@ export default class SecurityCodeForm extends React.PureComponent {
 						marginBottom: 5,
 					}}
 				>
-					Code de sécurité
+					{t('security_code')}
 				</Text>
 				<TextInput
 					style={{

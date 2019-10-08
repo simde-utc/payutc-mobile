@@ -8,6 +8,7 @@
 import React from 'react';
 import { Text, TextInput } from 'react-native';
 import { findNodeHandle } from 'react-native-web';
+import { Payment as t } from '../../utils/i18n';
 import colors from '../../styles/colors';
 import BlockTemplate from '../BlockTemplate';
 
@@ -51,7 +52,7 @@ export default class ExpiryDateForm extends React.PureComponent {
 						marginBottom: 5,
 					}}
 				>
-					Date d'expiration
+					{t('expiry_date')}
 				</Text>
 				<TextInput
 					style={{

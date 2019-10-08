@@ -9,6 +9,7 @@ import React from 'react';
 import { Text, TextInput, View } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { findNodeHandle } from 'react-native-web';
+import { Payment as t } from '../../utils/i18n';
 import colors from '../../styles/colors';
 import BlockTemplate from '../BlockTemplate';
 import { cardColors, getCardType } from '../../utils/payment';
@@ -79,7 +80,7 @@ export default class CardNumberForm extends React.PureComponent {
 						marginBottom: 5,
 					}}
 				>
-					Numéro de carte
+					{t('card_number')}
 				</Text>
 				<View style={{ flex: 1, flexDirection: 'row' }}>
 					<TextInput
