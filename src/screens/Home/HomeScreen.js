@@ -19,6 +19,7 @@ import { PayUTC } from '../../redux/actions';
 import { _, Home as t } from '../../utils/i18n';
 import { totalAmount } from '../../utils/stats';
 import ModalTemplate from '../../components/ModalTemplate';
+import { lastMonday } from '../../utils/date';
 
 class HomeScreen extends React.Component {
 	static navigationOptions = () => ({
@@ -78,9 +79,6 @@ class HomeScreen extends React.Component {
 		const { message } = this.state;
 		const amount = details.credit ? details.credit / 100 : null;
 
-		const oneWeekAgo = new Date();
-		oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
-
 		return (
 			<View
 				style={{
@@ -120,7 +118,7 @@ class HomeScreen extends React.Component {
 						isCreditConsistent={details.is_credit_consistent}
 						loading={detailsFetching}
 						name={details.user ? details.user.first_name : null}
-						weekAmount={totalAmount(history, oneWeekAgo) / 100}
+						weekAmount={totalAmount(history, lastMonday()) / 100}
 						onRefresh={() => this.onRefresh()}
 					/>
 				</BlockTemplate>

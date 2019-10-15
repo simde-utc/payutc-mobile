@@ -22,7 +22,7 @@ import {
 	mostReceivedFromPersons,
 	mostSpentItems,
 } from '../../utils/stats';
-import { getDateFromPortail } from '../../utils/date';
+import { getDateFromPortail, lastMonday, oneMonthAgo, thisMorning } from '../../utils/date';
 
 class StatsScreen extends React.Component {
 	static navigationOptions = () => ({
@@ -35,22 +35,13 @@ class StatsScreen extends React.Component {
 	constructor(props) {
 		super(props);
 
-		const oneMonthAgo = new Date();
-		oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
-
-		const oneWeekAgo = new Date();
-		oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
-
-		const yesterday = new Date();
-		yesterday.setDate(yesterday.getDate() - 1);
-
 		this.state = {
 			dates: [
 				{ lazyTitle: 'ever', date: null },
 				{ lazyTitle: 'semester', date: null },
-				{ lazyTitle: 'month', date: oneMonthAgo },
-				{ lazyTitle: 'week', date: oneWeekAgo },
-				{ lazyTitle: 'yesterday', date: yesterday },
+				{ lazyTitle: 'month', date: oneMonthAgo() },
+				{ lazyTitle: 'monday', date: lastMonday() },
+				{ lazyTitle: 'this_morning', date: thisMorning(6) },
 			],
 		};
 

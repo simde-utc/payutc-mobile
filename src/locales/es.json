@@ -25,7 +25,6 @@
 			"recent_activity": "Actividad reciente",
 			"all_history": "Mira toda mi historia...",
 			"cannot_fetch_wallet": "Se produjo un error al recuperar su información.",
-			"week_positive": "acreditado esta semana.",
 			"week_negative": "gastado esta semana."
 		},
 		"Refill": {
@@ -275,7 +274,9 @@
 		"semester": "este semestre",
 		"month": "un mes",
 		"week": "una semana",
-		"yesterday": "ayer",
+		"monday": "lunes",
+		"yesterday": "hier",
+		"this_morning": "esta mañana",
 		"show_since": "mostrar desde:",
 		"empty_list": "no hay datos para mostrar :(",
 		"back": "atrás",

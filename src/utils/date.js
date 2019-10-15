@@ -9,6 +9,34 @@
 import { Words as t } from './i18n';
 import { forceTextLength } from './index';
 
+export const oneMonthAgo = () => {
+	const oneMonthAgo = new Date();
+
+	oneMonthAgo.setUTCMonth(oneMonthAgo.getMonth() - 1);
+
+	return oneMonthAgo;
+};
+
+export const lastMonday = () => {
+	const lastMonday = new Date();
+
+	lastMonday.setUTCDate(lastMonday.getUTCDate() - ((lastMonday.getUTCDay() + 6) % 7));
+	lastMonday.setUTCHours(0, 0, 0);
+
+	return lastMonday;
+};
+
+export const thisMorning = startDayAt => {
+	const thisMorning = new Date();
+
+	if (startDayAt && thisMorning.getUTCHours() < startDayAt)
+		thisMorning.setUTCDate(thisMorning.getUTCDate() - 1);
+
+	thisMorning.setUTCHours(startDayAt || 0, 0, 0);
+
+	return thisMorning;
+};
+
 export const beautifyDateTime = dateText => {
 	const date = new Date(dateText);
 
