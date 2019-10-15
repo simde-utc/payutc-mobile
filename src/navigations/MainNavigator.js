@@ -78,6 +78,9 @@ const MainNavigator = createBottomTabNavigator(
 
 			return <BottomTabBar {...props} {...customProps} showLabel />;
 		},
+		tabBarOptions: {
+			safeAreaInset: { bottom: 'never', top: 'never' },
+		},
 	}
 );
 
