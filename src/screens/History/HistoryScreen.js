@@ -171,28 +171,6 @@ class HistoryScreen extends React.Component {
 				}
 			>
 				<TitleParams title={t('title')} settingText={since}>
-					<BlockTemplate shadow style={{ marginHorizontal: 15 }}>
-						<View style={{ flex: 1, flexDirection: 'row', paddingLeft: 5, alignItems: 'center' }}>
-							<FontAwesomeIcon icon={['fas', 'search']} size={20} color={colors.secondary} />
-							<TextInput
-								style={{
-									flexGrow: 1,
-									paddingLeft: 10,
-									fontSize: 18,
-									color: colors.primary,
-									padding: 0,
-									margin: 0,
-								}}
-								keyboardAppearance={colors.generalAspect}
-								autoCapitalize="none"
-								placeholder={t('search')}
-								placeholderTextColor={colors.disabled}
-								textContentType="none"
-								onChangeText={this.onSearchChange}
-								value={search}
-							/>
-						</View>
-					</BlockTemplate>
 					<TabsBlockTemplate
 						roundedBottom
 						text={_('show_since')}
@@ -203,6 +181,35 @@ class HistoryScreen extends React.Component {
 						tabs={dates}
 					/>
 				</TitleParams>
+
+				<BlockTemplate
+					roundedTop
+					roundedBottom
+					shadow
+					style={{ marginTop: 15, marginHorizontal: 15 }}
+				>
+					<View style={{ flex: 1, flexDirection: 'row', paddingLeft: 5, alignItems: 'center' }}>
+						<FontAwesomeIcon icon={['fas', 'search']} size={20} color={colors.secondary} />
+						<TextInput
+							style={{
+								flexGrow: 1,
+								paddingLeft: 10,
+								fontSize: 18,
+								color: colors.secondary,
+								padding: 0,
+								margin: 0,
+							}}
+							keyboardAppearance={colors.generalAspect}
+							autoCapitalize="none"
+							placeholder={t('search')}
+							placeholderTextColor={colors.disabled}
+							textContentType="none"
+							onChangeText={this.onSearchChange}
+							value={search}
+						/>
+					</View>
+				</BlockTemplate>
+
 				<TabsBlockTemplate
 					style={{ margin: 15 }}
 					roundedTop
