@@ -28,6 +28,8 @@ import { Config, PayUTC } from '../../redux/actions';
 import { PAYUTC_EMAIL, IOS_STORE_URL, ANDROID_STORE_URL } from '../../../config';
 import BlockTemplate from '../../components/BlockTemplate';
 import GitHubService from '../../services/GitHub';
+import SwitchBlockTemplate from '../../components/SwitchBlockTemplate';
+import BiometricAuth, { advancedSecurity, defaultSecurity } from '../../services/BiometricAuth';
 
 class SettingsScreen extends React.Component {
 	static navigationOptions = () => ({
@@ -54,6 +56,8 @@ class SettingsScreen extends React.Component {
 
 		this.setLang = this.setLang.bind(this);
 		this.setTheme = this.setTheme.bind(this);
+		this.setRestrictions = this.setRestrictions.bind(this);
+		this.setAppOpeningSecurity = this.setAppOpeningSecurity.bind(this);
 	}
 
 	onRefresh() {
@@ -76,8 +80,23 @@ class SettingsScreen extends React.Component {
 		dispatch(Config.setTheme(theme));
 	}
 
+	setRestrictions(boolean) {
+		const { dispatch } = this.props;
+
+		BiometricAuth.authenticate(
+			() => dispatch(Config.setRestrictions(boolean ? defaultSecurity : [])),
+			() => console.warn('error')
+		);
+	}
+
+	setAppOpeningSecurity(boolean) {
+		const { dispatch } = this.props;
+
+		dispatch(Config.setRestrictions(boolean ? advancedSecurity : defaultSecurity));
+	}
+
 	render() {
-		const { details, detailsFetching, lang, theme, navigation } = this.props;
+		const { details, detailsFetching, lang, theme, navigation, restrictions } = this.props;
 
 		const repoUrl = GitHubService.getLocalesUrl();
 
@@ -99,6 +118,19 @@ class SettingsScreen extends React.Component {
 					</Text>
 				</BlockTemplate>
 
+				<Paragraphe
+					style={{ margin: 15 }}
+					title={
+						detailsFetching
+							? _('loading_text_replacement')
+							: `${details.user.first_name} ${details.user.last_name}`
+					}
+					description={t('profile_desc')}
+					onPress={() => navigation.navigate('Profile')}
+					titleColor={colors.primary}
+					link
+				/>
+
 				<TabsBlockTemplate
 					roundedTop
 					roundedBottom
@@ -109,7 +141,7 @@ class SettingsScreen extends React.Component {
 					onChange={this.setLang}
 					tabs={g('langs')}
 					justifyContent="flex-start"
-					style={{ margin: 15 }}
+					style={{ margin: 15, marginTop: 0 }}
 				>
 					<TouchableOpacity
 						style={{
@@ -153,18 +185,77 @@ class SettingsScreen extends React.Component {
 					style={{ margin: 15, marginTop: 0 }}
 				/>
 
-				<Paragraphe
-					style={{ margin: 15, marginTop: 0 }}
-					title={
-						detailsFetching
-							? _('loading_text_replacement')
-							: `${details.user.first_name} ${details.user.last_name}`
-					}
-					description={t('profile_desc')}
-					onPress={() => navigation.navigate('Profile')}
-					titleColor={colors.primary}
-					link
-				/>
+				<BlockTemplate style={{ margin: 15, marginTop: 0 }} roundedTop roundedBottom shadow>
+					<Text
+						style={{
+							fontSize: 16,
+							fontWeight: 'bold',
+							color: colors.secondary,
+						}}
+					>
+						{'Sécurité'}
+					</Text>
+
+					<SwitchBlockTemplate
+						value={restrictions.length > 0}
+						onValueChange={this.setRestrictions}
+						tintColor={colors.primary}
+						style={{ marginTop: 10, padding: 0 }}
+						disabled={restrictions.length === 0 && !BiometricAuth.hasHardware()}
+					>
+						<View style={{ flex: 1, flexDirection: 'column' }}>
+							<Text
+								style={{
+									fontSize: 13,
+									fontWeight: 'bold',
+									color: colors.secondary,
+								}}
+							>
+								{'Activer le mode sécurisé'}
+							</Text>
+							<Text
+								style={{
+									fontSize: 13,
+									color: colors.secondary,
+								}}
+							>
+								{
+									"Active l'authentification avant un transfert, un rechargement ou un verrouillage du badge."
+								}
+							</Text>
+						</View>
+					</SwitchBlockTemplate>
+
+					{restrictions.length > 0 ? (
+						<SwitchBlockTemplate
+							roundedBottom
+							value={restrictions.includes('app-opening')}
+							onValueChange={this.setAppOpeningSecurity}
+							tintColor={colors.primary}
+							style={{ marginTop: 10, padding: 0 }}
+						>
+							<View style={{ flex: 1, flexDirection: 'column' }}>
+								<Text
+									style={{
+										fontSize: 13,
+										fontWeight: 'bold',
+										color: colors.secondary,
+									}}
+								>
+									{"Demander à l'ouverture"}
+								</Text>
+								<Text
+									style={{
+										fontSize: 13,
+										color: colors.secondary,
+									}}
+								>
+									{"Active l'authentification à chaque ouverture de PayUTC."}
+								</Text>
+							</View>
+						</SwitchBlockTemplate>
+					) : null}
+				</BlockTemplate>
 
 				<View
 					style={{
@@ -199,12 +290,13 @@ class SettingsScreen extends React.Component {
 	}
 }
 
-const mapStateToProps = ({ payutc, config: { lang, theme } }) => {
+const mapStateToProps = ({ payutc, config: { lang, theme, restrictions } }) => {
 	const details = payutc.getWalletDetails();
 
 	return {
 		lang,
 		theme,
+		restrictions,
 		details: details.getData({}),
 		detailsFetching: details.isFetching(),
 		detailsFetched: details.isFetched(),

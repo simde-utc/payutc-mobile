@@ -9,6 +9,7 @@ import themes from '../../assets/themes.json';
 import colors from '../styles/colors';
 import i18n from '../utils/i18n';
 import Storage from '../services/Storage';
+import { defaultSecurity } from '../services/BiometricAuth';
 
 export const CONFIG = 'CONFIG';
 
@@ -33,6 +34,7 @@ export const configState = {
 		version: 0,
 		date: '',
 	},
+	restrictions: defaultSecurity
 };
 
 export const configReducer = (state = configState, { type, config, data }) => {
@@ -67,6 +69,11 @@ export const configReducer = (state = configState, { type, config, data }) => {
 					...state.spinner.textStyle,
 					color: theme.secondary,
 				};
+
+				break;
+
+			case 'setRestrictions':
+				state.restrictions = data;
 
 				break;
 

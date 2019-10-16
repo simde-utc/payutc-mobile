@@ -18,6 +18,7 @@ import colors from '../../styles/colors';
 import { Config, Ginger, PayUTC } from '../../redux/actions';
 import { _, Transfer as t } from '../../utils/i18n';
 import { floatToEuro, isAmountValid } from '../../utils/amount';
+import BiometricAuth from '../../services/BiometricAuth';
 
 const MIN_AMOUNT = 0.01;
 
@@ -134,7 +135,7 @@ class TransferScreen extends React.Component {
 	}
 
 	accept(amountAsFloat, recipient, message) {
-		const { dispatch, navigation } = this.props;
+		const { dispatch, navigation, restrictions } = this.props;
 
 		dispatch(
 			Config.spinner({
@@ -143,33 +144,39 @@ class TransferScreen extends React.Component {
 			})
 		);
 
-		const action = PayUTC.transfer(amountAsFloat * 100, recipient.id, message);
-		dispatch(action);
+		const success = () => {
+			const action = PayUTC.transfer(amountAsFloat * 100, recipient.id, message);
+			dispatch(action);
 
-		action.payload
-			.then(() => {
-				dispatch(
-					Config.spinner({
-						visible: false,
-					})
-				);
+			action.payload
+				.then(() => {
+					dispatch(
+						Config.spinner({
+							visible: false,
+						})
+					);
 
-				this.submiting = false;
+					this.submiting = false;
 
-				dispatch(PayUTC.getWalletDetails());
-				dispatch(PayUTC.getHistory());
+					dispatch(PayUTC.getWalletDetails());
+					dispatch(PayUTC.getHistory());
 
-				navigation.navigate('Home', {
-					message: {
-						title: t('transfer_confirmed'),
-						subtitle: recipient.name,
-						amount: -amountAsFloat,
-						tintColor: colors.transfer,
-						message,
-					},
-				});
-			})
-			.catch(() => this.refuse());
+					navigation.navigate('Home', {
+						message: {
+							title: t('transfer_confirmed'),
+							subtitle: recipient.name,
+							amount: -amountAsFloat,
+							tintColor: colors.transfer,
+							message,
+						},
+					});
+				})
+				.catch(() => this.refuse());
+		};
+
+		if (BiometricAuth.isActionRestricted(restrictions, 'transfer'))
+			BiometricAuth.authenticate(success, () => this.refuse());
+		else success();
 	}
 
 	refuse() {
@@ -315,12 +322,13 @@ class TransferScreen extends React.Component {
 	}
 }
 
-const mapStateToProps = ({ payutc, ginger }) => {
+const mapStateToProps = ({ payutc, ginger, config: { restrictions } }) => {
 	const information = ginger.getInformation();
 	const suggestions = payutc.getUserAutoComplete();
 	const history = payutc.getHistory();
 
 	return {
+		restrictions,
 		isContributor: information.getData({ is_cotisant: false }).is_cotisant,
 		isContributorFetching: information.isFetching(),
 		suggestions: suggestions.getData([]),

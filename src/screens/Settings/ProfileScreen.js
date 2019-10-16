@@ -19,6 +19,7 @@ import PortailService from '../../services/Portail';
 import { Config, Ginger, PayUTC } from '../../redux/actions';
 import Paragraphe from '../../components/Paragraphe';
 import ModalTemplate from '../../components/ModalTemplate';
+import BiometricAuth from '../../services/BiometricAuth';
 
 class ProfileScreen extends React.Component {
 	static navigationOptions = () => ({
@@ -80,7 +81,7 @@ class ProfileScreen extends React.Component {
 	}
 
 	onLockChange(value) {
-		const { dispatch, detailsFetching } = this.props;
+		const { dispatch, detailsFetching, restrictions } = this.props;
 
 		if (detailsFetching) {
 			return;
@@ -93,36 +94,50 @@ class ProfileScreen extends React.Component {
 			})
 		);
 
-		PayUTC.setLockStatus(value).payload.then(([status]) => {
-			dispatch(
-				Config.spinner({
-					visible: false,
-				})
-			);
-
-			if (status !== true && status !== false) {
-				Alert.alert(
-					_('error'),
-					value ? t('lock_error') : t('unlock_error'),
-					[{ text: _('ok') }],
-					{}
+		const success = () => {
+			PayUTC.setLockStatus(value).payload.then(([status]) => {
+				dispatch(
+					Config.spinner({
+						visible: false,
+					})
 				);
 
-				return;
-			}
+				if (status !== true && status !== false) {
+					Alert.alert(
+						_('error'),
+						value ? t('lock_error') : t('unlock_error'),
+						[{ text: _('ok') }],
+						{}
+					);
 
-			this.onRefresh();
+					return;
+				}
 
-			this.srollView.scrollTo({ x: 0, y: 0, animated: true });
+				this.onRefresh();
 
-			this.setState({
-				message: {
-					title: value ? t('lock_confirmed') : t('unlock_confirmed'),
-					subtitle: value ? t('lock_confirmed_desc') : t('unlock_confirmed_desc'),
-					tintColor: colors.secondary,
-				},
+				this.srollView.scrollTo({ x: 0, y: 0, animated: true });
+
+				this.setState({
+					message: {
+						title: value ? t('lock_confirmed') : t('unlock_confirmed'),
+						subtitle: value ? t('lock_confirmed_desc') : t('unlock_confirmed_desc'),
+						tintColor: colors.secondary,
+					},
+				});
 			});
-		});
+		};
+
+		if (BiometricAuth.isActionRestricted(restrictions, 'badge-locking')) {
+			BiometricAuth.authenticate(success, () => {
+				dispatch(
+					Config.spinner({
+						visible: false,
+					})
+				);
+			});
+		} else {
+			success();
+		}
 	}
 
 	static renderDetail(
@@ -295,7 +310,7 @@ class ProfileScreen extends React.Component {
 	}
 }
 
-const mapStateToProps = ({ payutc, ginger, config: { lang } }) => {
+const mapStateToProps = ({ payutc, ginger, config: { lang, restrictions } }) => {
 	const hasRights = payutc.hasRights();
 	const rights = payutc.getUserRights();
 	const details = payutc.getWalletDetails();
@@ -303,6 +318,7 @@ const mapStateToProps = ({ payutc, ginger, config: { lang } }) => {
 
 	return {
 		lang,
+		restrictions,
 		hasRights: hasRights.getData(false),
 		hasRightsFetching: hasRights.isFetching(),
 		rights: rights.getData([]),

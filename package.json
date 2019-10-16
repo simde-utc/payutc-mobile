@@ -26,6 +26,7 @@
     "expo": "^34.0.1",
     "expo-file-system": "^6.0.2",
     "expo-haptics": "^6.0.0",
+    "expo-local-authentication": "^7.0.0",
     "i18n-js": "^3.3.0",
     "react": "16.8.3",
     "react-dom": "^16.8.6",

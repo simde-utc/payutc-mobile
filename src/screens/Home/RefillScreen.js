@@ -17,6 +17,7 @@ import { Config, Ginger, PayUTC } from '../../redux/actions';
 import { _, Refill as t } from '../../utils/i18n';
 import { floatToEuro, isAmountValid } from '../../utils/amount';
 import { PAYUTC_CALLBACK_URL } from '../../../config';
+import BiometricAuth from '../../services/BiometricAuth';
 
 const AMOUNT_SHORTCUTS = [10, 15, 20, 50];
 
@@ -194,7 +195,7 @@ class RefillScreen extends React.Component {
 	}
 
 	pay(amountAsFloat) {
-		const { dispatch, navigation } = this.props;
+		const { dispatch, navigation, restrictions } = this.props;
 		const action = PayUTC.getRefillUrl(amountAsFloat * 100, PAYUTC_CALLBACK_URL);
 		dispatch(action);
 
@@ -208,7 +209,11 @@ class RefillScreen extends React.Component {
 
 				this.submiting = false;
 
-				navigation.navigate('Payment', { url, amount: amountAsFloat });
+				const success = () => navigation.navigate('Payment', { url, amount: amountAsFloat });
+
+				if (BiometricAuth.isActionRestricted(restrictions, 'refill'))
+					BiometricAuth.authenticate(success, () => console.warn('error callback'));
+				else success();
 			})
 			.catch(() => {
 				dispatch(
@@ -251,10 +256,11 @@ class RefillScreen extends React.Component {
 	}
 }
 
-const mapStateToProps = ({ ginger }) => {
+const mapStateToProps = ({ ginger, config: { restrictions } }) => {
 	const information = ginger.getInformation();
 
 	return {
+		restrictions,
 		isContributor: information.getData({ is_cotisant: false }).is_cotisant,
 		isContributorFetching: information.isFetching(),
 	};
