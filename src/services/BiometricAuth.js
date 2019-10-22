@@ -6,6 +6,7 @@
  */
 
 import * as LocalAuthentication from 'expo-local-authentication';
+import { BiometricAuth as t } from '../utils/i18n';
 
 export const defaultSecurity = ['transfer', 'refill', 'badge-locking'];
 export const advancedSecurity = ['transfer', 'refill', 'badge-locking', 'app-opening'];
@@ -25,7 +26,7 @@ export default class BiometricAuth {
 		return restrictions.includes(action);
 	}
 
-	static authenticate(successCallback, errorCallback, message = 'Vérifiez votre identité') {
+	static authenticate(successCallback, errorCallback, message = t('default_message')) {
 		if (!BiometricAuth.hasHardware()) {
 			return;
 		}

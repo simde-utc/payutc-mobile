@@ -7,7 +7,7 @@
 
 import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { createBottomTabNavigator, BottomTabBar } from 'react-navigation';
+import { BottomTabBar, createBottomTabNavigator } from 'react-navigation';
 import HomeNavigator from './Home/HomeNavigator';
 import colors from '../styles/colors';
 import { Navigation as t } from '../utils/i18n';

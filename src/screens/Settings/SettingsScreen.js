@@ -100,6 +100,8 @@ class SettingsScreen extends React.Component {
 
 		const repoUrl = GitHubService.getLocalesUrl();
 
+		const hasBiometricHardware = BiometricAuth.hasHardware();
+
 		return (
 			<ScrollView
 				refreshControl={
@@ -193,7 +195,7 @@ class SettingsScreen extends React.Component {
 							color: colors.secondary,
 						}}
 					>
-						{'Sécurité'}
+						{t('security')}
 					</Text>
 
 					<SwitchBlockTemplate
@@ -201,7 +203,7 @@ class SettingsScreen extends React.Component {
 						onValueChange={this.setRestrictions}
 						tintColor={colors.primary}
 						style={{ marginTop: 10, padding: 0 }}
-						disabled={restrictions.length === 0 && !BiometricAuth.hasHardware()}
+						disabled={hasBiometricHardware == null || !hasBiometricHardware}
 					>
 						<View style={{ flex: 1, flexDirection: 'column' }}>
 							<Text
@@ -211,7 +213,7 @@ class SettingsScreen extends React.Component {
 									color: colors.secondary,
 								}}
 							>
-								{'Activer le mode sécurisé'}
+								{t('security_mode')}
 							</Text>
 							<Text
 								style={{
@@ -219,9 +221,7 @@ class SettingsScreen extends React.Component {
 									color: colors.secondary,
 								}}
 							>
-								{
-									"Active l'authentification avant un transfert, un rechargement ou un verrouillage du badge."
-								}
+								{t('security_mode_desc')}
 							</Text>
 						</View>
 					</SwitchBlockTemplate>
@@ -242,7 +242,7 @@ class SettingsScreen extends React.Component {
 										color: colors.secondary,
 									}}
 								>
-									{"Demander à l'ouverture"}
+									{t('security_mode_app_opening')}
 								</Text>
 								<Text
 									style={{
@@ -250,7 +250,7 @@ class SettingsScreen extends React.Component {
 										color: colors.secondary,
 									}}
 								>
-									{"Active l'authentification à chaque ouverture de PayUTC."}
+									{t('security_mode_app_opening_desc')}
 								</Text>
 							</View>
 						</SwitchBlockTemplate>

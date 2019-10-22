@@ -7,16 +7,16 @@
  */
 
 import React from 'react';
-import { StatusBar, YellowBox, StyleSheet, Text, Platform } from 'react-native';
+import { Platform, StatusBar, StyleSheet, Text, YellowBox } from 'react-native';
 import { createAppContainer, createSwitchNavigator, SafeAreaView } from 'react-navigation';
-import { Provider, connect } from 'react-redux';
+import { connect, Provider } from 'react-redux';
 import SpinnerOverlay from 'react-native-loading-spinner-overlay';
 import AppLoader from './src/screens/AppLoader';
 import ChangelogScreen from './src/screens/Settings/ChangelogScreen';
-import MainNavigator from './src/navigations/MainNavigator';
 import AuthNavigator from './src/navigations/Auth/AuthNavigator';
 import store from './src/redux/store';
 import colors from './src/styles/colors';
+import BiometricAuthNavigator from './src/navigations/Auth/BiometricAuthNavigator';
 
 const styles = StyleSheet.create({
 	defaultFontFamily: {
@@ -39,7 +39,7 @@ const AppNavigator = createSwitchNavigator(
 	{
 		Loading: AppLoader,
 		Auth: AuthNavigator,
-		Main: MainNavigator,
+		BiometricAuth: BiometricAuthNavigator,
 		Changelog: ChangelogScreen,
 	},
 	{

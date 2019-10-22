@@ -34,7 +34,7 @@ export const configState = {
 		version: 0,
 		date: '',
 	},
-	restrictions: defaultSecurity
+	restrictions: []
 };
 
 export const configReducer = (state = configState, { type, config, data }) => {

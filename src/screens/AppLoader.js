@@ -133,7 +133,7 @@ class AppLoaderScreen extends React.Component {
 				if (data) {
 					this.setState({
 						lazyText: 'reconnection',
-						screen: 'Home',
+						screen: 'BiometricAuth',
 					});
 
 					return this.login(data);
