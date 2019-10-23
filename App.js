@@ -16,7 +16,8 @@ import ChangelogScreen from './src/screens/Settings/ChangelogScreen';
 import AuthNavigator from './src/navigations/Auth/AuthNavigator';
 import store from './src/redux/store';
 import colors from './src/styles/colors';
-import BiometricAuthNavigator from './src/navigations/Auth/BiometricAuthNavigator';
+import MainNavigator from './src/navigations/MainNavigator';
+import BiometricAuthScreen from './src/screens/Auth/BiometricAuthScreen';
 
 const styles = StyleSheet.create({
 	defaultFontFamily: {
@@ -39,7 +40,8 @@ const AppNavigator = createSwitchNavigator(
 	{
 		Loading: AppLoader,
 		Auth: AuthNavigator,
-		BiometricAuth: BiometricAuthNavigator,
+		BiometricAuth: BiometricAuthScreen,
+		Main: MainNavigator,
 		Changelog: ChangelogScreen,
 	},
 	{

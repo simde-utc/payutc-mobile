@@ -9,7 +9,6 @@ import themes from '../../assets/themes.json';
 import colors from '../styles/colors';
 import i18n from '../utils/i18n';
 import Storage from '../services/Storage';
-import { defaultSecurity } from '../services/BiometricAuth';
 
 export const CONFIG = 'CONFIG';
 
