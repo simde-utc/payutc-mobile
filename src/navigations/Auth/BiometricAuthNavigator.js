@@ -43,7 +43,7 @@ class BiometricAuthNavigator extends React.Component {
 		const { navigation } = this.props;
 		const { appState } = this.state;
 
-		if (appState.match(/inactive|background/) && nextAppState === 'active') {
+		if (appState === 'background' && nextAppState === 'active') {
 			navigation.navigate('BiometricAuth');
 		}
 
