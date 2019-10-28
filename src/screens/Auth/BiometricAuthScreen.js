@@ -14,8 +14,15 @@ import colors from '../../styles/colors';
 import { Config, PayUTC } from '../../redux/actions';
 import BlockTemplate from '../../components/BlockTemplate';
 import { BiometricAuth as t } from '../../utils/i18n';
+import ModalContainerView from '../../components/Modal/ModalContainerView';
+import MessageModalChildren from '../../components/Modal/MessageModalChildren';
 
 class BiometricAuthScreen extends React.PureComponent {
+	constructor(props) {
+		super(props);
+		this.androidModal = React.createRef();
+	}
+
 	componentDidMount() {
 		this.next();
 	}
@@ -27,9 +34,12 @@ class BiometricAuthScreen extends React.PureComponent {
 			navigation.navigate('Home');
 		};
 
-		if (BiometricAuth.isActionRestricted(restrictions, 'app-opening'))
+		if (BiometricAuth.isActionRestricted(restrictions, 'app-opening')) {
+			this.androidModal.open();
 			BiometricAuth.authenticate(success, () => {});
-		else success();
+		} else {
+			success();
+		}
 	}
 
 	signOut() {
@@ -44,13 +54,23 @@ class BiometricAuthScreen extends React.PureComponent {
 
 	render() {
 		return (
-			<View
+			<ModalContainerView
 				style={{
 					flex: 1,
 					justifyContent: 'center',
 					backgroundColor: colors.background,
 					paddingHorizontal: 30,
 				}}
+				ref={ref => (this.androidModal = ref)}
+				modalChildren={
+					<MessageModalChildren title={t('title')} message={t('default_message')}>
+						<FontAwesomeIcon
+							icon={['fa', 'fingerprint']}
+							size={75}
+							style={{ color: colors.secondary, marginTop: 15, alignSelf: 'center' }}
+						/>
+					</MessageModalChildren>
+				}
 			>
 				<FontAwesomeIcon
 					icon={['fa', 'lock']}
@@ -117,7 +137,7 @@ class BiometricAuthScreen extends React.PureComponent {
 						</View>
 					</View>
 				</BlockTemplate>
-			</View>
+			</ModalContainerView>
 		);
 	}
 }

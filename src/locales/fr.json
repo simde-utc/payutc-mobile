@@ -124,6 +124,7 @@
 			"wrong_nouvo": "Pour pouvoir utiliser l'application, il faut terminer son inscription administrative auprès de l'UTC.",
 		},
 		"BiometricAuth": {
+			"title": "Mode sécurisé",
 			"default_message": "Authentification obligatoire pour continuer",
 			"retry": "Réessayer...",
 			"disable": "Désactiver le mode sécurisé",
