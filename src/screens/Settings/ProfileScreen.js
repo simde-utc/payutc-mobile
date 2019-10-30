@@ -6,7 +6,7 @@
  */
 
 import React from 'react';
-import { Alert, Linking, ScrollView, Text, View } from 'react-native';
+import { Alert, Linking, RefreshControl, ScrollView, Text, View } from 'react-native';
 import { connect } from 'react-redux';
 import colors from '../../styles/colors';
 import LinkButton from '../../components/LinkButton';
@@ -18,9 +18,8 @@ import { _, Profile as t } from '../../utils/i18n';
 import PortailService from '../../services/Portail';
 import { Config, Ginger, PayUTC } from '../../redux/actions';
 import Paragraphe from '../../components/Paragraphe';
+import ModalTemplate from '../../components/ModalTemplate';
 import BiometricAuth from '../../services/BiometricAuth';
-import ModalContainerView from '../../components/Modal/ModalContainerView';
-import MessageModalChildren from '../../components/Modal/MessageModalChildren';
 
 class ProfileScreen extends React.Component {
 	static navigationOptions = () => ({
@@ -36,13 +35,23 @@ class ProfileScreen extends React.Component {
 
 	constructor(props) {
 		super(props);
+
 		this.state = { message: {} };
-		this.confirmationModal = React.createRef();
+
 		this.onLockChange = this.onLockChange.bind(this);
+		this.handleNavigationOnFocus = this.handleNavigationOnFocus.bind(this);
 	}
 
 	componentDidMount() {
+		const { navigation } = this.props;
+
 		this.onRefresh();
+
+		this.subscriptions = [navigation.addListener('willFocus', this.handleNavigationOnFocus)];
+	}
+
+	componentWillUnmount() {
+		this.subscriptions.forEach(subscription => subscription.remove());
 	}
 
 	onRefresh() {
@@ -115,8 +124,6 @@ class ProfileScreen extends React.Component {
 						tintColor: colors.secondary,
 					},
 				});
-
-				this.confirmationModal.open();
 			});
 		};
 
@@ -192,6 +199,14 @@ class ProfileScreen extends React.Component {
 		];
 	}
 
+	handleNavigationOnFocus({ action: { params } }) {
+		this.setState({
+			message: params || {},
+		});
+
+		this.srollView.scrollTo({ x: 0, y: 0, animated: true });
+	}
+
 	signOut() {
 		const { navigation, dispatch } = this.props;
 
@@ -208,9 +223,27 @@ class ProfileScreen extends React.Component {
 
 		return (
 			<ScrollView
+				refreshControl={
+					<RefreshControl
+						refreshing={detailsFetching}
+						onRefresh={() => this.onRefresh()}
+						colors={[colors.secondary]}
+						tintColor={colors.secondary}
+					/>
+				}
 				ref={ref => (this.srollView = ref)}
 				style={{ backgroundColor: colors.background }}
 			>
+				{message.title ? (
+					<ModalTemplate
+						title={message.title}
+						subtitle={message.subtitle}
+						amount={message.amount}
+						tintColor={message.tintColor}
+						onClose={() => this.setState({ message: {} })}
+					/>
+				) : null}
+
 				<View style={{ margin: 15 }}>
 					<List
 						loading={detailsFetching}
@@ -225,48 +258,36 @@ class ProfileScreen extends React.Component {
 					/>
 				</View>
 
-				<ModalContainerView
-					ref={ref => (this.confirmationModal = ref)}
-					onClose={() => this.setState({ message: {} })}
-					modalChildren={
-						<MessageModalChildren
-							title={message.title}
-							subtitle={message.subtitle}
-							tintColor={message.tintColor}
-						/>
-					}
+				<SwitchBlockTemplate
+					roundedTop
+					roundedBottom
+					shadow
+					value={detailsFetching ? false : details.blocked}
+					onValueChange={this.onLockChange}
+					tintColor={colors.less}
+					disabled={detailsFetching}
+					style={{ margin: 15, marginTop: 0 }}
 				>
-					<SwitchBlockTemplate
-						roundedTop
-						roundedBottom
-						shadow
-						value={detailsFetching ? false : details.blocked}
-						onValueChange={this.onLockChange}
-						tintColor={colors.less}
-						disabled={detailsFetching}
-						style={{ margin: 15, marginTop: 0 }}
-					>
-						<View style={{ flex: 1, flexDirection: 'column' }}>
-							<Text
-								style={{
-									fontSize: 16,
-									fontWeight: 'bold',
-									color: detailsFetching ? colors.disabled : colors.secondary,
-								}}
-							>
-								{t('lock')}
-							</Text>
-							<Text
-								style={{
-									fontSize: 13,
-									color: detailsFetching ? colors.disabled : colors.secondary,
-								}}
-							>
-								{t('lock_info')}
-							</Text>
-						</View>
-					</SwitchBlockTemplate>
-				</ModalContainerView>
+					<View style={{ flex: 1, flexDirection: 'column' }}>
+						<Text
+							style={{
+								fontSize: 16,
+								fontWeight: 'bold',
+								color: detailsFetching ? colors.disabled : colors.secondary,
+							}}
+						>
+							{t('lock')}
+						</Text>
+						<Text
+							style={{
+								fontSize: 13,
+								color: detailsFetching ? colors.disabled : colors.secondary,
+							}}
+						>
+							{t('lock_info')}
+						</Text>
+					</View>
+				</SwitchBlockTemplate>
 
 				<Paragraphe
 					style={{ margin: 15, marginTop: 0 }}

@@ -10,9 +10,8 @@ import React from 'react';
 import BlockTemplate from '../BlockTemplate';
 import { History as t } from '../../utils/i18n';
 import Transaction from './Transaction';
+import TransactionModal from './TransactionModal';
 import { removeUselessEOL } from '../../utils';
-import ModalContainerView from '../Modal/ModalContainerView';
-import TransactionModalChildren from '../Modal/TransactionModalChildren';
 
 export default class Item extends React.Component {
 	static getTransaction(transaction) {
@@ -79,39 +78,43 @@ export default class Item extends React.Component {
 
 	constructor(props) {
 		super(props);
-		this.transactionModal = React.createRef();
+		this.state = {
+			showModal: false,
+		};
+	}
+
+	renderModalTransaction(formattedTransaction) {
+		return (
+			<TransactionModal
+				title={formattedTransaction.title}
+				amount={formattedTransaction.amount}
+				quantity={formattedTransaction.quantity}
+				message={formattedTransaction.message}
+				date={formattedTransaction.date}
+				location={formattedTransaction.location}
+				positive={formattedTransaction.positive}
+				onClose={() => this.setState({ showModal: false })}
+			/>
+		);
 	}
 
 	render() {
 		const { transaction, customBackground, roundedTop, roundedBottom, shadow } = this.props;
+		const { showModal } = this.state;
 
 		const formattedTransaction = Item.getTransaction(transaction);
 
 		return (
-			<ModalContainerView
-				ref={ref => (this.transactionModal = ref)}
-				modalChildren={
-					<TransactionModalChildren
-						title={formattedTransaction.title}
-						amount={formattedTransaction.amount}
-						quantity={formattedTransaction.quantity}
-						message={formattedTransaction.message}
-						date={formattedTransaction.date}
-						location={formattedTransaction.location}
-						positive={formattedTransaction.positive}
-					/>
-				}
+			<BlockTemplate
+				customBackground={customBackground}
+				roundedTop={roundedTop}
+				roundedBottom={roundedBottom}
+				shadow={shadow}
+				onPress={() => this.setState({ showModal: true })}
 			>
-				<BlockTemplate
-					customBackground={customBackground}
-					roundedTop={roundedTop}
-					roundedBottom={roundedBottom}
-					shadow={shadow}
-					onPress={() => this.transactionModal.open()}
-				>
-					{Item.renderTransaction(formattedTransaction)}
-				</BlockTemplate>
-			</ModalContainerView>
+				{showModal ? this.renderModalTransaction(formattedTransaction) : null}
+				{Item.renderTransaction(formattedTransaction)}
+			</BlockTemplate>
 		);
 	}
 }

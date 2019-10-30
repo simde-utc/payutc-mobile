@@ -109,9 +109,9 @@ class MainNavigator extends React.Component {
 
 		if (appState === 'background' && nextAppState === 'active') {
 			navigation.navigate('BiometricAuth');
-		} else {
-			this.setState({ appState: nextAppState });
 		}
+
+		this.setState({ appState: nextAppState });
 	};
 
 	render() {

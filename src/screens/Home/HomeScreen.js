@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { Platform, RefreshControl, Text } from 'react-native';
+import { Platform, RefreshControl, Text, View } from 'react-native';
 import { connect } from 'react-redux';
 import List from '../../components/List';
 import colors from '../../styles/colors';
@@ -18,8 +18,7 @@ import Item from '../../components/History/Item';
 import { PayUTC } from '../../redux/actions';
 import { _, Home as t } from '../../utils/i18n';
 import { totalAmount } from '../../utils/stats';
-import ModalContainerView from '../../components/Modal/ModalContainerView';
-import AmountModalChildren from '../../components/Modal/AmountModalChildren';
+import ModalTemplate from '../../components/ModalTemplate';
 
 class HomeScreen extends React.Component {
 	static navigationOptions = () => ({
@@ -33,8 +32,6 @@ class HomeScreen extends React.Component {
 		super(props);
 
 		this.state = { message: {} };
-
-		this.confirmationModal = React.createRef();
 
 		this.onRefresh = this.onRefresh.bind(this);
 		this.handleNavigationOnFocus = this.handleNavigationOnFocus.bind(this);
@@ -72,10 +69,8 @@ class HomeScreen extends React.Component {
 		}
 
 		this.setState({
-			message: params ? params.message : {},
+			message: params || {},
 		});
-
-		if (params && params.message) this.confirmationModal.open();
 	}
 
 	render() {
@@ -87,24 +82,38 @@ class HomeScreen extends React.Component {
 		oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
 
 		return (
-			<ModalContainerView
+			<View
 				style={{
 					flex: 1,
 					flexDirection: 'column',
 					padding: 15,
 					backgroundColor: colors.background,
 				}}
-				ref={ref => (this.confirmationModal = ref)}
-				onClose={() => this.setState({ message: {} })}
-				modalChildren={
-					<AmountModalChildren
-						title={message.title}
-						subtitle={message.subtitle}
-						amount={message.amount}
-						tintColor={message.tintColor}
-					/>
-				}
 			>
+				{message.message ? (
+					<ModalTemplate
+						title={message.message.title}
+						subtitle={message.message.subtitle}
+						amount={message.message.amount}
+						tintColor={message.message.tintColor}
+						footer={
+							message.message.message ? ( // Yes
+								<Text
+									style={{
+										fontSize: 16,
+										textAlign: 'center',
+										fontStyle: 'italic',
+										color: colors.secondary,
+									}}
+								>
+									{message.message.message}
+								</Text>
+							) : null
+						}
+						onClose={() => this.setState({ message: {} })}
+					/>
+				) : null}
+
 				<BlockTemplate roundedTop roundedBottom shadow style={{ marginBottom: 15 }}>
 					<Balance
 						amount={amount}
@@ -155,7 +164,7 @@ class HomeScreen extends React.Component {
 				{Platform.OS === 'android' ? (
 					<BlockTemplate roundedBottom style={{ paddingVertical: 5 }} />
 				) : null}
-			</ModalContainerView>
+			</View>
 		);
 	}
 }
