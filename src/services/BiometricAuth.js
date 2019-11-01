@@ -18,13 +18,7 @@ export const advancedSecurity = ['transfer', 'refill', 'badge-locking', 'app-ope
 
 export default class BiometricAuth extends React.PureComponent {
 	static hasHardware() {
-		return LocalAuthentication.hasHardwareAsync()
-			.then(hasHardware => {
-				return hasHardware;
-			})
-			.catch(() => {
-				return false;
-			});
+		return LocalAuthentication.hasHardwareAsync();
 	}
 
 	constructor(props) {
@@ -35,7 +29,15 @@ export default class BiometricAuth extends React.PureComponent {
 	authenticate(successCallback, errorCallback, message = t('default_message')) {
 		const { restrictions, action } = this.props;
 
-		if (!BiometricAuth.hasHardware() || (action != null && !restrictions.includes(action))) {
+		BiometricAuth.hasHardware()
+			.then(hasHardware => {
+				if (!hasHardware) {
+					successCallback();
+				}
+			})
+			.catch(() => {});
+
+		if (action != null && !restrictions.includes(action)) {
 			successCallback();
 			return;
 		}

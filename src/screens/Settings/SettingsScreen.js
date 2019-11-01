@@ -54,12 +54,24 @@ class SettingsScreen extends React.Component {
 	constructor(props) {
 		super(props);
 
+		this.state = {
+			hasBiometricHardware: null,
+		};
+
 		this.biometricAuth = React.createRef();
 
 		this.setLang = this.setLang.bind(this);
 		this.setTheme = this.setTheme.bind(this);
 		this.setRestrictions = this.setRestrictions.bind(this);
 		this.setAppOpeningSecurity = this.setAppOpeningSecurity.bind(this);
+	}
+
+	componentDidMount() {
+		BiometricAuth.hasHardware()
+			.then(hasHardware => {
+				this.setState({ hasBiometricHardware: hasHardware });
+			})
+			.catch(() => {});
 	}
 
 	onRefresh() {
@@ -99,10 +111,9 @@ class SettingsScreen extends React.Component {
 
 	render() {
 		const { details, detailsFetching, lang, theme, navigation, restrictions } = this.props;
+		const { hasBiometricHardware } = this.state;
 
 		const repoUrl = GitHubService.getLocalesUrl();
-
-		const hasBiometricHardware = BiometricAuth.hasHardware();
 
 		return (
 			<ScrollView
@@ -194,7 +205,7 @@ class SettingsScreen extends React.Component {
 						style={{
 							fontSize: 16,
 							fontWeight: 'bold',
-							color: colors.secondary,
+							color: hasBiometricHardware ? colors.secondary : colors.disabled,
 						}}
 					>
 						{t('security')}
@@ -205,14 +216,14 @@ class SettingsScreen extends React.Component {
 						onValueChange={this.setRestrictions}
 						tintColor={colors.primary}
 						style={{ marginTop: 10, padding: 0 }}
-						disabled={hasBiometricHardware == null || !hasBiometricHardware}
+						disabled={!hasBiometricHardware}
 					>
 						<View style={{ flex: 1, flexDirection: 'column' }}>
 							<Text
 								style={{
 									fontSize: 13,
 									fontWeight: 'bold',
-									color: colors.secondary,
+									color: hasBiometricHardware ? colors.secondary : colors.disabled,
 								}}
 							>
 								{t('security_mode')}
@@ -220,7 +231,7 @@ class SettingsScreen extends React.Component {
 							<Text
 								style={{
 									fontSize: 13,
-									color: colors.secondary,
+									color: hasBiometricHardware ? colors.secondary : colors.disabled,
 								}}
 							>
 								{t('security_mode_desc')}
@@ -235,13 +246,14 @@ class SettingsScreen extends React.Component {
 							onValueChange={this.setAppOpeningSecurity}
 							tintColor={colors.primary}
 							style={{ marginTop: 10, padding: 0 }}
+							disabled={!hasBiometricHardware}
 						>
 							<View style={{ flex: 1, flexDirection: 'column' }}>
 								<Text
 									style={{
 										fontSize: 13,
 										fontWeight: 'bold',
-										color: colors.secondary,
+										color: hasBiometricHardware ? colors.secondary : colors.disabled,
 									}}
 								>
 									{t('security_mode_app_opening')}
@@ -249,7 +261,7 @@ class SettingsScreen extends React.Component {
 								<Text
 									style={{
 										fontSize: 13,
-										color: colors.secondary,
+										color: hasBiometricHardware ? colors.secondary : colors.disabled,
 									}}
 								>
 									{t('security_mode_app_opening_desc')}
