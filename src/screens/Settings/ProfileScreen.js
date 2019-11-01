@@ -38,20 +38,13 @@ class ProfileScreen extends React.Component {
 
 		this.state = { message: {} };
 
+		this.biometricAuth = React.createRef();
+
 		this.onLockChange = this.onLockChange.bind(this);
-		this.handleNavigationOnFocus = this.handleNavigationOnFocus.bind(this);
 	}
 
 	componentDidMount() {
-		const { navigation } = this.props;
-
 		this.onRefresh();
-
-		this.subscriptions = [navigation.addListener('willFocus', this.handleNavigationOnFocus)];
-	}
-
-	componentWillUnmount() {
-		this.subscriptions.forEach(subscription => subscription.remove());
 	}
 
 	onRefresh() {
@@ -81,7 +74,7 @@ class ProfileScreen extends React.Component {
 	}
 
 	onLockChange(value) {
-		const { dispatch, detailsFetching, restrictions } = this.props;
+		const { dispatch, detailsFetching } = this.props;
 
 		if (detailsFetching) {
 			return;
@@ -127,17 +120,13 @@ class ProfileScreen extends React.Component {
 			});
 		};
 
-		if (BiometricAuth.isActionRestricted(restrictions, 'badge-locking')) {
-			BiometricAuth.authenticate(success, () => {
-				dispatch(
-					Config.spinner({
-						visible: false,
-					})
-				);
-			});
-		} else {
-			success();
-		}
+		this.biometricAuth.authenticate(success, () => {
+			dispatch(
+				Config.spinner({
+					visible: false,
+				})
+			);
+		});
 	}
 
 	static renderDetail(
@@ -199,14 +188,6 @@ class ProfileScreen extends React.Component {
 		];
 	}
 
-	handleNavigationOnFocus({ action: { params } }) {
-		this.setState({
-			message: params || {},
-		});
-
-		this.srollView.scrollTo({ x: 0, y: 0, animated: true });
-	}
-
 	signOut() {
 		const { navigation, dispatch } = this.props;
 
@@ -218,7 +199,7 @@ class ProfileScreen extends React.Component {
 	}
 
 	render() {
-		const { details, detailsFetching, hasRights, navigation } = this.props;
+		const { details, detailsFetching, hasRights, navigation, restrictions } = this.props;
 		const { message } = this.state;
 
 		return (
@@ -304,6 +285,12 @@ class ProfileScreen extends React.Component {
 					color={colors.less}
 					onPress={() => this.signOut()}
 					style={{ margin: 15, marginTop: 0 }}
+				/>
+
+				<BiometricAuth
+					ref={ref => (this.biometricAuth = ref)}
+					action="badge-locking"
+					restrictions={restrictions}
 				/>
 			</ScrollView>
 		);

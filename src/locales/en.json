@@ -123,6 +123,7 @@
 			"wrong_nouvo": "To use the application, you need to finish your registration to the UTC.",
 		},
 		"BiometricAuth": {
+			"title": "Security mode",
 			"default_message": "Authenticate to continue",
 			"retry": "Retry...",
 			"disable": "Disable secure mode",

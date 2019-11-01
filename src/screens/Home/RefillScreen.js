@@ -44,6 +44,8 @@ class RefillScreen extends React.Component {
 			amountError: null,
 		};
 
+		this.biometricAuth = React.createRef();
+
 		this.handleAmountChange = this.handleAmountChange.bind(this);
 	}
 
@@ -195,7 +197,7 @@ class RefillScreen extends React.Component {
 	}
 
 	pay(amountAsFloat) {
-		const { dispatch, navigation, restrictions } = this.props;
+		const { dispatch, navigation } = this.props;
 		const action = PayUTC.getRefillUrl(amountAsFloat * 100, PAYUTC_CALLBACK_URL);
 		dispatch(action);
 
@@ -211,9 +213,7 @@ class RefillScreen extends React.Component {
 
 				const success = () => navigation.navigate('Payment', { url, amount: amountAsFloat });
 
-				if (BiometricAuth.isActionRestricted(restrictions, 'refill'))
-					BiometricAuth.authenticate(success, () => console.warn('error callback'));
-				else success();
+				this.biometricAuth.authenticate(success);
 			})
 			.catch(() => {
 				dispatch(
@@ -227,31 +227,40 @@ class RefillScreen extends React.Component {
 	}
 
 	render() {
+		const { restrictions } = this.props;
 		const { amount, amountError } = this.state;
 
 		return (
-			<ScrollView style={{ backgroundColor: colors.background, padding: 15 }}>
-				<View style={{ paddingBottom: 15 }}>
-					<AmountForm
-						title={t('amount')}
-						amount={amount}
-						error={amountError}
-						onChange={this.handleAmountChange}
-						shortcuts={AMOUNT_SHORTCUTS}
-						autoFocus
-						onSubmitEditing={() => !this.isButtonDisabled() && this.submit()}
-					/>
-				</View>
-				<View style={{ paddingBottom: 15 }}>
-					<LinkButton
-						text={t('pay')}
-						color={colors.backgroundBlock}
-						backgroundColor={colors.more}
-						disabled={this.isButtonDisabled()}
-						onPress={() => this.submit()}
-					/>
-				</View>
-			</ScrollView>
+			<View style={{ flex: 1 }}>
+				<ScrollView style={{ backgroundColor: colors.background, padding: 15 }}>
+					<View style={{ paddingBottom: 15 }}>
+						<AmountForm
+							title={t('amount')}
+							amount={amount}
+							error={amountError}
+							onChange={this.handleAmountChange}
+							shortcuts={AMOUNT_SHORTCUTS}
+							autoFocus
+							onSubmitEditing={() => !this.isButtonDisabled() && this.submit()}
+						/>
+					</View>
+					<View style={{ paddingBottom: 15 }}>
+						<LinkButton
+							text={t('pay')}
+							color={colors.backgroundBlock}
+							backgroundColor={colors.more}
+							disabled={this.isButtonDisabled()}
+							onPress={() => this.submit()}
+						/>
+					</View>
+				</ScrollView>
+
+				<BiometricAuth
+					ref={ref => (this.biometricAuth = ref)}
+					action="refill"
+					restrictions={restrictions}
+				/>
+			</View>
 		);
 	}
 }

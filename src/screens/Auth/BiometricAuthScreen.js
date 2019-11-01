@@ -16,20 +16,23 @@ import BlockTemplate from '../../components/BlockTemplate';
 import { BiometricAuth as t } from '../../utils/i18n';
 
 class BiometricAuthScreen extends React.PureComponent {
+	constructor(props) {
+		super(props);
+		this.biometricAuth = React.createRef();
+	}
+
 	componentDidMount() {
 		this.next();
 	}
 
 	next() {
-		const { navigation, restrictions } = this.props;
+		const { navigation } = this.props;
 
 		const success = () => {
 			navigation.navigate('Home');
 		};
 
-		if (BiometricAuth.isActionRestricted(restrictions, 'app-opening'))
-			BiometricAuth.authenticate(success, () => {});
-		else success();
+		this.biometricAuth.authenticate(success);
 	}
 
 	signOut() {
@@ -43,6 +46,8 @@ class BiometricAuthScreen extends React.PureComponent {
 	}
 
 	render() {
+		const { restrictions } = this.props;
+
 		return (
 			<View
 				style={{
@@ -117,6 +122,12 @@ class BiometricAuthScreen extends React.PureComponent {
 						</View>
 					</View>
 				</BlockTemplate>
+
+				<BiometricAuth
+					ref={ref => (this.biometricAuth = ref)}
+					action="app-opening"
+					restrictions={restrictions}
+				/>
 			</View>
 		);
 	}

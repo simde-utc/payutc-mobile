@@ -24,6 +24,7 @@ import themes from '../../assets/themes';
 import config from '../../config';
 import appJson from '../../app.json';
 import configExemple from '../../config.example';
+import BiometricAuth from '../services/BiometricAuth';
 
 const DEFAULT_THEME = 'light';
 const REGEX_VERSION = /^([0-9])+\.([0-9])+\.([0-9])-*.*$/;
@@ -182,6 +183,12 @@ class AppLoaderScreen extends React.Component {
 			return this.setState({ screen: 'Auth', data });
 		}
 
+		const { restrictions } = this.props;
+
+		if (!BiometricAuth.hasHardware() && restrictions !== []) {
+			return this.reinitData();
+		}
+
 		if (data.type === PayUTC.CAS_AUTH_TYPE) {
 			return this.checkCasConnection(data.ticket, data.login, data.password);
 		}
@@ -282,6 +289,6 @@ class AppLoaderScreen extends React.Component {
 	}
 }
 
-const mapStateToProps = ({ config: { terms } }) => ({ terms });
+const mapStateToProps = ({ config: { terms, restrictions } }) => ({ terms, restrictions });
 
 export default connect(mapStateToProps)(AppLoaderScreen);

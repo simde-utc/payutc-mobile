@@ -5,13 +5,18 @@
  * @license GPL-3.0
  */
 
+import React from 'react';
+import { Platform, Text, View } from 'react-native';
 import * as LocalAuthentication from 'expo-local-authentication';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { BiometricAuth as t } from '../utils/i18n';
+import ModalBlockTemplate from '../components/Modal/ModalBlockTemplate';
+import colors from '../styles/colors';
 
 export const defaultSecurity = ['transfer', 'refill', 'badge-locking'];
 export const advancedSecurity = ['transfer', 'refill', 'badge-locking', 'app-opening'];
 
-export default class BiometricAuth {
+export default class BiometricAuth extends React.PureComponent {
 	static hasHardware() {
 		return LocalAuthentication.hasHardwareAsync()
 			.then(hasHardware => {
@@ -22,25 +27,66 @@ export default class BiometricAuth {
 			});
 	}
 
-	static isActionRestricted(restrictions, action) {
-		return restrictions.includes(action);
+	constructor(props) {
+		super(props);
+		this.androidModal = React.createRef();
 	}
 
-	static authenticate(successCallback, errorCallback, message = t('default_message')) {
-		if (!BiometricAuth.hasHardware()) {
+	authenticate(successCallback, errorCallback, message = t('default_message')) {
+		const { restrictions, action } = this.props;
+
+		if (!BiometricAuth.hasHardware() || (action != null && !restrictions.includes(action))) {
+			successCallback();
 			return;
 		}
+
+		if (Platform.OS === 'android') this.androidModal.open();
 
 		return LocalAuthentication.authenticateAsync({
 			promptMessage: message,
 		})
 			.then(message => {
-				if (message.success) {
-					successCallback();
-				} else if (message.error) {
-					errorCallback();
-				}
+				this.androidModal.close();
+
+				if (message.success && successCallback) successCallback();
+				else if (message.error && errorCallback) errorCallback();
 			})
-			.catch(() => errorCallback());
+			.catch(() => this.androidModal.close());
+	}
+
+	render() {
+		return (
+			<ModalBlockTemplate ref={ref => (this.androidModal = ref)}>
+				<View
+					style={{
+						padding: 10,
+						flexDirection: 'column',
+						justifyContent: 'space-around',
+					}}
+				>
+					<Text
+						style={{
+							fontSize: 18,
+							fontWeight: 'bold',
+							textAlign: 'center',
+							color: colors.secondary,
+							marginBottom: 5,
+						}}
+					>
+						{t('title')}
+					</Text>
+
+					<Text style={{ fontSize: 16, textAlign: 'center', color: colors.secondary }}>
+						{t('default_message')}
+					</Text>
+
+					<FontAwesomeIcon
+						icon={['fa', 'fingerprint']}
+						size={75}
+						style={{ color: colors.secondary, marginTop: 15, alignSelf: 'center' }}
+					/>
+				</View>
+			</ModalBlockTemplate>
+		);
 	}
 }

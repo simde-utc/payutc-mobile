@@ -46,6 +46,8 @@ class TransferScreen extends React.Component {
 			suggestions: [],
 		};
 
+		this.biometricAuth = React.createRef();
+
 		this.handleMessageChange = this.handleMessageChange.bind(this);
 		this.handleAmountChange = this.handleAmountChange.bind(this);
 		this.handleRecipientChange = this.handleRecipientChange.bind(this);
@@ -135,7 +137,7 @@ class TransferScreen extends React.Component {
 	}
 
 	accept(amountAsFloat, recipient, message) {
-		const { dispatch, navigation, restrictions } = this.props;
+		const { dispatch, navigation } = this.props;
 
 		dispatch(
 			Config.spinner({
@@ -174,9 +176,7 @@ class TransferScreen extends React.Component {
 				.catch(() => this.refuse());
 		};
 
-		if (BiometricAuth.isActionRestricted(restrictions, 'transfer'))
-			BiometricAuth.authenticate(success, () => this.refuse());
-		else success();
+		this.biometricAuth.authenticate(success, () => this.refuse());
 	}
 
 	refuse() {
@@ -272,52 +272,60 @@ class TransferScreen extends React.Component {
 	}
 
 	render() {
-		const { suggestionsFetching, history } = this.props;
+		const { suggestionsFetching, history, restrictions } = this.props;
 		const { amount, recipientError, amountError, recipient, suggestions } = this.state;
 
 		return (
-			<ScrollView style={{ backgroundColor: colors.background }}>
-				<View style={{ padding: 15 }}>
-					<RecipientForm
-						error={recipientError}
-						recipient={recipient}
-						suggestions={suggestions}
-						suggestionsFetching={suggestionsFetching}
-						onChange={this.handleRecipientChange}
-						onSelect={this.handleRecipientSelected}
-						history={history}
-						blurOnSubmit={false}
-						onSubmitEditing={() => this.amountInput.focus()}
-					/>
-				</View>
-				<View style={{ padding: 15, paddingTop: 0 }}>
-					<AmountForm
-						title={t('amount')}
-						amount={amount}
-						error={amountError}
-						onChange={this.handleAmountChange}
-						setRef={input => (this.amountInput = input)}
-						blurOnSubmit={false}
-						onSubmitEditing={() => this.messageInput.focus()}
-						tintColor={colors.transfer}
-					/>
-				</View>
-				<View style={{ padding: 15, paddingTop: 0 }}>
-					<MessageForm
-						onChange={this.handleMessageChange}
-						setRef={input => (this.messageInput = input)}
-					/>
-				</View>
-				<View style={{ padding: 15, paddingTop: 0 }}>
-					<LinkButton
-						text={t('transfer_button')}
-						color={colors.backgroundBlock}
-						backgroundColor={colors.transfer}
-						disabled={this.isButtonDisabled()}
-						onPress={() => this.submit()}
-					/>
-				</View>
-			</ScrollView>
+			<View style={{ flex: 1 }}>
+				<ScrollView style={{ backgroundColor: colors.background }}>
+					<View style={{ padding: 15 }}>
+						<RecipientForm
+							error={recipientError}
+							recipient={recipient}
+							suggestions={suggestions}
+							suggestionsFetching={suggestionsFetching}
+							onChange={this.handleRecipientChange}
+							onSelect={this.handleRecipientSelected}
+							history={history}
+							blurOnSubmit={false}
+							onSubmitEditing={() => this.amountInput.focus()}
+						/>
+					</View>
+					<View style={{ padding: 15, paddingTop: 0 }}>
+						<AmountForm
+							title={t('amount')}
+							amount={amount}
+							error={amountError}
+							onChange={this.handleAmountChange}
+							setRef={input => (this.amountInput = input)}
+							blurOnSubmit={false}
+							onSubmitEditing={() => this.messageInput.focus()}
+							tintColor={colors.transfer}
+						/>
+					</View>
+					<View style={{ padding: 15, paddingTop: 0 }}>
+						<MessageForm
+							onChange={this.handleMessageChange}
+							setRef={input => (this.messageInput = input)}
+						/>
+					</View>
+					<View style={{ padding: 15, paddingTop: 0 }}>
+						<LinkButton
+							text={t('transfer_button')}
+							color={colors.backgroundBlock}
+							backgroundColor={colors.transfer}
+							disabled={this.isButtonDisabled()}
+							onPress={() => this.submit()}
+						/>
+					</View>
+				</ScrollView>
+
+				<BiometricAuth
+					ref={ref => (this.biometricAuth = ref)}
+					action="transfer"
+					restrictions={restrictions}
+				/>
+			</View>
 		);
 	}
 }

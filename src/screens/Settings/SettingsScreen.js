@@ -54,6 +54,8 @@ class SettingsScreen extends React.Component {
 	constructor(props) {
 		super(props);
 
+		this.biometricAuth = React.createRef();
+
 		this.setLang = this.setLang.bind(this);
 		this.setTheme = this.setTheme.bind(this);
 		this.setRestrictions = this.setRestrictions.bind(this);
@@ -83,7 +85,7 @@ class SettingsScreen extends React.Component {
 	setRestrictions(boolean) {
 		const { dispatch } = this.props;
 
-		BiometricAuth.authenticate(
+		this.biometricAuth.authenticate(
 			() => dispatch(Config.setRestrictions(boolean ? defaultSecurity : [])),
 			() => console.warn('error')
 		);
@@ -285,6 +287,8 @@ class SettingsScreen extends React.Component {
 					onPress={() => Linking.openURL(Platform.OS === 'ios' ? IOS_STORE_URL : ANDROID_STORE_URL)}
 					style={{ margin: 15, marginTop: 0 }}
 				/>
+
+				<BiometricAuth ref={ref => (this.biometricAuth = ref)} restrictions={restrictions} />
 			</ScrollView>
 		);
 	}
