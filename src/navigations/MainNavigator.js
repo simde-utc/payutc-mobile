@@ -9,6 +9,7 @@ import React from 'react';
 import { AppState } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { createBottomTabNavigator, BottomTabBar } from 'react-navigation';
+import { connect } from 'react-redux';
 import HomeNavigator from './Home/HomeNavigator';
 import colors from '../styles/colors';
 import { Navigation as t } from '../utils/i18n';
@@ -104,12 +105,16 @@ class MainNavigator extends React.Component {
 	}
 
 	handleAppStateChange = nextAppState => {
-		const { navigation } = this.props;
+		const { navigation, restrictions } = this.props;
 		const { appState } = this.state;
 
-		if (appState === 'background' && nextAppState === 'active')
+		if (
+			appState === 'background' &&
+			nextAppState === 'active' &&
+			restrictions.includes('app-opening')
+		) {
 			navigation.navigate('BiometricAuth');
-		else this.setState({ appState: nextAppState });
+		} else this.setState({ appState: nextAppState });
 	};
 
 	render() {
@@ -119,4 +124,6 @@ class MainNavigator extends React.Component {
 	}
 }
 
-export default MainNavigator;
+const mapStateToProps = ({ config: { restrictions } }) => ({ restrictions });
+
+export default connect(mapStateToProps)(MainNavigator);

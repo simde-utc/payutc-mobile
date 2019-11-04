@@ -29,7 +29,7 @@ class BiometricAuthScreen extends React.PureComponent {
 		const { navigation } = this.props;
 
 		const success = () => {
-			navigation.navigate('Home');
+			navigation.navigate('Main');
 		};
 
 		this.biometricAuth.authenticate(success);
