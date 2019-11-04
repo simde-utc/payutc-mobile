@@ -6,14 +6,14 @@
  */
 
 import React from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, Alert } from 'react-native';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import BiometricAuth from '../../services/BiometricAuth';
 import colors from '../../styles/colors';
 import { Config, PayUTC } from '../../redux/actions';
 import BlockTemplate from '../../components/BlockTemplate';
-import { BiometricAuth as t } from '../../utils/i18n';
+import { _, BiometricAuth as t } from '../../utils/i18n';
 
 class BiometricAuthScreen extends React.PureComponent {
 	constructor(props) {
@@ -38,11 +38,25 @@ class BiometricAuthScreen extends React.PureComponent {
 	signOut() {
 		const { navigation, dispatch } = this.props;
 
-		PayUTC.forget().payload.then(() => {
-			navigation.navigate('Auth');
+		Alert.alert(
+			t('disable'),
+			t('disable_desc'),
+			[
+				{ text: _('cancel'), onPress: () => {} },
+				{
+					text: _('continue'),
+					onPress: () => {
+						PayUTC.forget().payload.then(() => {
+							navigation.navigate('Auth');
 
-			dispatch(Config.wipe());
-		});
+							dispatch(Config.wipe());
+						});
+					},
+					style: 'destructive',
+				},
+			],
+			{ cancelable: false }
+		);
 	}
 
 	render() {
