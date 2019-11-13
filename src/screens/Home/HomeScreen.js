@@ -7,12 +7,11 @@
  */
 
 import React from 'react';
-import { RefreshControl, ScrollView, Text, TouchableOpacity, View } from 'react-native';
+import { RefreshControl, ScrollView, Text, View } from 'react-native';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import colors from '../../styles/colors';
 import Balance from '../../components/Home/Balance';
-import Shortcuts from '../../components/Home/Shortcuts';
 import BlockTemplate from '../../components/BlockTemplate';
 import { PayUTC } from '../../redux/actions';
 import { _, Home as t } from '../../utils/i18n';
@@ -109,22 +108,17 @@ class HomeScreen extends React.Component {
 					/>
 				) : null}
 
-				<TouchableOpacity
-					activeOpacity={1}
-					onPress={() => this.scrollView.scrollTo({ x: 0, y: 0, animated: true })}
-				>
-					<BlockTemplate shadow style={{ padding: 20 }}>
-						<Balance
-							amount={amount}
-							isCreditConsistent={details.is_credit_consistent}
-							loading={detailsFetching}
-							name={details.user ? details.user.first_name : null}
-							weekAmount={totalAmount(history, oneWeekAgo) / 100}
-							onRefresh={() => this.onRefresh()}
-							navigation={navigation}
-						/>
-					</BlockTemplate>
-				</TouchableOpacity>
+				<BlockTemplate shadow style={{ padding: 20 }}>
+					<Balance
+						amount={amount}
+						isCreditConsistent={details.is_credit_consistent}
+						loading={detailsFetching}
+						name={details.user ? details.user.first_name : null}
+						weekAmount={totalAmount(history, oneWeekAgo) / 100}
+						onRefresh={() => this.onRefresh()}
+						navigation={navigation}
+					/>
+				</BlockTemplate>
 
 				<ScrollView
 					ref={ref => (this.scrollView = ref)}
@@ -138,10 +132,6 @@ class HomeScreen extends React.Component {
 						/>
 					}
 				>
-					<View style={{ marginBottom: 15 }}>
-						<Shortcuts amount={amount} navigation={navigation} />
-					</View>
-
 					<HistoryList items={history} slice={15} loading={historyFetching} />
 
 					<BlockTemplate
@@ -168,6 +158,68 @@ class HomeScreen extends React.Component {
 						<FontAwesomeIcon icon={['fas', 'list']} size={16} color={colors.primary} />
 					</BlockTemplate>
 				</ScrollView>
+
+				<BlockTemplate
+					shadow
+					style={{ paddingHorizontal: 15, flexDirection: 'row', justifyContent: 'space-between' }}
+				>
+					<View style={{ flexDirection: 'row' }}>
+						<BlockTemplate
+							roundedTop
+							roundedBottom
+							shadow
+							borderForAndroid
+							onPress={() => navigation.navigate('Refill')}
+							style={{ flexDirection: 'row', alignItems: 'center' }}
+						>
+							<FontAwesomeIcon icon={['fas', 'plus-circle']} size={15} color={colors.more} />
+							<Text
+								style={{
+									paddingLeft: 5,
+									fontSize: 13,
+									fontWeight: 'bold',
+									color: colors.more,
+								}}
+							>
+								{t('refill')}
+							</Text>
+						</BlockTemplate>
+
+						<View style={{ width: 10 }} />
+
+						<BlockTemplate
+							roundedTop
+							roundedBottom
+							shadow
+							borderForAndroid
+							onPress={() => navigation.navigate('Transfer')}
+							style={{ flexDirection: 'row', alignItems: 'center' }}
+						>
+							<FontAwesomeIcon icon={['fas', 'share']} size={15} color={colors.transfer} />
+							<Text
+								style={{
+									paddingLeft: 5,
+									fontSize: 13,
+									fontWeight: 'bold',
+									color: colors.transfer,
+								}}
+							>
+								{t('transfer')}
+							</Text>
+						</BlockTemplate>
+					</View>
+
+					<BlockTemplate
+						roundedTop
+						roundedBottom
+						shadow
+						borderForAndroid
+						onPress={() => navigation.navigate('Settings')}
+						style={{ flexDirection: 'row', alignItems: 'center' }}
+					>
+						<FontAwesomeIcon icon={['fas', 'cogs']} size={15} color={colors.secondary} />
+					</BlockTemplate>
+				</BlockTemplate>
 			</View>
 		);
 	}

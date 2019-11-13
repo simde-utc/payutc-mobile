@@ -11,6 +11,9 @@ import HomeScreen from '../../screens/Home/HomeScreen';
 import RefillScreen from '../../screens/Home/RefillScreen';
 import PaymentScreen from '../../screens/Home/PaymentScreen';
 import TransferScreen from '../../screens/Home/TransferScreen';
+import HistoryNavigator from '../History/HistoryNavigator';
+import SettingsNavigator from '../Settings/SettingsNavigator';
+import StatsNavigator from '../Stats/StatsNavigator';
 
 const HomeNavigator = createStackNavigator(
 	{
@@ -18,6 +21,9 @@ const HomeNavigator = createStackNavigator(
 		Refill: RefillScreen,
 		Payment: PaymentScreen,
 		Transfer: TransferScreen,
+		History: HistoryNavigator,
+		Stats: StatsNavigator,
+		Settings: SettingsNavigator,
 	},
 	{}
 );

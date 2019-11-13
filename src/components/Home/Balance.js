@@ -116,30 +116,49 @@ class Balance extends React.Component {
 	}
 
 	render() {
-		const { amount, name, loading, onRefresh } = this.props;
+		const { amount, name, loading, navigation } = this.props;
 
 		return (
-			<View
-				style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-start' }}
-			>
+			<View style={{ flexDirection: 'row', justifyContent: 'space-between' }}>
 				{this.renderDetails(loading, name, amount)}
-				<BlockTemplate
-					roundedTop
-					roundedBottom
-					shadow
-					borderForAndroid
-					onPress={() => {
-						Haptics.selectionAsync().catch();
-						onRefresh();
-					}}
-					disabled={loading}
-				>
-					<FontAwesomeIcon
-						icon={['fas', 'sync-alt']}
-						size={14}
-						color={loading ? colors.disabled : colors.secondary}
-					/>
-				</BlockTemplate>
+
+				<View style={{ flexDirection: 'column', justifyContent: 'space-around' }}>
+					<BlockTemplate
+						roundedTop
+						roundedBottom
+						shadow
+						borderForAndroid
+						onPress={() => {
+							Haptics.selectionAsync().catch();
+							navigation.navigate('History');
+						}}
+						disabled={loading}
+					>
+						<FontAwesomeIcon
+							icon={['fas', 'list']}
+							size={15}
+							color={loading ? colors.disabled : colors.primary}
+						/>
+					</BlockTemplate>
+
+					<BlockTemplate
+						roundedTop
+						roundedBottom
+						shadow
+						borderForAndroid
+						onPress={() => {
+							Haptics.selectionAsync().catch();
+							navigation.navigate('Stats');
+						}}
+						disabled={loading}
+					>
+						<FontAwesomeIcon
+							icon={['fas', 'chart-pie']}
+							size={15}
+							color={loading ? colors.disabled : colors.primary}
+						/>
+					</BlockTemplate>
+				</View>
 			</View>
 		);
 	}
