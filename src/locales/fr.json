@@ -22,7 +22,7 @@
 			"transfer": "Transférer",
 			"all_stats": "Toutes les statistiques...",
 			"recent_activity": "Activité récente",
-			"all_history": "Voir tout l'historique...",
+			"all_history": "Voir tout l'historique",
 			"cannot_fetch_wallet": "Une erreur est survenue lors de la récupération des informations de votre compte.",
 			"week_negative": {
 				"one": "dépensé cette semaine.",
@@ -140,7 +140,7 @@
 			"transfers": "Transferts",
 			"transfers_desc": "Transferts %{since}",
 			"search": "Rechercher",
-			"show_more": "Afficher plus..."
+			"show_more": "Afficher plus"
 		},
 		"Stats": {
 			"title": "Statistiques",
@@ -156,7 +156,7 @@
 			"receive_ranking": "Personnes qui vous transfèrent le plus",
 			"give_ranking": "Personnes à qui vous transférez le plus",
 			"transfer_ranking_title": "Transferts",
-			"show_more": "Afficher plus..."
+			"show_more": "Afficher plus"
 		},
 		"Settings": {
 			"title": "Paramètres",

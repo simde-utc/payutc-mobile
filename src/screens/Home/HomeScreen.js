@@ -7,18 +7,18 @@
  */
 
 import React from 'react';
-import { Platform, RefreshControl, Text, View } from 'react-native';
+import { RefreshControl, ScrollView, Text, TouchableOpacity, View } from 'react-native';
 import { connect } from 'react-redux';
-import List from '../../components/List';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import colors from '../../styles/colors';
 import Balance from '../../components/Home/Balance';
 import Shortcuts from '../../components/Home/Shortcuts';
 import BlockTemplate from '../../components/BlockTemplate';
-import Item from '../../components/History/Item';
 import { PayUTC } from '../../redux/actions';
 import { _, Home as t } from '../../utils/i18n';
 import { totalAmount } from '../../utils/stats';
 import ModalTemplate from '../../components/ModalTemplate';
+import HistoryList from '../../components/History/HistoryList';
 
 class HomeScreen extends React.Component {
 	static navigationOptions = () => ({
@@ -32,6 +32,8 @@ class HomeScreen extends React.Component {
 		super(props);
 
 		this.state = { message: {} };
+
+		this.scrollView = React.createRef();
 
 		this.onRefresh = this.onRefresh.bind(this);
 		this.handleNavigationOnFocus = this.handleNavigationOnFocus.bind(this);
@@ -82,14 +84,7 @@ class HomeScreen extends React.Component {
 		oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
 
 		return (
-			<View
-				style={{
-					flex: 1,
-					flexDirection: 'column',
-					padding: 15,
-					backgroundColor: colors.background,
-				}}
-			>
+			<View style={{ flex: 1, backgroundColor: colors.background }}>
 				{message.message ? (
 					<ModalTemplate
 						title={message.message.title}
@@ -114,44 +109,26 @@ class HomeScreen extends React.Component {
 					/>
 				) : null}
 
-				<BlockTemplate roundedTop roundedBottom shadow style={{ marginBottom: 15 }}>
-					<Balance
-						amount={amount}
-						isCreditConsistent={details.is_credit_consistent}
-						loading={detailsFetching}
-						name={details.user ? details.user.first_name : null}
-						weekAmount={totalAmount(history, oneWeekAgo) / 100}
-						onRefresh={() => this.onRefresh()}
-					/>
-				</BlockTemplate>
-
-				<Shortcuts amount={amount} navigation={navigation} />
-
-				<BlockTemplate
-					roundedTop
-					shadow
-					style={{
-						marginTop: 15,
-						borderBottomWidth: 1,
-						borderBottomColor: colors.backgroundBlockAlt,
-					}}
+				<TouchableOpacity
+					activeOpacity={1}
+					onPress={() => this.scrollView.scrollTo({ x: 0, y: 0, animated: true })}
 				>
-					<Text style={{ fontSize: 16, fontWeight: 'bold', color: colors.primary }}>
-						{t('recent_activity')}
-					</Text>
-				</BlockTemplate>
-
-				<List
-					items={history.slice(0, 10)}
-					loading={historyFetching}
-					notRoundedTop
-					renderItem={(item, index) => (
-						<Item
-							transaction={item}
-							customBackground={index % 2 === 0 ? colors.backgroundBlockAlt : null}
+					<BlockTemplate shadow style={{ padding: 20 }}>
+						<Balance
+							amount={amount}
+							isCreditConsistent={details.is_credit_consistent}
+							loading={detailsFetching}
+							name={details.user ? details.user.first_name : null}
+							weekAmount={totalAmount(history, oneWeekAgo) / 100}
+							onRefresh={() => this.onRefresh()}
+							navigation={navigation}
 						/>
-					)}
-					keyExtractor={item => item.id.toString()}
+					</BlockTemplate>
+				</TouchableOpacity>
+
+				<ScrollView
+					ref={ref => (this.scrollView = ref)}
+					style={{ padding: 15, borderTopWidth: 1, borderTopColor: colors.backgroundBlockAlt }}
 					refreshControl={
 						<RefreshControl
 							refreshing={historyFetching}
@@ -160,10 +137,37 @@ class HomeScreen extends React.Component {
 							tintColor={colors.secondary}
 						/>
 					}
-				/>
-				{Platform.OS === 'android' ? (
-					<BlockTemplate roundedBottom style={{ paddingVertical: 5 }} />
-				) : null}
+				>
+					<View style={{ marginBottom: 15 }}>
+						<Shortcuts amount={amount} navigation={navigation} />
+					</View>
+
+					<HistoryList items={history} slice={15} loading={historyFetching} />
+
+					<BlockTemplate
+						roundedTop
+						roundedBottom
+						onPress={() => navigation.navigate('History')}
+						style={{
+							marginTop: 10,
+							marginBottom: 30,
+							flexDirection: 'row',
+							justifyContent: 'space-between',
+							alignItems: 'center',
+						}}
+					>
+						<Text
+							style={{
+								fontSize: 14,
+								fontWeight: 'bold',
+								color: colors.primary,
+							}}
+						>
+							{t('all_history')}
+						</Text>
+						<FontAwesomeIcon icon={['fas', 'list']} size={16} color={colors.primary} />
+					</BlockTemplate>
+				</ScrollView>
 			</View>
 		);
 	}

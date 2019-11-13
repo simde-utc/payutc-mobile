@@ -6,7 +6,8 @@
  */
 
 import React from 'react';
-import { Text } from 'react-native';
+import { Text, View } from 'react-native';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import Item from './Item';
 import BlockTemplate from '../BlockTemplate';
 import List from '../List';
@@ -28,27 +29,32 @@ export default class HistoryList extends React.Component {
 	}
 
 	componentDidUpdate(prevProps) {
-		const { loading } = this.props;
+		const { loading, slice } = this.props;
 
 		if (!prevProps.loading && loading) {
-			this.setState({ slice: DEFAULT_SLICE });
+			this.setState({ slice });
 		}
 	}
 
 	static renderItem(item, index, last = false) {
 		return (
-			<Item
-				transaction={item}
-				customBackground={index % 2 === 0 ? colors.backgroundBlockAlt : colors.backgroundBlock}
-				roundedBottom={last}
-			/>
+			<View style={{ marginBottom: last ? 0 : 10 }}>
+				<Item
+					transaction={item}
+					customBackground={colors.backgroundBlockAlt}
+					roundedTop
+					roundedBottom
+				/>
+			</View>
 		);
 	}
 
 	showMore() {
+		const { slice } = this.props;
+
 		this.setState(prevState => ({
 			...prevState,
-			slice: prevState.slice + DEFAULT_SLICE,
+			slice: prevState.slice + (slice || DEFAULT_SLICE),
 		}));
 	}
 
@@ -61,10 +67,12 @@ export default class HistoryList extends React.Component {
 
 		return (
 			<BlockTemplate
+				roundedTop
 				roundedBottom
 				onPress={this.showMore}
 				disabled={disabled}
-				customBackground={colors.backgroundBlockAlt}
+				customBackground={colors.backgroundBlock}
+				style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}
 			>
 				<Text
 					style={{
@@ -75,6 +83,11 @@ export default class HistoryList extends React.Component {
 				>
 					{t('show_more')}
 				</Text>
+				<FontAwesomeIcon
+					icon={['fas', 'chevron-down']}
+					size={16}
+					color={disabled ? colors.disabled : colors.primary}
+				/>
 			</BlockTemplate>
 		);
 	}

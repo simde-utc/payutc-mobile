@@ -223,6 +223,7 @@ class HistoryScreen extends React.Component {
 							children: (
 								<HistoryList
 									loading={historyFetching}
+									slice={50}
 									items={this.getHistory()}
 									title={t('all_desc', { since: since.toLowerCase() })}
 								/>
@@ -233,6 +234,7 @@ class HistoryScreen extends React.Component {
 							children: (
 								<HistoryList
 									loading={historyFetching}
+									slice={50}
 									items={this.getHistory('PURCHASE')}
 									title={t('purchased_desc', { since: since.toLowerCase() })}
 								/>
@@ -243,6 +245,7 @@ class HistoryScreen extends React.Component {
 							children: (
 								<HistoryList
 									loading={historyFetching}
+									slice={50}
 									items={this.getHistory('RECHARGE')}
 									title={t('refills_desc', { since: since.toLowerCase() })}
 								/>
