@@ -7,6 +7,7 @@
  */
 
 import React from 'react';
+import * as Haptics from 'expo-haptics';
 import BlockTemplate from '../BlockTemplate';
 import { History as t } from '../../utils/i18n';
 import Transaction from './Transaction';
@@ -84,7 +85,10 @@ export default class Item extends React.Component {
 				roundedTop={roundedTop}
 				roundedBottom={roundedBottom}
 				shadow={shadow}
-				onPress={() => this.setState({ expand: !expand })}
+				onPress={() => {
+					Haptics.selectionAsync().catch();
+					this.setState({ expand: !expand });
+				}}
 			>
 				<Transaction
 					expanded={expand}

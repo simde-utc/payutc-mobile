@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { Alert, ScrollView, View } from 'react-native';
+import { Alert, Button, ScrollView, View } from 'react-native';
 import { connect } from 'react-redux';
 import * as Haptics from 'expo-haptics';
 import LinkButton from '../../components/LinkButton';
@@ -22,16 +22,28 @@ import { floatToEuro, isAmountValid } from '../../utils/amount';
 const MIN_AMOUNT = 0.01;
 
 class TransferScreen extends React.Component {
-	static navigationOptions = () => ({
-		title: t('title'),
-		headerStyle: {
-			borderBottomWidth: 0,
-			backgroundColor: colors.backgroundBlock,
-		},
-		headerTintColor: colors.transfer,
-		headerForceInset: { top: 'never' },
-		headerTruncatedBackTitle: _('back'),
-	});
+	static navigationOptions = ({ navigation }) => {
+		return {
+			title: t('title'),
+			headerStyle: {
+				borderBottomWidth: 0,
+				backgroundColor: colors.backgroundBlock,
+			},
+			headerTintColor: colors.transfer,
+			headerForceInset: { top: 'never' },
+			headerBackTitle: t('back_button_title'),
+			headerTruncatedBackTitle: _('back'),
+			headerLeft: (
+				<Button
+					onPress={() => {
+						navigation.navigate('Home');
+					}}
+					title={_('cancel')}
+					color={colors.transfer}
+				/>
+			),
+		};
+	};
 
 	submiting = false;
 

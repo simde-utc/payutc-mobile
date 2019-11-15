@@ -10,6 +10,7 @@ import React from 'react';
 import { RefreshControl, ScrollView, Text, View } from 'react-native';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import * as Haptics from 'expo-haptics';
 import colors from '../../styles/colors';
 import Balance from '../../components/Home/Balance';
 import BlockTemplate from '../../components/BlockTemplate';
@@ -166,7 +167,10 @@ class HomeScreen extends React.Component {
 							roundedBottom
 							shadow
 							borderForAndroid
-							onPress={() => navigation.navigate('Refill')}
+							onPress={() => {
+								Haptics.selectionAsync().catch();
+								navigation.navigate('Refill');
+							}}
 							style={{ flexDirection: 'row', alignItems: 'center' }}
 						>
 							<FontAwesomeIcon icon={['fas', 'plus-circle']} size={15} color={colors.more} />
@@ -189,7 +193,10 @@ class HomeScreen extends React.Component {
 							roundedBottom
 							shadow
 							borderForAndroid
-							onPress={() => navigation.navigate('Transfer')}
+							onPress={() => {
+								Haptics.selectionAsync().catch();
+								navigation.navigate('Transfer');
+							}}
 							style={{ flexDirection: 'row', alignItems: 'center' }}
 						>
 							<FontAwesomeIcon icon={['fas', 'share']} size={15} color={colors.transfer} />
@@ -211,7 +218,10 @@ class HomeScreen extends React.Component {
 						roundedBottom
 						shadow
 						borderForAndroid
-						onPress={() => navigation.navigate('Settings')}
+						onPress={() => {
+							Haptics.selectionAsync().catch();
+							navigation.navigate('Settings');
+						}}
 						style={{ flexDirection: 'row', alignItems: 'center' }}
 					>
 						<FontAwesomeIcon icon={['fas', 'cogs']} size={15} color={colors.secondary} />

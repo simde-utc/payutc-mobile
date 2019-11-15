@@ -13,7 +13,7 @@ import { connect, Provider } from 'react-redux';
 import SpinnerOverlay from 'react-native-loading-spinner-overlay';
 import AppLoader from './src/screens/AppLoader';
 import ChangelogScreen from './src/screens/Settings/ChangelogScreen';
-import AuthNavigator from './src/navigations/Auth/AuthNavigator';
+import AuthNavigator from './src/navigations/AuthNavigator';
 import store from './src/redux/store';
 import colors from './src/styles/colors';
 import MainNavigator from './src/navigations/MainNavigator';
