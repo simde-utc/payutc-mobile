@@ -7,10 +7,10 @@
  */
 
 import React from 'react';
-import { RefreshControl, ScrollView, View } from 'react-native';
+import { RefreshControl, ScrollView, TouchableOpacity, View } from 'react-native';
 import { connect } from 'react-redux';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import colors from '../../styles/colors';
-import TitleParams from '../../components/TitleParams';
 import { Config, PayUTC, Portail } from '../../redux/actions';
 import StatsHorizontalScrollView from '../../components/Stats/StatsHorizontalScrollView';
 import RankedList from '../../components/Stats/RankedList';
@@ -25,12 +25,28 @@ import {
 import { getDateFromPortail } from '../../utils/date';
 
 class StatsScreen extends React.Component {
-	static navigationOptions = () => ({
-		title: t('title'),
-		header: null,
-		headerForceInset: { top: 'never' },
-		headerTruncatedBackTitle: _('back'),
-	});
+	static navigationOptions = ({ navigation }) => {
+		return {
+			title: t('title'),
+			headerStyle: {
+				borderBottomWidth: 1,
+				borderBottomColor: colors.background,
+				backgroundColor: colors.backgroundBlock,
+			},
+			headerTintColor: colors.primary,
+			headerForceInset: { top: 'never' },
+			headerRight: (
+				<TouchableOpacity
+					style={{ flex: 1, flexDirection: 'row', alignItems: 'center', marginRight: 10 }}
+					onPress={() => {
+						navigation.setParams({ areFiltersVisible: !navigation.getParam('areFiltersVisible') });
+					}}
+				>
+					<FontAwesomeIcon icon={['fas', 'sliders-h']} size={18} color={colors.primary} />
+				</TouchableOpacity>
+			),
+		};
+	};
 
 	constructor(props) {
 		super(props);
@@ -121,7 +137,7 @@ class StatsScreen extends React.Component {
 	}
 
 	render() {
-		const { historyFetched, history, preferences } = this.props;
+		const { historyFetched, history, preferences, navigation } = this.props;
 		const { dates } = this.state;
 		let filteredHistory = history;
 
@@ -130,6 +146,8 @@ class StatsScreen extends React.Component {
 
 			filteredHistory = history.filter(({ date }) => new Date(date) > maxDate);
 		}
+
+		const areFiltersVisible = navigation.getParam('areFiltersVisible');
 
 		return (
 			<ScrollView
@@ -143,28 +161,27 @@ class StatsScreen extends React.Component {
 					/>
 				}
 			>
-				<TitleParams
-					title={t('title')}
-					settingText={_('since_*', {
-						since: _(dates[preferences.selectedDate].lazyTitle).toLowerCase(),
-					})}
-				>
+				{areFiltersVisible ? (
 					<TabsBlockTemplate
+						roundedTop
 						roundedBottom
 						text={_('show_since')}
 						tintColor={colors.secondary}
 						value={preferences.selectedDate}
 						onChange={this.onSelectedDateChange}
-						style={{ marginHorizontal: 15, borderTopWidth: 0 }}
+						style={{ margin: 15, marginBottom: 0 }}
 						tabs={dates}
 					/>
-				</TitleParams>
-				<View style={{ height: 15 }} />
-				<StatsHorizontalScrollView
-					history={history}
-					historyFetching={!historyFetched}
-					since={{ text: '', date: dates[preferences.selectedDate].date }}
-				/>
+				) : null}
+
+				<View style={{ marginTop: 15 }}>
+					<StatsHorizontalScrollView
+						history={history}
+						historyFetching={!historyFetched}
+						since={{ text: '', date: dates[preferences.selectedDate].date }}
+					/>
+				</View>
+
 				<TabsBlockTemplate
 					style={{ margin: 15 }}
 					roundedTop

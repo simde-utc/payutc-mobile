@@ -140,7 +140,9 @@
 			"transfers": "Transferts",
 			"transfers_desc": "Transferts %{since}",
 			"search": "Rechercher",
-			"show_more": "Afficher plus"
+			"show_more": "Afficher plus",
+			"transaction_*": "Transaction n°%{number}",
+			"product_*": "Produit n°%{number}"
 		},
 		"Stats": {
 			"title": "Statistiques",
@@ -288,12 +290,13 @@
 		"loading_text_replacement": "•••",
 		"and": "et",
 		"at": "à",
+		"since": "depuis",
 		"since_*": "depuis %{since}",
 		"ever": "toujours",
 		"semester": "ce semestre",
 		"month": "un mois",
-		"week": "une semaine",
-		"yesterday": "hier",
+		"week": "cette semaine",
+		"yesterday": "aujourd'hui",
 		"show_since": "afficher depuis :",
 		"empty_list": "aucune donnée à afficher :(",
 		"back": "retour",
@@ -313,13 +316,6 @@
 		"minor": "considéré.e mineur.e",
 		"creation_date": "date de création",
 		"details": "détails",
-	},
-
-	"navigation": {
-		"home": "Accueil",
-		"history": "Historique",
-		"stats": "Statistiques",
-		"settings": "Paramètres"
 	},
 
 	"api": {

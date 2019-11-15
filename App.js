@@ -16,7 +16,7 @@ import ChangelogScreen from './src/screens/Settings/ChangelogScreen';
 import AuthNavigator from './src/navigations/Auth/AuthNavigator';
 import store from './src/redux/store';
 import colors from './src/styles/colors';
-import HomeNavigator from './src/navigations/Home/HomeNavigator';
+import MainNavigator from './src/navigations/MainNavigator';
 
 const styles = StyleSheet.create({
 	defaultFontFamily: {
@@ -39,7 +39,7 @@ const AppNavigator = createSwitchNavigator(
 	{
 		Loading: AppLoader,
 		Auth: AuthNavigator,
-		Main: HomeNavigator,
+		Main: MainNavigator,
 		Changelog: ChangelogScreen,
 	},
 	{

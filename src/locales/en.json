@@ -140,6 +140,8 @@
 			"transfers_desc": "Transfers %{since}",
 			"search": "Search",
 			"show_more": "Show more",
+			"transaction_*": "Transaction #%{number}",
+			"product_*": "Product #%{number}"
 		},
 		"Stats": {
 			"title": "Statistics",
@@ -287,6 +289,7 @@
 		"loading_text_replacement": "•••",
 		"and": "and",
 		"at": "at",
+		"since": "since",
 		"since_*": "since %{since}",
 		"ever": "ever",
 		"semester": "this semester",
@@ -312,13 +315,6 @@
 		"minor": "considered as minor",
 		"creation_date": "creation date",
 		"details": "details",
-	},
-
-	"navigation": {
-		"home": "Home",
-		"history": "Historic",
-		"stats": "Statistics",
-		"settings": "Settings"
 	},
 
 	"api": {

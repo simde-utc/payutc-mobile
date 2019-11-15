@@ -7,25 +7,40 @@
  */
 
 import React from 'react';
-import { RefreshControl, TextInput, ScrollView, View } from 'react-native';
+import { RefreshControl, ScrollView, TextInput, TouchableOpacity, View } from 'react-native';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import colors from '../../styles/colors';
-import TitleParams from '../../components/TitleParams';
 import BlockTemplate from '../../components/BlockTemplate';
 import HistoryList from '../../components/History/HistoryList';
 import { Config, PayUTC, Portail } from '../../redux/actions';
 import TabsBlockTemplate from '../../components/TabsBlockTemplate';
-import { _, History as t } from '../../utils/i18n';
+import { History as t } from '../../utils/i18n';
 import { getDateFromPortail } from '../../utils/date';
 
 class HistoryScreen extends React.Component {
-	static navigationOptions = () => ({
-		title: t('title'),
-		header: null,
-		headerForceInset: { top: 'never' },
-		headerTruncatedBackTitle: _('back'),
-	});
+	static navigationOptions = ({ navigation }) => {
+		return {
+			title: t('title'),
+			headerStyle: {
+				borderBottomWidth: 1,
+				borderBottomColor: colors.background,
+				backgroundColor: colors.backgroundBlock,
+			},
+			headerTintColor: colors.primary,
+			headerForceInset: { top: 'never' },
+			headerRight: (
+				<TouchableOpacity
+					style={{ flex: 1, flexDirection: 'row', alignItems: 'center', marginRight: 10 }}
+					onPress={() => {
+						navigation.setParams({ areFiltersVisible: !navigation.getParam('areFiltersVisible') });
+					}}
+				>
+					<FontAwesomeIcon icon={['fas', 'sliders-h']} size={18} color={colors.primary} />
+				</TouchableOpacity>
+			),
+		};
+	};
 
 	constructor(props) {
 		super(props);
@@ -105,6 +120,19 @@ class HistoryScreen extends React.Component {
 		dispatch(Config.preferences({ selectedHistoryCategory }));
 	}
 
+	static getCategoryFilter(id) {
+		switch (id.toString()) {
+			case '1':
+				return 'PURCHASE';
+			case '2':
+				return 'RECHARGE';
+			case '3':
+				return 'VIR';
+			default:
+				return null;
+		}
+	}
+
 	setCurrentSemester() {
 		const { currentSemester } = this.props;
 
@@ -152,118 +180,96 @@ class HistoryScreen extends React.Component {
 	}
 
 	render() {
-		const { historyFetching, preferences } = this.props;
+		const { historyFetching, preferences, navigation } = this.props;
 		const { dates, search } = this.state;
-		const since = _('since_*', {
-			since: _(dates[preferences.selectedDate].lazyTitle).toLowerCase(),
-		});
+		const areFiltersVisible = navigation.getParam('areFiltersVisible');
 
 		return (
-			<ScrollView
-				style={{ backgroundColor: colors.background }}
-				refreshControl={
-					<RefreshControl
-						refreshing={historyFetching}
-						onRefresh={() => this.onRefresh()}
-						colors={[colors.secondary]}
-						tintColor={colors.secondary}
-					/>
-				}
-			>
-				<TitleParams title={t('title')} settingText={since}>
-					<TabsBlockTemplate
-						roundedBottom
-						text={_('show_since')}
-						tintColor={colors.secondary}
-						value={preferences.selectedDate}
-						onChange={this.onSelectedDateChange}
-						style={{ marginHorizontal: 15, borderTopWidth: 0 }}
-						tabs={dates}
-					/>
-				</TitleParams>
+			<View style={{ flex: 1, backgroundColor: colors.background }}>
+				{areFiltersVisible ? (
+					<BlockTemplate shadow style={{ padding: 5 }}>
+						<TabsBlockTemplate
+							roundedTop
+							roundedBottom
+							tintColor={colors.secondary}
+							value={preferences.selectedDate}
+							onChange={this.onSelectedDateChange}
+							tabs={dates}
+						/>
+						<TabsBlockTemplate
+							roundedTop
+							roundedBottom
+							value={preferences.selectedHistoryCategory}
+							onChange={this.onSelectedCategoryChange}
+							tintColor={colors.secondary}
+							tabs={[
+								{
+									title: t('all'),
+								},
+								{
+									title: t('purchased'),
+								},
+								{
+									title: t('refills'),
+								},
+								{
+									title: t('transfers'),
+								},
+							]}
+						/>
+					</BlockTemplate>
+				) : null}
 
-				<BlockTemplate
-					roundedTop
-					roundedBottom
-					shadow
-					style={{ marginTop: 15, marginHorizontal: 15 }}
+				<ScrollView
+					refreshControl={
+						<RefreshControl
+							refreshing={historyFetching}
+							onRefresh={() => this.onRefresh()}
+							colors={[colors.secondary]}
+							tintColor={colors.secondary}
+						/>
+					}
 				>
-					<View style={{ flex: 1, flexDirection: 'row', paddingLeft: 5, alignItems: 'center' }}>
-						<FontAwesomeIcon icon={['fas', 'search']} size={20} color={colors.secondary} />
-						<TextInput
-							style={{
-								flexGrow: 1,
-								paddingLeft: 10,
-								fontSize: 18,
-								color: colors.secondary,
-								padding: 0,
-								margin: 0,
-							}}
-							keyboardAppearance={colors.generalAspect}
-							autoCapitalize="none"
-							placeholder={t('search')}
-							placeholderTextColor={colors.disabled}
-							textContentType="none"
-							onChangeText={this.onSearchChange}
-							value={search}
+					<BlockTemplate
+						roundedTop
+						roundedBottom
+						shadow
+						style={{ marginTop: 15, marginHorizontal: 15 }}
+					>
+						<View style={{ flex: 1, flexDirection: 'row', paddingLeft: 5, alignItems: 'center' }}>
+							<FontAwesomeIcon icon={['fas', 'search']} size={20} color={colors.secondary} />
+							<TextInput
+								style={{
+									flexGrow: 1,
+									paddingLeft: 10,
+									fontSize: 18,
+									color: colors.secondary,
+									padding: 0,
+									margin: 0,
+								}}
+								clearButtonMode="always"
+								keyboardAppearance={colors.generalAspect}
+								autoCapitalize="none"
+								placeholder={t('search')}
+								placeholderTextColor={colors.disabled}
+								textContentType="none"
+								onChangeText={this.onSearchChange}
+								value={search}
+							/>
+						</View>
+					</BlockTemplate>
+
+					<View style={{ margin: 15 }}>
+						<HistoryList
+							loading={historyFetching}
+							slice={50}
+							items={this.getHistory(
+								HistoryScreen.getCategoryFilter(preferences.selectedHistoryCategory)
+							)}
 						/>
 					</View>
-				</BlockTemplate>
-
-				<TabsBlockTemplate
-					style={{ margin: 15 }}
-					roundedTop
-					roundedBottom
-					value={preferences.selectedHistoryCategory}
-					onChange={this.onSelectedCategoryChange}
-					tintColor={colors.primary}
-					tabs={[
-						{
-							title: t('all'),
-							children: (
-								<HistoryList
-									loading={historyFetching}
-									slice={50}
-									items={this.getHistory()}
-									title={t('all_desc', { since: since.toLowerCase() })}
-								/>
-							),
-						},
-						{
-							title: t('purchased'),
-							children: (
-								<HistoryList
-									loading={historyFetching}
-									slice={50}
-									items={this.getHistory('PURCHASE')}
-									title={t('purchased_desc', { since: since.toLowerCase() })}
-								/>
-							),
-						},
-						{
-							title: t('refills'),
-							children: (
-								<HistoryList
-									loading={historyFetching}
-									slice={50}
-									items={this.getHistory('RECHARGE')}
-									title={t('refills_desc', { since: since.toLowerCase() })}
-								/>
-							),
-						},
-						{
-							title: t('transfers'),
-							children: (
-								<HistoryList
-									loading={historyFetching}
-									items={this.getHistory('VIR')}
-									title={t('transfers_desc', { since: since.toLowerCase() })}
-								/>
-							),
-						},
-					]}
-				/>
-			</ScrollView>
+				</ScrollView>
+			</View>
 		);
 	}
 }

@@ -10,7 +10,6 @@ import React from 'react';
 import BlockTemplate from '../BlockTemplate';
 import { History as t } from '../../utils/i18n';
 import Transaction from './Transaction';
-import TransactionModal from './TransactionModal';
 import { removeUselessEOL } from '../../utils';
 
 export default class Item extends React.Component {
@@ -18,16 +17,19 @@ export default class Item extends React.Component {
 		switch (transaction.type) {
 			case 'PURCHASE': {
 				return {
+					id: transaction.id,
 					title: `${transaction.quantity < 0 ? `${t('refund')} ` : ''}${transaction.name}`,
 					amount: Math.abs(transaction.amount),
 					quantity: transaction.quantity,
 					positive: transaction.quantity < 0,
 					location: transaction.fun,
 					date: transaction.date,
+					productId: transaction.product_id,
 				};
 			}
 			case 'VIROUT': {
 				return {
+					id: transaction.id,
 					title: `${t('virout')} ${transaction.firstname} ${transaction.lastname}`,
 					amount: transaction.amount,
 					quantity: transaction.quantity,
@@ -39,6 +41,7 @@ export default class Item extends React.Component {
 			}
 			case 'VIRIN': {
 				return {
+					id: transaction.id,
 					title: `${t('virin')} ${transaction.firstname} ${transaction.lastname}`,
 					amount: transaction.amount,
 					quantity: transaction.quantity,
@@ -50,6 +53,7 @@ export default class Item extends React.Component {
 			}
 			case 'RECHARGE': {
 				return {
+					id: transaction.id,
 					title: t('refill'),
 					amount: transaction.amount,
 					positive: true,
@@ -62,46 +66,16 @@ export default class Item extends React.Component {
 		}
 	}
 
-	static renderTransaction(formattedTransaction) {
-		return (
-			<Transaction
-				title={formattedTransaction.title}
-				amount={formattedTransaction.amount}
-				quantity={formattedTransaction.quantity}
-				message={formattedTransaction.message}
-				date={formattedTransaction.date}
-				location={formattedTransaction.location}
-				positive={formattedTransaction.positive}
-			/>
-		);
-	}
-
 	constructor(props) {
 		super(props);
 		this.state = {
-			showModal: false,
+			expand: false,
 		};
-	}
-
-	renderModalTransaction(formattedTransaction) {
-		return (
-			<TransactionModal
-				title={formattedTransaction.title}
-				amount={formattedTransaction.amount}
-				quantity={formattedTransaction.quantity}
-				message={formattedTransaction.message}
-				date={formattedTransaction.date}
-				location={formattedTransaction.location}
-				positive={formattedTransaction.positive}
-				onClose={() => this.setState({ showModal: false })}
-			/>
-		);
 	}
 
 	render() {
 		const { transaction, customBackground, roundedTop, roundedBottom, shadow } = this.props;
-		const { showModal } = this.state;
-
+		const { expand } = this.state;
 		const formattedTransaction = Item.getTransaction(transaction);
 
 		return (
@@ -110,10 +84,20 @@ export default class Item extends React.Component {
 				roundedTop={roundedTop}
 				roundedBottom={roundedBottom}
 				shadow={shadow}
-				onPress={() => this.setState({ showModal: true })}
+				onPress={() => this.setState({ expand: !expand })}
 			>
-				{showModal ? this.renderModalTransaction(formattedTransaction) : null}
-				{Item.renderTransaction(formattedTransaction)}
+				<Transaction
+					expanded={expand}
+					id={formattedTransaction.id}
+					title={formattedTransaction.title}
+					amount={formattedTransaction.amount}
+					quantity={formattedTransaction.quantity}
+					message={formattedTransaction.message}
+					date={formattedTransaction.date}
+					location={formattedTransaction.location}
+					positive={formattedTransaction.positive}
+					productId={formattedTransaction.productId}
+				/>
 			</BlockTemplate>
 		);
 	}

@@ -85,7 +85,7 @@ export default function List({
 				loading ? (
 					<LoadingList />
 				) : noEmptyComponent ? null : (
-					<BlockTemplate roundedBottom customBackground={colors.backgroundBlockAlt}>
+					<BlockTemplate roundedTop roundedBottom customBackground={colors.backgroundBlockAlt}>
 						<Text style={{ fontSize: 14, fontWeight: 'bold', color: colors.disabled }}>
 							{_('empty_list')}
 						</Text>

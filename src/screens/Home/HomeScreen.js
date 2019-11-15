@@ -32,8 +32,6 @@ class HomeScreen extends React.Component {
 
 		this.state = { message: {} };
 
-		this.scrollView = React.createRef();
-
 		this.onRefresh = this.onRefresh.bind(this);
 		this.handleNavigationOnFocus = this.handleNavigationOnFocus.bind(this);
 	}
@@ -108,7 +106,7 @@ class HomeScreen extends React.Component {
 					/>
 				) : null}
 
-				<BlockTemplate shadow style={{ padding: 20 }}>
+				<BlockTemplate shadow style={{ padding: 20, paddingRight: 15 }}>
 					<Balance
 						amount={amount}
 						isCreditConsistent={details.is_credit_consistent}
@@ -121,7 +119,6 @@ class HomeScreen extends React.Component {
 				</BlockTemplate>
 
 				<ScrollView
-					ref={ref => (this.scrollView = ref)}
 					style={{ padding: 15, borderTopWidth: 1, borderTopColor: colors.backgroundBlockAlt }}
 					refreshControl={
 						<RefreshControl

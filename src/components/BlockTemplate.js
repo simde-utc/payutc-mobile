@@ -43,6 +43,7 @@ export default class BlockTemplate extends React.Component {
 			roundedTop,
 			roundedBottom,
 			onPress,
+			onLongPress,
 			disabled,
 			customBackground,
 			style,
@@ -51,6 +52,7 @@ export default class BlockTemplate extends React.Component {
 		return (
 			<TouchableOpacity
 				onPress={onPress}
+				onLongPress={onLongPress}
 				disabled={disabled}
 				activeOpacity={onPress ? 0.2 : 1}
 				style={[

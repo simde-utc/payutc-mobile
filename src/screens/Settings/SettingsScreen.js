@@ -9,12 +9,12 @@
 import React from 'react';
 import {
 	Linking,
+	Platform,
 	RefreshControl,
 	ScrollView,
 	Text,
-	View,
-	Platform,
 	TouchableOpacity,
+	View,
 } from 'react-native';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
@@ -25,14 +25,17 @@ import Paragraphe from '../../components/Paragraphe';
 import LinkButton from '../../components/LinkButton';
 import { _, Global as g, Settings as t } from '../../utils/i18n';
 import { Config, PayUTC } from '../../redux/actions';
-import { PAYUTC_EMAIL, IOS_STORE_URL, ANDROID_STORE_URL } from '../../../config';
-import BlockTemplate from '../../components/BlockTemplate';
+import { ANDROID_STORE_URL, IOS_STORE_URL, PAYUTC_EMAIL } from '../../../config';
 import GitHubService from '../../services/GitHub';
 
 class SettingsScreen extends React.Component {
 	static navigationOptions = () => ({
 		title: t('title'),
-		header: null,
+		headerStyle: {
+			borderBottomWidth: 0,
+			backgroundColor: colors.backgroundBlock,
+		},
+		headerTintColor: colors.primary,
 		headerForceInset: { top: 'never' },
 		headerTruncatedBackTitle: _('back'),
 	});
@@ -93,12 +96,6 @@ class SettingsScreen extends React.Component {
 				}
 				style={{ backgroundColor: colors.background }}
 			>
-				<BlockTemplate roundedTop roundedBottom shadow style={{ margin: 15, marginBottom: 0 }}>
-					<Text style={{ fontSize: 22, fontWeight: 'bold', color: colors.primary }}>
-						{t('title')}
-					</Text>
-				</BlockTemplate>
-
 				<TabsBlockTemplate
 					roundedTop
 					roundedBottom

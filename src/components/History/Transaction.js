@@ -8,19 +8,24 @@
 
 import React from 'react';
 import { Text, View } from 'react-native';
+import { History as t } from '../../utils/i18n';
 import colors from '../../styles/colors';
 import { floatToEuro } from '../../utils/amount';
 import { beautifyDate } from '../../utils/date';
 
-export default function Transaction({
-	title,
-	amount,
-	quantity,
-	date,
-	location,
-	message,
-	positive,
-}) {
+export default function Transaction(props) {
+	const {
+		id,
+		title,
+		amount,
+		quantity,
+		date,
+		location,
+		message,
+		positive,
+		productId,
+		expanded,
+	} = props;
 	const tintColor = positive ? colors.more : colors.secondary;
 
 	return (
@@ -43,17 +48,40 @@ export default function Transaction({
 					</Text>
 
 					{message ? (
-						<Text numberOfLines={2} style={{ fontSize: 12, color: `${tintColor}95`, marginTop: 3 }}>
+						<Text
+							numberOfLines={expanded ? null : 2}
+							style={{ fontSize: 12, color: `${tintColor}95`, marginTop: 3 }}
+						>
 							{message}
 						</Text>
+					) : null}
+
+					{expanded ? (
+						<>
+							<Text
+								numberOfLines={expanded ? null : 2}
+								style={{ fontSize: 12, color: `${tintColor}95`, marginTop: 3 }}
+							>
+								{t('transaction_*', { number: id })}
+							</Text>
+							{productId ? (
+								<Text
+									numberOfLines={expanded ? null : 2}
+									style={{ fontSize: 12, color: `${tintColor}95` }}
+								>
+									{t('product_*', { number: productId })}
+								</Text>
+							) : null}
+						</>
 					) : null}
 				</View>
 
 				<Text
 					style={{
-						fontSize: 15,
+						fontSize: 16,
 						fontWeight: 'bold',
 						color: tintColor,
+						alignSelf: 'center',
 					}}
 				>
 					{positive ? '+' : '-'} {floatToEuro(amount / 100)}

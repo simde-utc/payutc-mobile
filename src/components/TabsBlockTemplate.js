@@ -43,7 +43,7 @@ export default function TabsBlockTemplate({
 					style={{
 						fontSize: 16,
 						fontWeight: 'bold',
-						color: colors.secondary,
+						color: tintColor || colors.secondary,
 						margin: 10,
 						marginBottom: 0,
 					}}
