@@ -11,6 +11,7 @@ import * as Haptics from 'expo-haptics';
 import BlockTemplate from '../BlockTemplate';
 import { History as t } from '../../utils/i18n';
 import Transaction from './Transaction';
+import colors from '../../styles/colors';
 import { removeUselessEOL } from '../../utils';
 
 export default class Item extends React.Component {
@@ -75,13 +76,13 @@ export default class Item extends React.Component {
 	}
 
 	render() {
-		const { transaction, customBackground, roundedTop, roundedBottom, shadow } = this.props;
+		const { transaction, roundedTop, roundedBottom, shadow } = this.props;
 		const { expand } = this.state;
 		const formattedTransaction = Item.getTransaction(transaction);
 
 		return (
 			<BlockTemplate
-				customBackground={customBackground}
+				customBackground={expand ? colors.backgroundBlock : colors.backgroundBlockAlt}
 				roundedTop={roundedTop}
 				roundedBottom={roundedBottom}
 				shadow={shadow}

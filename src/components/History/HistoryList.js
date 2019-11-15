@@ -39,12 +39,7 @@ export default class HistoryList extends React.Component {
 	static renderItem(item, index, last = false) {
 		return (
 			<View style={{ marginBottom: last ? 0 : 10 }}>
-				<Item
-					transaction={item}
-					customBackground={colors.backgroundBlockAlt}
-					roundedTop
-					roundedBottom
-				/>
+				<Item transaction={item} roundedTop roundedBottom />
 			</View>
 		);
 	}
