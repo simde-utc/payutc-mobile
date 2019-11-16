@@ -30,7 +30,7 @@ class TransferScreen extends React.Component {
 				backgroundColor: colors.backgroundBlock,
 			},
 			headerTintColor: colors.transfer,
-			headerForceInset: { top: 'never' },
+			headerForceInset: { top: 'never', bottom: 'never' },
 			headerBackTitle: t('back_button_title'),
 			headerTruncatedBackTitle: _('back'),
 			headerLeft: (

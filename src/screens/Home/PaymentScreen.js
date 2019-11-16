@@ -17,11 +17,12 @@ class PaymentScreen extends React.Component {
 	static navigationOptions = () => ({
 		title: t('title'),
 		headerStyle: {
-			borderBottomWidth: 0,
+			borderBottomWidth: 1,
+			borderBottomColor: colors.border,
 			backgroundColor: colors.backgroundBlock,
 		},
 		headerTintColor: colors.more,
-		headerForceInset: { top: 'never' },
+		headerForceInset: { top: 'never', bottom: 'never' },
 		headerTruncatedBackTitle: _('back'),
 	});
 
