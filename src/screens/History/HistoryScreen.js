@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { RefreshControl, ScrollView, TextInput, TouchableOpacity, View } from 'react-native';
+import { RefreshControl, ScrollView, TextInput, Button, View } from 'react-native';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import colors from '../../styles/colors';
@@ -15,7 +15,7 @@ import BlockTemplate from '../../components/BlockTemplate';
 import HistoryList from '../../components/History/HistoryList';
 import { Config, PayUTC, Portail } from '../../redux/actions';
 import TabsBlockTemplate from '../../components/TabsBlockTemplate';
-import { History as t } from '../../utils/i18n';
+import { _, History as t } from '../../utils/i18n';
 import { getDateFromPortail } from '../../utils/date';
 
 class HistoryScreen extends React.Component {
@@ -30,14 +30,13 @@ class HistoryScreen extends React.Component {
 			headerTintColor: colors.primary,
 			headerForceInset: { top: 'never' },
 			headerRight: (
-				<TouchableOpacity
-					style={{ flex: 1, flexDirection: 'row', alignItems: 'center', marginRight: 10 }}
+				<Button
+					title={_('period')}
+					color={colors.primary}
 					onPress={() => {
 						navigation.setParams({ areFiltersVisible: !navigation.getParam('areFiltersVisible') });
 					}}
-				>
-					<FontAwesomeIcon icon={['fas', 'sliders-h']} size={18} color={colors.primary} />
-				</TouchableOpacity>
+				/>
 			),
 		};
 	};
@@ -187,37 +186,13 @@ class HistoryScreen extends React.Component {
 		return (
 			<View style={{ flex: 1, backgroundColor: colors.background }}>
 				{areFiltersVisible ? (
-					<BlockTemplate shadow style={{ padding: 5 }}>
-						<TabsBlockTemplate
-							roundedTop
-							roundedBottom
-							tintColor={colors.secondary}
-							value={preferences.selectedDate}
-							onChange={this.onSelectedDateChange}
-							tabs={dates}
-						/>
-						<TabsBlockTemplate
-							roundedTop
-							roundedBottom
-							value={preferences.selectedHistoryCategory}
-							onChange={this.onSelectedCategoryChange}
-							tintColor={colors.secondary}
-							tabs={[
-								{
-									title: t('all'),
-								},
-								{
-									title: t('purchased'),
-								},
-								{
-									title: t('refills'),
-								},
-								{
-									title: t('transfers'),
-								},
-							]}
-						/>
-					</BlockTemplate>
+					<TabsBlockTemplate
+						tintColor={colors.secondary}
+						value={preferences.selectedDate}
+						onChange={this.onSelectedDateChange}
+						tabs={dates}
+						style={{ paddingHorizontal: 5 }}
+					/>
 				) : null}
 
 				<ScrollView
@@ -230,12 +205,7 @@ class HistoryScreen extends React.Component {
 						/>
 					}
 				>
-					<BlockTemplate
-						roundedTop
-						roundedBottom
-						shadow
-						style={{ marginTop: 15, marginHorizontal: 15 }}
-					>
+					<BlockTemplate roundedTop roundedBottom shadow style={{ margin: 15 }}>
 						<View style={{ flex: 1, flexDirection: 'row', paddingLeft: 5, alignItems: 'center' }}>
 							<FontAwesomeIcon icon={['fas', 'search']} size={20} color={colors.secondary} />
 							<TextInput
@@ -258,6 +228,29 @@ class HistoryScreen extends React.Component {
 							/>
 						</View>
 					</BlockTemplate>
+
+					<TabsBlockTemplate
+						roundedTop
+						roundedBottom
+						value={preferences.selectedHistoryCategory}
+						onChange={this.onSelectedCategoryChange}
+						tintColor={colors.primary}
+						style={{ marginHorizontal: 15 }}
+						tabs={[
+							{
+								title: t('all'),
+							},
+							{
+								title: t('purchased'),
+							},
+							{
+								title: t('refills'),
+							},
+							{
+								title: t('transfers'),
+							},
+						]}
+					/>
 
 					<View style={{ margin: 15 }}>
 						<HistoryList

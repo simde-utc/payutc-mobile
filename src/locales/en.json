@@ -315,6 +315,7 @@
 		"minor": "considered as minor",
 		"creation_date": "creation date",
 		"details": "details",
+		"period": "Period"
 	},
 
 	"api": {
