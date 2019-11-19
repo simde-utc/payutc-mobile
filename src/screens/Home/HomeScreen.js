@@ -120,7 +120,7 @@ class HomeScreen extends React.Component {
 				</BlockTemplate>
 
 				<ScrollView
-					style={{ padding: 15, borderTopWidth: 1, borderTopColor: colors.backgroundBlockAlt }}
+					style={{ borderTopWidth: 1, borderTopColor: colors.backgroundBlockAlt }}
 					refreshControl={
 						<RefreshControl
 							refreshing={historyFetching}
@@ -130,31 +130,31 @@ class HomeScreen extends React.Component {
 						/>
 					}
 				>
-					<HistoryList items={history} slice={15} loading={historyFetching} />
-
-					<BlockTemplate
-						roundedTop
-						roundedBottom
-						onPress={() => navigation.navigate('History')}
-						style={{
-							marginTop: 10,
-							marginBottom: 30,
-							flexDirection: 'row',
-							justifyContent: 'space-between',
-							alignItems: 'center',
-						}}
-					>
-						<Text
+					<View style={{ margin: 15 }}>
+						<HistoryList items={history} slice={15} loading={historyFetching} />
+						<BlockTemplate
+							roundedTop
+							roundedBottom
+							onPress={() => navigation.navigate('History')}
 							style={{
-								fontSize: 14,
-								fontWeight: 'bold',
-								color: colors.primary,
+								marginTop: 10,
+								flexDirection: 'row',
+								justifyContent: 'space-between',
+								alignItems: 'center',
 							}}
 						>
-							{t('all_history')}
-						</Text>
-						<FontAwesomeIcon icon={['fas', 'list']} size={16} color={colors.primary} />
-					</BlockTemplate>
+							<Text
+								style={{
+									fontSize: 14,
+									fontWeight: 'bold',
+									color: colors.primary,
+								}}
+							>
+								{t('all_history')}
+							</Text>
+							<FontAwesomeIcon icon={['fas', 'list']} size={16} color={colors.primary} />
+						</BlockTemplate>
+					</View>
 				</ScrollView>
 
 				<BlockTemplate

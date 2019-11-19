@@ -8,6 +8,7 @@
 
 import React from 'react';
 import { Text, View } from 'react-native';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import BlockTemplate from '../BlockTemplate';
 import List from '../List';
 import colors from '../../styles/colors';
@@ -41,19 +42,21 @@ export default class RankedList extends React.Component {
 		}));
 	}
 
-	renderItem(item, index, roundedBottom = false) {
+	renderItem(item, index) {
 		const { euro, countTintColor } = this.props;
 
 		return (
 			<BlockTemplate
-				customBackground={index % 2 === 0 ? colors.backgroundBlockAlt : colors.backgroundBlock}
+				roundedTop
+				roundedBottom
+				customBackground={colors.backgroundBlockAlt}
 				style={{
 					flex: 1,
 					flexDirection: 'row',
 					alignItems: 'center',
 					justifyContent: 'space-between',
+					marginBottom: 10,
 				}}
-				roundedBottom={roundedBottom}
 			>
 				<Text style={{ fontSize: 20, fontWeight: 'bold', color: colors.primary }}>
 					#{index + 1}
@@ -85,10 +88,12 @@ export default class RankedList extends React.Component {
 
 		return (
 			<BlockTemplate
+				roundedTop
 				roundedBottom
 				onPress={this.showMore}
 				disabled={disabled}
-				customBackground={colors.backgroundBlockAlt}
+				customBackground={colors.backgroundBlock}
+				style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}
 			>
 				<Text
 					style={{
@@ -99,6 +104,11 @@ export default class RankedList extends React.Component {
 				>
 					{t('show_more')}
 				</Text>
+				<FontAwesomeIcon
+					icon={['fas', 'chevron-down']}
+					size={16}
+					color={disabled ? colors.disabled : colors.primary}
+				/>
 			</BlockTemplate>
 		);
 	}
@@ -108,15 +118,32 @@ export default class RankedList extends React.Component {
 		const { slice } = this.state;
 
 		return (
-			<List
-				title={title}
-				items={items.slice(0, slice)}
-				loading={loading}
-				noBottomBorder={noBottomBorder}
-				renderItem={this.renderItem.bind(this)}
-				renderFooter={this.renderFooter}
-				keyExtractor={item => item.name.toString()}
-			/>
+			<>
+				<BlockTemplate
+					roundedTop
+					roundedBottom
+					customBackground={colors.backgroundBlock}
+					style={{ marginTop: 15, marginBottom: 10 }}
+				>
+					<Text
+						style={{
+							fontSize: 14,
+							fontWeight: 'bold',
+							color: colors.primary,
+						}}
+					>
+						{title}
+					</Text>
+				</BlockTemplate>
+				<List
+					items={items.slice(0, slice)}
+					loading={loading}
+					noBottomBorder={noBottomBorder}
+					renderItem={this.renderItem.bind(this)}
+					renderFooter={this.renderFooter}
+					keyExtractor={item => item.name.toString()}
+				/>
+			</>
 		);
 	}
 }

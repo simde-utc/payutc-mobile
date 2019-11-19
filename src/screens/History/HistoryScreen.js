@@ -21,10 +21,9 @@ import { getDateFromPortail } from '../../utils/date';
 class HistoryScreen extends React.Component {
 	static navigationOptions = ({ navigation }) => {
 		return {
-			title: t('title'),
+			title: navigation.getParam('since') || t('title'),
 			headerStyle: {
-				borderBottomWidth: 1,
-				borderBottomColor: colors.background,
+				borderBottomWidth: 0,
 				backgroundColor: colors.backgroundBlock,
 			},
 			headerTintColor: colors.primary,
@@ -70,7 +69,14 @@ class HistoryScreen extends React.Component {
 	}
 
 	componentDidMount() {
-		const { historyFetched, currentSemesterFetched, dispatch } = this.props;
+		const {
+			historyFetched,
+			currentSemesterFetched,
+			dispatch,
+			navigation,
+			preferences,
+		} = this.props;
+		const { dates } = this.state;
 
 		if (!historyFetched) {
 			this.onRefresh();
@@ -81,6 +87,13 @@ class HistoryScreen extends React.Component {
 		} else {
 			this.setCurrentSemester();
 		}
+
+		navigation.setParams({
+			since:
+				preferences.selectedDate > 0
+					? _('since_*', { since: _(dates[preferences.selectedDate].lazyTitle).toLowerCase() })
+					: null,
+		});
 	}
 
 	componentDidUpdate({ currentSemesterFetching: wasFetching }) {
@@ -108,9 +121,17 @@ class HistoryScreen extends React.Component {
 	}
 
 	onSelectedDateChange(selectedDate) {
-		const { dispatch } = this.props;
+		const { dispatch, navigation, preferences } = this.props;
+		const { dates } = this.state;
 
 		dispatch(Config.preferences({ selectedDate }));
+
+		navigation.setParams({
+			since:
+				preferences.selectedDate > 0
+					? _('since_*', { since: _(dates[preferences.selectedDate].lazyTitle).toLowerCase() })
+					: null,
+		});
 	}
 
 	onSelectedCategoryChange(selectedHistoryCategory) {
@@ -191,7 +212,10 @@ class HistoryScreen extends React.Component {
 						value={preferences.selectedDate}
 						onChange={this.onSelectedDateChange}
 						tabs={dates}
-						style={{ paddingHorizontal: 5 }}
+						backgroundColor={colors.backgroundBlock}
+						offsetLeft={15}
+						offsetRight={20}
+						style={{ paddingTop: 5, paddingBottom: 10 }}
 					/>
 				) : null}
 
@@ -235,7 +259,7 @@ class HistoryScreen extends React.Component {
 						value={preferences.selectedHistoryCategory}
 						onChange={this.onSelectedCategoryChange}
 						tintColor={colors.primary}
-						style={{ marginHorizontal: 15 }}
+						offsetLeft={15}
 						tabs={[
 							{
 								title: t('all'),

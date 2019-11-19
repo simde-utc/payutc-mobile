@@ -26,10 +26,9 @@ import { getDateFromPortail } from '../../utils/date';
 class StatsScreen extends React.Component {
 	static navigationOptions = ({ navigation }) => {
 		return {
-			title: t('title'),
+			title: navigation.getParam('since') || t('title'),
 			headerStyle: {
-				borderBottomWidth: 1,
-				borderBottomColor: colors.background,
+				borderBottomWidth: 0,
 				backgroundColor: colors.backgroundBlock,
 			},
 			headerTintColor: colors.primary,
@@ -73,7 +72,14 @@ class StatsScreen extends React.Component {
 	}
 
 	componentDidMount() {
-		const { historyFetched, currentSemesterFetched, dispatch } = this.props;
+		const {
+			historyFetched,
+			currentSemesterFetched,
+			dispatch,
+			navigation,
+			preferences,
+		} = this.props;
+		const { dates } = this.state;
 
 		if (!historyFetched) {
 			this.onRefresh();
@@ -84,6 +90,13 @@ class StatsScreen extends React.Component {
 		} else {
 			this.setCurrentSemester();
 		}
+
+		navigation.setParams({
+			since:
+				preferences.selectedDate > 0
+					? _('since_*', { since: _(dates[preferences.selectedDate].lazyTitle).toLowerCase() })
+					: null,
+		});
 	}
 
 	componentDidUpdate({ currentSemesterFetching: wasFetching }) {
@@ -107,9 +120,17 @@ class StatsScreen extends React.Component {
 	}
 
 	onSelectedDateChange(selectedDate) {
-		const { dispatch } = this.props;
+		const { dispatch, navigation, preferences } = this.props;
+		const { dates } = this.state;
 
 		dispatch(Config.preferences({ selectedDate }));
+
+		navigation.setParams({
+			since:
+				preferences.selectedDate > 0
+					? _('since_*', { since: _(dates[preferences.selectedDate].lazyTitle).toLowerCase() })
+					: null,
+		});
 	}
 
 	onSelectedCategoryChange(selectedStatCategory) {
@@ -154,8 +175,11 @@ class StatsScreen extends React.Component {
 						tintColor={colors.secondary}
 						value={preferences.selectedDate}
 						onChange={this.onSelectedDateChange}
-						style={{ paddingHorizontal: 5 }}
 						tabs={dates}
+						backgroundColor={colors.backgroundBlock}
+						offsetLeft={15}
+						offsetRight={20}
+						style={{ paddingTop: 5, paddingBottom: 10 }}
 					/>
 				) : null}
 				<ScrollView
@@ -176,12 +200,17 @@ class StatsScreen extends React.Component {
 						/>
 					</View>
 
+					<View
+						style={{ marginVertical: 15, height: 1, backgroundColor: colors.backgroundBlock }}
+					/>
+
 					<TabsBlockTemplate
-						style={{ margin: 15 }}
+						style={{ margin: 15, marginTop: 0 }}
 						roundedTop
 						roundedBottom
 						tintColor={colors.primary}
 						value={preferences.selectedStatCategory}
+						justifyContent="center"
 						onChange={this.onSelectedCategoryChange}
 						tabs={[
 							{
