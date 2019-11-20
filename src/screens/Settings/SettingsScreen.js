@@ -97,9 +97,8 @@ class SettingsScreen extends React.Component {
 	setRestrictions(boolean) {
 		const { dispatch } = this.props;
 
-		this.biometricAuth.authenticate(
-			() => dispatch(Config.setRestrictions(boolean ? defaultSecurity : [])),
-			() => console.warn('error')
+		this.biometricAuth.authenticate(() =>
+			dispatch(Config.setRestrictions(boolean ? defaultSecurity : []))
 		);
 	}
 

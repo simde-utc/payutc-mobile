@@ -82,7 +82,7 @@ class BiometricAuthScreen extends React.PureComponent {
 					roundedBottom
 					shadow
 					onPress={() => this.next()}
-					style={{ paddingVertical: 15 }}
+					style={{ paddingVertical: 15, borderTopWidth: 1, borderTopColor: colors.border }}
 				>
 					<View style={{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: 10 }}>
 						<FontAwesomeIcon

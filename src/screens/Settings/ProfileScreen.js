@@ -80,14 +80,14 @@ class ProfileScreen extends React.Component {
 			return;
 		}
 
-		dispatch(
-			Config.spinner({
-				visible: true,
-				textContent: value ? t('locking') : t('unlocking'),
-			})
-		);
-
 		const success = () => {
+			dispatch(
+				Config.spinner({
+					visible: true,
+					textContent: value ? t('locking') : t('unlocking'),
+				})
+			);
+
 			PayUTC.setLockStatus(value).payload.then(([status]) => {
 				dispatch(
 					Config.spinner({
@@ -120,13 +120,7 @@ class ProfileScreen extends React.Component {
 			});
 		};
 
-		this.biometricAuth.authenticate(success, () => {
-			dispatch(
-				Config.spinner({
-					visible: false,
-				})
-			);
-		});
+		this.biometricAuth.authenticate(success);
 	}
 
 	static renderDetail(

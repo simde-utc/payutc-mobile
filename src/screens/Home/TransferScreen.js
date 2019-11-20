@@ -141,12 +141,18 @@ class TransferScreen extends React.Component {
 
 		dispatch(
 			Config.spinner({
-				visible: true,
-				textContent: t('transfering'),
+				visible: false,
 			})
 		);
 
 		const success = () => {
+			dispatch(
+				Config.spinner({
+					visible: true,
+					textContent: t('transfering'),
+				})
+			);
+
 			const action = PayUTC.transfer(amountAsFloat * 100, recipient.id, message);
 			dispatch(action);
 
