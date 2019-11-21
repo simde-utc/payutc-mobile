@@ -9,6 +9,8 @@ import React from 'react';
 import { Modal, Platform, Text, View } from 'react-native';
 import * as LocalAuthentication from 'expo-local-authentication';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import * as Haptics from 'expo-haptics';
+import { BlurView } from 'expo-blur';
 import { _, BiometricAuth as t } from '../utils/i18n';
 import colors from '../styles/colors';
 import BlockTemplate from '../components/BlockTemplate';
@@ -24,7 +26,7 @@ export default class BiometricAuth extends React.PureComponent {
 	constructor(props) {
 		super(props);
 		this.state = {
-			showAndroidModal: false,
+			showModal: false,
 			accepted: false,
 		};
 	}
@@ -32,25 +34,29 @@ export default class BiometricAuth extends React.PureComponent {
 	async authenticate(successCallback, errorCallback, message = t('default_message')) {
 		const { restrictions, action } = this.props;
 
+		if (action != null && !restrictions.includes(action)) {
+			successCallback();
+			return;
+		}
+
 		const hasHardware = await BiometricAuth.hasHardware();
 		if (!hasHardware) {
 			successCallback();
 			return;
 		}
 
-		if (action != null && !restrictions.includes(action)) {
-			successCallback();
-			return;
-		}
-
 		try {
-			this.setState({ showAndroidModal: true });
+			this.setState({ showModal: true });
+
+			if (Platform.OS === 'android') {
+				Haptics.notificationAsync('error').catch();
+			}
 
 			const authentication = await LocalAuthentication.authenticateAsync({
 				promptMessage: message,
 			});
 
-			this.setState({ showAndroidModal: false });
+			this.setState({ showModal: false });
 
 			if (authentication.success) {
 				successCallback();
@@ -64,76 +70,88 @@ export default class BiometricAuth extends React.PureComponent {
 
 	async cancel() {
 		if (Platform.OS === 'android') {
-			this.setState({ showAndroidModal: false });
+			this.setState({ showModal: false });
 			await LocalAuthentication.cancelAuthenticate();
 		}
 	}
 
 	render() {
-		const { showAndroidModal, accepted } = this.state;
+		const { showModal, accepted } = this.state;
 
-		return (
-			<Modal
-				animationType="slide"
-				transparent
-				visible={Platform.OS === 'android' && showAndroidModal}
-			>
-				<View style={{ flex: 3 }} />
-				<BlockTemplate
-					roundedTop
-					style={{
-						flex: 2,
-						backgroundColor: colors.backgroundBlock,
-						alignItems: 'center',
-						justifyContent: 'space-around',
-					}}
-				>
-					<View>
-						<Text
-							style={{
-								fontSize: 18,
-								fontWeight: 'bold',
-								textAlign: 'center',
-								color: colors.secondary,
-							}}
-						>
-							{t('title')}
-						</Text>
+		if (Platform.OS === 'ios') {
+			return (
+				<Modal animationType="fade" transparent visible={showModal}>
+					<BlurView tint={colors.generalAspect} intensity={75} style={{ flex: 1 }} />
+				</Modal>
+			);
+		}
 
-						<Text style={{ fontSize: 16, color: colors.secondary }}>{t('default_message')}</Text>
-
-						<FontAwesomeIcon
-							icon={['fa', 'fingerprint']}
-							size={75}
-							style={{
-								color: accepted ? colors.primary : colors.secondary,
-								marginTop: 15,
-								alignSelf: 'center',
-							}}
-						/>
-					</View>
-
-					<BlockTemplate roundedTop roundedBottom shadow onPress={() => this.cancel()}>
-						<View style={{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: 10 }}>
-							<FontAwesomeIcon
-								icon={['fa', 'times']}
-								size={20}
-								style={{ color: colors.secondary }}
-							/>
+		if (Platform.OS === 'android') {
+			return (
+				<Modal animationType="slide" transparent visible={showModal}>
+					<BlurView tint={colors.generalAspect} intensity={75} style={{ flex: 3 }} />
+					<BlockTemplate
+						roundedTop
+						style={{
+							flex: 2,
+							backgroundColor: colors.backgroundBlockAlt,
+							alignItems: 'center',
+							justifyContent: 'space-around',
+						}}
+					>
+						<View>
 							<Text
 								style={{
-									marginLeft: 15,
-									fontSize: 15,
+									fontSize: 18,
 									fontWeight: 'bold',
+									textAlign: 'center',
 									color: colors.secondary,
 								}}
 							>
-								{_('cancel')}
+								{t('title')}
 							</Text>
+
+							<Text style={{ fontSize: 16, color: colors.secondary }}>{t('default_message')}</Text>
+
+							<FontAwesomeIcon
+								icon={['fa', 'fingerprint']}
+								size={75}
+								style={{
+									color: accepted ? colors.primary : colors.secondary,
+									marginTop: 15,
+									alignSelf: 'center',
+								}}
+							/>
 						</View>
+
+						<BlockTemplate
+							roundedTop
+							roundedBottom
+							borderForAndroid
+							shadow
+							onPress={() => this.cancel()}
+						>
+							<View style={{ flexDirection: 'row', alignItems: 'center', paddingHorizontal: 10 }}>
+								<FontAwesomeIcon
+									icon={['fa', 'times']}
+									size={20}
+									style={{ color: colors.secondary }}
+								/>
+								<Text
+									style={{
+										marginLeft: 15,
+										fontSize: 15,
+										fontWeight: 'bold',
+										color: colors.secondary,
+									}}
+								>
+									{_('cancel')}
+								</Text>
+							</View>
+						</BlockTemplate>
 					</BlockTemplate>
-				</BlockTemplate>
-			</Modal>
-		);
+				</Modal>
+			);
+		}
 	}
 }
