@@ -7,9 +7,10 @@
  */
 
 import React from 'react';
-import { Alert, Button, ScrollView, View } from 'react-native';
+import { Alert, TouchableOpacity, ScrollView, View } from 'react-native';
 import { connect } from 'react-redux';
 import * as Haptics from 'expo-haptics';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import colors from '../../styles/colors';
 import AmountForm from '../../components/AmountForm';
 import LinkButton from '../../components/LinkButton';
@@ -33,13 +34,14 @@ class RefillScreen extends React.Component {
 			headerBackTitle: t('back_button_title'),
 			headerTruncatedBackTitle: _('back'),
 			headerLeft: (
-				<Button
-					onPress={() => {
-						navigation.navigate('Home');
-					}}
-					title={_('cancel')}
-					color={colors.more}
-				/>
+				<TouchableOpacity onPress={() => navigation.navigate('Home')}>
+					<FontAwesomeIcon
+						icon={['fas', 'times']}
+						size={20}
+						color={colors.more}
+						style={{ marginHorizontal: 15, alignSelf: 'center' }}
+					/>
+				</TouchableOpacity>
 			),
 		};
 	};

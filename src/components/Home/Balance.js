@@ -153,7 +153,7 @@ class Balance extends React.Component {
 						disabled={loading}
 					>
 						<FontAwesomeIcon
-							icon={['fas', 'chart-line']}
+							icon={['fas', 'chart-pie']}
 							size={15}
 							color={loading ? colors.disabled : colors.primary}
 						/>

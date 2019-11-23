@@ -7,7 +7,7 @@
  */
 
 import React from 'react';
-import { RefreshControl, ScrollView, TextInput, Button, View } from 'react-native';
+import { RefreshControl, ScrollView, TextInput, TouchableOpacity, View } from 'react-native';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import colors from '../../styles/colors';
@@ -20,6 +20,8 @@ import { getDateFromPortail } from '../../utils/date';
 
 class HistoryScreen extends React.Component {
 	static navigationOptions = ({ navigation }) => {
+		const areFiltersVisible = navigation.getParam('areFiltersVisible');
+
 		return {
 			title: navigation.getParam('since') || t('title'),
 			headerStyle: {
@@ -29,13 +31,16 @@ class HistoryScreen extends React.Component {
 			headerTintColor: colors.primary,
 			headerForceInset: { top: 'never' },
 			headerRight: (
-				<Button
-					title={_('period')}
-					color={colors.primary}
-					onPress={() => {
-						navigation.setParams({ areFiltersVisible: !navigation.getParam('areFiltersVisible') });
-					}}
-				/>
+				<TouchableOpacity
+					onPress={() => navigation.setParams({ areFiltersVisible: !areFiltersVisible })}
+				>
+					<FontAwesomeIcon
+						icon={['fas', 'clock']}
+						size={20}
+						color={areFiltersVisible ? colors.secondary : colors.primary}
+						style={{ marginHorizontal: 15, alignSelf: 'center' }}
+					/>
+				</TouchableOpacity>
 			),
 		};
 	};

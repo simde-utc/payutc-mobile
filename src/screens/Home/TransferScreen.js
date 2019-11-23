@@ -7,9 +7,10 @@
  */
 
 import React from 'react';
-import { Alert, Button, ScrollView, View } from 'react-native';
+import { Alert, ScrollView, TouchableOpacity, View } from 'react-native';
 import { connect } from 'react-redux';
 import * as Haptics from 'expo-haptics';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import LinkButton from '../../components/LinkButton';
 import AmountForm from '../../components/AmountForm';
 import MessageForm from '../../components/Transfer/MessageForm';
@@ -34,13 +35,14 @@ class TransferScreen extends React.Component {
 			headerBackTitle: t('back_button_title'),
 			headerTruncatedBackTitle: _('back'),
 			headerLeft: (
-				<Button
-					onPress={() => {
-						navigation.navigate('Home');
-					}}
-					title={_('cancel')}
-					color={colors.transfer}
-				/>
+				<TouchableOpacity onPress={() => navigation.navigate('Home')}>
+					<FontAwesomeIcon
+						icon={['fas', 'times']}
+						size={20}
+						color={colors.transfer}
+						style={{ marginHorizontal: 15, alignSelf: 'center' }}
+					/>
+				</TouchableOpacity>
 			),
 		};
 	};
