@@ -27,6 +27,7 @@ import { _, Global as g, Settings as t } from '../../utils/i18n';
 import { Config, PayUTC } from '../../redux/actions';
 import { ANDROID_STORE_URL, IOS_STORE_URL, PAYUTC_EMAIL } from '../../../config';
 import GitHubService from '../../services/GitHub';
+import BlockTemplate from '../../components/BlockTemplate';
 
 class SettingsScreen extends React.Component {
 	static navigationOptions = () => ({
@@ -96,22 +97,26 @@ class SettingsScreen extends React.Component {
 				}
 				style={{ backgroundColor: colors.background }}
 			>
-				<TabsBlockTemplate
-					roundedTop
-					roundedBottom
-					shadow
-					text={t('lang')}
-					tintColor={colors.secondary}
-					value={lang}
-					onChange={this.setLang}
-					tabs={g('langs')}
-					justifyContent="flex-start"
-					style={{ margin: 15 }}
-				>
+				<BlockTemplate roundedTop roundedBottom shadow style={{ margin: 15 }}>
+					<Text
+						style={{ fontSize: 14, fontWeight: 'bold', color: colors.secondary, marginBottom: 10 }}
+					>
+						{t('lang')}
+					</Text>
+
+					<TabsBlockTemplate
+						roundedTop
+						roundedBottom
+						tintColor={colors.secondary}
+						value={lang}
+						onChange={this.setLang}
+						tabs={g('langs')}
+						justifyContent="flex-start"
+						backgroundColor={colors.backgroundBlock}
+					/>
 					<TouchableOpacity
 						style={{
-							margin: 10,
-							marginTop: 0,
+							marginTop: 10,
 							flex: 1,
 							flexDirection: 'row',
 							justifyContent: 'flex-start',
@@ -135,20 +140,26 @@ class SettingsScreen extends React.Component {
 							color={colors.secondary}
 						/>
 					</TouchableOpacity>
-				</TabsBlockTemplate>
+				</BlockTemplate>
 
-				<TabsBlockTemplate
-					roundedTop
-					roundedBottom
-					shadow
-					text={t('theme')}
-					tintColor={colors.secondary}
-					value={theme}
-					onChange={this.setTheme}
-					tabs={SettingsScreen.getThemes()}
-					justifyContent="flex-start"
-					style={{ margin: 15, marginTop: 0 }}
-				/>
+				<BlockTemplate roundedTop roundedBottom shadow style={{ margin: 15, marginTop: 0 }}>
+					<Text
+						style={{ fontSize: 14, fontWeight: 'bold', color: colors.secondary, marginBottom: 10 }}
+					>
+						{t('theme')}
+					</Text>
+
+					<TabsBlockTemplate
+						roundedTop
+						roundedBottom
+						tintColor={colors.secondary}
+						value={theme}
+						onChange={this.setTheme}
+						tabs={SettingsScreen.getThemes()}
+						justifyContent="flex-start"
+						backgroundColor={colors.backgroundBlock}
+					/>
+				</BlockTemplate>
 
 				<Paragraphe
 					style={{ margin: 15, marginTop: 0 }}
