@@ -27,6 +27,7 @@ class HistoryScreen extends React.Component {
 			headerStyle: {
 				borderBottomWidth: 0,
 				backgroundColor: colors.backgroundBlock,
+				elevation: areFiltersVisible ? 0 : 'inherit',
 			},
 			headerTintColor: colors.primary,
 			headerForceInset: { top: 'never' },
@@ -220,7 +221,7 @@ class HistoryScreen extends React.Component {
 						backgroundColor={colors.backgroundBlock}
 						offsetLeft={15}
 						offsetRight={20}
-						style={{ paddingTop: 5, paddingBottom: 10 }}
+						style={{ paddingTop: 5, paddingBottom: 10, elevation: 1 }}
 					/>
 				) : null}
 
