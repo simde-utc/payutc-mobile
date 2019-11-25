@@ -89,12 +89,6 @@ class ProfileScreen extends React.Component {
 			);
 
 			PayUTC.setLockStatus(value).payload.then(([status]) => {
-				dispatch(
-					Config.spinner({
-						visible: false,
-					})
-				);
-
 				if (status !== true && status !== false) {
 					Alert.alert(
 						_('error'),
@@ -108,7 +102,11 @@ class ProfileScreen extends React.Component {
 
 				this.onRefresh();
 
-				this.srollView.scrollTo({ x: 0, y: 0, animated: true });
+				dispatch(
+					Config.spinner({
+						visible: false,
+					})
+				);
 
 				this.setState({
 					message: {
