@@ -27,7 +27,6 @@ export default class BiometricAuth extends React.PureComponent {
 		super(props);
 		this.state = {
 			showModal: false,
-			accepted: false,
 		};
 	}
 
@@ -45,26 +44,22 @@ export default class BiometricAuth extends React.PureComponent {
 			return;
 		}
 
-		try {
-			this.setState({ showModal: true });
+		this.setState({ showModal: true });
 
-			if (Platform.OS === 'android') {
-				Haptics.notificationAsync('error').catch();
-			}
+		if (Platform.OS === 'android') {
+			Haptics.notificationAsync('error').catch();
+		}
 
-			const authentication = await LocalAuthentication.authenticateAsync({
-				promptMessage: t('default_message'),
-			});
+		const authentication = await LocalAuthentication.authenticateAsync({
+			promptMessage: t('default_message'),
+		});
 
-			this.setState({ showModal: false });
+		this.setState({ showModal: false });
 
-			if (authentication.success) {
-				successCallback();
-			} else {
-				errorCallback();
-			}
-		} catch (e) {
-			console.warn(e);
+		if (authentication.success) {
+			successCallback();
+		} else {
+			errorCallback();
 		}
 	}
 
@@ -76,7 +71,7 @@ export default class BiometricAuth extends React.PureComponent {
 	}
 
 	render() {
-		const { showModal, accepted } = this.state;
+		const { showModal } = this.state;
 
 		if (Platform.OS === 'ios') {
 			return (
@@ -117,7 +112,7 @@ export default class BiometricAuth extends React.PureComponent {
 								icon={['fa', 'fingerprint']}
 								size={75}
 								style={{
-									color: accepted ? colors.primary : colors.secondary,
+									color: colors.secondary,
 									marginTop: 15,
 									alignSelf: 'center',
 								}}
