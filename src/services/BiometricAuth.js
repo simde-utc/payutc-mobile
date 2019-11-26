@@ -31,7 +31,7 @@ export default class BiometricAuth extends React.PureComponent {
 		};
 	}
 
-	async authenticate(successCallback, errorCallback, message = t('default_message')) {
+	async authenticate(successCallback, errorCallback) {
 		const { restrictions, action } = this.props;
 
 		if (action != null && !restrictions.includes(action)) {
@@ -53,7 +53,7 @@ export default class BiometricAuth extends React.PureComponent {
 			}
 
 			const authentication = await LocalAuthentication.authenticateAsync({
-				promptMessage: message,
+				promptMessage: t('default_message'),
 			});
 
 			this.setState({ showModal: false });
