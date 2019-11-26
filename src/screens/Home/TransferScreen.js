@@ -328,7 +328,7 @@ class TransferScreen extends React.Component {
 
 				<BiometricAuth
 					ref={ref => (this.biometricAuth = ref)}
-					action="transfer"
+					action="TRANSFER"
 					restrictions={restrictions}
 				/>
 			</View>

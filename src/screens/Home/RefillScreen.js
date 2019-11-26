@@ -257,7 +257,7 @@ class RefillScreen extends React.Component {
 
 				<BiometricAuth
 					ref={ref => (this.biometricAuth = ref)}
-					action="refill"
+					action="REFILL"
 					restrictions={restrictions}
 				/>
 			</View>

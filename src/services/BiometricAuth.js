@@ -15,8 +15,8 @@ import { _, BiometricAuth as t } from '../utils/i18n';
 import colors from '../styles/colors';
 import BlockTemplate from '../components/BlockTemplate';
 
-export const defaultSecurity = ['transfer', 'refill', 'badge-locking'];
-export const advancedSecurity = ['transfer', 'refill', 'badge-locking', 'app-opening'];
+export const defaultSecurity = ['TRANSFER', 'REFILL', 'BADGE_LOCKING'];
+export const advancedSecurity = ['TRANSFER', 'REFILL', 'BADGE_LOCKING', 'APP_OPENING'];
 
 export default class BiometricAuth extends React.PureComponent {
 	static async hasHardware() {

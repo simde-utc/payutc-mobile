@@ -139,7 +139,7 @@ class BiometricAuthScreen extends React.PureComponent {
 
 				<BiometricAuth
 					ref={ref => (this.biometricAuth = ref)}
-					action="app-opening"
+					action="APP_OPENING"
 					restrictions={restrictions}
 				/>
 			</View>

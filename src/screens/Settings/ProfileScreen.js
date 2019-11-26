@@ -281,7 +281,7 @@ class ProfileScreen extends React.Component {
 
 				<BiometricAuth
 					ref={ref => (this.biometricAuth = ref)}
-					action="badge-locking"
+					action="BADGE_LOCKING"
 					restrictions={restrictions}
 				/>
 			</ScrollView>

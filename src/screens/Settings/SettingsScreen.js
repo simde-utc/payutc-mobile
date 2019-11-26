@@ -94,18 +94,18 @@ class SettingsScreen extends React.Component {
 		dispatch(Config.setTheme(theme));
 	}
 
-	setRestrictions(boolean) {
+	setRestrictions(enabled) {
 		const { dispatch } = this.props;
 
 		this.biometricAuth.authenticate(() =>
-			dispatch(Config.setRestrictions(boolean ? defaultSecurity : []))
+			dispatch(Config.setRestrictions(enabled ? defaultSecurity : []))
 		);
 	}
 
-	setAppOpeningSecurity(boolean) {
+	setAppOpeningSecurity(advanced) {
 		const { dispatch } = this.props;
 
-		dispatch(Config.setRestrictions(boolean ? advancedSecurity : defaultSecurity));
+		dispatch(Config.setRestrictions(advanced ? advancedSecurity : defaultSecurity));
 	}
 
 	render() {
@@ -241,7 +241,7 @@ class SettingsScreen extends React.Component {
 					{restrictions.length > 0 ? (
 						<SwitchBlockTemplate
 							roundedBottom
-							value={restrictions.includes('app-opening')}
+							value={restrictions.includes('APP_OPENING')}
 							onValueChange={this.setAppOpeningSecurity}
 							tintColor={colors.primary}
 							style={{ marginTop: 10, padding: 0 }}
