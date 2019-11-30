@@ -191,7 +191,7 @@ class ProfileScreen extends React.Component {
 	}
 
 	render() {
-		const { details, detailsFetching, hasRights, navigation, restrictions } = this.props;
+		const { details, detailsFetching, hasRights, dispatch, navigation, restrictions } = this.props;
 		const { message } = this.state;
 
 		return (
@@ -283,6 +283,8 @@ class ProfileScreen extends React.Component {
 					ref={ref => (this.biometricAuth = ref)}
 					action="BADGE_LOCKING"
 					restrictions={restrictions}
+					dispatch={dispatch}
+					navigation={navigation}
 				/>
 			</ScrollView>
 		);

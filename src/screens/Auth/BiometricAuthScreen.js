@@ -60,7 +60,7 @@ class BiometricAuthScreen extends React.PureComponent {
 	}
 
 	render() {
-		const { restrictions } = this.props;
+		const { restrictions, dispatch, navigation } = this.props;
 
 		return (
 			<View
@@ -141,6 +141,8 @@ class BiometricAuthScreen extends React.PureComponent {
 					ref={ref => (this.biometricAuth = ref)}
 					action="APP_OPENING"
 					restrictions={restrictions}
+					dispatch={dispatch}
+					navigation={navigation}
 				/>
 			</View>
 		);

@@ -227,7 +227,7 @@ class RefillScreen extends React.Component {
 	}
 
 	render() {
-		const { restrictions } = this.props;
+		const { restrictions, dispatch, navigation } = this.props;
 		const { amount, amountError } = this.state;
 
 		return (
@@ -259,6 +259,8 @@ class RefillScreen extends React.Component {
 					ref={ref => (this.biometricAuth = ref)}
 					action="REFILL"
 					restrictions={restrictions}
+					dispatch={dispatch}
+					navigation={navigation}
 				/>
 			</View>
 		);

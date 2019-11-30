@@ -14,6 +14,7 @@ import { BlurView } from 'expo-blur';
 import { _, BiometricAuth as t } from '../utils/i18n';
 import colors from '../styles/colors';
 import BlockTemplate from '../components/BlockTemplate';
+import { Config, PayUTC } from '../redux/actions';
 
 export const defaultSecurity = ['TRANSFER', 'REFILL', 'BADGE_LOCKING'];
 export const advancedSecurity = ['TRANSFER', 'REFILL', 'BADGE_LOCKING', 'APP_OPENING'];
@@ -31,7 +32,7 @@ export default class BiometricAuth extends React.PureComponent {
 	}
 
 	async authenticate(successCallback, errorCallback) {
-		const { restrictions, action } = this.props;
+		const { restrictions, action, navigation, dispatch } = this.props;
 
 		if (action != null && !restrictions.includes(action)) {
 			successCallback();
@@ -39,6 +40,17 @@ export default class BiometricAuth extends React.PureComponent {
 		}
 
 		const hasHardware = await BiometricAuth.hasHardware();
+
+		// If the Security Mode has not been properly disabled
+		if (!hasHardware && restrictions !== []) {
+			PayUTC.forget().payload.then(() => {
+				navigation.navigate('Auth');
+
+				dispatch(Config.wipe());
+			});
+			return;
+		}
+
 		if (!hasHardware) {
 			successCallback();
 			return;

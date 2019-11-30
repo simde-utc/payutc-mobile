@@ -109,7 +109,15 @@ class SettingsScreen extends React.Component {
 	}
 
 	render() {
-		const { details, detailsFetching, lang, theme, navigation, restrictions } = this.props;
+		const {
+			details,
+			detailsFetching,
+			lang,
+			theme,
+			dispatch,
+			navigation,
+			restrictions,
+		} = this.props;
 		const { hasBiometricHardware } = this.state;
 
 		const repoUrl = GitHubService.getLocalesUrl();
@@ -299,7 +307,12 @@ class SettingsScreen extends React.Component {
 					style={{ margin: 15, marginTop: 0 }}
 				/>
 
-				<BiometricAuth ref={ref => (this.biometricAuth = ref)} restrictions={restrictions} />
+				<BiometricAuth
+					ref={ref => (this.biometricAuth = ref)}
+					restrictions={restrictions}
+					dispatch={dispatch}
+					navigation={navigation}
+				/>
 			</ScrollView>
 		);
 	}

@@ -278,7 +278,7 @@ class TransferScreen extends React.Component {
 	}
 
 	render() {
-		const { suggestionsFetching, history, restrictions } = this.props;
+		const { suggestionsFetching, history, restrictions, dispatch, navigation } = this.props;
 		const { amount, recipientError, amountError, recipient, suggestions } = this.state;
 
 		return (
@@ -330,6 +330,8 @@ class TransferScreen extends React.Component {
 					ref={ref => (this.biometricAuth = ref)}
 					action="TRANSFER"
 					restrictions={restrictions}
+					dispatch={dispatch}
+					navigation={navigation}
 				/>
 			</View>
 		);
