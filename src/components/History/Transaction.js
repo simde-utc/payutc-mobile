@@ -12,7 +12,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { History as t } from '../../utils/i18n';
 import colors from '../../styles/colors';
 import { floatToEuro } from '../../utils/amount';
-import { beautifyDate } from '../../utils/date';
+import { beautifyDate, beautifyDateTime } from '../../utils/date';
 
 export default class Transaction extends Component {
 	getTransactionIcon = type => {
@@ -59,7 +59,6 @@ export default class Transaction extends Component {
 					color={`${tintColor}95`}
 					style={{
 						alignSelf: 'center',
-						transform: type === 'TRANSFER' && positive ? [{ scaleX: '-1' }] : null,
 					}}
 				/>
 
@@ -73,7 +72,8 @@ export default class Transaction extends Component {
 					</Text>
 
 					<Text style={{ fontSize: 10, color: tintColor, marginBottom: 3 }}>
-						{beautifyDate(date)} {location ? `• ${location}` : null}
+						{expanded ? beautifyDateTime(date) : beautifyDate(date)}{' '}
+						{location ? `• ${location}` : null}
 					</Text>
 
 					{message ? (
