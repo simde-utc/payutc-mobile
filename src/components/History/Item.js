@@ -20,6 +20,7 @@ export default class Item extends React.Component {
 			case 'PURCHASE': {
 				return {
 					id: transaction.id,
+					type: 'PURCHASE',
 					title: `${transaction.quantity < 0 ? `${t('refund')} ` : ''}${transaction.name}`,
 					amount: Math.abs(transaction.amount),
 					quantity: transaction.quantity,
@@ -32,6 +33,7 @@ export default class Item extends React.Component {
 			case 'VIROUT': {
 				return {
 					id: transaction.id,
+					type: 'TRANSFER',
 					title: `${t('virout')} ${transaction.firstname} ${transaction.lastname}`,
 					amount: transaction.amount,
 					quantity: transaction.quantity,
@@ -44,6 +46,7 @@ export default class Item extends React.Component {
 			case 'VIRIN': {
 				return {
 					id: transaction.id,
+					type: 'TRANSFER',
 					title: `${t('virin')} ${transaction.firstname} ${transaction.lastname}`,
 					amount: transaction.amount,
 					quantity: transaction.quantity,
@@ -56,6 +59,7 @@ export default class Item extends React.Component {
 			case 'RECHARGE': {
 				return {
 					id: transaction.id,
+					type: 'REFILL',
 					title: t('refill'),
 					amount: transaction.amount,
 					positive: true,
@@ -94,6 +98,7 @@ export default class Item extends React.Component {
 				<Transaction
 					expanded={expand}
 					id={formattedTransaction.id}
+					type={formattedTransaction.type}
 					title={formattedTransaction.title}
 					amount={formattedTransaction.amount}
 					quantity={formattedTransaction.quantity}

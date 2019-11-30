@@ -6,30 +6,45 @@
  * @license GPL-3.0
  */
 
-import React from 'react';
+import React, { Component } from 'react';
 import { Text, View } from 'react-native';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { History as t } from '../../utils/i18n';
 import colors from '../../styles/colors';
 import { floatToEuro } from '../../utils/amount';
 import { beautifyDate } from '../../utils/date';
 
-export default function Transaction(props) {
-	const {
-		id,
-		title,
-		amount,
-		quantity,
-		date,
-		location,
-		message,
-		positive,
-		productId,
-		expanded,
-	} = props;
-	const tintColor = positive ? colors.more : colors.secondary;
+export default class Transaction extends Component {
+	getTransactionIcon = type => {
+		switch (type.toUpperCase()) {
+			case 'PURCHASE':
+				return 'shopping-basket';
+			case 'TRANSFER':
+				return 'share';
+			case 'REFILL':
+				return 'plus-circle';
+			default:
+				return '';
+		}
+	};
 
-	return (
-		<View>
+	render() {
+		const {
+			id,
+			type,
+			title,
+			amount,
+			quantity,
+			date,
+			location,
+			message,
+			positive,
+			productId,
+			expanded,
+		} = this.props;
+		const tintColor = positive ? colors.more : colors.secondary;
+
+		return (
 			<View
 				style={{
 					flex: 1,
@@ -38,6 +53,20 @@ export default function Transaction(props) {
 					flexWrap: 'wrap',
 				}}
 			>
+				<FontAwesomeIcon
+					icon={['fas', this.getTransactionIcon(type)]}
+					size={20}
+					color={`${tintColor}95`}
+					style={{
+						alignSelf: 'center',
+						transform: type === 'TRANSFER' && positive ? [{ scaleX: '-1' }] : null,
+					}}
+				/>
+
+				<View
+					style={{ borderLeftWidth: 1, borderLeftColor: colors.border, marginHorizontal: 10 }}
+				/>
+
 				<View style={{ flex: 1, flexWrap: 'wrap', marginRight: 10 }}>
 					<Text style={{ fontSize: 15, fontWeight: 'bold', color: tintColor }}>
 						{title} {quantity && quantity > 1 ? `x${quantity}` : null}
@@ -87,6 +116,6 @@ export default function Transaction(props) {
 					{positive ? '+' : '-'} {floatToEuro(amount / 100)}
 				</Text>
 			</View>
-		</View>
-	);
+		);
+	}
 }
