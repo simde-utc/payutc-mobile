@@ -107,7 +107,7 @@ export default class Transaction extends Component {
 
 				<Text
 					style={{
-						fontSize: 16,
+						fontSize: 15,
 						fontWeight: 'bold',
 						color: tintColor,
 						alignSelf: 'center',

@@ -7,6 +7,7 @@
  */
 
 import React from 'react';
+import { View } from 'react-native';
 import * as Haptics from 'expo-haptics';
 import BlockTemplate from '../BlockTemplate';
 import { History as t } from '../../utils/i18n';
@@ -14,7 +15,7 @@ import Transaction from './Transaction';
 import colors from '../../styles/colors';
 import { removeUselessEOL } from '../../utils';
 
-export default class Item extends React.Component {
+export default class TransactionList extends React.Component {
 	static getTransaction(transaction) {
 		switch (transaction.type) {
 			case 'PURCHASE': {
@@ -79,35 +80,48 @@ export default class Item extends React.Component {
 		};
 	}
 
-	render() {
-		const { transaction, roundedTop, roundedBottom, shadow } = this.props;
+	renderTransaction(formattedTransaction) {
 		const { expand } = this.state;
-		const formattedTransaction = Item.getTransaction(transaction);
+
+		return (
+			<Transaction
+				expanded={expand}
+				id={formattedTransaction.id}
+				type={formattedTransaction.type}
+				title={formattedTransaction.title}
+				amount={formattedTransaction.amount}
+				quantity={formattedTransaction.quantity}
+				message={formattedTransaction.message}
+				date={formattedTransaction.date}
+				location={formattedTransaction.location}
+				positive={formattedTransaction.positive}
+				productId={formattedTransaction.productId}
+			/>
+		);
+	}
+
+	render() {
+		const { transactions } = this.props;
+		const { expand } = this.state;
 
 		return (
 			<BlockTemplate
 				customBackground={expand ? colors.backgroundBlock : colors.backgroundBlockAlt}
-				roundedTop={roundedTop}
-				roundedBottom={roundedBottom}
-				shadow={shadow}
+				roundedTop
+				roundedBottom
 				onPress={() => {
 					Haptics.selectionAsync().catch();
 					this.setState({ expand: !expand });
 				}}
 			>
-				<Transaction
-					expanded={expand}
-					id={formattedTransaction.id}
-					type={formattedTransaction.type}
-					title={formattedTransaction.title}
-					amount={formattedTransaction.amount}
-					quantity={formattedTransaction.quantity}
-					message={formattedTransaction.message}
-					date={formattedTransaction.date}
-					location={formattedTransaction.location}
-					positive={formattedTransaction.positive}
-					productId={formattedTransaction.productId}
-				/>
+				{transactions.map((transaction, index) => (
+					<View
+						key={transaction.id.toString()}
+						style={{ marginBottom: index === transactions.length - 1 ? 0 : 15 }}
+					>
+						{this.renderTransaction(TransactionList.getTransaction(transaction))}
+					</View>
+				))}
 			</BlockTemplate>
 		);
 	}

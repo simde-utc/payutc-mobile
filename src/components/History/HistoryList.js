@@ -8,7 +8,7 @@
 import React from 'react';
 import { Text, View } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import Item from './Item';
+import TransactionList from './TransactionList';
 import BlockTemplate from '../BlockTemplate';
 import List from '../List';
 import colors from '../../styles/colors';
@@ -36,10 +36,10 @@ export default class HistoryList extends React.Component {
 		}
 	}
 
-	static renderItem(item, index, last = false) {
+	static renderTransactionList(items, index, last = false) {
 		return (
 			<View style={{ marginBottom: last ? 0 : 10 }}>
-				<Item transaction={item} roundedTop roundedBottom />
+				<TransactionList transactions={items} />
 			</View>
 		);
 	}
@@ -91,14 +91,22 @@ export default class HistoryList extends React.Component {
 		const { items, title, loading } = this.props;
 		const { slice } = this.state;
 
+		const itemsByDate = items.reduce((r, a) => {
+			r[a.date] = r[a.date] || [];
+			r[a.date].push(a);
+			return r;
+		}, Object.create(null));
+
 		return (
 			<List
 				title={title}
-				items={items.slice(0, slice)}
+				items={Object.values(itemsByDate)
+					.filter(item => item.length > 0)
+					.slice(0, slice)}
 				loading={loading}
-				renderItem={HistoryList.renderItem}
+				renderItem={HistoryList.renderTransactionList}
 				renderFooter={this.renderFooter}
-				keyExtractor={item => item.id.toString()}
+				keyExtractor={item => item[0].id.toString()}
 				notRoundedTop
 				noBottomBorder
 			/>
