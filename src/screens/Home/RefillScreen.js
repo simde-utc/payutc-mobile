@@ -17,7 +17,7 @@ import { Config, Ginger, PayUTC } from '../../redux/actions';
 import { _, Refill as t } from '../../utils/i18n';
 import { floatToEuro, isAmountValid } from '../../utils/amount';
 import { PAYUTC_CALLBACK_URL } from '../../../config';
-import BiometricAuth from '../../services/BiometricAuth';
+import BiometricAuth, { REFILL } from '../../services/BiometricAuth';
 
 const AMOUNT_SHORTCUTS = [10, 15, 20, 50];
 
@@ -257,7 +257,7 @@ class RefillScreen extends React.Component {
 
 				<BiometricAuth
 					ref={ref => (this.biometricAuth = ref)}
-					action="REFILL"
+					action={REFILL}
 					restrictions={restrictions}
 					dispatch={dispatch}
 					navigation={navigation}

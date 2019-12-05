@@ -16,8 +16,13 @@ import colors from '../styles/colors';
 import BlockTemplate from '../components/BlockTemplate';
 import { Config, PayUTC } from '../redux/actions';
 
-export const defaultSecurity = ['TRANSFER', 'REFILL', 'BADGE_LOCKING'];
-export const advancedSecurity = ['TRANSFER', 'REFILL', 'BADGE_LOCKING', 'APP_OPENING'];
+export const TRANSFER = 'TRANSFER';
+export const REFILL = 'REFILL';
+export const BADGE_LOCKING = 'BADGE_LOCKING';
+export const APP_OPENING = 'APP_OPENING';
+
+export const defaultSecurity = [TRANSFER, REFILL, BADGE_LOCKING];
+export const advancedSecurity = [TRANSFER, REFILL, BADGE_LOCKING, APP_OPENING];
 
 export default class BiometricAuth extends React.PureComponent {
 	static async hasHardware() {

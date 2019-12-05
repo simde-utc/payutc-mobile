@@ -18,7 +18,7 @@ import colors from '../../styles/colors';
 import { Config, Ginger, PayUTC } from '../../redux/actions';
 import { _, Transfer as t } from '../../utils/i18n';
 import { floatToEuro, isAmountValid } from '../../utils/amount';
-import BiometricAuth from '../../services/BiometricAuth';
+import BiometricAuth, { TRANSFER } from '../../services/BiometricAuth';
 
 const MIN_AMOUNT = 0.01;
 
@@ -328,7 +328,7 @@ class TransferScreen extends React.Component {
 
 				<BiometricAuth
 					ref={ref => (this.biometricAuth = ref)}
-					action="TRANSFER"
+					action={TRANSFER}
 					restrictions={restrictions}
 					dispatch={dispatch}
 					navigation={navigation}

@@ -19,7 +19,7 @@ import PortailService from '../../services/Portail';
 import { Config, Ginger, PayUTC } from '../../redux/actions';
 import Paragraphe from '../../components/Paragraphe';
 import ModalTemplate from '../../components/ModalTemplate';
-import BiometricAuth from '../../services/BiometricAuth';
+import BiometricAuth, { BADGE_LOCKING } from '../../services/BiometricAuth';
 
 class ProfileScreen extends React.Component {
 	static navigationOptions = () => ({
@@ -281,7 +281,7 @@ class ProfileScreen extends React.Component {
 
 				<BiometricAuth
 					ref={ref => (this.biometricAuth = ref)}
-					action="BADGE_LOCKING"
+					action={BADGE_LOCKING}
 					restrictions={restrictions}
 					dispatch={dispatch}
 					navigation={navigation}

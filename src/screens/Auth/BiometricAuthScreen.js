@@ -9,7 +9,7 @@ import React from 'react';
 import { Text, View, Alert } from 'react-native';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import BiometricAuth from '../../services/BiometricAuth';
+import BiometricAuth, { APP_OPENING } from '../../services/BiometricAuth';
 import colors from '../../styles/colors';
 import { Config, PayUTC } from '../../redux/actions';
 import BlockTemplate from '../../components/BlockTemplate';
@@ -139,7 +139,7 @@ class BiometricAuthScreen extends React.PureComponent {
 
 				<BiometricAuth
 					ref={ref => (this.biometricAuth = ref)}
-					action="APP_OPENING"
+					action={APP_OPENING}
 					restrictions={restrictions}
 					dispatch={dispatch}
 					navigation={navigation}
