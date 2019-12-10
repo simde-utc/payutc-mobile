@@ -54,7 +54,7 @@ export default class BlockTemplate extends React.Component {
 				onPress={onPress}
 				onLongPress={onLongPress}
 				disabled={disabled}
-				activeOpacity={onPress ? 0.2 : 1}
+				activeOpacity={onPress ? 0.6 : 1}
 				style={[
 					{
 						backgroundColor: customBackground || colors.backgroundBlock,

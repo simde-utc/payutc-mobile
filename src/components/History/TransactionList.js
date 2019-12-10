@@ -73,15 +73,8 @@ export default class TransactionList extends React.Component {
 		}
 	}
 
-	constructor(props) {
-		super(props);
-		this.state = {
-			expand: false,
-		};
-	}
-
 	renderTransaction(formattedTransaction) {
-		const { expand } = this.state;
+		const { expand } = this.props;
 
 		return (
 			<Transaction
@@ -101,8 +94,7 @@ export default class TransactionList extends React.Component {
 	}
 
 	render() {
-		const { transactions } = this.props;
-		const { expand } = this.state;
+		const { transactions, expand, select, unselect } = this.props;
 
 		return (
 			<BlockTemplate
@@ -111,7 +103,11 @@ export default class TransactionList extends React.Component {
 				roundedBottom
 				onPress={() => {
 					Haptics.selectionAsync().catch();
-					this.setState({ expand: !expand });
+					if (expand) {
+						unselect();
+					} else {
+						select();
+					}
 				}}
 			>
 				{transactions.map((transaction, index) => (

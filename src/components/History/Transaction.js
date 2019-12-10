@@ -7,12 +7,16 @@
  */
 
 import React, { Component } from 'react';
-import { Text, View } from 'react-native';
+import { LayoutAnimation, Text, View, Platform, UIManager } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { History as t } from '../../utils/i18n';
 import colors from '../../styles/colors';
 import { floatToEuro } from '../../utils/amount';
 import { beautifyDate, beautifyDateTime } from '../../utils/date';
+
+if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
+	UIManager.setLayoutAnimationEnabledExperimental(true);
+}
 
 export default class Transaction extends Component {
 	getTransactionIcon = type => {
@@ -25,6 +29,19 @@ export default class Transaction extends Component {
 				return 'plus-circle';
 			default:
 				return '';
+		}
+	};
+
+	getTransactionColor = type => {
+		switch (type.toUpperCase()) {
+			case 'PURCHASE':
+				return colors.secondary;
+			case 'TRANSFER':
+				return colors.transfer;
+			case 'REFILL':
+				return colors.more;
+			default:
+				return colors.secondary;
 		}
 	};
 
@@ -42,7 +59,7 @@ export default class Transaction extends Component {
 			productId,
 			expanded,
 		} = this.props;
-		const tintColor = positive ? colors.more : colors.secondary;
+		const tintColor = this.getTransactionColor(type);
 
 		return (
 			<View
@@ -52,18 +69,19 @@ export default class Transaction extends Component {
 					justifyContent: 'space-between',
 					flexWrap: 'wrap',
 				}}
+				onLayout={() => {
+					LayoutAnimation.configureNext(LayoutAnimation.create(100, 'linear', 'opacity'));
+				}}
 			>
 				<FontAwesomeIcon
 					icon={['fas', this.getTransactionIcon(type)]}
 					size={20}
 					color={`${tintColor}95`}
-					style={{
-						alignSelf: 'center',
-					}}
+					style={{ alignSelf: 'center' }}
 				/>
 
 				<View
-					style={{ borderLeftWidth: 1, borderLeftColor: colors.border, marginHorizontal: 10 }}
+					style={{ borderLeftWidth: 1, borderLeftColor: `${tintColor}15`, marginHorizontal: 10 }}
 				/>
 
 				<View style={{ flex: 1, flexWrap: 'wrap', marginRight: 10 }}>
@@ -105,16 +123,17 @@ export default class Transaction extends Component {
 					) : null}
 				</View>
 
-				<Text
-					style={{
-						fontSize: 15,
-						fontWeight: 'bold',
-						color: tintColor,
-						alignSelf: 'center',
-					}}
-				>
-					{positive ? '+' : '-'} {floatToEuro(amount / 100)}
-				</Text>
+				<View style={{ alignSelf: 'center' }}>
+					<Text
+						style={{
+							fontSize: 15,
+							fontWeight: 'bold',
+							color: tintColor,
+						}}
+					>
+						{positive ? '+' : '-'} {floatToEuro(amount / 100)}
+					</Text>
+				</View>
 			</View>
 		);
 	}

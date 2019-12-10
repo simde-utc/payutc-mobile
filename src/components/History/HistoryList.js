@@ -22,10 +22,12 @@ export default class HistoryList extends React.Component {
 
 		this.state = {
 			slice: DEFAULT_SLICE,
+			selected: null,
 		};
 
 		this.showMore = this.showMore.bind(this);
 		this.renderFooter = this.renderFooter.bind(this);
+		this.renderTransactionList = this.renderTransactionList.bind(this);
 	}
 
 	componentDidUpdate(prevProps) {
@@ -36,14 +38,6 @@ export default class HistoryList extends React.Component {
 		}
 	}
 
-	static renderTransactionList(items, index, last = false) {
-		return (
-			<View style={{ marginBottom: last ? 0 : 10 }}>
-				<TransactionList transactions={items} />
-			</View>
-		);
-	}
-
 	showMore() {
 		const { slice } = this.props;
 
@@ -51,6 +45,21 @@ export default class HistoryList extends React.Component {
 			...prevState,
 			slice: prevState.slice + (slice || DEFAULT_SLICE),
 		}));
+	}
+
+	renderTransactionList(items, index, last = false) {
+		const { selected } = this.state;
+
+		return (
+			<View style={{ marginBottom: last ? 0 : 10 }}>
+				<TransactionList
+					transactions={items}
+					expand={selected === index}
+					select={() => this.setState({ selected: index })}
+					unselect={() => this.setState({ selected: null })}
+				/>
+			</View>
+		);
 	}
 
 	renderFooter() {
@@ -104,7 +113,7 @@ export default class HistoryList extends React.Component {
 					.filter(item => item.length > 0)
 					.slice(0, slice)}
 				loading={loading}
-				renderItem={HistoryList.renderTransactionList}
+				renderItem={this.renderTransactionList}
 				renderFooter={this.renderFooter}
 				keyExtractor={item => item[0].id.toString()}
 				notRoundedTop
