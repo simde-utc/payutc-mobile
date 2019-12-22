@@ -28,6 +28,8 @@ import { Config, PayUTC } from '../../redux/actions';
 import { PAYUTC_EMAIL, IOS_STORE_URL, ANDROID_STORE_URL } from '../../../config';
 import BlockTemplate from '../../components/BlockTemplate';
 import GitHubService from '../../services/GitHub';
+import SwitchBlockTemplate from '../../components/SwitchBlockTemplate';
+import BiometricAuth, { advancedSecurity, defaultSecurity } from '../../services/BiometricAuth';
 
 class SettingsScreen extends React.Component {
 	static navigationOptions = () => ({
@@ -52,8 +54,24 @@ class SettingsScreen extends React.Component {
 	constructor(props) {
 		super(props);
 
+		this.state = {
+			hasBiometricHardware: null,
+		};
+
+		this.biometricAuth = React.createRef();
+
 		this.setLang = this.setLang.bind(this);
 		this.setTheme = this.setTheme.bind(this);
+		this.setRestrictions = this.setRestrictions.bind(this);
+		this.setAppOpeningSecurity = this.setAppOpeningSecurity.bind(this);
+	}
+
+	componentDidMount() {
+		BiometricAuth.hasHardware()
+			.then(hasHardware => {
+				this.setState({ hasBiometricHardware: hasHardware });
+			})
+			.catch(() => {});
 	}
 
 	onRefresh() {
@@ -76,8 +94,31 @@ class SettingsScreen extends React.Component {
 		dispatch(Config.setTheme(theme));
 	}
 
+	setRestrictions(enabled) {
+		const { dispatch } = this.props;
+
+		this.biometricAuth.authenticate(() =>
+			dispatch(Config.setRestrictions(enabled ? defaultSecurity : []))
+		);
+	}
+
+	setAppOpeningSecurity(advanced) {
+		const { dispatch } = this.props;
+
+		dispatch(Config.setRestrictions(advanced ? advancedSecurity : defaultSecurity));
+	}
+
 	render() {
-		const { details, detailsFetching, lang, theme, navigation } = this.props;
+		const {
+			details,
+			detailsFetching,
+			lang,
+			theme,
+			dispatch,
+			navigation,
+			restrictions,
+		} = this.props;
+		const { hasBiometricHardware } = this.state;
 
 		const repoUrl = GitHubService.getLocalesUrl();
 
@@ -99,6 +140,19 @@ class SettingsScreen extends React.Component {
 					</Text>
 				</BlockTemplate>
 
+				<Paragraphe
+					style={{ margin: 15 }}
+					title={
+						detailsFetching
+							? _('loading_text_replacement')
+							: `${details.user.first_name} ${details.user.last_name}`
+					}
+					description={t('profile_desc')}
+					onPress={() => navigation.navigate('Profile')}
+					titleColor={colors.primary}
+					link
+				/>
+
 				<TabsBlockTemplate
 					roundedTop
 					roundedBottom
@@ -109,7 +163,7 @@ class SettingsScreen extends React.Component {
 					onChange={this.setLang}
 					tabs={g('langs')}
 					justifyContent="flex-start"
-					style={{ margin: 15 }}
+					style={{ margin: 15, marginTop: 0 }}
 				>
 					<TouchableOpacity
 						style={{
@@ -153,18 +207,76 @@ class SettingsScreen extends React.Component {
 					style={{ margin: 15, marginTop: 0 }}
 				/>
 
-				<Paragraphe
-					style={{ margin: 15, marginTop: 0 }}
-					title={
-						detailsFetching
-							? _('loading_text_replacement')
-							: `${details.user.first_name} ${details.user.last_name}`
-					}
-					description={t('profile_desc')}
-					onPress={() => navigation.navigate('Profile')}
-					titleColor={colors.primary}
-					link
-				/>
+				<BlockTemplate style={{ margin: 15, marginTop: 0 }} roundedTop roundedBottom shadow>
+					<Text
+						style={{
+							fontSize: 16,
+							fontWeight: 'bold',
+							color: hasBiometricHardware ? colors.secondary : colors.disabled,
+						}}
+					>
+						{t('security')}
+					</Text>
+
+					<SwitchBlockTemplate
+						value={restrictions.length > 0}
+						onValueChange={this.setRestrictions}
+						tintColor={colors.primary}
+						style={{ marginTop: 10, padding: 0 }}
+						disabled={!hasBiometricHardware}
+					>
+						<View style={{ flex: 1, flexDirection: 'column' }}>
+							<Text
+								style={{
+									fontSize: 13,
+									fontWeight: 'bold',
+									color: hasBiometricHardware ? colors.secondary : colors.disabled,
+								}}
+							>
+								{t('security_mode')}
+							</Text>
+							<Text
+								style={{
+									fontSize: 13,
+									color: hasBiometricHardware ? colors.secondary : colors.disabled,
+								}}
+							>
+								{t('security_mode_desc')}
+							</Text>
+						</View>
+					</SwitchBlockTemplate>
+
+					{restrictions.length > 0 ? (
+						<SwitchBlockTemplate
+							roundedBottom
+							value={restrictions.includes('APP_OPENING')}
+							onValueChange={this.setAppOpeningSecurity}
+							tintColor={colors.primary}
+							style={{ marginTop: 10, padding: 0 }}
+							disabled={!hasBiometricHardware}
+						>
+							<View style={{ flex: 1, flexDirection: 'column' }}>
+								<Text
+									style={{
+										fontSize: 13,
+										fontWeight: 'bold',
+										color: hasBiometricHardware ? colors.secondary : colors.disabled,
+									}}
+								>
+									{t('security_mode_app_opening')}
+								</Text>
+								<Text
+									style={{
+										fontSize: 13,
+										color: hasBiometricHardware ? colors.secondary : colors.disabled,
+									}}
+								>
+									{t('security_mode_app_opening_desc')}
+								</Text>
+							</View>
+						</SwitchBlockTemplate>
+					) : null}
+				</BlockTemplate>
 
 				<View
 					style={{
@@ -194,17 +306,25 @@ class SettingsScreen extends React.Component {
 					onPress={() => Linking.openURL(Platform.OS === 'ios' ? IOS_STORE_URL : ANDROID_STORE_URL)}
 					style={{ margin: 15, marginTop: 0 }}
 				/>
+
+				<BiometricAuth
+					ref={ref => (this.biometricAuth = ref)}
+					restrictions={restrictions}
+					dispatch={dispatch}
+					navigation={navigation}
+				/>
 			</ScrollView>
 		);
 	}
 }
 
-const mapStateToProps = ({ payutc, config: { lang, theme } }) => {
+const mapStateToProps = ({ payutc, config: { lang, theme, restrictions } }) => {
 	const details = payutc.getWalletDetails();
 
 	return {
 		lang,
 		theme,
+		restrictions,
 		details: details.getData({}),
 		detailsFetching: details.isFetching(),
 		detailsFetched: details.isFetched(),

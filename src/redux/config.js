@@ -33,6 +33,7 @@ export const configState = {
 		version: 0,
 		date: '',
 	},
+	restrictions: []
 };
 
 export const configReducer = (state = configState, { type, config, data }) => {
@@ -67,6 +68,11 @@ export const configReducer = (state = configState, { type, config, data }) => {
 					...state.spinner.textStyle,
 					color: theme.secondary,
 				};
+
+				break;
+
+			case 'setRestrictions':
+				state.restrictions = data;
 
 				break;
 

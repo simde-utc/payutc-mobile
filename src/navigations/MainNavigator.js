@@ -6,8 +6,10 @@
  */
 
 import React from 'react';
+import { AppState } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { createBottomTabNavigator, BottomTabBar } from 'react-navigation';
+import { connect } from 'react-redux';
 import HomeNavigator from './Home/HomeNavigator';
 import colors from '../styles/colors';
 import { Navigation as t } from '../utils/i18n';
@@ -30,7 +32,7 @@ const focusableIoniconFactory = icon => {
 	return focusedIcon;
 };
 
-const MainNavigator = createBottomTabNavigator(
+const Main = createBottomTabNavigator(
 	{
 		Home: {
 			screen: HomeNavigator,
@@ -84,4 +86,44 @@ const MainNavigator = createBottomTabNavigator(
 	}
 );
 
-export default MainNavigator;
+class MainNavigator extends React.Component {
+	static router = Main.router;
+
+	constructor(props) {
+		super(props);
+		this.state = {
+			appState: AppState.currentState,
+		};
+	}
+
+	componentDidMount() {
+		AppState.addEventListener('change', this.handleAppStateChange);
+	}
+
+	componentWillUnmount() {
+		AppState.removeEventListener('change', this.handleAppStateChange);
+	}
+
+	handleAppStateChange = nextAppState => {
+		const { navigation, restrictions } = this.props;
+		const { appState } = this.state;
+
+		if (
+			appState === 'background' &&
+			nextAppState === 'active' &&
+			restrictions.includes('APP_OPENING')
+		) {
+			navigation.navigate('BiometricAuth');
+		} else this.setState({ appState: nextAppState });
+	};
+
+	render() {
+		const { navigation } = this.props;
+
+		return <Main {...this.props} navigation={navigation} />;
+	}
+}
+
+const mapStateToProps = ({ config: { restrictions } }) => ({ restrictions });
+
+export default connect(mapStateToProps)(MainNavigator);

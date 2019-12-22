@@ -16,7 +16,7 @@
 		"Home": {
 			"title": "Accueil",
 			"hi": "Salut",
-			"your_balance": "Salut %{name}, voici ton solde :",
+			"your_balance": "Salut %{name} !",
 			"no_balance": "Impossible d'afficher le solde :(",
 			"refill": "Recharger",
 			"transfer": "Transférer",
@@ -33,7 +33,7 @@
 		"Refill": {
 			"title": "Rechargement",
 			"back_button_title": "Montant",
-			"amount": "Montant du rechargement :",
+			"amount": "Montant du rechargement",
 			"pay": "Accéder au paiement...",
 			"bad_amount": "Le montant doit être compris %{min} entre %{max}.",
 			"amount_error": "Le montant est invalide.",
@@ -52,9 +52,9 @@
 		},
 		"Transfer": {
 			"title": "Transfert",
-			"recipient": "Destinataire :",
+			"recipient": "Destinataire",
 			"recipient_placeholder": "Rechercher un destinataire...",
-			"amount": "Montant du transfert :",
+			"amount": "Montant du transfert",
 			"message": "Message : ",
 			"message_placeholder": "Un (gentil) message",
 			"transfer_button": "Transférer...",
@@ -106,9 +106,9 @@
 		},
 		"Auth": {
 			"title": "Connexion",
-			"login_label": "Identifiant :",
+			"login_label": "Identifiant",
 			"login_placeholder": "CAS-UTC ou email",
-			"password_label": "Mot de passe :",
+			"password_label": "Mot de passe",
 			"password_placeholder": "Mot de passe de connexion",
 			"bad_login_password": "Mauvais identifiants",
 			"i_am_ext": "Je suis extérieur",
@@ -122,6 +122,13 @@
 			"valid_terms": "En cliquant sur \"%{button}\" vous acceptez tous les termes",
 			"hey_nouvo": "Salut Nouvô !",
 			"wrong_nouvo": "Pour pouvoir utiliser l'application, il faut terminer son inscription administrative auprès de l'UTC.",
+		},
+		"BiometricAuth": {
+			"title": "Mode sécurisé",
+			"default_message": "Authentification obligatoire pour continuer",
+			"retry": "Réessayer...",
+			"disable": "Désactiver le mode sécurisé",
+			"disable_desc": "Vous devrez vous reconnecter avec vos indentifiants."
 		},
 		"History": {
 			"title": "Historique",
@@ -148,7 +155,7 @@
 			"purchases_amount": "d'achats effectués",
 			"received_amount": "reçus",
 			"give_amount": "transférés",
-			"first_transaction": "Première transaction :",
+			"first_transaction": "Première transaction",
 			"buy_ranking": "Produits les plus achetés",
 			"buy_ranking_title": "Par quantité",
 			"spend_ranking": "Produits les plus coûteux",
@@ -160,18 +167,23 @@
 		},
 		"Settings": {
 			"title": "Paramètres",
-			"lang": "Langue de l'application :",
+			"lang": "Langue de l'application",
 			"about": "À propos",
 			"contact_us": "Nous contacter",
 			"opinion": "Donner son avis",
 			"mail_body": "Salut ! \n\nAvant tout, merci pour cette magnifique application !\n\n",
 			"profile_desc": "Informations du compte, gestion du badge et déconnexion.",
-			"theme": "Thème de l'application :",
+			"theme": "Thème de l'application",
 			"themes": {
 				"light": "Clair",
 				"dark": "Sombre",
 			},
-			"translate": "Aidez-nous à traduire PayUTC !"
+			"translate": "Aidez-nous à traduire PayUTC !",
+			"security": "Sécurité",
+			"security_mode": "Activer le mode sécurisé",
+			"security_mode_desc": "Active l'authentification avant un transfert, un rechargement ou un verrouillage du badge.",
+			"security_mode_app_opening": "Demander à l'ouverture",
+			"security_mode_app_opening_desc": "Vous devrez vous authentifier à chaque ouverture de PayUTC.",
 		},
 		"About": {
 			"title": "À propos",
@@ -238,7 +250,7 @@
 		},
 		"Changelog": {
 			"title": "Changements",
-			"lang": "Langue de l'application :",
+			"lang": "Langue de l'application",
 			"actual_version": "Version actuelle: %{version}",
 			"version": "Version %{version}",
 			"go_to_store": "Voir l'application sur le Store",
@@ -272,7 +284,7 @@
 		},
 		"ChangePin": {
 			"title": "Modification du code PIN",
-			"new_pin": "Nouveau code :",
+			"new_pin": "Nouveau code",
 			"modify": "Modifier...",
 			"modification_checks": "Modification du code PIN en cours...",
 			"modification_confirmed": "Modification du code PIN réussie."
@@ -294,7 +306,7 @@
 		"month": "un mois",
 		"week": "une semaine",
 		"yesterday": "hier",
-		"show_since": "afficher les statistiques depuis :",
+		"show_since": "afficher depuis :",
 		"empty_list": "aucune donnée à afficher :(",
 		"back": "retour",
 		"cancel": "annuler",

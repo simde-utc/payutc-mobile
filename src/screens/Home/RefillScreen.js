@@ -17,6 +17,7 @@ import { Config, Ginger, PayUTC } from '../../redux/actions';
 import { _, Refill as t } from '../../utils/i18n';
 import { floatToEuro, isAmountValid } from '../../utils/amount';
 import { PAYUTC_CALLBACK_URL } from '../../../config';
+import BiometricAuth, { REFILL } from '../../services/BiometricAuth';
 
 const AMOUNT_SHORTCUTS = [10, 15, 20, 50];
 
@@ -42,6 +43,8 @@ class RefillScreen extends React.Component {
 			amount: '',
 			amountError: null,
 		};
+
+		this.biometricAuth = React.createRef();
 
 		this.handleAmountChange = this.handleAmountChange.bind(this);
 	}
@@ -208,7 +211,9 @@ class RefillScreen extends React.Component {
 
 				this.submiting = false;
 
-				navigation.navigate('Payment', { url, amount: amountAsFloat });
+				const success = () => navigation.navigate('Payment', { url, amount: amountAsFloat });
+
+				this.biometricAuth.authenticate(success);
 			})
 			.catch(() => {
 				dispatch(
@@ -222,39 +227,51 @@ class RefillScreen extends React.Component {
 	}
 
 	render() {
+		const { restrictions, dispatch, navigation } = this.props;
 		const { amount, amountError } = this.state;
 
 		return (
-			<ScrollView style={{ backgroundColor: colors.background, padding: 15 }}>
-				<View style={{ paddingBottom: 15 }}>
-					<AmountForm
-						title={t('amount')}
-						amount={amount}
-						error={amountError}
-						onChange={this.handleAmountChange}
-						shortcuts={AMOUNT_SHORTCUTS}
-						autoFocus
-						onSubmitEditing={() => !this.isButtonDisabled() && this.submit()}
-					/>
-				</View>
-				<View style={{ paddingBottom: 15 }}>
-					<LinkButton
-						text={t('pay')}
-						color={colors.backgroundBlock}
-						backgroundColor={colors.more}
-						disabled={this.isButtonDisabled()}
-						onPress={() => this.submit()}
-					/>
-				</View>
-			</ScrollView>
+			<View style={{ flex: 1 }}>
+				<ScrollView style={{ backgroundColor: colors.background, padding: 15 }}>
+					<View style={{ paddingBottom: 15 }}>
+						<AmountForm
+							title={t('amount')}
+							amount={amount}
+							error={amountError}
+							onChange={this.handleAmountChange}
+							shortcuts={AMOUNT_SHORTCUTS}
+							autoFocus
+							onSubmitEditing={() => !this.isButtonDisabled() && this.submit()}
+						/>
+					</View>
+					<View style={{ paddingBottom: 15 }}>
+						<LinkButton
+							text={t('pay')}
+							color={colors.backgroundBlock}
+							backgroundColor={colors.more}
+							disabled={this.isButtonDisabled()}
+							onPress={() => this.submit()}
+						/>
+					</View>
+				</ScrollView>
+
+				<BiometricAuth
+					ref={ref => (this.biometricAuth = ref)}
+					action={REFILL}
+					restrictions={restrictions}
+					dispatch={dispatch}
+					navigation={navigation}
+				/>
+			</View>
 		);
 	}
 }
 
-const mapStateToProps = ({ ginger }) => {
+const mapStateToProps = ({ ginger, config: { restrictions } }) => {
 	const information = ginger.getInformation();
 
 	return {
+		restrictions,
 		isContributor: information.getData({ is_cotisant: false }).is_cotisant,
 		isContributorFetching: information.isFetching(),
 	};

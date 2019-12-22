@@ -50,6 +50,7 @@ export const Refill = getTranslationsFor('screens.Refill.');
 export const Payment = getTranslationsFor('screens.Payment.');
 export const Transfer = getTranslationsFor('screens.Transfer.');
 export const Auth = getTranslationsFor('screens.Auth.');
+export const BiometricAuth = getTranslationsFor('screens.BiometricAuth.');
 export const History = getTranslationsFor('screens.History.');
 export const Stats = getTranslationsFor('screens.Stats.');
 export const Settings = getTranslationsFor('screens.Settings.');
