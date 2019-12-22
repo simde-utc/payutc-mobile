@@ -123,6 +123,13 @@
 			"hey_nouvo": "Salut Nouvô !",
 			"wrong_nouvo": "Pour pouvoir utiliser l'application, il faut terminer son inscription administrative auprès de l'UTC.",
 		},
+		"BiometricAuth": {
+			"title": "Mode sécurisé",
+			"default_message": "Authentification obligatoire pour continuer",
+			"retry": "Réessayer...",
+			"disable": "Désactiver le mode sécurisé",
+			"disable_desc": "Vous devrez vous reconnecter avec vos indentifiants."
+		},
 		"History": {
 			"title": "Historique",
 			"virout": "Virement à",
@@ -173,7 +180,12 @@
 				"light": "Clair",
 				"dark": "Sombre",
 			},
-			"translate": "Aidez-nous à traduire PayUTC !"
+			"translate": "Aidez-nous à traduire PayUTC !",
+			"security": "Sécurité",
+			"security_mode": "Activer le mode sécurisé",
+			"security_mode_desc": "Active l'authentification avant un transfert, un rechargement ou un verrouillage du badge.",
+			"security_mode_app_opening": "Demander à l'ouverture",
+			"security_mode_app_opening_desc": "Vous devrez vous authentifier à chaque ouverture de PayUTC.",
 		},
 		"About": {
 			"title": "À propos",

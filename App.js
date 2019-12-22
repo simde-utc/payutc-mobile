@@ -16,6 +16,7 @@ import ChangelogScreen from './src/screens/Settings/ChangelogScreen';
 import AuthNavigator from './src/navigations/AuthNavigator';
 import store from './src/redux/store';
 import colors from './src/styles/colors';
+import BiometricAuthScreen from './src/screens/Auth/BiometricAuthScreen';
 import MainNavigator from './src/navigations/MainNavigator';
 
 const styles = StyleSheet.create({
@@ -39,6 +40,7 @@ const AppNavigator = createSwitchNavigator(
 	{
 		Loading: AppLoader,
 		Auth: AuthNavigator,
+		BiometricAuth: BiometricAuthScreen,
 		Main: MainNavigator,
 		Changelog: ChangelogScreen,
 	},

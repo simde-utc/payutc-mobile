@@ -19,6 +19,7 @@ import PortailService from '../../services/Portail';
 import { Config, Ginger, PayUTC } from '../../redux/actions';
 import Paragraphe from '../../components/Paragraphe';
 import ModalTemplate from '../../components/ModalTemplate';
+import BiometricAuth, { BADGE_LOCKING } from '../../services/BiometricAuth';
 
 class ProfileScreen extends React.Component {
 	static navigationOptions = () => ({
@@ -37,20 +38,13 @@ class ProfileScreen extends React.Component {
 
 		this.state = { message: {} };
 
+		this.biometricAuth = React.createRef();
+
 		this.onLockChange = this.onLockChange.bind(this);
-		this.handleNavigationOnFocus = this.handleNavigationOnFocus.bind(this);
 	}
 
 	componentDidMount() {
-		const { navigation } = this.props;
-
 		this.onRefresh();
-
-		this.subscriptions = [navigation.addListener('willFocus', this.handleNavigationOnFocus)];
-	}
-
-	componentWillUnmount() {
-		this.subscriptions.forEach(subscription => subscription.remove());
 	}
 
 	onRefresh() {
@@ -86,43 +80,45 @@ class ProfileScreen extends React.Component {
 			return;
 		}
 
-		dispatch(
-			Config.spinner({
-				visible: true,
-				textContent: value ? t('locking') : t('unlocking'),
-			})
-		);
-
-		PayUTC.setLockStatus(value).payload.then(([status]) => {
+		const success = () => {
 			dispatch(
 				Config.spinner({
-					visible: false,
+					visible: true,
+					textContent: value ? t('locking') : t('unlocking'),
 				})
 			);
 
-			if (status !== true && status !== false) {
-				Alert.alert(
-					_('error'),
-					value ? t('lock_error') : t('unlock_error'),
-					[{ text: _('ok') }],
-					{}
+			PayUTC.setLockStatus(value).payload.then(([status]) => {
+				if (status !== true && status !== false) {
+					Alert.alert(
+						_('error'),
+						value ? t('lock_error') : t('unlock_error'),
+						[{ text: _('ok') }],
+						{}
+					);
+
+					return;
+				}
+
+				this.onRefresh();
+
+				dispatch(
+					Config.spinner({
+						visible: false,
+					})
 				);
 
-				return;
-			}
-
-			this.onRefresh();
-
-			this.srollView.scrollTo({ x: 0, y: 0, animated: true });
-
-			this.setState({
-				message: {
-					title: value ? t('lock_confirmed') : t('unlock_confirmed'),
-					subtitle: value ? t('lock_confirmed_desc') : t('unlock_confirmed_desc'),
-					tintColor: colors.secondary,
-				},
+				this.setState({
+					message: {
+						title: value ? t('lock_confirmed') : t('unlock_confirmed'),
+						subtitle: value ? t('lock_confirmed_desc') : t('unlock_confirmed_desc'),
+						tintColor: colors.secondary,
+					},
+				});
 			});
-		});
+		};
+
+		this.biometricAuth.authenticate(success);
 	}
 
 	static renderDetail(
@@ -184,14 +180,6 @@ class ProfileScreen extends React.Component {
 		];
 	}
 
-	handleNavigationOnFocus({ action: { params } }) {
-		this.setState({
-			message: params || {},
-		});
-
-		this.srollView.scrollTo({ x: 0, y: 0, animated: true });
-	}
-
 	signOut() {
 		const { navigation, dispatch } = this.props;
 
@@ -203,7 +191,7 @@ class ProfileScreen extends React.Component {
 	}
 
 	render() {
-		const { details, detailsFetching, hasRights, navigation } = this.props;
+		const { details, detailsFetching, hasRights, dispatch, navigation, restrictions } = this.props;
 		const { message } = this.state;
 
 		return (
@@ -290,12 +278,20 @@ class ProfileScreen extends React.Component {
 					onPress={() => this.signOut()}
 					style={{ margin: 15, marginTop: 0 }}
 				/>
+
+				<BiometricAuth
+					ref={ref => (this.biometricAuth = ref)}
+					action={BADGE_LOCKING}
+					restrictions={restrictions}
+					dispatch={dispatch}
+					navigation={navigation}
+				/>
 			</ScrollView>
 		);
 	}
 }
 
-const mapStateToProps = ({ payutc, ginger, config: { lang } }) => {
+const mapStateToProps = ({ payutc, ginger, config: { lang, restrictions } }) => {
 	const hasRights = payutc.hasRights();
 	const rights = payutc.getUserRights();
 	const details = payutc.getWalletDetails();
@@ -303,6 +299,7 @@ const mapStateToProps = ({ payutc, ginger, config: { lang } }) => {
 
 	return {
 		lang,
+		restrictions,
 		hasRights: hasRights.getData(false),
 		hasRightsFetching: hasRights.isFetching(),
 		rights: rights.getData([]),

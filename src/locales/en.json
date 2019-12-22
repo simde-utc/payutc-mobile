@@ -122,6 +122,13 @@
 			"hey_nouvo": "Hey Nouvô!",
 			"wrong_nouvo": "To use the application, you need to finish your registration to the UTC.",
 		},
+		"BiometricAuth": {
+			"title": "Security mode",
+			"default_message": "Authenticate to continue",
+			"retry": "Retry...",
+			"disable": "Disable secure mode",
+			"disable_desc": "You will have to reconnect with your credentials."
+		},
 		"History": {
 			"title": "Historic",
 			"virout": "Transfer to",
@@ -172,7 +179,12 @@
 				"light": "Light",
 				"dark": "Dark"
 			},
-			"translate": "Help us to translate PayUTC!"
+			"translate": "Help us to translate PayUTC!",
+			"security": "Security",
+			"security_mode": "Enable secure mode",
+			"security_mode_desc": "Ask for authentication before a transfer, a refill or a badge locking.",
+			"security_mode_app_opening": "Ask on opening",
+			"security_mode_app_opening_desc": "Ask for authentication when you open PayUTC."
 		},
 		"About": {
 			"title": "About",
