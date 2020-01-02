@@ -17,8 +17,8 @@ import BlockTemplate from '../../components/BlockTemplate';
 import { PayUTC } from '../../redux/actions';
 import { _, Home as t } from '../../utils/i18n';
 import { totalAmount } from '../../utils/stats';
-import ModalTemplate from '../../components/ModalTemplate';
 import HistoryList from '../../components/History/HistoryList';
+import ModalTemplate from '../../components/ModalTemplate';
 
 class HomeScreen extends React.Component {
 	static navigationOptions = () => ({
@@ -69,13 +69,31 @@ class HomeScreen extends React.Component {
 		}
 
 		this.setState({
-			message: params || {},
+			message: params ? params.message : {},
 		});
+	}
+
+	renderConfirmation() {
+		const { message } = this.state;
+
+		if (message.title == null) {
+			return null;
+		}
+
+		return (
+			<ModalTemplate
+				title={message.title}
+				subtitle={message.subtitle}
+				amount={message.amount}
+				tintColor={message.tintColor}
+				onClose={() => this.setState({ message: {} })}
+				visible={message.title != null}
+			/>
+		);
 	}
 
 	render() {
 		const { details, detailsFetching, history, historyFetching, navigation } = this.props;
-		const { message } = this.state;
 		const amount = details.credit ? details.credit / 100 : null;
 
 		const oneWeekAgo = new Date();
@@ -83,30 +101,7 @@ class HomeScreen extends React.Component {
 
 		return (
 			<View style={{ flex: 1, backgroundColor: colors.background }}>
-				{message.message ? (
-					<ModalTemplate
-						title={message.message.title}
-						subtitle={message.message.subtitle}
-						amount={message.message.amount}
-						tintColor={message.message.tintColor}
-						footer={
-							message.message.message ? ( // Yes
-								<Text
-									style={{
-										fontSize: 16,
-										textAlign: 'center',
-										fontStyle: 'italic',
-										color: colors.secondary,
-									}}
-								>
-									{message.message.message}
-								</Text>
-							) : null
-						}
-						onClose={() => this.setState({ message: {} })}
-					/>
-				) : null}
-
+				{this.renderConfirmation()}
 				<BlockTemplate shadow style={{ padding: 20, paddingRight: 15 }}>
 					<Balance
 						amount={amount}

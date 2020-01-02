@@ -132,8 +132,8 @@
 		},
 		"History": {
 			"title": "Historique",
-			"virout": "Virement à",
-			"virin": "Virement de",
+			"virout": "Transfert à",
+			"virin": "Transfert de",
 			"refill": "Rechargement",
 			"refund": "Remboursement de",
 			"unsupported_transaction": "Impossible d'afficher la transaction",

@@ -19,7 +19,7 @@ if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental
 }
 
 export default class Transaction extends Component {
-	getTransactionIcon = type => {
+	static getTransactionIcon = type => {
 		switch (type.toUpperCase()) {
 			case 'PURCHASE':
 				return 'shopping-basket';
@@ -29,19 +29,6 @@ export default class Transaction extends Component {
 				return 'plus-circle';
 			default:
 				return '';
-		}
-	};
-
-	getTransactionColor = type => {
-		switch (type.toUpperCase()) {
-			case 'PURCHASE':
-				return colors.secondary;
-			case 'TRANSFER':
-				return colors.transfer;
-			case 'REFILL':
-				return colors.more;
-			default:
-				return colors.secondary;
 		}
 	};
 
@@ -59,7 +46,11 @@ export default class Transaction extends Component {
 			productId,
 			expanded,
 		} = this.props;
-		const tintColor = this.getTransactionColor(type);
+		const tintColor = positive
+			? colors.more
+			: type.toUpperCase() === 'TRANSFER'
+			? colors.transfer
+			: colors.secondary;
 
 		return (
 			<View
@@ -74,7 +65,7 @@ export default class Transaction extends Component {
 				}}
 			>
 				<FontAwesomeIcon
-					icon={['fas', this.getTransactionIcon(type)]}
+					icon={['fas', Transaction.getTransactionIcon(type)]}
 					size={20}
 					color={`${tintColor}95`}
 					style={{ alignSelf: 'center' }}
