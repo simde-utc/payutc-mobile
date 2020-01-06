@@ -7,16 +7,12 @@
  */
 
 import React, { Component } from 'react';
-import { LayoutAnimation, Text, View, Platform, UIManager } from 'react-native';
+import { LayoutAnimation, Text, View } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { History as t } from '../../utils/i18n';
 import colors from '../../styles/colors';
 import { floatToEuro } from '../../utils/amount';
 import { beautifyDate, beautifyDateTime } from '../../utils/date';
-
-if (Platform.OS === 'android' && UIManager.setLayoutAnimationEnabledExperimental) {
-	UIManager.setLayoutAnimationEnabledExperimental(true);
-}
 
 export default class Transaction extends Component {
 	static getTransactionIcon = type => {

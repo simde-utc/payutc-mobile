@@ -33,7 +33,7 @@ class StatsScreen extends React.Component {
 			headerStyle: {
 				borderBottomWidth: 0,
 				backgroundColor: colors.backgroundBlock,
-				elevation: areFiltersVisible ? 0 : 'inherit',
+				elevation: areFiltersVisible ? 0 : 1,
 			},
 			headerTintColor: colors.primary,
 			headerForceInset: { top: 'never' },
