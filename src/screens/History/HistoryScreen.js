@@ -7,11 +7,10 @@
  */
 
 import React from 'react';
-import { RefreshControl, TextInput, ScrollView, View } from 'react-native';
+import { RefreshControl, ScrollView, TextInput, TouchableOpacity, View } from 'react-native';
 import { connect } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import colors from '../../styles/colors';
-import TitleParams from '../../components/TitleParams';
 import BlockTemplate from '../../components/BlockTemplate';
 import HistoryList from '../../components/History/HistoryList';
 import { Config, PayUTC, Portail } from '../../redux/actions';
@@ -20,12 +19,32 @@ import { _, History as t } from '../../utils/i18n';
 import { getDateFromPortail } from '../../utils/date';
 
 class HistoryScreen extends React.Component {
-	static navigationOptions = () => ({
-		title: t('title'),
-		header: null,
-		headerForceInset: { top: 'never' },
-		headerTruncatedBackTitle: _('back'),
-	});
+	static navigationOptions = ({ navigation }) => {
+		const areFiltersVisible = navigation.getParam('areFiltersVisible');
+
+		return {
+			title: navigation.getParam('since') || t('title'),
+			headerStyle: {
+				borderBottomWidth: 0,
+				backgroundColor: colors.backgroundBlock,
+				elevation: areFiltersVisible ? 0 : 1,
+			},
+			headerTintColor: colors.primary,
+			headerForceInset: { top: 'never' },
+			headerRight: (
+				<TouchableOpacity
+					onPress={() => navigation.setParams({ areFiltersVisible: !areFiltersVisible })}
+				>
+					<FontAwesomeIcon
+						icon={['fas', 'clock']}
+						size={20}
+						color={areFiltersVisible ? colors.secondary : colors.primary}
+						style={{ marginHorizontal: 15, alignSelf: 'center' }}
+					/>
+				</TouchableOpacity>
+			),
+		};
+	};
 
 	constructor(props) {
 		super(props);
@@ -56,7 +75,14 @@ class HistoryScreen extends React.Component {
 	}
 
 	componentDidMount() {
-		const { historyFetched, currentSemesterFetched, dispatch } = this.props;
+		const {
+			historyFetched,
+			currentSemesterFetched,
+			dispatch,
+			navigation,
+			preferences,
+		} = this.props;
+		const { dates } = this.state;
 
 		if (!historyFetched) {
 			this.onRefresh();
@@ -67,6 +93,13 @@ class HistoryScreen extends React.Component {
 		} else {
 			this.setCurrentSemester();
 		}
+
+		navigation.setParams({
+			since:
+				preferences.selectedDate > 0
+					? _('since_*', { since: _(dates[preferences.selectedDate].lazyTitle).toLowerCase() })
+					: null,
+		});
 	}
 
 	componentDidUpdate({ currentSemesterFetching: wasFetching }) {
@@ -94,15 +127,36 @@ class HistoryScreen extends React.Component {
 	}
 
 	onSelectedDateChange(selectedDate) {
-		const { dispatch } = this.props;
+		const { dispatch, navigation, preferences } = this.props;
+		const { dates } = this.state;
 
 		dispatch(Config.preferences({ selectedDate }));
+
+		navigation.setParams({
+			since:
+				preferences.selectedDate > 0
+					? _('since_*', { since: _(dates[preferences.selectedDate].lazyTitle).toLowerCase() })
+					: null,
+		});
 	}
 
 	onSelectedCategoryChange(selectedHistoryCategory) {
 		const { dispatch } = this.props;
 
 		dispatch(Config.preferences({ selectedHistoryCategory }));
+	}
+
+	static getCategoryFilter(id) {
+		switch (id.toString()) {
+			case '1':
+				return 'PURCHASE';
+			case '2':
+				return 'RECHARGE';
+			case '3':
+				return 'VIR';
+			default:
+				return null;
+		}
 	}
 
 	setCurrentSemester() {
@@ -152,115 +206,93 @@ class HistoryScreen extends React.Component {
 	}
 
 	render() {
-		const { historyFetching, preferences } = this.props;
+		const { historyFetching, preferences, navigation } = this.props;
 		const { dates, search } = this.state;
-		const since = _('since_*', {
-			since: _(dates[preferences.selectedDate].lazyTitle).toLowerCase(),
-		});
+		const areFiltersVisible = navigation.getParam('areFiltersVisible');
 
 		return (
-			<ScrollView
-				style={{ backgroundColor: colors.background }}
-				refreshControl={
-					<RefreshControl
-						refreshing={historyFetching}
-						onRefresh={() => this.onRefresh()}
-						colors={[colors.secondary]}
-						tintColor={colors.secondary}
-					/>
-				}
-			>
-				<TitleParams title={t('title')} settingText={since}>
+			<View style={{ flex: 1, backgroundColor: colors.background }}>
+				{areFiltersVisible ? (
 					<TabsBlockTemplate
-						roundedBottom
-						text={_('show_since')}
 						tintColor={colors.secondary}
 						value={preferences.selectedDate}
 						onChange={this.onSelectedDateChange}
-						style={{ marginHorizontal: 15, borderTopWidth: 0 }}
 						tabs={dates}
+						backgroundColor={colors.backgroundBlock}
+						offsetLeft={15}
+						offsetRight={20}
+						style={{ paddingTop: 5, paddingBottom: 10, elevation: 1 }}
 					/>
-				</TitleParams>
+				) : null}
 
-				<BlockTemplate
-					roundedTop
-					roundedBottom
-					shadow
-					style={{ marginTop: 15, marginHorizontal: 15 }}
+				<ScrollView
+					refreshControl={
+						<RefreshControl
+							refreshing={historyFetching}
+							onRefresh={() => this.onRefresh()}
+							colors={[colors.secondary]}
+							tintColor={colors.secondary}
+						/>
+					}
 				>
-					<View style={{ flex: 1, flexDirection: 'row', paddingLeft: 5, alignItems: 'center' }}>
-						<FontAwesomeIcon icon={['fas', 'search']} size={20} color={colors.secondary} />
-						<TextInput
-							style={{
-								flexGrow: 1,
-								paddingLeft: 10,
-								fontSize: 18,
-								color: colors.secondary,
-								padding: 0,
-								margin: 0,
-							}}
-							keyboardAppearance={colors.generalAspect}
-							autoCapitalize="none"
-							placeholder={t('search')}
-							placeholderTextColor={colors.disabled}
-							textContentType="none"
-							onChangeText={this.onSearchChange}
-							value={search}
+					<BlockTemplate roundedTop roundedBottom shadow style={{ margin: 15 }}>
+						<View style={{ flex: 1, flexDirection: 'row', paddingLeft: 5, alignItems: 'center' }}>
+							<FontAwesomeIcon icon={['fas', 'search']} size={20} color={colors.secondary} />
+							<TextInput
+								style={{
+									flexGrow: 1,
+									paddingLeft: 10,
+									fontSize: 18,
+									color: colors.secondary,
+									padding: 0,
+									margin: 0,
+								}}
+								clearButtonMode="always"
+								keyboardAppearance={colors.generalAspect}
+								autoCapitalize="none"
+								placeholder={t('search')}
+								placeholderTextColor={colors.disabled}
+								textContentType="none"
+								onChangeText={this.onSearchChange}
+								value={search}
+							/>
+						</View>
+					</BlockTemplate>
+
+					<TabsBlockTemplate
+						roundedTop
+						roundedBottom
+						value={preferences.selectedHistoryCategory}
+						onChange={this.onSelectedCategoryChange}
+						tintColor={colors.primary}
+						offsetLeft={15}
+						tabs={[
+							{
+								title: t('all'),
+							},
+							{
+								title: t('purchased'),
+							},
+							{
+								title: t('refills'),
+							},
+							{
+								title: t('transfers'),
+							},
+						]}
+					/>
+
+					<View style={{ margin: 15 }}>
+						<HistoryList
+							loading={historyFetching}
+							slice={50}
+							items={this.getHistory(
+								HistoryScreen.getCategoryFilter(preferences.selectedHistoryCategory)
+							)}
 						/>
 					</View>
-				</BlockTemplate>
-
-				<TabsBlockTemplate
-					style={{ margin: 15 }}
-					roundedTop
-					roundedBottom
-					value={preferences.selectedHistoryCategory}
-					onChange={this.onSelectedCategoryChange}
-					tintColor={colors.primary}
-					tabs={[
-						{
-							title: t('all'),
-							children: (
-								<HistoryList
-									loading={historyFetching}
-									items={this.getHistory()}
-									title={t('all_desc', { since: since.toLowerCase() })}
-								/>
-							),
-						},
-						{
-							title: t('purchased'),
-							children: (
-								<HistoryList
-									loading={historyFetching}
-									items={this.getHistory('PURCHASE')}
-									title={t('purchased_desc', { since: since.toLowerCase() })}
-								/>
-							),
-						},
-						{
-							title: t('refills'),
-							children: (
-								<HistoryList
-									loading={historyFetching}
-									items={this.getHistory('RECHARGE')}
-									title={t('refills_desc', { since: since.toLowerCase() })}
-								/>
-							),
-						},
-						{
-							title: t('transfers'),
-							children: (
-								<HistoryList
-									loading={historyFetching}
-									items={this.getHistory('VIR')}
-									title={t('transfers_desc', { since: since.toLowerCase() })}
-								/>
-							),
-						},
-					]}
-				/>
-			</ScrollView>
+				</ScrollView>
+			</View>
 		);
 	}
 }

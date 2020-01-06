@@ -7,9 +7,10 @@
  */
 
 import React from 'react';
-import { Alert, ScrollView, View } from 'react-native';
+import { Alert, ScrollView, TouchableOpacity, View } from 'react-native';
 import { connect } from 'react-redux';
 import * as Haptics from 'expo-haptics';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import LinkButton from '../../components/LinkButton';
 import AmountForm from '../../components/AmountForm';
 import MessageForm from '../../components/Transfer/MessageForm';
@@ -23,16 +24,29 @@ import BiometricAuth, { TRANSFER } from '../../services/BiometricAuth';
 const MIN_AMOUNT = 0.01;
 
 class TransferScreen extends React.Component {
-	static navigationOptions = () => ({
-		title: t('title'),
-		headerStyle: {
-			borderBottomWidth: 0,
-			backgroundColor: colors.backgroundBlock,
-		},
-		headerTintColor: colors.transfer,
-		headerForceInset: { top: 'never' },
-		headerTruncatedBackTitle: _('back'),
-	});
+	static navigationOptions = ({ navigation }) => {
+		return {
+			title: t('title'),
+			headerStyle: {
+				borderBottomWidth: 0,
+				backgroundColor: colors.backgroundBlock,
+			},
+			headerTintColor: colors.transfer,
+			headerForceInset: { top: 'never', bottom: 'never' },
+			headerBackTitle: t('back_button_title'),
+			headerTruncatedBackTitle: _('back'),
+			headerLeft: (
+				<TouchableOpacity onPress={() => navigation.navigate('Home')}>
+					<FontAwesomeIcon
+						icon={['fas', 'times']}
+						size={20}
+						color={colors.transfer}
+						style={{ marginHorizontal: 15, alignSelf: 'center' }}
+					/>
+				</TouchableOpacity>
+			),
+		};
+	};
 
 	submiting = false;
 

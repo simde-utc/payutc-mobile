@@ -13,11 +13,11 @@ import { connect, Provider } from 'react-redux';
 import SpinnerOverlay from 'react-native-loading-spinner-overlay';
 import AppLoader from './src/screens/AppLoader';
 import ChangelogScreen from './src/screens/Settings/ChangelogScreen';
-import AuthNavigator from './src/navigations/Auth/AuthNavigator';
+import AuthNavigator from './src/navigations/AuthNavigator';
 import store from './src/redux/store';
 import colors from './src/styles/colors';
-import MainNavigator from './src/navigations/MainNavigator';
 import BiometricAuthScreen from './src/screens/Auth/BiometricAuthScreen';
+import MainNavigator from './src/navigations/MainNavigator';
 
 const styles = StyleSheet.create({
 	defaultFontFamily: {
@@ -53,13 +53,17 @@ YellowBox.ignoreWarnings(['Async Storage', 'WebView']);
 
 const AppContainer = createAppContainer(AppNavigator);
 
-const paddingTop = StatusBar.currentHeight || 20;
+const paddingTop = Platform.OS === 'ios' ? 20 : StatusBar.currentHeight;
 
 const mapStateToProps = ({ config }) => ({ config });
 
 const ConnectedApp = connect(mapStateToProps)(({ config }) => (
 	<SafeAreaView style={{ flex: 1, paddingTop, backgroundColor: colors.backgroundBlock }}>
-		<StatusBar backgroundColor={colors.primary} translucent />
+		<StatusBar
+			translucent
+			backgroundColor={colors.background}
+			barStyle={colors.generalAspect === 'light' ? 'dark-content' : 'light-content'}
+		/>
 		<SpinnerOverlay {...config.spinner} />
 		<AppContainer screenProps={{ config }} />
 	</SafeAreaView>

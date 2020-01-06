@@ -7,10 +7,10 @@
  */
 
 import React from 'react';
-import { RefreshControl, ScrollView, View } from 'react-native';
+import { RefreshControl, ScrollView, TouchableOpacity, View } from 'react-native';
 import { connect } from 'react-redux';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import colors from '../../styles/colors';
-import TitleParams from '../../components/TitleParams';
 import { Config, PayUTC, Portail } from '../../redux/actions';
 import StatsHorizontalScrollView from '../../components/Stats/StatsHorizontalScrollView';
 import RankedList from '../../components/Stats/RankedList';
@@ -25,12 +25,32 @@ import {
 import { getDateFromPortail } from '../../utils/date';
 
 class StatsScreen extends React.Component {
-	static navigationOptions = () => ({
-		title: t('title'),
-		header: null,
-		headerForceInset: { top: 'never' },
-		headerTruncatedBackTitle: _('back'),
-	});
+	static navigationOptions = ({ navigation }) => {
+		const areFiltersVisible = navigation.getParam('areFiltersVisible');
+
+		return {
+			title: navigation.getParam('since') || t('title'),
+			headerStyle: {
+				borderBottomWidth: 0,
+				backgroundColor: colors.backgroundBlock,
+				elevation: areFiltersVisible ? 0 : 1,
+			},
+			headerTintColor: colors.primary,
+			headerForceInset: { top: 'never' },
+			headerRight: (
+				<TouchableOpacity
+					onPress={() => navigation.setParams({ areFiltersVisible: !areFiltersVisible })}
+				>
+					<FontAwesomeIcon
+						icon={['fas', 'clock']}
+						size={20}
+						color={areFiltersVisible ? colors.secondary : colors.primary}
+						style={{ marginHorizontal: 15, alignSelf: 'center' }}
+					/>
+				</TouchableOpacity>
+			),
+		};
+	};
 
 	constructor(props) {
 		super(props);
@@ -59,7 +79,14 @@ class StatsScreen extends React.Component {
 	}
 
 	componentDidMount() {
-		const { historyFetched, currentSemesterFetched, dispatch } = this.props;
+		const {
+			historyFetched,
+			currentSemesterFetched,
+			dispatch,
+			navigation,
+			preferences,
+		} = this.props;
+		const { dates } = this.state;
 
 		if (!historyFetched) {
 			this.onRefresh();
@@ -70,6 +97,13 @@ class StatsScreen extends React.Component {
 		} else {
 			this.setCurrentSemester();
 		}
+
+		navigation.setParams({
+			since:
+				preferences.selectedDate > 0
+					? _('since_*', { since: _(dates[preferences.selectedDate].lazyTitle).toLowerCase() })
+					: null,
+		});
 	}
 
 	componentDidUpdate({ currentSemesterFetching: wasFetching }) {
@@ -93,9 +127,17 @@ class StatsScreen extends React.Component {
 	}
 
 	onSelectedDateChange(selectedDate) {
-		const { dispatch } = this.props;
+		const { dispatch, navigation, preferences } = this.props;
+		const { dates } = this.state;
 
 		dispatch(Config.preferences({ selectedDate }));
+
+		navigation.setParams({
+			since:
+				preferences.selectedDate > 0
+					? _('since_*', { since: _(dates[preferences.selectedDate].lazyTitle).toLowerCase() })
+					: null,
+		});
 	}
 
 	onSelectedCategoryChange(selectedStatCategory) {
@@ -121,7 +163,7 @@ class StatsScreen extends React.Component {
 	}
 
 	render() {
-		const { historyFetched, history, preferences } = this.props;
+		const { historyFetched, history, preferences, navigation } = this.props;
 		const { dates } = this.state;
 		let filteredHistory = history;
 
@@ -131,99 +173,105 @@ class StatsScreen extends React.Component {
 			filteredHistory = history.filter(({ date }) => new Date(date) > maxDate);
 		}
 
+		const areFiltersVisible = navigation.getParam('areFiltersVisible');
+
 		return (
-			<ScrollView
-				style={{ backgroundColor: colors.background }}
-				refreshControl={
-					<RefreshControl
-						refreshing={!historyFetched}
-						onRefresh={() => this.onRefresh()}
-						colors={[colors.secondary]}
-						tintColor={colors.secondary}
-					/>
-				}
-			>
-				<TitleParams
-					title={t('title')}
-					settingText={_('since_*', {
-						since: _(dates[preferences.selectedDate].lazyTitle).toLowerCase(),
-					})}
-				>
+			<View style={{ flex: 1, backgroundColor: colors.background }}>
+				{areFiltersVisible ? (
 					<TabsBlockTemplate
-						roundedBottom
-						text={_('show_since')}
 						tintColor={colors.secondary}
 						value={preferences.selectedDate}
 						onChange={this.onSelectedDateChange}
-						style={{ marginHorizontal: 15, borderTopWidth: 0 }}
 						tabs={dates}
+						backgroundColor={colors.backgroundBlock}
+						offsetLeft={15}
+						offsetRight={20}
+						style={{ paddingTop: 5, paddingBottom: 10, elevation: 1 }}
 					/>
-				</TitleParams>
-				<View style={{ height: 15 }} />
-				<StatsHorizontalScrollView
-					history={history}
-					historyFetching={!historyFetched}
-					since={{ text: '', date: dates[preferences.selectedDate].date }}
-				/>
-				<TabsBlockTemplate
-					style={{ margin: 15 }}
-					roundedTop
-					roundedBottom
-					tintColor={colors.primary}
-					value={preferences.selectedStatCategory}
-					onChange={this.onSelectedCategoryChange}
-					tabs={[
-						{
-							title: t('buy_ranking_title'),
-							children: (
-								<RankedList
-									title={t('buy_ranking')}
-									items={mostPurchasedItems(filteredHistory)}
-									countTintColor={colors.less}
-									loading={!historyFetched}
-								/>
-							),
-						},
-						{
-							title: t('spend_ranking_title'),
-							children: (
-								<RankedList
-									title={t('spend_ranking')}
-									euro
-									items={mostSpentItems(filteredHistory)}
-									countTintColor={colors.less}
-									loading={!historyFetched}
-								/>
-							),
-						},
-						{
-							title: t('transfer_ranking_title'),
-							children: (
-								<View>
+				) : null}
+				<ScrollView
+					refreshControl={
+						<RefreshControl
+							refreshing={!historyFetched}
+							onRefresh={() => this.onRefresh()}
+							colors={[colors.secondary]}
+							tintColor={colors.secondary}
+						/>
+					}
+				>
+					<View style={{ marginTop: 15 }}>
+						<StatsHorizontalScrollView
+							history={history}
+							historyFetching={!historyFetched}
+							since={{ text: '', date: dates[preferences.selectedDate].date }}
+						/>
+					</View>
+
+					<View
+						style={{ marginVertical: 15, height: 1, backgroundColor: colors.backgroundBlock }}
+					/>
+
+					<TabsBlockTemplate
+						style={{ margin: 15, marginTop: 0 }}
+						roundedTop
+						roundedBottom
+						tintColor={colors.primary}
+						value={preferences.selectedStatCategory}
+						justifyContent="center"
+						onChange={this.onSelectedCategoryChange}
+						tabs={[
+							{
+								title: t('buy_ranking_title'),
+								children: (
 									<RankedList
-										title={t('receive_ranking')}
-										euro
-										noBottomBorder
-										items={mostReceivedFromPersons(filteredHistory)}
-										slice={5}
-										countTintColor={colors.more}
+										title={t('buy_ranking')}
+										items={mostPurchasedItems(filteredHistory)}
+										countTintColor={colors.less}
 										loading={!historyFetched}
 									/>
-									<View style={{ borderTopWidth: 1, borderTopColor: colors.background }} />
+								),
+							},
+							{
+								title: t('spend_ranking_title'),
+								children: (
 									<RankedList
-										title={t('give_ranking')}
+										title={t('spend_ranking')}
 										euro
-										items={mostGivenToPeople(filteredHistory)}
-										slice={5}
-										countTintColor={colors.transfer}
+										items={mostSpentItems(filteredHistory)}
+										countTintColor={colors.less}
 										loading={!historyFetched}
 									/>
-								</View>
-							),
-						},
-					]}
-				/>
-			</ScrollView>
+								),
+							},
+							{
+								title: t('transfer_ranking_title'),
+								children: (
+									<View>
+										<RankedList
+											title={t('receive_ranking')}
+											euro
+											noBottomBorder
+											items={mostReceivedFromPersons(filteredHistory)}
+											slice={5}
+											countTintColor={colors.more}
+											loading={!historyFetched}
+										/>
+										<View style={{ borderTopWidth: 1, borderTopColor: colors.background }} />
+										<RankedList
+											title={t('give_ranking')}
+											euro
+											items={mostGivenToPeople(filteredHistory)}
+											slice={5}
+											countTintColor={colors.transfer}
+											loading={!historyFetched}
+										/>
+									</View>
+								),
+							},
+						]}
+					/>
+				</ScrollView>
+			</View>
 		);
 	}
 }

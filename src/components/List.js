@@ -15,7 +15,12 @@ import { _ } from '../utils/i18n';
 
 function LoadingItem({ backgroundColor }) {
 	return (
-		<BlockTemplate customBackground={backgroundColor}>
+		<BlockTemplate
+			roundedTop
+			roundedBottom
+			customBackground={backgroundColor}
+			style={{ marginBottom: 10 }}
+		>
 			<Placeholder Animation={Fade}>
 				<PlaceholderLine
 					width={70}
@@ -36,11 +41,13 @@ function LoadingList() {
 	return (
 		<>
 			<LoadingItem backgroundColor={colors.backgroundBlockAlt} />
-			<LoadingItem backgroundColor={colors.backgroundBlock} />
 			<LoadingItem backgroundColor={colors.backgroundBlockAlt} />
-			<LoadingItem backgroundColor={colors.backgroundBlock} />
 			<LoadingItem backgroundColor={colors.backgroundBlockAlt} />
-			<LoadingItem backgroundColor={colors.backgroundBlock} />
+			<LoadingItem backgroundColor={colors.backgroundBlockAlt} />
+			<LoadingItem backgroundColor={colors.backgroundBlockAlt} />
+			<LoadingItem backgroundColor={colors.backgroundBlockAlt} />
+			<LoadingItem backgroundColor={colors.backgroundBlockAlt} />
+			<LoadingItem backgroundColor={colors.backgroundBlockAlt} />
 		</>
 	);
 }
@@ -61,7 +68,6 @@ export default function List({
 	return (
 		<FlatList
 			style={{
-				backgroundColor: colors.backgroundBlock,
 				borderTopLeftRadius: notRoundedTop ? 0 : 10,
 				borderTopRightRadius: notRoundedTop ? 0 : 10,
 				borderRadius: 10,
@@ -79,7 +85,7 @@ export default function List({
 				loading ? (
 					<LoadingList />
 				) : noEmptyComponent ? null : (
-					<BlockTemplate roundedBottom customBackground={colors.backgroundBlockAlt}>
+					<BlockTemplate roundedTop roundedBottom customBackground={colors.backgroundBlockAlt}>
 						<Text style={{ fontSize: 14, fontWeight: 'bold', color: colors.disabled }}>
 							{_('empty_list')}
 						</Text>

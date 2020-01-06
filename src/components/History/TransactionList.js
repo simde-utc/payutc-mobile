@@ -7,27 +7,34 @@
  */
 
 import React from 'react';
+import { View } from 'react-native';
+import * as Haptics from 'expo-haptics';
 import BlockTemplate from '../BlockTemplate';
 import { History as t } from '../../utils/i18n';
 import Transaction from './Transaction';
-import TransactionModal from './TransactionModal';
+import colors from '../../styles/colors';
 import { removeUselessEOL } from '../../utils';
 
-export default class Item extends React.Component {
+export default class TransactionList extends React.Component {
 	static getTransaction(transaction) {
 		switch (transaction.type) {
 			case 'PURCHASE': {
 				return {
+					id: transaction.id,
+					type: 'PURCHASE',
 					title: `${transaction.quantity < 0 ? `${t('refund')} ` : ''}${transaction.name}`,
 					amount: Math.abs(transaction.amount),
 					quantity: transaction.quantity,
 					positive: transaction.quantity < 0,
 					location: transaction.fun,
 					date: transaction.date,
+					productId: transaction.product_id,
 				};
 			}
 			case 'VIROUT': {
 				return {
+					id: transaction.id,
+					type: 'TRANSFER',
 					title: `${t('virout')} ${transaction.firstname} ${transaction.lastname}`,
 					amount: transaction.amount,
 					quantity: transaction.quantity,
@@ -39,6 +46,8 @@ export default class Item extends React.Component {
 			}
 			case 'VIRIN': {
 				return {
+					id: transaction.id,
+					type: 'TRANSFER',
 					title: `${t('virin')} ${transaction.firstname} ${transaction.lastname}`,
 					amount: transaction.amount,
 					quantity: transaction.quantity,
@@ -50,6 +59,8 @@ export default class Item extends React.Component {
 			}
 			case 'RECHARGE': {
 				return {
+					id: transaction.id,
+					type: 'REFILL',
 					title: t('refill'),
 					amount: transaction.amount,
 					positive: true,
@@ -62,9 +73,14 @@ export default class Item extends React.Component {
 		}
 	}
 
-	static renderTransaction(formattedTransaction) {
+	renderTransaction(formattedTransaction) {
+		const { expand } = this.props;
+
 		return (
 			<Transaction
+				expanded={expand}
+				id={formattedTransaction.id}
+				type={formattedTransaction.type}
 				title={formattedTransaction.title}
 				amount={formattedTransaction.amount}
 				quantity={formattedTransaction.quantity}
@@ -72,48 +88,36 @@ export default class Item extends React.Component {
 				date={formattedTransaction.date}
 				location={formattedTransaction.location}
 				positive={formattedTransaction.positive}
-			/>
-		);
-	}
-
-	constructor(props) {
-		super(props);
-		this.state = {
-			showModal: false,
-		};
-	}
-
-	renderModalTransaction(formattedTransaction) {
-		return (
-			<TransactionModal
-				title={formattedTransaction.title}
-				amount={formattedTransaction.amount}
-				quantity={formattedTransaction.quantity}
-				message={formattedTransaction.message}
-				date={formattedTransaction.date}
-				location={formattedTransaction.location}
-				positive={formattedTransaction.positive}
-				onClose={() => this.setState({ showModal: false })}
+				productId={formattedTransaction.productId}
 			/>
 		);
 	}
 
 	render() {
-		const { transaction, customBackground, roundedTop, roundedBottom, shadow } = this.props;
-		const { showModal } = this.state;
-
-		const formattedTransaction = Item.getTransaction(transaction);
+		const { transactions, expand, select, unselect } = this.props;
 
 		return (
 			<BlockTemplate
-				customBackground={customBackground}
-				roundedTop={roundedTop}
-				roundedBottom={roundedBottom}
-				shadow={shadow}
-				onPress={() => this.setState({ showModal: true })}
+				customBackground={expand ? colors.backgroundBlock : colors.backgroundBlockAlt}
+				roundedTop
+				roundedBottom
+				onPress={() => {
+					Haptics.selectionAsync().catch();
+					if (expand) {
+						unselect();
+					} else {
+						select();
+					}
+				}}
 			>
-				{showModal ? this.renderModalTransaction(formattedTransaction) : null}
-				{Item.renderTransaction(formattedTransaction)}
+				{transactions.map((transaction, index) => (
+					<View
+						key={transaction.id.toString()}
+						style={{ marginBottom: index === transactions.length - 1 ? 0 : 15 }}
+					>
+						{this.renderTransaction(TransactionList.getTransaction(transaction))}
+					</View>
+				))}
 			</BlockTemplate>
 		);
 	}

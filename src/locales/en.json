@@ -23,7 +23,7 @@
 			"transfer": "Transfer",
 			"all_stats": "All your statistics...",
 			"recent_activity": "Recent activity",
-			"all_history": "See all my history...",
+			"all_history": "View all history",
 			"cannot_fetch_wallet": "An error occured when fetching your information.",
 			"week_positive": "credited this week.",
 			"week_negative": "spent this week.",
@@ -146,7 +146,9 @@
 			"transfers": "Transfers",
 			"transfers_desc": "Transfers %{since}",
 			"search": "Search",
-			"show_more": "Show more...",
+			"show_more": "Show more",
+			"transaction_*": "Transaction #%{number}",
+			"product_*": "Product #%{number}"
 		},
 		"Stats": {
 			"title": "Statistics",
@@ -162,7 +164,7 @@
 			"receive_ranking": "People who sent you the most money",
 			"give_ranking": "People to who you sent the most money",
 			"transfer_ranking_title": "Transfers",
-			"show_more": "Show more...",
+			"show_more": "Show more",
 		},
 		"Settings": {
 			"title": "Settings",
@@ -299,6 +301,7 @@
 		"loading_text_replacement": "•••",
 		"and": "and",
 		"at": "at",
+		"since": "since",
 		"since_*": "since %{since}",
 		"ever": "ever",
 		"semester": "this semester",
@@ -324,13 +327,7 @@
 		"minor": "considered as minor",
 		"creation_date": "creation date",
 		"details": "details",
-	},
-
-	"navigation": {
-		"home": "Home",
-		"history": "Historic",
-		"stats": "Statistics",
-		"settings": "Settings"
+		"period": "Period"
 	},
 
 	"api": {

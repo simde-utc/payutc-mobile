@@ -6,13 +6,13 @@
  */
 
 import { createStackNavigator } from 'react-navigation';
-import StatsScreen from '../../screens/Stats/StatsScreen';
+import TransferScreen from '../screens/Home/TransferScreen';
 
-const StatsNavigator = createStackNavigator(
+const TransferNavigator = createStackNavigator(
 	{
-		Stats: StatsScreen,
+		Transfer: TransferScreen,
 	},
 	{}
 );
 
-export default StatsNavigator;
+export default TransferNavigator;

@@ -7,9 +7,10 @@
  */
 
 import React from 'react';
-import { Alert, ScrollView, View } from 'react-native';
+import { Alert, TouchableOpacity, ScrollView, View } from 'react-native';
 import { connect } from 'react-redux';
 import * as Haptics from 'expo-haptics';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import colors from '../../styles/colors';
 import AmountForm from '../../components/AmountForm';
 import LinkButton from '../../components/LinkButton';
@@ -22,17 +23,29 @@ import BiometricAuth, { REFILL } from '../../services/BiometricAuth';
 const AMOUNT_SHORTCUTS = [10, 15, 20, 50];
 
 class RefillScreen extends React.Component {
-	static navigationOptions = () => ({
-		title: t('title'),
-		headerStyle: {
-			borderBottomWidth: 0,
-			backgroundColor: colors.backgroundBlock,
-		},
-		headerTintColor: colors.more,
-		headerForceInset: { top: 'never' },
-		headerBackTitle: t('back_button_title'),
-		headerTruncatedBackTitle: _('back'),
-	});
+	static navigationOptions = ({ navigation }) => {
+		return {
+			title: t('title'),
+			headerStyle: {
+				borderBottomWidth: 0,
+				backgroundColor: colors.backgroundBlock,
+			},
+			headerTintColor: colors.more,
+			headerForceInset: { top: 'never', bottom: 'never' },
+			headerBackTitle: t('back_button_title'),
+			headerTruncatedBackTitle: _('back'),
+			headerLeft: (
+				<TouchableOpacity onPress={() => navigation.navigate('Home')}>
+					<FontAwesomeIcon
+						icon={['fas', 'times']}
+						size={20}
+						color={colors.more}
+						style={{ marginHorizontal: 15, alignSelf: 'center' }}
+					/>
+				</TouchableOpacity>
+			),
+		};
+	};
 
 	submitting = false;
 

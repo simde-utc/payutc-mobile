@@ -6,8 +6,9 @@
  */
 
 import React from 'react';
-import { Text } from 'react-native';
-import Item from './Item';
+import { Text, View } from 'react-native';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import TransactionList from './TransactionList';
 import BlockTemplate from '../BlockTemplate';
 import List from '../List';
 import colors from '../../styles/colors';
@@ -21,35 +22,44 @@ export default class HistoryList extends React.Component {
 
 		this.state = {
 			slice: DEFAULT_SLICE,
+			selected: null,
 		};
 
 		this.showMore = this.showMore.bind(this);
 		this.renderFooter = this.renderFooter.bind(this);
+		this.renderTransactionList = this.renderTransactionList.bind(this);
 	}
 
 	componentDidUpdate(prevProps) {
-		const { loading } = this.props;
+		const { loading, slice } = this.props;
 
 		if (!prevProps.loading && loading) {
-			this.setState({ slice: DEFAULT_SLICE });
+			this.setState({ slice });
 		}
 	}
 
-	static renderItem(item, index, last = false) {
-		return (
-			<Item
-				transaction={item}
-				customBackground={index % 2 === 0 ? colors.backgroundBlockAlt : colors.backgroundBlock}
-				roundedBottom={last}
-			/>
-		);
-	}
-
 	showMore() {
+		const { slice } = this.props;
+
 		this.setState(prevState => ({
 			...prevState,
-			slice: prevState.slice + DEFAULT_SLICE,
+			slice: prevState.slice + (slice || DEFAULT_SLICE),
 		}));
+	}
+
+	renderTransactionList(items, index, last = false) {
+		const { selected } = this.state;
+
+		return (
+			<View style={{ marginBottom: last ? 0 : 10 }}>
+				<TransactionList
+					transactions={items}
+					expand={selected === index}
+					select={() => this.setState({ selected: index })}
+					unselect={() => this.setState({ selected: null })}
+				/>
+			</View>
+		);
 	}
 
 	renderFooter() {
@@ -61,10 +71,12 @@ export default class HistoryList extends React.Component {
 
 		return (
 			<BlockTemplate
+				roundedTop
 				roundedBottom
 				onPress={this.showMore}
 				disabled={disabled}
-				customBackground={colors.backgroundBlockAlt}
+				customBackground={colors.backgroundBlock}
+				style={{ flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}
 			>
 				<Text
 					style={{
@@ -75,6 +87,11 @@ export default class HistoryList extends React.Component {
 				>
 					{t('show_more')}
 				</Text>
+				<FontAwesomeIcon
+					icon={['fas', 'chevron-down']}
+					size={16}
+					color={disabled ? colors.disabled : colors.primary}
+				/>
 			</BlockTemplate>
 		);
 	}
@@ -83,14 +100,22 @@ export default class HistoryList extends React.Component {
 		const { items, title, loading } = this.props;
 		const { slice } = this.state;
 
+		const itemsByDate = items.reduce((r, a) => {
+			r[a.date] = r[a.date] || [];
+			r[a.date].push(a);
+			return r;
+		}, Object.create(null));
+
 		return (
 			<List
 				title={title}
-				items={items.slice(0, slice)}
+				items={Object.values(itemsByDate)
+					.filter(item => item.length > 0)
+					.slice(0, slice)}
 				loading={loading}
-				renderItem={HistoryList.renderItem}
+				renderItem={this.renderTransactionList}
 				renderFooter={this.renderFooter}
-				keyExtractor={item => item.id.toString()}
+				keyExtractor={item => item[0].id.toString()}
 				notRoundedTop
 				noBottomBorder
 			/>

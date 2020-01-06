@@ -7,82 +7,21 @@
 
 import React from 'react';
 import { AppState } from 'react-native';
-import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
-import { createBottomTabNavigator, BottomTabBar } from 'react-navigation';
 import { connect } from 'react-redux';
-import HomeNavigator from './Home/HomeNavigator';
-import colors from '../styles/colors';
-import { Navigation as t } from '../utils/i18n';
-import HistoryNavigator from './History/HistoryNavigator';
-import StatsNavigator from './Stats/StatsNavigator';
-import SettingsNavigator from './Settings/SettingsNavigator';
+import { createStackNavigator } from 'react-navigation';
+import HomeNavigator from './HomeNavigator';
+import RefillNavigator from './RefillNavigator';
+import TransferNavigator from './TransferNavigator';
 
-const ICON_SIZE = 22;
-
-const focusableIoniconFactory = icon => {
-	const focusedIcon = ({ focused }) => (
-		<FontAwesomeIcon
-			icon={icon}
-			size={ICON_SIZE}
-			color={focused ? colors.primary : colors.secondary}
-			style={{ paddingTop: 3 }}
-		/>
-	);
-
-	return focusedIcon;
-};
-
-const Main = createBottomTabNavigator(
+const Main = createStackNavigator(
 	{
-		Home: {
-			screen: HomeNavigator,
-			navigationOptions: () => ({
-				title: t('home'),
-				tabBarIcon: focusableIoniconFactory(['fas', 'home']),
-			}),
-		},
-
-		History: {
-			screen: HistoryNavigator,
-			navigationOptions: () => ({
-				title: t('history'),
-				tabBarIcon: focusableIoniconFactory(['fas', 'list']),
-			}),
-		},
-
-		Stats: {
-			screen: StatsNavigator,
-			navigationOptions: () => ({
-				title: t('stats'),
-				tabBarIcon: focusableIoniconFactory(['fas', 'chart-pie']),
-			}),
-		},
-
-		Settings: {
-			screen: SettingsNavigator,
-			navigationOptions: () => ({
-				title: t('settings'),
-				tabBarIcon: focusableIoniconFactory(['fas', 'cogs']),
-			}),
-		},
+		Home: HomeNavigator,
+		Refill: RefillNavigator,
+		Transfer: TransferNavigator,
 	},
 	{
-		tabBarComponent: props => {
-			const customProps = {
-				activeTintColor: colors.primary,
-				inactiveTintColor: colors.secondary,
-				activeBackgroundColor: colors.backgroundBlock,
-				inactiveBackgroundColor: colors.backgroundBlock,
-				style: {
-					borderTopColor: colors.border,
-				},
-			};
-
-			return <BottomTabBar {...props} {...customProps} showLabel />;
-		},
-		tabBarOptions: {
-			safeAreaInset: { bottom: 'never', top: 'never' },
-		},
+		headerMode: 'none',
+		mode: 'modal',
 	}
 );
 

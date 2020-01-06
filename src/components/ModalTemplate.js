@@ -6,120 +6,83 @@
  */
 
 import React from 'react';
-import { Text, View } from 'react-native';
-import Modal from 'react-native-modalbox';
-import * as Haptics from 'expo-haptics';
+import { Modal, Text, View } from 'react-native';
 import colors from '../styles/colors';
 import { floatToEuro } from '../utils/amount';
+import BlockTemplate from './BlockTemplate';
+import { _ } from '../utils/i18n';
 
-export default class ModalTemplate extends React.Component {
-	constructor(props) {
-		super(props);
-		this.modal = React.createRef();
-		this.state = { messageHeight: 0 };
-		this.onTextLayout = this.onTextLayout.bind(this);
-	}
+export default function ModalTemplate(props) {
+	const { visible, title, subtitle, amount, tintColor, onClose } = props;
 
-	componentDidMount() {
-		this.modal.open();
-		Haptics.notificationAsync('success').catch();
-	}
-
-	onTextLayout(e) {
-		const { messageHeight } = this.state;
-		this.setState({ messageHeight: messageHeight + e.nativeEvent.layout.height });
-	}
-
-	render() {
-		const { title, subtitle, message, amount, tintColor, onClose } = this.props;
-		const { messageHeight } = this.state;
-
-		return (
-			<Modal
+	return (
+		<Modal animationType="slide" transparent visible={visible}>
+			<View style={{ flex: 4 }} />
+			<BlockTemplate
+				shadow
 				style={{
-					height: messageHeight + (title ? 75 : 0) + (subtitle ? 25 : 0) + (amount ? 75 : 0),
-					width: 300,
-					flexDirection: 'column',
-					borderRadius: 20,
-					shadowColor: colors.shadow,
-					shadowOffset: { width: 0, height: 1 },
-					shadowOpacity: 0.1,
-					shadowRadius: 20,
-					elevation: 2,
+					flex: 2,
+					backgroundColor: colors.backgroundBlock,
+					borderTopWidth: 1,
+					borderTopColor: colors.border,
+					justifyContent: 'space-around',
+					alignItems: 'center',
 				}}
-				position="center"
-				ref={ref => (this.modal = ref)}
-				backdropOpacity={0.3}
-				backdropColor={colors.shadow}
-				coverScreen
-				onClosed={onClose}
 			>
-				<View
-					style={{
-						flex: 1,
-						flexDirection: 'column',
-						justifyContent: amount ? 'flex-start' : 'space-around',
-						backgroundColor: colors.backgroundBlock,
-						borderRadius: 20,
-						borderColor: colors.backgroundBlock,
-						borderWidth: 2,
-					}}
-				>
-					<View
+				<View style={{ alignItems: 'center' }}>
+					<Text
 						style={{
-							padding: 15,
-							borderBottomWidth: amount ? 1 : 0,
-							borderBottomColor: colors.border,
+							fontSize: 18,
+							fontWeight: 'bold',
+							textAlign: 'center',
+							color: tintColor || colors.secondary,
 						}}
 					>
-						<Text
-							style={{
-								fontSize: 18,
-								fontWeight: 'bold',
-								textAlign: 'center',
-								color: colors.secondary,
-							}}
-						>
-							{title}
-						</Text>
-						{subtitle ? (
-							<Text style={{ fontSize: 14, textAlign: 'center', color: colors.secondary }}>
-								{subtitle}
-							</Text>
-						) : null}
-						{message ? (
-							<Text
-								selectable
-								onLayout={this.onTextLayout}
-								style={{
-									fontSize: 16,
-									textAlign: 'center',
-									color: colors.secondary,
-									marginTop: 10,
-								}}
-							>
-								{message}
-							</Text>
-						) : null}
-					</View>
-
-					{amount ? (
-						<View style={{ flex: 1, justifyContent: 'center', marginBottom: 5 }}>
-							<Text
-								style={{
-									fontSize: 55,
-									fontWeight: 'bold',
-									textAlign: 'center',
-									color: tintColor || colors.secondary,
-								}}
-							>
-								{amount >= 0 ? '+ ' : ''}
-								{floatToEuro(amount)}
-							</Text>
-						</View>
-					) : null}
+						{title}
+					</Text>
+					<Text
+						style={{
+							fontSize: 18,
+							textAlign: 'center',
+							color: tintColor || colors.secondary,
+						}}
+					>
+						{subtitle}
+					</Text>
 				</View>
-			</Modal>
-		);
-	}
+
+				{amount ? (
+					<Text
+						style={{
+							fontSize: 55,
+							fontWeight: 'bold',
+							color: tintColor || colors.secondary,
+						}}
+					>
+						{`${amount >= 0 ? '+ ' : ''}${floatToEuro(amount)}`}
+					</Text>
+				) : null}
+
+				<BlockTemplate
+					roundedTop
+					roundedBottom
+					borderForAndroid
+					shadow
+					onPress={onClose}
+					style={{ alignSelf: 'center' }}
+				>
+					<Text
+						style={{
+							marginHorizontal: 10,
+							fontSize: 15,
+							fontWeight: 'bold',
+							color: tintColor || colors.secondary,
+						}}
+					>
+						{_('ok')}
+					</Text>
+				</BlockTemplate>
+			</BlockTemplate>
+		</Modal>
+	);
 }

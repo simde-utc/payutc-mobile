@@ -7,17 +7,17 @@
  */
 
 import React from 'react';
-import { Platform, RefreshControl, Text, View } from 'react-native';
+import { RefreshControl, ScrollView, Text, View } from 'react-native';
 import { connect } from 'react-redux';
-import List from '../../components/List';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import * as Haptics from 'expo-haptics';
 import colors from '../../styles/colors';
 import Balance from '../../components/Home/Balance';
-import Shortcuts from '../../components/Home/Shortcuts';
 import BlockTemplate from '../../components/BlockTemplate';
-import Item from '../../components/History/Item';
 import { PayUTC } from '../../redux/actions';
 import { _, Home as t } from '../../utils/i18n';
 import { totalAmount } from '../../utils/stats';
+import HistoryList from '../../components/History/HistoryList';
 import ModalTemplate from '../../components/ModalTemplate';
 
 class HomeScreen extends React.Component {
@@ -69,52 +69,40 @@ class HomeScreen extends React.Component {
 		}
 
 		this.setState({
-			message: params || {},
+			message: params ? params.message : {},
 		});
+	}
+
+	renderConfirmation() {
+		const { message } = this.state;
+
+		if (message.title == null) {
+			return null;
+		}
+
+		return (
+			<ModalTemplate
+				title={message.title}
+				subtitle={message.subtitle}
+				amount={message.amount}
+				tintColor={message.tintColor}
+				onClose={() => this.setState({ message: {} })}
+				visible={message.title != null}
+			/>
+		);
 	}
 
 	render() {
 		const { details, detailsFetching, history, historyFetching, navigation } = this.props;
-		const { message } = this.state;
 		const amount = details.credit ? details.credit / 100 : null;
 
 		const oneWeekAgo = new Date();
 		oneWeekAgo.setDate(oneWeekAgo.getDate() - 7);
 
 		return (
-			<View
-				style={{
-					flex: 1,
-					flexDirection: 'column',
-					padding: 15,
-					backgroundColor: colors.background,
-				}}
-			>
-				{message.message ? (
-					<ModalTemplate
-						title={message.message.title}
-						subtitle={message.message.subtitle}
-						amount={message.message.amount}
-						tintColor={message.message.tintColor}
-						footer={
-							message.message.message ? ( // Yes
-								<Text
-									style={{
-										fontSize: 16,
-										textAlign: 'center',
-										fontStyle: 'italic',
-										color: colors.secondary,
-									}}
-								>
-									{message.message.message}
-								</Text>
-							) : null
-						}
-						onClose={() => this.setState({ message: {} })}
-					/>
-				) : null}
-
-				<BlockTemplate roundedTop roundedBottom shadow style={{ marginBottom: 15 }}>
+			<View style={{ flex: 1, backgroundColor: colors.background }}>
+				{this.renderConfirmation()}
+				<BlockTemplate shadow style={{ padding: 20, paddingRight: 15 }}>
 					<Balance
 						amount={amount}
 						isCreditConsistent={details.is_credit_consistent}
@@ -122,36 +110,12 @@ class HomeScreen extends React.Component {
 						name={details.user ? details.user.first_name : null}
 						weekAmount={totalAmount(history, oneWeekAgo) / 100}
 						onRefresh={() => this.onRefresh()}
+						navigation={navigation}
 					/>
 				</BlockTemplate>
 
-				<Shortcuts amount={amount} navigation={navigation} />
-
-				<BlockTemplate
-					roundedTop
-					shadow
-					style={{
-						marginTop: 15,
-						borderBottomWidth: 1,
-						borderBottomColor: colors.backgroundBlockAlt,
-					}}
-				>
-					<Text style={{ fontSize: 16, fontWeight: 'bold', color: colors.primary }}>
-						{t('recent_activity')}
-					</Text>
-				</BlockTemplate>
-
-				<List
-					items={history.slice(0, 10)}
-					loading={historyFetching}
-					notRoundedTop
-					renderItem={(item, index) => (
-						<Item
-							transaction={item}
-							customBackground={index % 2 === 0 ? colors.backgroundBlockAlt : null}
-						/>
-					)}
-					keyExtractor={item => item.id.toString()}
+				<ScrollView
+					style={{ borderTopWidth: 1, borderTopColor: colors.backgroundBlockAlt }}
 					refreshControl={
 						<RefreshControl
 							refreshing={historyFetching}
@@ -160,10 +124,104 @@ class HomeScreen extends React.Component {
 							tintColor={colors.secondary}
 						/>
 					}
-				/>
-				{Platform.OS === 'android' ? (
-					<BlockTemplate roundedBottom style={{ paddingVertical: 5 }} />
-				) : null}
+				>
+					<View style={{ margin: 15 }}>
+						<HistoryList items={history} slice={15} loading={historyFetching} />
+						<BlockTemplate
+							roundedTop
+							roundedBottom
+							onPress={() => navigation.navigate('History')}
+							style={{
+								marginTop: 10,
+								flexDirection: 'row',
+								justifyContent: 'space-between',
+								alignItems: 'center',
+							}}
+						>
+							<Text
+								style={{
+									fontSize: 14,
+									fontWeight: 'bold',
+									color: colors.primary,
+								}}
+							>
+								{t('all_history')}
+							</Text>
+							<FontAwesomeIcon icon={['fas', 'list']} size={16} color={colors.primary} />
+						</BlockTemplate>
+					</View>
+				</ScrollView>
+
+				<BlockTemplate
+					shadow
+					style={{ paddingHorizontal: 15, flexDirection: 'row', justifyContent: 'space-between' }}
+				>
+					<View style={{ flexDirection: 'row' }}>
+						<BlockTemplate
+							roundedTop
+							roundedBottom
+							shadow
+							borderForAndroid
+							onPress={() => {
+								Haptics.selectionAsync().catch();
+								navigation.navigate('Refill');
+							}}
+							style={{ flexDirection: 'row', alignItems: 'center' }}
+						>
+							<FontAwesomeIcon icon={['fas', 'plus-circle']} size={15} color={colors.more} />
+							<Text
+								style={{
+									paddingLeft: 5,
+									fontSize: 13,
+									fontWeight: 'bold',
+									color: colors.more,
+								}}
+							>
+								{t('refill')}
+							</Text>
+						</BlockTemplate>
+
+						<View style={{ width: 10 }} />
+
+						<BlockTemplate
+							roundedTop
+							roundedBottom
+							shadow
+							borderForAndroid
+							onPress={() => {
+								Haptics.selectionAsync().catch();
+								navigation.navigate('Transfer');
+							}}
+							style={{ flexDirection: 'row', alignItems: 'center' }}
+						>
+							<FontAwesomeIcon icon={['fas', 'share']} size={15} color={colors.transfer} />
+							<Text
+								style={{
+									paddingLeft: 5,
+									fontSize: 13,
+									fontWeight: 'bold',
+									color: colors.transfer,
+								}}
+							>
+								{t('transfer')}
+							</Text>
+						</BlockTemplate>
+					</View>
+
+					<BlockTemplate
+						roundedTop
+						roundedBottom
+						shadow
+						borderForAndroid
+						onPress={() => {
+							Haptics.selectionAsync().catch();
+							navigation.navigate('Settings');
+						}}
+						style={{ flexDirection: 'row', alignItems: 'center' }}
+					>
+						<FontAwesomeIcon icon={['fas', 'cogs']} size={15} color={colors.secondary} />
+					</BlockTemplate>
+				</BlockTemplate>
 			</View>
 		);
 	}
