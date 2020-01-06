@@ -53,13 +53,17 @@ YellowBox.ignoreWarnings(['Async Storage', 'WebView']);
 
 const AppContainer = createAppContainer(AppNavigator);
 
-const paddingTop = StatusBar.currentHeight || 20;
+const paddingTop = Platform.OS === 'ios' ? 20 : StatusBar.currentHeight;
 
 const mapStateToProps = ({ config }) => ({ config });
 
 const ConnectedApp = connect(mapStateToProps)(({ config }) => (
 	<SafeAreaView style={{ flex: 1, paddingTop, backgroundColor: colors.backgroundBlock }}>
-		<StatusBar backgroundColor={colors.primary} translucent />
+		<StatusBar
+			translucent
+			backgroundColor={colors.background}
+			barStyle={colors.generalAspect === 'light' ? 'dark-content' : 'light-content'}
+		/>
 		<SpinnerOverlay {...config.spinner} />
 		<AppContainer screenProps={{ config }} />
 	</SafeAreaView>
