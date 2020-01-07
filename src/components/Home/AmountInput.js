@@ -36,7 +36,9 @@ export default function AmountInput({
 					margin: 0,
 				}}
 				keyboardType="decimal-pad"
+				keyboardAppearance={colors.generalAspect}
 				placeholder={value ? '' : '00,00'}
+				placeholderTextColor={colors.disabled}
 				maxLength={maxLength}
 				autoFocus={autoFocus}
 				autoCorrect={false}

@@ -18,13 +18,17 @@ import colors from '../../styles/colors';
 import { Config, Ginger, PayUTC } from '../../redux/actions';
 import { _, Transfer as t } from '../../utils/i18n';
 import { floatToEuro, isAmountValid } from '../../utils/amount';
+import BiometricAuth, { TRANSFER } from '../../services/BiometricAuth';
 
 const MIN_AMOUNT = 0.01;
 
 class TransferScreen extends React.Component {
 	static navigationOptions = () => ({
 		title: t('title'),
-		headerStyle: { borderBottomWidth: 0 },
+		headerStyle: {
+			borderBottomWidth: 0,
+			backgroundColor: colors.backgroundBlock,
+		},
 		headerTintColor: colors.transfer,
 		headerForceInset: { top: 'never' },
 		headerTruncatedBackTitle: _('back'),
@@ -41,6 +45,8 @@ class TransferScreen extends React.Component {
 			recipient: null,
 			suggestions: [],
 		};
+
+		this.biometricAuth = React.createRef();
 
 		this.handleMessageChange = this.handleMessageChange.bind(this);
 		this.handleAmountChange = this.handleAmountChange.bind(this);
@@ -135,38 +141,48 @@ class TransferScreen extends React.Component {
 
 		dispatch(
 			Config.spinner({
-				visible: true,
-				textContent: t('transfering'),
+				visible: false,
 			})
 		);
 
-		const action = PayUTC.transfer(amountAsFloat * 100, recipient.id, message);
-		dispatch(action);
+		const success = () => {
+			dispatch(
+				Config.spinner({
+					visible: true,
+					textContent: t('transfering'),
+				})
+			);
 
-		action.payload
-			.then(() => {
-				dispatch(
-					Config.spinner({
-						visible: false,
-					})
-				);
+			const action = PayUTC.transfer(amountAsFloat * 100, recipient.id, message);
+			dispatch(action);
 
-				this.submiting = false;
+			action.payload
+				.then(() => {
+					dispatch(
+						Config.spinner({
+							visible: false,
+						})
+					);
 
-				dispatch(PayUTC.getWalletDetails());
-				dispatch(PayUTC.getHistory());
+					this.submiting = false;
 
-				navigation.navigate('Home', {
-					message: {
-						title: t('transfer_confirmed'),
-						subtitle: recipient.name,
-						amount: -amountAsFloat,
-						tintColor: colors.transfer,
-						message,
-					},
-				});
-			})
-			.catch(() => this.refuse());
+					dispatch(PayUTC.getWalletDetails());
+					dispatch(PayUTC.getHistory());
+
+					navigation.navigate('Home', {
+						message: {
+							title: t('transfer_confirmed'),
+							subtitle: recipient.name,
+							amount: -amountAsFloat,
+							tintColor: colors.transfer,
+							message,
+						},
+					});
+				})
+				.catch(() => this.refuse());
+		};
+
+		this.biometricAuth.authenticate(success, () => this.refuse());
 	}
 
 	refuse() {
@@ -262,62 +278,73 @@ class TransferScreen extends React.Component {
 	}
 
 	render() {
-		const { suggestionsFetching, history } = this.props;
+		const { suggestionsFetching, history, restrictions, dispatch, navigation } = this.props;
 		const { amount, recipientError, amountError, recipient, suggestions } = this.state;
 
 		return (
-			<ScrollView style={{ backgroundColor: colors.backgroundLight }}>
-				<View style={{ padding: 15 }}>
-					<RecipientForm
-						error={recipientError}
-						recipient={recipient}
-						suggestions={suggestions}
-						suggestionsFetching={suggestionsFetching}
-						onChange={this.handleRecipientChange}
-						onSelect={this.handleRecipientSelected}
-						history={history}
-						blurOnSubmit={false}
-						onSubmitEditing={() => this.amountInput.focus()}
-					/>
-				</View>
-				<View style={{ padding: 15, paddingTop: 0 }}>
-					<AmountForm
-						title={t('amount')}
-						amount={amount}
-						error={amountError}
-						onChange={this.handleAmountChange}
-						setRef={input => (this.amountInput = input)}
-						blurOnSubmit={false}
-						onSubmitEditing={() => this.messageInput.focus()}
-						tintColor={colors.transfer}
-					/>
-				</View>
-				<View style={{ padding: 15, paddingTop: 0 }}>
-					<MessageForm
-						onChange={this.handleMessageChange}
-						setRef={input => (this.messageInput = input)}
-					/>
-				</View>
-				<View style={{ padding: 15, paddingTop: 0 }}>
-					<LinkButton
-						text={t('transfer_button')}
-						color={colors.backgroundLight}
-						backgroundColor={colors.transfer}
-						disabled={this.isButtonDisabled()}
-						onPress={() => this.submit()}
-					/>
-				</View>
-			</ScrollView>
+			<View style={{ flex: 1 }}>
+				<ScrollView style={{ backgroundColor: colors.background }}>
+					<View style={{ padding: 15 }}>
+						<RecipientForm
+							error={recipientError}
+							recipient={recipient}
+							suggestions={suggestions}
+							suggestionsFetching={suggestionsFetching}
+							onChange={this.handleRecipientChange}
+							onSelect={this.handleRecipientSelected}
+							history={history}
+							blurOnSubmit={false}
+							onSubmitEditing={() => this.amountInput.focus()}
+						/>
+					</View>
+					<View style={{ padding: 15, paddingTop: 0 }}>
+						<AmountForm
+							title={t('amount')}
+							amount={amount}
+							error={amountError}
+							onChange={this.handleAmountChange}
+							setRef={input => (this.amountInput = input)}
+							blurOnSubmit={false}
+							onSubmitEditing={() => this.messageInput.focus()}
+							tintColor={colors.transfer}
+						/>
+					</View>
+					<View style={{ padding: 15, paddingTop: 0 }}>
+						<MessageForm
+							onChange={this.handleMessageChange}
+							setRef={input => (this.messageInput = input)}
+						/>
+					</View>
+					<View style={{ padding: 15, paddingTop: 0 }}>
+						<LinkButton
+							text={t('transfer_button')}
+							color={colors.backgroundBlock}
+							backgroundColor={colors.transfer}
+							disabled={this.isButtonDisabled()}
+							onPress={() => this.submit()}
+						/>
+					</View>
+				</ScrollView>
+
+				<BiometricAuth
+					ref={ref => (this.biometricAuth = ref)}
+					action={TRANSFER}
+					restrictions={restrictions}
+					dispatch={dispatch}
+					navigation={navigation}
+				/>
+			</View>
 		);
 	}
 }
 
-const mapStateToProps = ({ payutc, ginger }) => {
+const mapStateToProps = ({ payutc, ginger, config: { restrictions } }) => {
 	const information = ginger.getInformation();
 	const suggestions = payutc.getUserAutoComplete();
 	const history = payutc.getHistory();
 
 	return {
+		restrictions,
 		isContributor: information.getData({ is_cotisant: false }).is_cotisant,
 		isContributorFetching: information.isFetching(),
 		suggestions: suggestions.getData([]),

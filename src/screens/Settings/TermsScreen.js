@@ -24,7 +24,11 @@ export const TERMS_VERSION = 1;
 class TermsScreen extends React.Component {
 	static navigationOptions = () => ({
 		title: t('title'),
-		headerStyle: { borderBottomWidth: 1, borderBottomColor: colors.backgroundLight },
+		headerStyle: {
+			borderBottomWidth: 0,
+			backgroundColor: colors.backgroundBlock,
+			borderBottomColor: colors.background,
+		},
 		headerForceInset: { top: 'never' },
 		headerTintColor: colors.primary,
 		headerTruncatedBackTitle: _('back'),

@@ -7,16 +7,17 @@
  */
 
 import React from 'react';
-import { StatusBar, YellowBox, StyleSheet, Text, Platform } from 'react-native';
+import { Platform, StatusBar, StyleSheet, Text, YellowBox } from 'react-native';
 import { createAppContainer, createSwitchNavigator, SafeAreaView } from 'react-navigation';
-import { Provider, connect } from 'react-redux';
+import { connect, Provider } from 'react-redux';
 import SpinnerOverlay from 'react-native-loading-spinner-overlay';
 import AppLoader from './src/screens/AppLoader';
 import ChangelogScreen from './src/screens/Settings/ChangelogScreen';
-import MainNavigator from './src/navigations/MainNavigator';
 import AuthNavigator from './src/navigations/Auth/AuthNavigator';
 import store from './src/redux/store';
 import colors from './src/styles/colors';
+import MainNavigator from './src/navigations/MainNavigator';
+import BiometricAuthScreen from './src/screens/Auth/BiometricAuthScreen';
 
 const styles = StyleSheet.create({
 	defaultFontFamily: {
@@ -39,6 +40,7 @@ const AppNavigator = createSwitchNavigator(
 	{
 		Loading: AppLoader,
 		Auth: AuthNavigator,
+		BiometricAuth: BiometricAuthScreen,
 		Main: MainNavigator,
 		Changelog: ChangelogScreen,
 	},
@@ -56,7 +58,7 @@ const paddingTop = StatusBar.currentHeight || 20;
 const mapStateToProps = ({ config }) => ({ config });
 
 const ConnectedApp = connect(mapStateToProps)(({ config }) => (
-	<SafeAreaView style={{ flex: 1, paddingTop }} forceInset={{ bottom: 'never' }}>
+	<SafeAreaView style={{ flex: 1, paddingTop, backgroundColor: colors.backgroundBlock }}>
 		<StatusBar backgroundColor={colors.primary} translucent />
 		<SpinnerOverlay {...config.spinner} />
 		<AppContainer screenProps={{ config }} />

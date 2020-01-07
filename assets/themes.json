@@ -1,0 +1,53 @@
+{
+	"light": {
+		"primary": "#FAC50D",
+		"secondary": "#808080",
+		"more": "#00AD14",
+		"less": "#BC0000",
+		"transfer": "#007D94",
+		"border": "#F1F1F1",
+		"background": "#F1F1F1",
+		"backgroundBlock": "#FFFFFF",
+		"backgroundBlockAlt": "#FBFBFB",
+		"success": "#00AD14",
+		"error": "#BC0000",
+		"disabled": "#D1D1D1",
+		"shadow": "#000000",
+		"generalAspect": "light",
+		"hidden": false
+	},
+	"dark": {
+		"primary": "#FAC50D",
+		"secondary": "#adadad",
+		"more": "#009D04",
+		"less": "#BC0000",
+		"transfer": "#007D94",
+		"border": "#121212",
+		"background": "#121212",
+		"backgroundBlock": "#212121",
+		"backgroundBlockAlt": "#252525",
+		"success": "#009D04",
+		"error": "#BC0000",
+		"disabled": "#3d3d3d",
+		"shadow": "#9c9c9c",
+		"generalAspect": "dark",
+		"hidden": false
+	},
+	"purple": {
+		"primary": "#FAC50D",
+		"secondary": "#adadad",
+		"more": "#009D04",
+		"less": "#BC0000",
+		"transfer": "#007D94",
+		"border": "#2f0040",
+		"background": "#2f0040",
+		"backgroundBlock": "#400057",
+		"backgroundBlockAlt": "#330045",
+		"success": "#009D04",
+		"error": "#BC0000",
+		"disabled": "#2f0040",
+		"shadow": "#9c9c9c",
+		"generalAspect": "dark",
+		"hidden": true
+	}
+}

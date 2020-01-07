@@ -7,16 +7,18 @@
  */
 
 import React from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, TouchableOpacity } from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { Fade, Placeholder, PlaceholderLine } from 'rn-placeholder';
 import * as Haptics from 'expo-haptics';
+import { connect } from 'react-redux';
 import BlockTemplate from '../BlockTemplate';
 import { Home as t } from '../../utils/i18n';
 import colors from '../../styles/colors';
 import { floatToEuro } from '../../utils/amount';
+import { Config } from '../../redux/actions';
 
-export default class Balance extends React.Component {
+class Balance extends React.Component {
 	getWeekAmount() {
 		const { weekAmount } = this.props;
 
@@ -34,6 +36,14 @@ export default class Balance extends React.Component {
 		const amount = Math.abs(weekAmount);
 
 		return t('week_negative', { count: Math.floor(amount) });
+	}
+
+	setHiddenTheme() {
+		const { dispatch } = this.props;
+
+		Haptics.notificationAsync('success').catch();
+
+		dispatch(Config.setTheme('purple'));
 	}
 
 	renderDetails(loading, name, amount) {
@@ -77,9 +87,15 @@ export default class Balance extends React.Component {
 
 		return (
 			<View>
-				<Text style={{ fontSize: 14, fontWeight: 'bold', color: colors.secondary }}>
-					{t('your_balance', { name })}
-				</Text>
+				<TouchableOpacity
+					activeOpacity={1}
+					delayLongPress={5000}
+					onLongPress={() => this.setHiddenTheme()}
+				>
+					<Text style={{ fontSize: 14, fontWeight: 'bold', color: colors.secondary }}>
+						{t('your_balance', { name })}
+					</Text>
+				</TouchableOpacity>
 				{isCreditConsistent ? (
 					<Text style={{ fontSize: 65, fontWeight: 'bold', color: colors.primary, lineHeight: 70 }}>
 						{floatToEuro(amount)}
@@ -128,3 +144,5 @@ export default class Balance extends React.Component {
 		);
 	}
 }
+
+export default connect()(Balance);

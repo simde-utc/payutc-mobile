@@ -133,7 +133,7 @@ class StatsScreen extends React.Component {
 
 		return (
 			<ScrollView
-				style={{ backgroundColor: colors.backgroundLight }}
+				style={{ backgroundColor: colors.background }}
 				refreshControl={
 					<RefreshControl
 						refreshing={!historyFetched}
@@ -209,7 +209,7 @@ class StatsScreen extends React.Component {
 										countTintColor={colors.more}
 										loading={!historyFetched}
 									/>
-									<View style={{ borderTopWidth: 1, borderTopColor: colors.backgroundLight }} />
+									<View style={{ borderTopWidth: 1, borderTopColor: colors.background }} />
 									<RankedList
 										title={t('give_ranking')}
 										euro
