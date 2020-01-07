@@ -185,13 +185,11 @@ class AppLoaderScreen extends React.Component {
 
 		const { restrictions } = this.props;
 
-		BiometricAuth.hasHardware()
-			.then(hasHardware => {
-				if (!hasHardware && restrictions !== []) {
-					return this.reinitData();
-				}
-			})
-			.catch(() => {});
+		BiometricAuth.hasHardware().catch(() => {
+			if (restrictions.length > 0) {
+				return this.reinitData();
+			}
+		});
 
 		if (data.type === PayUTC.CAS_AUTH_TYPE) {
 			return this.checkCasConnection(data.ticket, data.login, data.password);
