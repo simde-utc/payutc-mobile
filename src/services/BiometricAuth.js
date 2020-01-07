@@ -25,7 +25,7 @@ export const defaultSecurity = [TRANSFER, REFILL, BADGE_LOCKING];
 export const advancedSecurity = [TRANSFER, REFILL, BADGE_LOCKING, APP_OPENING];
 
 export default class BiometricAuth extends React.PureComponent {
-	static async hasHardware() {
+	static hasHardware() {
 		return LocalAuthentication.hasHardwareAsync();
 	}
 
@@ -47,7 +47,7 @@ export default class BiometricAuth extends React.PureComponent {
 		const hasHardware = await BiometricAuth.hasHardware();
 
 		// If the Security Mode has not been properly disabled
-		if (!hasHardware && restrictions !== []) {
+		if (!hasHardware && restrictions.length > 0) {
 			PayUTC.forget().payload.then(() => {
 				navigation.navigate('Auth');
 
