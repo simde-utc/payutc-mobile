@@ -47,7 +47,11 @@ export default class BlockTemplate extends React.Component {
 			disabled,
 			customBackground,
 			style,
+			borderRadius,
 		} = this.props;
+
+		const roundedTopRadius = borderRadius || 10;
+		const roundedBottomRadius = borderRadius || 10;
 
 		return (
 			<TouchableOpacity
@@ -59,10 +63,10 @@ export default class BlockTemplate extends React.Component {
 					{
 						backgroundColor: customBackground || colors.backgroundBlock,
 						padding: 10,
-						borderTopLeftRadius: roundedTop ? 10 : 0,
-						borderTopRightRadius: roundedTop ? 10 : 0,
-						borderBottomLeftRadius: roundedBottom ? 10 : 0,
-						borderBottomRightRadius: roundedBottom ? 10 : 0,
+						borderTopLeftRadius: roundedTop ? roundedTopRadius : 0,
+						borderTopRightRadius: roundedTop ? roundedTopRadius : 0,
+						borderBottomLeftRadius: roundedBottom ? roundedBottomRadius : 0,
+						borderBottomRightRadius: roundedBottom ? roundedBottomRadius : 0,
 					},
 					this.getShadowStyle(),
 					style,

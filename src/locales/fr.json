@@ -119,7 +119,7 @@
 			"cas_connection": "Connexion au CAS-UTC...",
 			"payutc_connection": "Connexion au service PayUTC...",
 			"ginger_verification": "Vérification du compte...",
-			"valid_terms": "En cliquant sur \"%{button}\" vous acceptez tous les termes",
+			"valid_terms": "En cliquant sur \"%{button}\", vous acceptez tous les termes. Cliquez ici pour en savoir plus.",
 			"hey_nouvo": "Salut Nouvô !",
 			"wrong_nouvo": "Pour pouvoir utiliser l'application, il faut terminer son inscription administrative auprès de l'UTC.",
 		},

@@ -7,10 +7,19 @@
  */
 
 import React from 'react';
-import { Alert, Image, Text, TextInput, View, TouchableOpacity, Platform } from 'react-native';
+import {
+	Alert,
+	Image,
+	Keyboard,
+	KeyboardAvoidingView,
+	Platform,
+	Text,
+	TextInput,
+	View,
+	TouchableOpacity,
+} from 'react-native';
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import { connect } from 'react-redux';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import colors from '../../styles/colors';
 import BlockTemplate from '../../components/BlockTemplate';
 import { TERMS_VERSION } from '../Settings/TermsScreen';
@@ -37,21 +46,29 @@ class AuthScreen extends React.Component {
 			login: null,
 			password: null,
 			needValidation: false,
+			showLogo: true,
 		};
 
 		this.switchLang = this.switchLang.bind(this);
 		this.dismissWrong = this.dismissWrong.bind(this);
 		this.handleNavigationOnFocus = this.handleNavigationOnFocus.bind(this);
+		this.keyboardWillShow = this.keyboardWillShow.bind(this);
+		this.keyboardWillHide = this.keyboardWillHide.bind(this);
 	}
 
 	componentDidMount() {
 		const { navigation } = this.props;
 
 		this.subscriptions = [navigation.addListener('willFocus', this.handleNavigationOnFocus)];
+
+		this.keyboardDidShowListener = Keyboard.addListener('keyboardWillShow', this.keyboardWillShow);
+		this.keyboardDidHideListener = Keyboard.addListener('keyboardWillHide', this.keyboardWillHide);
 	}
 
 	componentWillUnmount() {
 		this.subscriptions.forEach(subscription => subscription.remove());
+		this.keyboardDidShowListener.remove();
+		this.keyboardDidHideListener.remove();
 	}
 
 	onLoginChange(login) {
@@ -82,6 +99,14 @@ class AuthScreen extends React.Component {
 		];
 	}
 
+	keyboardWillShow() {
+		this.setState({ showLogo: false });
+	}
+
+	keyboardWillHide() {
+		this.setState({ showLogo: true });
+	}
+
 	handleNavigationOnFocus({ action: { params } }) {
 		const { needValidation } = this.state;
 
@@ -110,7 +135,7 @@ class AuthScreen extends React.Component {
 	isButtonDisabled() {
 		const { login, password } = this.state;
 
-		return login == null || password == null;
+		return !login || !password;
 	}
 
 	areTermsValidated() {
@@ -271,129 +296,171 @@ class AuthScreen extends React.Component {
 		);
 	}
 
+	renderLogo() {
+		const { showLogo } = this.state;
+
+		const logo = (
+			<Image
+				source={showLogo ? Logo : null}
+				resizeMode="contain"
+				style={{ height: '20%', marginBottom: 30 }}
+			/>
+		);
+
+		return showLogo ? logo : null;
+	}
+
 	render() {
 		const { lang, navigation } = this.props;
 		const { login, password } = this.state;
 
 		return (
-			<KeyboardAwareScrollView
-				style={{ flex: 1, backgroundColor: colors.background, padding: 40, paddingTop: 20 }}
-			>
-				<View
-					style={{
-						flex: 1,
-						flexDirection: 'row',
-						justifyContent: 'flex-end',
-						paddingBottom: 20,
-					}}
-				>
-					<BlockTemplate
-						roundedTop
-						roundedBottom
-						shadow
-						style={{ paddingVertical: 5 }}
-						onPress={this.switchLang}
-					>
-						<View style={{ flex: 1, flexDirection: 'row', alignItems: 'center' }}>
-							<Text
-								style={{
-									fontSize: 14,
-									fontWeight: 'bold',
-									color: colors.secondary,
-									marginRight: 5,
-								}}
-							>
-								{g(`langs.${lang}`)}
-							</Text>
-							<FontAwesomeIcon icon={['fas', 'globe']} size={14} color={colors.secondary} />
-						</View>
-					</BlockTemplate>
-				</View>
-				<View style={{ alignItems: 'center', marginBottom: 40 }}>
-					<Image source={Logo} resizeMode="contain" style={{ height: 180, width: 180 }} />
-				</View>
-				<BlockTemplate roundedTop roundedBottom shadow>
-					<Text
-						style={{ fontSize: 14, fontWeight: 'bold', color: colors.secondary, marginBottom: 5 }}
-					>
-						{t('login_label')}
-					</Text>
-					<TextInput
-						style={{
-							fontSize: 18,
-							color: colors.primary,
-							padding: 0,
-							margin: 0,
-						}}
-						keyboardType="email-address"
-						keyboardAppearance={colors.generalAspect}
-						autoCapitalize="none"
-						placeholder={t('login_placeholder')}
-						placeholderTextColor={colors.disabled}
-						textContentType="none"
-						autoCorrect={false}
-						onChangeText={login => this.onLoginChange(login)}
-						onSubmitEditing={() => this.passwordInput.focus()}
-						blurOnSubmit={false}
-						value={login}
-					/>
-				</BlockTemplate>
-				<View style={{ marginTop: 20 }} />
-				<BlockTemplate roundedTop roundedBottom shadow>
-					<Text
-						style={{ fontSize: 14, fontWeight: 'bold', color: colors.secondary, marginBottom: 5 }}
-					>
-						{t('password_label')}
-					</Text>
-					<TextInput
-						style={{
-							fontSize: 18,
-							color: colors.primary,
-							padding: 0,
-							margin: 0,
-						}}
-						keyboardType="default"
-						keyboardAppearance={colors.generalAspect}
-						autoCapitalize="none"
-						secureTextEntry
-						placeholder={t('password_placeholder')}
-						placeholderTextColor={colors.disabled}
-						textContentType="none"
-						autoCorrect={false}
-						ref={input => (this.passwordInput = input)}
-						onChangeText={pwd => this.onPasswordChange(pwd)}
-						onSubmitEditing={() => !this.isButtonDisabled() && this.submit()}
-						value={password}
-					/>
-				</BlockTemplate>
-				<View style={{ marginTop: 20 }} />
+			<>
 				<BlockTemplate
 					roundedTop
 					roundedBottom
-					shadow
-					customBackground={this.isButtonDisabled() ? colors.disabled : colors.primary}
-					disabled={this.isButtonDisabled()}
-					onPress={() => this.submit()}
+					borderRadius={45}
+					style={{ alignSelf: 'center', flexDirection: 'row', alignItems: 'center' }}
+					onPress={this.switchLang}
 				>
 					<Text
 						style={{
-							fontSize: 20,
+							fontSize: 14,
 							fontWeight: 'bold',
-							textAlign: 'center',
-							color: colors.backgroundBlock,
+							color: colors.disabled,
+							marginRight: 5,
 						}}
 					>
-						{t('button')}
+						{g(`langs.${lang}`)}
 					</Text>
+
+					<FontAwesomeIcon icon={['fas', 'globe']} size={14} color={colors.disabled} />
 				</BlockTemplate>
-				<TouchableOpacity onPress={() => navigation.navigate('About')}>
-					<Text
-						style={{ paddingTop: 3, color: colors.secondary, fontSize: 12, textAlign: 'center' }}
-					>
-						{t('valid_terms', { button: t('button') })}
-					</Text>
-				</TouchableOpacity>
-			</KeyboardAwareScrollView>
+
+				<KeyboardAvoidingView
+					behavior="padding"
+					style={{
+						flex: 1,
+						flexDirection: 'column',
+						backgroundColor: colors.background,
+						justifyContent: 'center',
+					}}
+				>
+					{this.renderLogo()}
+
+					<View style={{ padding: 30 }}>
+						<BlockTemplate
+							roundedTop
+							roundedBottom
+							borderRadius={45}
+							style={{ marginBottom: 15, padding: 15, flexDirection: 'row' }}
+						>
+							<FontAwesomeIcon
+								icon={['fas', 'user']}
+								size={30}
+								color={login ? colors.primary : colors.disabled}
+							/>
+
+							<TextInput
+								style={{
+									flex: 1,
+									fontSize: 18,
+									fontWeight: 'bold',
+									color: colors.primary,
+									marginLeft: 10,
+								}}
+								keyboardType="email-address"
+								keyboardAppearance={colors.generalAspect}
+								autoCapitalize="none"
+								placeholder={t('login_label')}
+								placeholderTextColor={colors.disabled}
+								textContentType="none"
+								autoCorrect={false}
+								ref={input => (this.loginInput = input)}
+								onChangeText={login => this.onLoginChange(login)}
+								onSubmitEditing={() => this.passwordInput.focus()}
+								blurOnSubmit={false}
+								clearButtonMode="always"
+								value={login}
+							/>
+						</BlockTemplate>
+
+						<BlockTemplate
+							roundedTop
+							roundedBottom
+							borderRadius={45}
+							style={{ flexDirection: 'row', padding: 15 }}
+						>
+							<FontAwesomeIcon
+								icon={['fas', 'key']}
+								size={30}
+								color={password ? colors.primary : colors.disabled}
+							/>
+
+							<TextInput
+								style={{
+									flex: 1,
+									fontSize: 18,
+									fontWeight: 'bold',
+									color: colors.primary,
+									marginLeft: 10,
+								}}
+								keyboardType="default"
+								keyboardAppearance={colors.generalAspect}
+								autoCapitalize="none"
+								secureTextEntry
+								placeholder={t('password_label')}
+								placeholderTextColor={colors.disabled}
+								textContentType="none"
+								autoCorrect={false}
+								ref={input => (this.passwordInput = input)}
+								onChangeText={pwd => this.onPasswordChange(pwd)}
+								onSubmitEditing={() => !this.isButtonDisabled() && this.submit()}
+								clearButtonMode="always"
+								value={password}
+							/>
+						</BlockTemplate>
+
+						<View>
+							<BlockTemplate
+								roundedTop
+								roundedBottom
+								borderRadius={45}
+								customBackground={this.isButtonDisabled() ? colors.disabled : colors.primary}
+								disabled={this.isButtonDisabled()}
+								onPress={() => this.submit()}
+								style={{ marginTop: 30, padding: 15 }}
+							>
+								<Text
+									style={{
+										fontSize: 18,
+										fontWeight: 'bold',
+										textAlign: 'center',
+										color: colors.backgroundBlock,
+									}}
+								>
+									{t('button')}
+								</Text>
+							</BlockTemplate>
+
+							<TouchableOpacity onPress={() => navigation.navigate('About')}>
+								<Text
+									style={{
+										fontSize: 12,
+										fontWeight: 'bold',
+										color: colors.secondary,
+										marginHorizontal: 15,
+										marginVertical: 5,
+										textAlign: 'center',
+									}}
+								>
+									{t('valid_terms', { button: t('button') })}
+								</Text>
+							</TouchableOpacity>
+						</View>
+					</View>
+				</KeyboardAvoidingView>
+			</>
 		);
 	}
 }
